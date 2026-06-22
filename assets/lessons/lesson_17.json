@@ -1,0 +1,22 @@
+{
+  "id": 17,
+  "title": "Weather & Nature",
+  "subtitle": "Bangkok weather talk",
+  "icon": "lesson_weather",
+  "color": "#00BCD4",
+  "xpReward": 30,
+  "words": [
+    {"id":"weath_01","thai":"ร้อน","phonetic":"ron","english":"Hot","image":"word_hot2","audio":"weath_01.mp3","example":"ร้อนมากเลย — It's so hot (classic Bangkok)"},
+    {"id":"weath_02","thai":"หนาว","phonetic":"naao","english":"Cold","image":"word_cold2","audio":"weath_02.mp3","example":"หนาวมาก — Very cold"},
+    {"id":"weath_03","thai":"ฝน","phonetic":"fon","english":"Rain","image":"word_rain","audio":"weath_03.mp3","example":"ฝนตก — It's raining"},
+    {"id":"weath_04","thai":"แดด","phonetic":"daet","english":"Sunny / Sunlight","image":"word_sunny","audio":"weath_04.mp3","example":"แดดจัด — Very sunny"},
+    {"id":"weath_05","thai":"ลม","phonetic":"lom","english":"Wind","image":"word_wind","audio":"weath_05.mp3","example":"ลมแรง — Strong wind"},
+    {"id":"weath_06","thai":"เมฆ","phonetic":"maek","english":"Cloud","image":"word_cloud","audio":"weath_06.mp3","example":"เมฆมาก — Very cloudy"},
+    {"id":"weath_07","thai":"น้ำท่วม","phonetic":"naam-tuam","english":"Flood","image":"word_flood","audio":"weath_07.mp3","example":"น้ำท่วมถนน — Flooded road (very common in Bangkok!)"},
+    {"id":"weath_08","thai":"พายุ","phonetic":"paa-yu","english":"Storm","image":"word_storm","audio":"weath_08.mp3","example":"พายุฝน — Rainstorm"},
+    {"id":"weath_09","thai":"ชื้น","phonetic":"chuen","english":"Humid","image":"word_humid","audio":"weath_09.mp3","example":"อากาศชื้น — Humid weather"},
+    {"id":"weath_10","thai":"อากาศ","phonetic":"aa-gaat","english":"Weather / Climate","image":"word_weather","audio":"weath_10.mp3","example":"อากาศดีไหม — Is the weather nice?"},
+    {"id":"weath_11","thai":"ฤดู","phonetic":"reu-duu","english":"Season","image":"word_season","audio":"weath_11.mp3","example":"ฤดูฝน — Rainy season"},
+    {"id":"weath_12","thai":"ร่ม","phonetic":"rom","english":"Umbrella","image":"word_umbrella","audio":"weath_12.mp3","example":"เอาร่มไปด้วย — Take an umbrella with you"}
+  ]
+}

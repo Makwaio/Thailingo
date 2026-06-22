@@ -8,12 +8,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:thai_lab/main.dart';
+import 'package:thailingo/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const ThaiLabApp());
+    await tester.pumpWidget(const ThailingoApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,0 +1,20 @@
+{
+  "id": 27,
+  "title": "Making Plans",
+  "subtitle": "Social scheduling in Thai",
+  "icon": "lesson_plans",
+  "color": "#AD1457",
+  "xpReward": 40,
+  "words": [
+    {"id":"pln_01","thai":"คืนนี้ว่างไหม","phonetic":"kheun-nee-waang-mai","english":"Are you free tonight?","image":"word_freetonight","audio":"pln_01.mp3","example":"คืนนี้ว่างไหมครับ — Are you free tonight?"},
+    {"id":"pln_02","thai":"นัดกันตอนเจ็ดโมงนะ","phonetic":"nat-gan-dton-jet-mong-na","english":"Let's meet at 7","image":"word_meetseven","audio":"pln_02.mp3","example":"นัดกันตอนเจ็ดโมงนะครับ — Let's meet at 7 o'clock"},
+    {"id":"pln_03","thai":"จะนัดที่ไหน","phonetic":"ja-nat-tee-nai","english":"Where shall we meet?","image":"word_wheremeet","audio":"pln_03.mp3","example":"เราจะนัดที่ไหนดี — Where should we meet?"},
+    {"id":"pln_04","thai":"อีกสิบนาทีถึง","phonetic":"eek-sip-naa-tee-thueng","english":"I'll be there in 10 minutes","image":"word_tenmin","audio":"pln_04.mp3","example":"อีกสิบนาทีถึงนะ — I'll arrive in 10 minutes"},
+    {"id":"pln_05","thai":"ไปช้าหน่อยนะ","phonetic":"bpai-chaa-noi-na","english":"I'm running late","image":"word_runlate","audio":"pln_05.mp3","example":"ไปช้าหน่อยนะครับ — Sorry, I'm running a bit late"},
+    {"id":"pln_06","thai":"ไปกินข้าวกันเถอะ","phonetic":"bpai-gin-khao-gan-ther","english":"Let's go eat","image":"word_goeat","audio":"pln_06.mp3","example":"ไปกินข้าวกันเถอะ — Let's go get some food!"},
+    {"id":"pln_07","thai":"เริ่มกี่โมง","phonetic":"rerm-gee-mong","english":"What time does it start?","image":"word_starttime","audio":"pln_07.mp3","example":"งานเริ่มกี่โมง — What time does the event start?"},
+    {"id":"pln_08","thai":"ผมไปรับนะ","phonetic":"pom-bpai-rap-na","english":"I'll pick you up","image":"word_pickup","audio":"pln_08.mp3","example":"ผมไปรับที่บ้านนะ — I'll pick you up at home"},
+    {"id":"pln_09","thai":"ยกเลิก","phonetic":"yok-lerk","english":"Cancel","image":"word_cancel","audio":"pln_09.mp3","example":"ขอยกเลิกได้ไหม — Can I cancel?"},
+    {"id":"pln_10","thai":"คราวหน้าแน่นอน","phonetic":"kraao-naa-nae-non","english":"Next time for sure","image":"word_nexttime","audio":"pln_10.mp3","example":"คราวหน้าแน่นอนครับ — Definitely next time!"}
+  ]
+}

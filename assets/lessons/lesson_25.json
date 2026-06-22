@@ -1,0 +1,20 @@
+{
+  "id": 25,
+  "title": "Asking for Help",
+  "subtitle": "Emergency & survival phrases",
+  "icon": "lesson_help",
+  "color": "#1565C0",
+  "xpReward": 45,
+  "words": [
+    {"id":"hlp_01","thai":"ช่วยด้วย","phonetic":"chuay-duay","english":"Help me!","image":"word_help","audio":"hlp_01.mp3","example":"ช่วยด้วยครับ — Help me please!"},
+    {"id":"hlp_02","thai":"ผมต้องการหมอ","phonetic":"pom-dtong-gaan-mor","english":"I need a doctor","image":"word_needdoc","audio":"hlp_02.mp3","example":"ผมต้องการหมอด่วน — I need a doctor urgently"},
+    {"id":"hlp_03","thai":"โทรเรียกตำรวจ","phonetic":"tho-riak-dtam-ruat","english":"Call the police","image":"word_callpolice","audio":"hlp_03.mp3","example":"โทรเรียกตำรวจด่วน — Call the police now!"},
+    {"id":"hlp_04","thai":"ผมหลงทาง","phonetic":"pom-long-taang","english":"I'm lost","image":"word_lost","audio":"hlp_04.mp3","example":"ผมหลงทางครับ — I'm lost (male)"},
+    {"id":"hlp_05","thai":"ผมไม่สบาย","phonetic":"pom-mai-sa-baai","english":"I don't feel well","image":"word_sick","audio":"hlp_05.mp3","example":"ผมไม่สบายครับ — I'm not feeling well"},
+    {"id":"hlp_06","thai":"โรงพยาบาลที่ใกล้ที่สุดอยู่ที่ไหน","phonetic":"rong-pa-yaa-baan-glai-soot-yuu-tee-nai","english":"Where is the nearest hospital?","image":"word_nearhospital","audio":"hlp_06.mp3","example":"โรงพยาบาลที่ใกล้ที่สุดอยู่ที่ไหนครับ — Where is the nearest hospital?"},
+    {"id":"hlp_07","thai":"ผมโดนขโมย","phonetic":"pom-don-kha-moi","english":"I've been robbed","image":"word_robbed","audio":"hlp_07.mp3","example":"ผมโดนขโมยครับ — I've been robbed!"},
+    {"id":"hlp_08","thai":"ผมต้องการความช่วยเหลือ","phonetic":"pom-dtong-gaan-chuay-luea","english":"I need help","image":"word_needhelp","audio":"hlp_08.mp3","example":"ผมต้องการความช่วยเหลือครับ — I need assistance"},
+    {"id":"hlp_09","thai":"กรุณาโทรเรียกรถพยาบาล","phonetic":"ga-ru-naa-tho-riak-rot-pa-yaa-baan","english":"Please call an ambulance","image":"word_ambulance","audio":"hlp_09.mp3","example":"กรุณาโทรเรียกรถพยาบาลด่วน — Please call an ambulance quickly"},
+    {"id":"hlp_10","thai":"เหตุฉุกเฉิน","phonetic":"het-chook-chern","english":"Emergency!","image":"word_emergency","audio":"hlp_10.mp3","example":"นี่เป็นเหตุฉุกเฉิน — This is an emergency!"}
+  ]
+}

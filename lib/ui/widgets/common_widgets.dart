@@ -8,12 +8,17 @@ import '../../services/audio_service.dart';
 class XpProgressBar extends StatelessWidget {
   final int xp;
   final int level;
-  const XpProgressBar({super.key, required this.xp, required this.level});
+  final bool onDark;
+  const XpProgressBar({super.key, required this.xp, required this.level, this.onDark = false});
 
   @override
   Widget build(BuildContext context) {
     final xpInLevel = xp % 200;
     final pct = xpInLevel / 200.0;
+    final textColor = onDark ? Colors.white : AppTheme.textSecondary;
+    final trackColor = onDark ? Colors.white.withValues(alpha: 0.25) : AppTheme.border;
+    final fillColor = onDark ? AppTheme.thaiGold : AppTheme.accent;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,23 +26,39 @@ class XpProgressBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Level $level',
-                style: const TextStyle(
-                    fontSize: 11, fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2, color: AppTheme.textSecondary)),
-            Text('$xpInLevel / 200 XP',
-                style: const TextStyle(
-                    fontSize: 11, fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2, color: AppTheme.textSecondary)),
+                style: TextStyle(
+                    fontSize: 11, fontWeight: FontWeight.w800,
+                    letterSpacing: 1.2, color: textColor)),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (onDark) const Text('⭐ ', style: TextStyle(fontSize: 10)),
+                Text('$xpInLevel / 200 XP',
+                    style: TextStyle(
+                        fontSize: 11, fontWeight: FontWeight.w800,
+                        letterSpacing: 1.2, color: textColor)),
+              ],
+            ),
           ],
         ),
         const SizedBox(height: 6),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-          child: LinearProgressIndicator(
-            value: pct,
-            minHeight: 10,
-            backgroundColor: AppTheme.border,
-            valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.accent),
+        Container(
+          height: 12,
+          decoration: BoxDecoration(
+            color: trackColor,
+            borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+            border: onDark
+                ? Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1)
+                : null,
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+            child: LinearProgressIndicator(
+              value: pct,
+              minHeight: 12,
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation<Color>(fillColor),
+            ),
           ),
         ),
       ],

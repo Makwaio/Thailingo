@@ -1,0 +1,20 @@
+{
+  "id": 36,
+  "title": "Business Thai",
+  "subtitle": "Professional vocabulary",
+  "icon": "lesson_business",
+  "color": "#1B5E20",
+  "xpReward": 45,
+  "words": [
+    {"id":"biz_01","thai":"ประชุม","phonetic":"bpra-chum","english":"Meeting","image":"word_meeting","audio":"biz_01.mp3","example":"มีประชุมตอนบ่าย — Meeting this afternoon"},
+    {"id":"biz_02","thai":"สัญญา","phonetic":"san-yaa","english":"Contract","image":"word_contract","audio":"biz_02.mp3","example":"เซ็นสัญญา — Sign the contract"},
+    {"id":"biz_03","thai":"ราคา","phonetic":"raa-khaa","english":"Price / Cost","image":"word_price2","audio":"biz_03.mp3","example":"ราคาต่อหน่วย — Price per unit"},
+    {"id":"biz_04","thai":"ส่วนลด","phonetic":"suan-lot","english":"Discount","image":"word_discount3","audio":"biz_04.mp3","example":"มีส่วนลดไหม — Is there a discount?"},
+    {"id":"biz_05","thai":"การชำระเงิน","phonetic":"gaan-cham-ra-ngern","english":"Payment","image":"word_payment","audio":"biz_05.mp3","example":"วิธีชำระเงิน — Payment method"},
+    {"id":"biz_06","thai":"ใบแจ้งหนี้","phonetic":"bai-jaeng-nee","english":"Invoice","image":"word_invoice","audio":"biz_06.mp3","example":"ส่งใบแจ้งหนี้ด้วย — Please send the invoice"},
+    {"id":"biz_07","thai":"บริษัท","phonetic":"bor-ri-sat","english":"Company","image":"word_company","audio":"biz_07.mp3","example":"บริษัทใหญ่ — Large company"},
+    {"id":"biz_08","thai":"สำนักงาน","phonetic":"sam-nak-ngaan","english":"Office","image":"word_office","audio":"biz_08.mp3","example":"สำนักงานอยู่ชั้น 10 — Office is on floor 10"},
+    {"id":"biz_09","thai":"ตารางเวลา","phonetic":"dtaa-raang-we-laa","english":"Schedule / Timetable","image":"word_schedule","audio":"biz_09.mp3","example":"ดูตารางเวลา — Check the schedule"},
+    {"id":"biz_10","thai":"กำหนดส่ง","phonetic":"gam-not-song","english":"Deadline","image":"word_deadline","audio":"biz_10.mp3","example":"กำหนดส่งวันศุกร์ — Deadline is Friday"}
+  ]
+}

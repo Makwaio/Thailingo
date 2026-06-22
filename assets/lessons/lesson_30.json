@@ -1,0 +1,20 @@
+{
+  "id": 30,
+  "title": "Thai Classifiers",
+  "subtitle": "Counting words in Thai",
+  "icon": "lesson_classify",
+  "color": "#BF360C",
+  "xpReward": 40,
+  "words": [
+    {"id":"clf_01","thai":"คน","phonetic":"kon","english":"Classifier: people","image":"word_person","audio":"clf_01.mp3","example":"สองคน — Two people"},
+    {"id":"clf_02","thai":"ตัว","phonetic":"dtua","english":"Classifier: animals","image":"word_animal2","audio":"clf_02.mp3","example":"แมวสองตัว — Two cats"},
+    {"id":"clf_03","thai":"แท่ง","phonetic":"taeng","english":"Classifier: pens/long objects","image":"word_pen","audio":"clf_03.mp3","example":"ปากกาสองแท่ง — Two pens"},
+    {"id":"clf_04","thai":"แผ่น","phonetic":"phaen","english":"Classifier: flat things/paper","image":"word_paper","audio":"clf_04.mp3","example":"กระดาษสามแผ่น — Three sheets of paper"},
+    {"id":"clf_05","thai":"คัน","phonetic":"khan","english":"Classifier: vehicles","image":"word_vehicle","audio":"clf_05.mp3","example":"รถสองคัน — Two cars"},
+    {"id":"clf_06","thai":"หลัง","phonetic":"lang","english":"Classifier: buildings","image":"word_building","audio":"clf_06.mp3","example":"บ้านสองหลัง — Two houses"},
+    {"id":"clf_07","thai":"ลูก","phonetic":"luuk","english":"Classifier: fruits/round objects","image":"word_fruit","audio":"clf_07.mp3","example":"มะม่วงสามลูก — Three mangoes"},
+    {"id":"clf_08","thai":"แก้ว","phonetic":"gaeo","english":"Classifier: glasses/cups","image":"word_glass","audio":"clf_08.mp3","example":"น้ำสองแก้ว — Two glasses of water"},
+    {"id":"clf_09","thai":"จาน","phonetic":"jaan","english":"Classifier: plates/dishes","image":"word_plate","audio":"clf_09.mp3","example":"ข้าวสองจาน — Two plates of rice"},
+    {"id":"clf_10","thai":"ครั้ง","phonetic":"khrang","english":"Classifier: times/occasions","image":"word_times","audio":"clf_10.mp3","example":"สองครั้ง — Two times"}
+  ]
+}

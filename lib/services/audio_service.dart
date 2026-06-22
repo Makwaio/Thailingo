@@ -9,9 +9,16 @@ class AudioService {
   final AudioPlayer _sfxPlayer = AudioPlayer();
   final AudioPlayer _clickPlayer = AudioPlayer();
   final AudioPlayer _wordPlayer = AudioPlayer();
+  final AudioPlayer _musicPlayer = AudioPlayer();
 
   bool _soundEnabled = true;
+  bool _musicEnabled = false;
+  double _musicVolume = 0.3;
+
   bool get soundEnabled => _soundEnabled;
+  bool get musicEnabled => _musicEnabled;
+  double get musicVolume => _musicVolume;
+
   void toggleSound() => _soundEnabled = !_soundEnabled;
   void setSoundEnabled(bool v) => _soundEnabled = v;
 
@@ -65,15 +72,45 @@ class AudioService {
     } catch (_) {}
   }
 
+  Future<void> startAmbientMusic() async {
+    if (!_musicEnabled) return;
+    try {
+      await _musicPlayer.setAsset('assets/audio/ambient_bg.wav');
+      await _musicPlayer.setVolume(_musicVolume);
+      await _musicPlayer.setLoopMode(LoopMode.one);
+      _musicPlayer.play();
+    } catch (_) {}
+  }
+
+  Future<void> stopAmbientMusic() async {
+    try { await _musicPlayer.stop(); } catch (_) {}
+  }
+
+  Future<void> setMusicVolume(double v) async {
+    _musicVolume = v.clamp(0.0, 1.0);
+    try { await _musicPlayer.setVolume(_musicVolume); } catch (_) {}
+  }
+
+  Future<void> setMusicEnabled(bool v) async {
+    _musicEnabled = v;
+    if (v) {
+      await startAmbientMusic();
+    } else {
+      await stopAmbientMusic();
+    }
+  }
+
   Future<void> stopAll() async {
     try { await _sfxPlayer.stop(); } catch (_) {}
     try { await _clickPlayer.stop(); } catch (_) {}
     try { await _wordPlayer.stop(); } catch (_) {}
+    try { await _musicPlayer.stop(); } catch (_) {}
   }
 
   Future<void> dispose() async {
     await _sfxPlayer.dispose();
     await _clickPlayer.dispose();
     await _wordPlayer.dispose();
+    await _musicPlayer.dispose();
   }
 }

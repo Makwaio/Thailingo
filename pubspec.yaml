@@ -1,5 +1,5 @@
-name: thai_lab
-description: Bangkok Thai learning app
+name: thailingo
+description: Thailingo — Learn Bangkok Thai
 publish_to: none
 version: 1.0.0+1
 
@@ -13,6 +13,10 @@ dependencies:
   shared_preferences: ^2.2.2
   collection: ^1.18.0
   just_audio: ^0.9.36
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.0
+  cloud_firestore: ^4.15.0
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:

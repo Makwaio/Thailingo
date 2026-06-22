@@ -1,0 +1,20 @@
+{
+  "id": 21,
+  "title": "Classroom & Study",
+  "subtitle": "Learning action words",
+  "icon": "lesson_study",
+  "color": "#3F51B5",
+  "xpReward": 30,
+  "words": [
+    {"id":"cls_01","thai":"อ่าน","phonetic":"aan","english":"Read","image":"word_read","audio":"cls_01.mp3","example":"อ่านหนังสือ — Read a book"},
+    {"id":"cls_02","thai":"เขียน","phonetic":"khian","english":"Write","image":"word_write","audio":"cls_02.mp3","example":"เขียนจดหมาย — Write a letter"},
+    {"id":"cls_03","thai":"พูด","phonetic":"phuut","english":"Speak","image":"word_speak","audio":"cls_03.mp3","example":"พูดภาษาไทย — Speak Thai"},
+    {"id":"cls_04","thai":"ฟัง","phonetic":"fang","english":"Listen","image":"word_listen","audio":"cls_04.mp3","example":"ฟังเพลง — Listen to music"},
+    {"id":"cls_05","thai":"พูดซ้ำ","phonetic":"phuut-sam","english":"Repeat","image":"word_repeat","audio":"cls_05.mp3","example":"พูดซ้ำอีกทีได้ไหม — Can you repeat that?"},
+    {"id":"cls_06","thai":"เข้าใจ","phonetic":"khao-jai","english":"Understand","image":"word_understand3","audio":"cls_06.mp3","example":"เข้าใจไหม — Do you understand?"},
+    {"id":"cls_07","thai":"เรียน","phonetic":"rian","english":"Study / Learn","image":"word_study","audio":"cls_07.mp3","example":"เรียนภาษาไทย — Study Thai"},
+    {"id":"cls_08","thai":"ฝึก","phonetic":"fuek","english":"Practice","image":"word_practice","audio":"cls_08.mp3","example":"ฝึกพูดทุกวัน — Practice speaking every day"},
+    {"id":"cls_09","thai":"ถูก","phonetic":"thuuk","english":"Correct / Right","image":"word_correct","audio":"cls_09.mp3","example":"ถูกต้อง — That's correct!"},
+    {"id":"cls_10","thai":"ผิด","phonetic":"phit","english":"Wrong / Incorrect","image":"word_wrong","audio":"cls_10.mp3","example":"ผิดนิดหน่อย — Slightly wrong"}
+  ]
+}

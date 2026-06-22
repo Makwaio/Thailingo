@@ -1,0 +1,20 @@
+{
+  "id": 31,
+  "title": "Thai Slang & Street Talk",
+  "subtitle": "Speak like a Bangkok local",
+  "icon": "lesson_slang",
+  "color": "#37474F",
+  "xpReward": 45,
+  "words": [
+    {"id":"slg_01","thai":"เจ๋ง","phonetic":"jeng","english":"Cool / Awesome","image":"word_cool","audio":"slg_01.mp3","example":"เจ๋งมากเลย — That's so cool!"},
+    {"id":"slg_02","thai":"จริงเหรอ","phonetic":"jing-ror","english":"Really? / Seriously?","image":"word_really","audio":"slg_02.mp3","example":"จริงเหรอ ไม่น่าเชื่อ — Really? Unbelievable!"},
+    {"id":"slg_03","thai":"แล้วแต่","phonetic":"laeo-dtae","english":"Whatever / Up to you","image":"word_whatever","audio":"slg_03.mp3","example":"แล้วแต่คุณเลย — Whatever you like"},
+    {"id":"slg_04","thai":"อร่อยโคตร","phonetic":"a-roi-khoht","english":"Insanely delicious (casual)","image":"word_insanedelish","audio":"slg_04.mp3","example":"อร่อยโคตรเลย! — This is insanely good! (very casual)"},
+    {"id":"slg_05","thai":"ไปเลย","phonetic":"bpai-loei","english":"Let's go! / Go for it!","image":"word_letsgo","audio":"slg_05.mp3","example":"ไปเลย ไม่ต้องรอ — Let's go! No need to wait"},
+    {"id":"slg_06","thai":"ไม่เป็นไร","phonetic":"mai-pen-rai","english":"No worries / It's fine","image":"word_noproblem2","audio":"slg_06.mp3","example":"ไม่เป็นไรครับ — No worries at all!"},
+    {"id":"slg_07","thai":"บ้า","phonetic":"baa","english":"Crazy!","image":"word_crazy","audio":"slg_07.mp3","example":"บ้าไปแล้ว — That's crazy!"},
+    {"id":"slg_08","thai":"หล่อ","phonetic":"lor","english":"Handsome","image":"word_handsome","audio":"slg_08.mp3","example":"หล่อมากเลย — So handsome!"},
+    {"id":"slg_09","thai":"สวย","phonetic":"suay","english":"Beautiful / Pretty","image":"word_beautiful","audio":"slg_09.mp3","example":"สวยมาก — Very beautiful!"},
+    {"id":"slg_10","thai":"คิดถึง","phonetic":"khit-thueng","english":"Miss you / Think of you","image":"word_missyou","audio":"slg_10.mp3","example":"คิดถึงเยอะเลย — Miss you so much"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 29,
+  "title": "Past & Future Tense",
+  "subtitle": "Thai tense markers",
+  "icon": "lesson_tense",
+  "color": "#00695C",
+  "xpReward": 40,
+  "words": [
+    {"id":"tns_01","thai":"แล้ว","phonetic":"laeo","english":"Already (past marker)","image":"word_already","audio":"tns_01.mp3","example":"กินแล้ว — Already ate"},
+    {"id":"tns_02","thai":"ยัง","phonetic":"yang","english":"Not yet","image":"word_notyet","audio":"tns_02.mp3","example":"ยังไม่กิน — Haven't eaten yet"},
+    {"id":"tns_03","thai":"จะ","phonetic":"ja","english":"Will / Going to","image":"word_willdo","audio":"tns_03.mp3","example":"ผมจะไป — I'm going to go"},
+    {"id":"tns_04","thai":"กำลัง","phonetic":"gam-lang","english":"Currently doing","image":"word_doing","audio":"tns_04.mp3","example":"กำลังกิน — Currently eating"},
+    {"id":"tns_05","thai":"เคย","phonetic":"khoei","english":"Have done before","image":"word_donebefore","audio":"tns_05.mp3","example":"เคยไปไทยไหม — Have you been to Thailand before?"},
+    {"id":"tns_06","thai":"ไม่เคย","phonetic":"mai-khoei","english":"Never (have done)","image":"word_never","audio":"tns_06.mp3","example":"ไม่เคยกินทุเรียน — Never eaten durian"},
+    {"id":"tns_07","thai":"เพิ่งจะ","phonetic":"pheng-ja","english":"Just (recently)","image":"word_justrecentl","audio":"tns_07.mp3","example":"เพิ่งจะมาถึง — Just arrived"},
+    {"id":"tns_08","thai":"กำลังจะ","phonetic":"gam-lang-ja","english":"About to","image":"word_aboutto","audio":"tns_08.mp3","example":"กำลังจะไปอยู่พอดี — About to go right now"},
+    {"id":"tns_09","thai":"เมื่อวานผมกิน","phonetic":"muea-waan-pom-gin","english":"Yesterday I ate","image":"word_yesterdayate","audio":"tns_09.mp3","example":"เมื่อวานผมกินส้มตำ — Yesterday I ate papaya salad"},
+    {"id":"tns_10","thai":"พรุ่งนี้ผมจะไป","phonetic":"phroong-nee-pom-ja-bpai","english":"Tomorrow I will go","image":"word_tomorrowgo","audio":"tns_10.mp3","example":"พรุ่งนี้ผมจะไปตลาด — Tomorrow I'll go to the market"}
+  ]
+}

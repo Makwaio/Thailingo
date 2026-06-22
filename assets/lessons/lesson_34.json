@@ -1,0 +1,20 @@
+{
+  "id": 34,
+  "title": "Technology & Modern Life",
+  "subtitle": "Digital Thai vocabulary",
+  "icon": "lesson_tech",
+  "color": "#006064",
+  "xpReward": 40,
+  "words": [
+    {"id":"tch_01","thai":"โทรศัพท์มือถือ","phonetic":"tho-ra-sap-mue-thue","english":"Mobile phone","image":"word_phone","audio":"tch_01.mp3","example":"โทรศัพท์มือถือเสีย — My phone is broken"},
+    {"id":"tch_02","thai":"อินเตอร์เน็ต","phonetic":"in-ter-net","english":"Internet","image":"word_internet","audio":"tch_02.mp3","example":"อินเตอร์เน็ตช้า — The internet is slow"},
+    {"id":"tch_03","thai":"ถ่ายรูป","phonetic":"thai-ruup","english":"Take a photo","image":"word_photo","audio":"tch_03.mp3","example":"ถ่ายรูปด้วยกัน — Let's take a photo together"},
+    {"id":"tch_04","thai":"โซเชียลมีเดีย","phonetic":"so-chial-mee-dia","english":"Social media","image":"word_social","audio":"tch_04.mp3","example":"เล่นโซเชียลมีเดีย — Browsing social media"},
+    {"id":"tch_05","thai":"รหัสผ่าน","phonetic":"ra-hat-phaan","english":"Password","image":"word_password","audio":"tch_05.mp3","example":"ลืมรหัสผ่าน — Forgot the password"},
+    {"id":"tch_06","thai":"ไวไฟ","phonetic":"wai-fai","english":"WiFi","image":"word_wifi","audio":"tch_06.mp3","example":"ไวไฟฟรีมีไหม — Is there free WiFi?"},
+    {"id":"tch_07","thai":"ชาร์จโทรศัพท์","phonetic":"charge-tho-ra-sap","english":"Charge the phone","image":"word_charge","audio":"tch_07.mp3","example":"ชาร์จโทรศัพท์หน่อย — Charge the phone a bit"},
+    {"id":"tch_08","thai":"ออนไลน์","phonetic":"on-line","english":"Online","image":"word_online","audio":"tch_08.mp3","example":"ออนไลน์อยู่ไหม — Are you online?"},
+    {"id":"tch_09","thai":"แอพ","phonetic":"aep","english":"App / Application","image":"word_app","audio":"tch_09.mp3","example":"โหลดแอพนี้ไว้ — Download this app"},
+    {"id":"tch_10","thai":"วิดีโอคอล","phonetic":"wi-dee-oh-kol","english":"Video call","image":"word_videocall","audio":"tch_10.mp3","example":"วิดีโอคอลกันคืนนี้ไหม — Video call tonight?"}
+  ]
+}

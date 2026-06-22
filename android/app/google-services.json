@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1069262998183",
+    "project_id": "thailingo-5d117",
+    "storage_bucket": "thailingo-5d117.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069262998183:android:5016c63b7fbd6bda36e982",
+        "android_client_info": {
+          "package_name": "com.example.thai_lab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIDkcMhgByXr9NTlwYHXbwXRWfVC1rQZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

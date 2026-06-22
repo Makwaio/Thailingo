@@ -1,0 +1,22 @@
+{
+  "id": 18,
+  "title": "Places in Bangkok",
+  "subtitle": "Navigate the city",
+  "icon": "lesson_places",
+  "color": "#FF5722",
+  "xpReward": 35,
+  "words": [
+    {"id":"place_01","thai":"วัด","phonetic":"wat","english":"Temple","image":"word_temple","audio":"place_01.mp3","example":"วัดพระแก้ว — Temple of the Emerald Buddha"},
+    {"id":"place_02","thai":"โรงพยาบาล","phonetic":"rong-pa-yaa-baan","english":"Hospital","image":"word_hospital","audio":"place_02.mp3","example":"ไปโรงพยาบาล — Going to the hospital"},
+    {"id":"place_03","thai":"ห้างสรรพสินค้า","phonetic":"haang-sap-pa-sin-kaa","english":"Shopping mall","image":"word_mall","audio":"place_03.mp3","example":"ไปห้างฯ — Going to the mall (shortened)"},
+    {"id":"place_04","thai":"โรงเรียน","phonetic":"rong-rian","english":"School","image":"word_school","audio":"place_04.mp3","example":"โรงเรียนอยู่ใกล้ — The school is nearby"},
+    {"id":"place_05","thai":"สถานีตำรวจ","phonetic":"sa-thaa-nee-dtam-ruat","english":"Police station","image":"word_police","audio":"place_05.mp3","example":"ไปสถานีตำรวจ — Go to the police station"},
+    {"id":"place_06","thai":"ชายหาด","phonetic":"chaai-haat","english":"Beach","image":"word_beach","audio":"place_06.mp3","example":"ไปเที่ยวชายหาด — Go to the beach"},
+    {"id":"place_07","thai":"สวนสาธารณะ","phonetic":"suan-saa-thaa-ra-na","english":"Park","image":"word_park","audio":"place_07.mp3","example":"ออกกำลังกายในสวน — Exercise in the park"},
+    {"id":"place_08","thai":"ธนาคาร","phonetic":"tha-naa-khaan","english":"Bank","image":"word_bank","audio":"place_08.mp3","example":"ธนาคารอยู่ที่ไหน — Where is the bank?"},
+    {"id":"place_09","thai":"ร้านขายยา","phonetic":"raan-khaai-yaa","english":"Pharmacy","image":"word_pharmacy","audio":"place_09.mp3","example":"ร้านขายยาอยู่ใกล้ๆ — The pharmacy is nearby"},
+    {"id":"place_10","thai":"ร้านอาหาร","phonetic":"raan-aa-haan","english":"Restaurant","image":"word_restaurant","audio":"place_10.mp3","example":"ร้านอาหารดี — Good restaurant"},
+    {"id":"place_11","thai":"โรงแรม","phonetic":"rong-raem","english":"Hotel","image":"word_hotel","audio":"place_11.mp3","example":"โรงแรมอยู่ใกล้ — The hotel is close"},
+    {"id":"place_12","thai":"ตลาด","phonetic":"dta-laat","english":"Market","image":"word_market","audio":"place_12.mp3","example":"ตลาดนัด — Weekend market (flea market)"}
+  ]
+}

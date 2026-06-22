@@ -1,0 +1,20 @@
+{
+  "id": 19,
+  "title": "Jobs & Occupations",
+  "subtitle": "What do you do?",
+  "icon": "lesson_jobs",
+  "color": "#9C27B0",
+  "xpReward": 30,
+  "words": [
+    {"id":"job_01","thai":"หมอ","phonetic":"mor","english":"Doctor","image":"word_doctor","audio":"job_01.mp3","example":"หมอดี — Good doctor"},
+    {"id":"job_02","thai":"พยาบาล","phonetic":"pa-yaa-baan","english":"Nurse","image":"word_nurse","audio":"job_02.mp3","example":"พยาบาลใจดี — Kind nurse"},
+    {"id":"job_03","thai":"ครู","phonetic":"khruu","english":"Teacher","image":"word_teacher","audio":"job_03.mp3","example":"ครูสอนดี — The teacher teaches well"},
+    {"id":"job_04","thai":"ตำรวจ","phonetic":"dtam-ruat","english":"Police","image":"word_police2","audio":"job_04.mp3","example":"ตำรวจช่วย — Police help"},
+    {"id":"job_05","thai":"คนขับรถ","phonetic":"kon-khap-rot","english":"Driver","image":"word_driver","audio":"job_05.mp3","example":"คนขับรถแท็กซี่ — Taxi driver"},
+    {"id":"job_06","thai":"พ่อครัว","phonetic":"por-khrua","english":"Chef / Cook","image":"word_chef","audio":"job_06.mp3","example":"พ่อครัวร้านนี้เก่ง — This restaurant's chef is skilled"},
+    {"id":"job_07","thai":"พระ","phonetic":"phra","english":"Monk","image":"word_monk","audio":"job_07.mp3","example":"พระออกบิณฑบาต — Monks on alms round"},
+    {"id":"job_08","thai":"ชาวนา","phonetic":"chaao-naa","english":"Farmer","image":"word_farmer","audio":"job_08.mp3","example":"ชาวนาปลูกข้าว — Farmer grows rice"},
+    {"id":"job_09","thai":"ทหาร","phonetic":"tha-haan","english":"Soldier","image":"word_soldier","audio":"job_09.mp3","example":"ทหารรักษาการ — Soldier on guard"},
+    {"id":"job_10","thai":"นักเรียน","phonetic":"nak-rian","english":"Student","image":"word_student","audio":"job_10.mp3","example":"นักเรียนเก่ง — Smart student"}
+  ]
+}

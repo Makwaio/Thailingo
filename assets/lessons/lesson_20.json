@@ -1,0 +1,22 @@
+{
+  "id": 20,
+  "title": "Home & House",
+  "subtitle": "Talk about your home",
+  "icon": "lesson_home",
+  "color": "#795548",
+  "xpReward": 30,
+  "words": [
+    {"id":"house_01","thai":"บ้าน","phonetic":"baan","english":"House / Home","image":"word_house","audio":"house_01.mp3","example":"บ้านอยู่ที่ไหน — Where is your home?"},
+    {"id":"house_02","thai":"ห้องนอน","phonetic":"hong-non","english":"Bedroom","image":"word_bedroom","audio":"house_02.mp3","example":"ห้องนอนกว้าง — Spacious bedroom"},
+    {"id":"house_03","thai":"ห้องน้ำ","phonetic":"hong-naam","english":"Bathroom / Toilet","image":"word_bathroom2","audio":"house_03.mp3","example":"ห้องน้ำอยู่ที่ไหน — Where is the bathroom?"},
+    {"id":"house_04","thai":"ห้องครัว","phonetic":"hong-khrua","english":"Kitchen","image":"word_kitchen","audio":"house_04.mp3","example":"ทำอาหารในห้องครัว — Cooking in the kitchen"},
+    {"id":"house_05","thai":"ห้องนั่งเล่น","phonetic":"hong-nang-len","english":"Living room","image":"word_livingroom","audio":"house_05.mp3","example":"นั่งเล่นในห้องนั่งเล่น — Relaxing in the living room"},
+    {"id":"house_06","thai":"ประตู","phonetic":"bpra-dtuu","english":"Door","image":"word_door","audio":"house_06.mp3","example":"ปิดประตู — Close the door"},
+    {"id":"house_07","thai":"หน้าต่าง","phonetic":"naa-dtaang","english":"Window","image":"word_window","audio":"house_07.mp3","example":"เปิดหน้าต่าง — Open the window"},
+    {"id":"house_08","thai":"บันได","phonetic":"ban-dai","english":"Stairs","image":"word_stairs","audio":"house_08.mp3","example":"ขึ้นบันได — Go up the stairs"},
+    {"id":"house_09","thai":"หลังคา","phonetic":"lang-khaa","english":"Roof","image":"word_roof","audio":"house_09.mp3","example":"หลังคารั่ว — Leaking roof"},
+    {"id":"house_10","thai":"สวน","phonetic":"suan","english":"Garden / Yard","image":"word_garden","audio":"house_10.mp3","example":"รดน้ำต้นไม้ในสวน — Water plants in the garden"},
+    {"id":"house_11","thai":"รั้ว","phonetic":"rua","english":"Fence","image":"word_fence","audio":"house_11.mp3","example":"รั้วบ้าน — House fence"},
+    {"id":"house_12","thai":"กุญแจ","phonetic":"gun-jae","english":"Key","image":"word_key","audio":"house_12.mp3","example":"ลืมกุญแจ — Forgot the key"}
+  ]
+}

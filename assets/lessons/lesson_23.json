@@ -1,0 +1,20 @@
+{
+  "id": 23,
+  "title": "Restaurant Ordering",
+  "subtitle": "Order like a pro",
+  "icon": "lesson_restaurant",
+  "color": "#E64A19",
+  "xpReward": 40,
+  "words": [
+    {"id":"res_01","thai":"ผมจะสั่ง","phonetic":"pom-ja-sang","english":"I would like to order","image":"word_order","audio":"res_01.mp3","example":"ผมจะสั่งข้าวผัด — I'd like to order fried rice"},
+    {"id":"res_02","thai":"แนะนำอะไรได้บ้าง","phonetic":"nae-nam-a-rai-dai-bang","english":"What do you recommend?","image":"word_recommend","audio":"res_02.mp3","example":"แนะนำอาหารอร่อยได้บ้าง — What tasty food do you recommend?"},
+    {"id":"res_03","thai":"ผมแพ้","phonetic":"pom-pae","english":"I am allergic to","image":"word_allergic","audio":"res_03.mp3","example":"ผมแพ้ถั่ว — I'm allergic to peanuts"},
+    {"id":"res_04","thai":"ไม่ใส่ถั่วนะครับ","phonetic":"mai-sai-tua-na-khrap","english":"No peanuts please","image":"word_nopeanuts","audio":"res_04.mp3","example":"ไม่ใส่ถั่วนะครับ — No peanuts, please"},
+    {"id":"res_05","thai":"ขอบิลได้ไหม","phonetic":"khor-bin-dai-mai","english":"Can I have the bill?","image":"word_bill","audio":"res_05.mp3","example":"ขอบิลได้ไหมครับ — Can I have the check?"},
+    {"id":"res_06","thai":"รวมเซอร์วิสชาร์จไหม","phonetic":"ruam-service-charge-mai","english":"Service charge included?","image":"word_servicecharge","audio":"res_06.mp3","example":"รวมเซอร์วิสชาร์จไหมครับ — Is service charge included?"},
+    {"id":"res_07","thai":"โต๊ะสำหรับสองคน","phonetic":"dtoh-sam-rap-song-kon","english":"Table for two","image":"word_tabletwo","audio":"res_07.mp3","example":"ขอโต๊ะสำหรับสองคน — A table for two please"},
+    {"id":"res_08","thai":"นี่เป็นอาหารเจไหม","phonetic":"nee-pen-aa-haan-je-mai","english":"Is this vegetarian?","image":"word_veg","audio":"res_08.mp3","example":"นี่เป็นอาหารเจไหมครับ — Is this dish vegetarian?"},
+    {"id":"res_09","thai":"ขอเผ็ดน้อยหน่อย","phonetic":"khor-phet-noi-noi","english":"Make it less spicy","image":"word_lessspicy","audio":"res_09.mp3","example":"ขอเผ็ดน้อยหน่อยได้ไหม — Can you make it less spicy?"},
+    {"id":"res_10","thai":"อร่อยมาก เลิศเลย","phonetic":"a-roi-mak-lert-loei","english":"Delicious! Best I've had","image":"word_delicious2","audio":"res_10.mp3","example":"อร่อยมาก เลิศเลย — Amazing! This is the best!"}
+  ]
+}

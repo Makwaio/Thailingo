@@ -1,0 +1,20 @@
+{
+  "id": 35,
+  "title": "Thai Culture & Etiquette",
+  "subtitle": "Respect the culture",
+  "icon": "lesson_culture",
+  "color": "#B71C1C",
+  "xpReward": 45,
+  "words": [
+    {"id":"cul_01","thai":"ไหว้","phonetic":"wai","english":"Wai (greeting/respect bow)","image":"word_wai","audio":"cul_01.mp3","example":"ไหว้พระ — Pay respects to Buddha"},
+    {"id":"cul_02","thai":"พระพุทธรูป","phonetic":"phra-phut-tha-ruup","english":"Buddha image","image":"word_buddha","audio":"cul_02.mp3","example":"ห้ามสัมผัสพระพุทธรูป — Don't touch Buddha images"},
+    {"id":"cul_03","thai":"ทำบุญ","phonetic":"tham-bun","english":"Make merit","image":"word_merit","audio":"cul_03.mp3","example":"ไปทำบุญที่วัด — Go to the temple to make merit"},
+    {"id":"cul_04","thai":"เคารพผู้ใหญ่","phonetic":"khao-rop-puu-yai","english":"Respect elders","image":"word_respectelders","audio":"cul_04.mp3","example":"ต้องเคารพผู้ใหญ่ — Must respect elders"},
+    {"id":"cul_05","thai":"ถอดรองเท้า","phonetic":"thot-rong-thao","english":"Remove shoes","image":"word_shoes","audio":"cul_05.mp3","example":"ถอดรองเท้าก่อนเข้า — Remove shoes before entering"},
+    {"id":"cul_06","thai":"ศักดิ์สิทธิ์","phonetic":"sak-sit","english":"Sacred / Holy","image":"word_sacred","audio":"cul_06.mp3","example":"สถานที่ศักดิ์สิทธิ์ — Sacred place"},
+    {"id":"cul_07","thai":"เทศกาล","phonetic":"tet-sa-gaan","english":"Festival","image":"word_festival","audio":"cul_07.mp3","example":"เทศกาลสนุกมาก — The festival is so fun"},
+    {"id":"cul_08","thai":"สงกรานต์","phonetic":"song-kraan","english":"Songkran (Thai New Year)","image":"word_songkran","audio":"cul_08.mp3","example":"สงกรานต์สาดน้ำ — Songkran water festival"},
+    {"id":"cul_09","thai":"ลอยกระทง","phonetic":"loi-gra-tong","english":"Loy Krathong festival","image":"word_loykrathong","audio":"cul_09.mp3","example":"ลอยกระทงริมน้ำ — Float a krathong on the water"},
+    {"id":"cul_10","thai":"สนุก","phonetic":"sa-nook","english":"Fun / Sanuk","image":"word_fun","audio":"cul_10.mp3","example":"สนุกมากเลย — So much fun! (key Thai value)"}
+  ]
+}

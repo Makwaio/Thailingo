@@ -1,0 +1,20 @@
+{
+  "id": 37,
+  "title": "Advanced Directions",
+  "subtitle": "Navigate like a local",
+  "icon": "lesson_diradv",
+  "color": "#004D40",
+  "xpReward": 45,
+  "words": [
+    {"id":"dir2_01","thai":"ที่ไฟแดง","phonetic":"tee-fai-daeng","english":"At the traffic lights","image":"word_trafficlight","audio":"dir2_01.mp3","example":"เลี้ยวซ้ายที่ไฟแดง — Turn left at the traffic lights"},
+    {"id":"dir2_02","thai":"กลับรถ","phonetic":"glap-rot","english":"U-turn","image":"word_uturn","audio":"dir2_02.mp3","example":"กลับรถได้ที่นั่น — You can U-turn there"},
+    {"id":"dir2_03","thai":"ฝั่งตรงข้าม","phonetic":"faang-trong-khaam","english":"Opposite side","image":"word_opposite","audio":"dir2_03.mp3","example":"อยู่ฝั่งตรงข้าม — It's on the opposite side"},
+    {"id":"dir2_04","thai":"ติดกับ","phonetic":"dtit-gap","english":"Next to / Adjacent to","image":"word_nextto","audio":"dir2_04.mp3","example":"ติดกับธนาคาร — Next to the bank"},
+    {"id":"dir2_05","thai":"ข้างหลัง","phonetic":"khaang-lang","english":"Behind","image":"word_behind","audio":"dir2_05.mp3","example":"อยู่ข้างหลัง — It's behind"},
+    {"id":"dir2_06","thai":"ข้างหน้า","phonetic":"khaang-naa","english":"In front of","image":"word_infront","audio":"dir2_06.mp3","example":"อยู่ข้างหน้า — It's in front"},
+    {"id":"dir2_07","thai":"ที่มุม","phonetic":"tee-moom","english":"On the corner","image":"word_corner","audio":"dir2_07.mp3","example":"อยู่ที่มุมถนน — It's on the corner of the street"},
+    {"id":"dir2_08","thai":"สะพานลอย","phonetic":"sa-phaan-loi","english":"Overpass / Pedestrian bridge","image":"word_overpass","audio":"dir2_08.mp3","example":"ข้ามสะพานลอย — Cross the overpass"},
+    {"id":"dir2_09","thai":"ทางลอด","phonetic":"taang-lot","english":"Underpass / Tunnel","image":"word_underpass","audio":"dir2_09.mp3","example":"เดินลอดทางลอด — Walk through the underpass"},
+    {"id":"dir2_10","thai":"วงเวียน","phonetic":"wong-wian","english":"Roundabout","image":"word_roundabout","audio":"dir2_10.mp3","example":"วนที่วงเวียน — Go around the roundabout"}
+  ]
+}

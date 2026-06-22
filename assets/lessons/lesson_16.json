@@ -1,0 +1,22 @@
+{
+  "id": 16,
+  "title": "Body Parts",
+  "subtitle": "Head to toe in Thai",
+  "icon": "lesson_body",
+  "color": "#E91E63",
+  "xpReward": 30,
+  "words": [
+    {"id":"body_01","thai":"หัว","phonetic":"hua","english":"Head","image":"word_head","audio":"body_01.mp3","example":"ปวดหัว — Headache (hurt head)"},
+    {"id":"body_02","thai":"ตา","phonetic":"dtaa","english":"Eye","image":"word_eye","audio":"body_02.mp3","example":"ตาสวย — Beautiful eyes"},
+    {"id":"body_03","thai":"หู","phonetic":"huu","english":"Ear","image":"word_ear","audio":"body_03.mp3","example":"หูดี — Good hearing"},
+    {"id":"body_04","thai":"จมูก","phonetic":"ja-muuk","english":"Nose","image":"word_nose","audio":"body_04.mp3","example":"จมูกโต — Big nose"},
+    {"id":"body_05","thai":"ปาก","phonetic":"bpaak","english":"Mouth","image":"word_mouth","audio":"body_05.mp3","example":"ปากหวาน — Sweet mouth (charming speech)"},
+    {"id":"body_06","thai":"มือ","phonetic":"muu","english":"Hand","image":"word_hand","audio":"body_06.mp3","example":"ล้างมือ — Wash your hands"},
+    {"id":"body_07","thai":"เท้า","phonetic":"tao","english":"Foot","image":"word_foot","audio":"body_07.mp3","example":"เจ็บเท้า — Foot hurts"},
+    {"id":"body_08","thai":"ผม","phonetic":"pom","english":"Hair","image":"word_hair","audio":"body_08.mp3","example":"ผมยาว — Long hair"},
+    {"id":"body_09","thai":"หน้า","phonetic":"naa","english":"Face","image":"word_face","audio":"body_09.mp3","example":"หน้าตาดี — Good-looking face"},
+    {"id":"body_10","thai":"หลัง","phonetic":"lang","english":"Back","image":"word_back","audio":"body_10.mp3","example":"ปวดหลัง — Backache"},
+    {"id":"body_11","thai":"ท้อง","phonetic":"tong","english":"Stomach","image":"word_stomach","audio":"body_11.mp3","example":"ปวดท้อง — Stomach ache"},
+    {"id":"body_12","thai":"นิ้ว","phonetic":"niu","english":"Finger","image":"word_finger","audio":"body_12.mp3","example":"นิ้วชี้ — Index finger (pointing finger)"}
+  ]
+}

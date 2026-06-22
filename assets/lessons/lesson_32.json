@@ -1,0 +1,20 @@
+{
+  "id": 32,
+  "title": "Numbers Advanced",
+  "subtitle": "Big numbers & math words",
+  "icon": "lesson_numadv",
+  "color": "#1A237E",
+  "xpReward": 40,
+  "words": [
+    {"id":"nma_01","thai":"ร้อย","phonetic":"roi","english":"Hundred (100)","image":"word_hundred","audio":"nma_01.mp3","example":"สามร้อยบาท — 300 baht"},
+    {"id":"nma_02","thai":"พัน","phonetic":"phan","english":"Thousand (1,000)","image":"word_thousand","audio":"nma_02.mp3","example":"หนึ่งพันบาท — 1,000 baht"},
+    {"id":"nma_03","thai":"หมื่น","phonetic":"muen","english":"Ten thousand (10,000)","image":"word_tenthousand","audio":"nma_03.mp3","example":"สองหมื่นบาท — 20,000 baht"},
+    {"id":"nma_04","thai":"แสน","phonetic":"saen","english":"Hundred thousand (100,000)","image":"word_hundredthous","audio":"nma_04.mp3","example":"หนึ่งแสนบาท — 100,000 baht"},
+    {"id":"nma_05","thai":"ล้าน","phonetic":"laan","english":"Million (1,000,000)","image":"word_million","audio":"nma_05.mp3","example":"สองล้านบาท — 2 million baht"},
+    {"id":"nma_06","thai":"ครึ่ง","phonetic":"khrueng","english":"Half","image":"word_half","audio":"nma_06.mp3","example":"ครึ่งชั่วโมง — Half an hour"},
+    {"id":"nma_07","thai":"หนึ่งในสี่","phonetic":"neung-nai-see","english":"Quarter / One fourth","image":"word_quarter","audio":"nma_07.mp3","example":"หนึ่งในสี่ชั่วโมง — Quarter of an hour"},
+    {"id":"nma_08","thai":"กี่","phonetic":"gee","english":"How many?","image":"word_howmany2","audio":"nma_08.mp3","example":"กี่คน — How many people?"},
+    {"id":"nma_09","thai":"ทั้งสอง","phonetic":"thang-song","english":"Both","image":"word_both","audio":"nma_09.mp3","example":"เอาทั้งสองอัน — I'll take both"},
+    {"id":"nma_10","thai":"ทั้งหมด","phonetic":"thang-mot","english":"All / Total","image":"word_total","audio":"nma_10.mp3","example":"ทั้งหมดเท่าไหร่ — What's the total?"}
+  ]
+}

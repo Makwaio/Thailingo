@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'ui/theme/app_theme.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/profile_setup_screen.dart';
 import 'services/settings_service.dart';
+import 'services/firebase_service.dart';
+import 'services/user_service.dart';
+import 'services/progress_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SettingsService().load();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -17,16 +25,16 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.light,
     ),
   );
-  runApp(const ThaiLabApp());
+  runApp(const ThailingoApp());
 }
 
-class ThaiLabApp extends StatelessWidget {
-  const ThaiLabApp({super.key});
+class ThailingoApp extends StatelessWidget {
+  const ThailingoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Thai Lab',
+      title: 'Thailingo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.theme,
       home: const SplashScreen(),
@@ -58,18 +66,43 @@ class _SplashScreenState extends State<SplashScreen>
             parent: _ctrl,
             curve: const Interval(0.0, 0.5, curve: Curves.easeIn)));
     _ctrl.forward();
-    Future.delayed(const Duration(milliseconds: 2000), () {
+    Future.delayed(const Duration(milliseconds: 2000), _navigate);
+  }
+
+  Future<void> _navigate() async {
+    if (!mounted) return;
+    final firebaseService = FirebaseService();
+    Widget destination;
+
+    if (firebaseService.isSignedIn()) {
+      final uid = firebaseService.getUserId()!;
+      await UserService().resetWeeklyXpIfNeeded(uid);
+      final isSetup = await UserService().isProfileSetup(uid);
       if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          pageBuilder: (_, anim, __) => const HomeScreen(),
-          transitionsBuilder: (_, anim, __, child) =>
-              FadeTransition(opacity: anim, child: child),
-          transitionDuration: const Duration(milliseconds: 500),
-        ),
-      );
-    });
+      if (!isSetup) {
+        destination = ProfileSetupScreen(
+          uid: uid,
+          name: firebaseService.getUserName() ?? 'Learner',
+        );
+      } else {
+        final localProgress = await ProgressService().load();
+        await UserService().syncLocalProgress(uid, localProgress);
+        destination = const HomeScreen();
+      }
+    } else {
+      destination = const LoginScreen();
+    }
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => destination,
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
+    );
   }
 
   @override
@@ -78,64 +111,96 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF0D47A1), Color(0xFF1565C0), Color(0xFF1976D2)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      body: Stack(
+        children: [
+          // Thai flag stripe pattern
+          Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(color: AppTheme.thaiRed),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(color: Colors.white),
+              ),
+              Expanded(
+                flex: 4,
+                child: Container(color: AppTheme.thaiNavy),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(color: Colors.white),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(color: AppTheme.thaiRed),
+              ),
+            ],
           ),
-        ),
-        child: Center(
-          child: AnimatedBuilder(
-            animation: _ctrl,
-            builder: (_, __) => FadeTransition(
-              opacity: _fade,
-              child: ScaleTransition(
-                scale: _scale,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusXl),
-                        border: Border.all(
-                            color: Colors.white24, width: 1.5),
+          // Centered logo overlay
+          Center(
+            child: AnimatedBuilder(
+              animation: _ctrl,
+              builder: (_, __) => FadeTransition(
+                opacity: _fade,
+                child: ScaleTransition(
+                  scale: _scale,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          color: AppTheme.thaiNavy,
+                          borderRadius:
+                              BorderRadius.circular(AppTheme.radiusXl),
+                          border: Border.all(
+                              color: AppTheme.thaiGold, width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.thaiNavy.withOpacity(0.5),
+                              blurRadius: 24,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: const Center(
+                          child: Text('🇹🇭',
+                              style: TextStyle(fontSize: 60)),
+                        ),
                       ),
-                      child: const Center(
-                        child: Text('🇹🇭',
-                            style: TextStyle(fontSize: 56)),
+                      const SizedBox(height: 24),
+                      const Text('Thailingo',
+                          style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.thaiNavy,
+                              letterSpacing: -1)),
+                      const SizedBox(height: 8),
+                      const Text('Bangkok Thai — Learn & Play',
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: AppTheme.thaiNavy,
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 48),
+                      SizedBox(
+                        width: 40, height: 40,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              AppTheme.thaiNavy.withOpacity(0.6)),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-                    const Text('Thai Lab',
-                        style: TextStyle(
-                            fontSize: 36, fontWeight: FontWeight.w900,
-                            color: Colors.white, letterSpacing: -1)),
-                    const SizedBox(height: 8),
-                    const Text('Bangkok Thai — Learn & Play',
-                        style: TextStyle(
-                            fontSize: 15, color: Colors.white70,
-                            letterSpacing: 0.5)),
-                    const SizedBox(height: 60),
-                    SizedBox(
-                      width: 40, height: 40,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white.withOpacity(0.6)),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

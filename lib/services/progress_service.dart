@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_progress.dart';
+import 'firebase_service.dart';
+import 'user_service.dart';
 
 class ProgressService {
   static final ProgressService _instance = ProgressService._internal();
@@ -99,6 +101,7 @@ class ProgressService {
     _checkAchievements(p);
 
     await save();
+    _trySyncToFirestore(p);
   }
 
   void _checkAchievements(UserProgress p) {
@@ -150,6 +153,12 @@ class ProgressService {
     }
     _checkAchievements(p);
     await save();
+  }
+
+  void _trySyncToFirestore(UserProgress p) {
+    final uid = FirebaseService().getUserId();
+    if (uid == null) return;
+    UserService().syncProgressToFirestore(uid, p).catchError((_) {});
   }
 
   /// Clears all stored progress and resets in-memory cache.

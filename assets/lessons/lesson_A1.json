@@ -1,0 +1,25 @@
+{
+  "id": 101,
+  "title": "Consonants Part 1",
+  "subtitle": "The first 15 consonants",
+  "icon": "lesson_alpha1",
+  "color": "#1A237E",
+  "xpReward": 20,
+  "words": [
+    {"id":"a1_01","thai":"ก","phonetic":"g/k","english":"Like 'g' in 'go' — กไก่ (chicken)","image":"word_g","audio":"a1_01.mp3","example":"กไก่ — g like Go"},
+    {"id":"a1_02","thai":"ข","phonetic":"kh","english":"Like 'k' with puff of air — ขไข่ (egg)","image":"word_kh1","audio":"a1_02.mp3","example":"ขไข่ — kh like Kick"},
+    {"id":"a1_03","thai":"ค","phonetic":"kh","english":"Like 'k' (low class) — คควาย (buffalo)","image":"word_kh2","audio":"a1_03.mp3","example":"คควาย — kh low class"},
+    {"id":"a1_04","thai":"ง","phonetic":"ng","english":"Like 'ng' in singing — งงู (snake)","image":"word_ng","audio":"a1_04.mp3","example":"งงู — ng like siNGing"},
+    {"id":"a1_05","thai":"จ","phonetic":"j","english":"Like 'j' in judge — จจาน (plate)","image":"word_j","audio":"a1_05.mp3","example":"จจาน — j like Jump"},
+    {"id":"a1_06","thai":"ช","phonetic":"ch","english":"Like 'ch' in chair — ชช้าง (elephant)","image":"word_ch","audio":"a1_06.mp3","example":"ชช้าง — ch like CHair"},
+    {"id":"a1_07","thai":"ด","phonetic":"d","english":"Like 'd' in dog — ดเด็ก (child)","image":"word_d","audio":"a1_07.mp3","example":"ดเด็ก — d like Dog"},
+    {"id":"a1_08","thai":"ต","phonetic":"dt","english":"Hard t/d sound — ตเต่า (turtle)","image":"word_dt","audio":"a1_08.mp3","example":"ตเต่า — dt like sTay"},
+    {"id":"a1_09","thai":"น","phonetic":"n","english":"Like 'n' in now — นหนู (mouse)","image":"word_n","audio":"a1_09.mp3","example":"นหนู — n like Now"},
+    {"id":"a1_10","thai":"ป","phonetic":"bp","english":"Hard b/p sound — ปปลา (fish)","image":"word_bp","audio":"a1_10.mp3","example":"ปปลา — bp like sPa"},
+    {"id":"a1_11","thai":"พ","phonetic":"ph","english":"Like 'p' with puff of air — พพาน (tray)","image":"word_ph","audio":"a1_11.mp3","example":"พพาน — ph like Phone"},
+    {"id":"a1_12","thai":"ม","phonetic":"m","english":"Like 'm' in mom — มแมว (cat)","image":"word_m","audio":"a1_12.mp3","example":"มแมว — m like Mom"},
+    {"id":"a1_13","thai":"ร","phonetic":"r","english":"Like 'r' — รเรือ (boat)","image":"word_r","audio":"a1_13.mp3","example":"รเรือ — r sound (often L in speech)"},
+    {"id":"a1_14","thai":"ล","phonetic":"l","english":"Like 'l' in love — ลลิง (monkey)","image":"word_l","audio":"a1_14.mp3","example":"ลลิง — l like Love"},
+    {"id":"a1_15","thai":"ส","phonetic":"s","english":"Like 's' in sun — สเสือ (tiger)","image":"word_s","audio":"a1_15.mp3","example":"สเสือ — s like Sun"}
+  ]
+}

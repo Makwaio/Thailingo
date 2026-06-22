@@ -9,6 +9,10 @@ import '../ui/widgets/common_widgets.dart';
 import 'exercise_screens/mc_screen.dart';
 import 'exercise_screens/pairs_screen.dart';
 import 'exercise_screens/listen_screen.dart';
+import 'exercise_screens/speed_tap_screen.dart';
+import 'exercise_screens/sentence_builder_screen.dart';
+import 'exercise_screens/conversation_screen.dart';
+import 'exercise_screens/typing_screen.dart';
 import 'result_screen.dart';
 import 'game_over_screen.dart';
 import '../services/review_service.dart';
@@ -42,20 +46,16 @@ class _LessonScreenState extends State<LessonScreen>
   int _xpPopAmount = 0;
   final Stopwatch _timer = Stopwatch();
 
-  // Correct-answer particles
   bool _showSparkles = false;
   int _sparkleKey = 0;
 
-  // Screen flash
   bool _showFlash = false;
   Color _flashColor = AppTheme.success;
   int _flashKey = 0;
 
-  // Game-over state
   bool _gameOverTriggered = false;
   bool _gameOverSequenceRunning = false;
 
-  // Heart animation: which heart index is currently breaking (-1 = none)
   int _breakingHeartIdx = -1;
   late AnimationController _heartBreakCtrl;
 
@@ -84,9 +84,7 @@ class _LessonScreenState extends State<LessonScreen>
 
   double get _progress => _queue.isEmpty ? 0 : _idx / _queue.length;
 
-  // ── Answer handling ────────────────────────────────────────────────
-
-  void _onAnswer(bool correct, {String correctAns = '', String? hint}) {
+  void _onAnswer(bool correct, {String correctAns = '', String? hint, int bonusXp = 0}) {
     if (_showFeedback || _gameOverSequenceRunning) return;
     setState(() {
       _totalAnswered++;
@@ -99,13 +97,12 @@ class _LessonScreenState extends State<LessonScreen>
         _correct++;
         _combo++;
         if (_combo > _peakCombo) _peakCombo = _combo;
-        final xp = 10 + (_combo >= 3 ? 5 : 0);
+        final xp = 10 + (_combo >= 3 ? 5 : 0) + bonusXp;
         _xpGained += xp;
         _xpPopAmount = xp;
         _showXpPop = true;
         if (_combo >= 2) AudioService().playCombo();
 
-        // Sparkle burst + green flash
         _showSparkles = true;
         _sparkleKey++;
         _flashColor = AppTheme.success;
@@ -117,7 +114,6 @@ class _LessonScreenState extends State<LessonScreen>
         _combo = 0;
         _lives = (_lives - 1).clamp(0, 3);
 
-        // Add wrong word to review queue
         final currentQ = _idx < _queue.length ? _queue[_idx] : null;
         if (currentQ is Exercise) {
           ReviewService().addToQueue(currentQ.targetWord, widget.lesson.id);
@@ -125,7 +121,6 @@ class _LessonScreenState extends State<LessonScreen>
 
         AudioService().playWrong();
 
-        // Red flash
         _flashColor = AppTheme.danger;
         _showFlash = true;
         _flashKey++;
@@ -154,8 +149,6 @@ class _LessonScreenState extends State<LessonScreen>
     });
     if (_idx >= _queue.length) _finishLesson();
   }
-
-  // ── Game Over sequence ─────────────────────────────────────────────
 
   Future<void> _triggerGameOver() async {
     if (_gameOverSequenceRunning) return;
@@ -188,8 +181,6 @@ class _LessonScreenState extends State<LessonScreen>
     );
   }
 
-  // ── Lesson complete ────────────────────────────────────────────────
-
   Future<void> _finishLesson() async {
     _timer.stop();
     final score = _totalAnswered > 0
@@ -211,7 +202,6 @@ class _LessonScreenState extends State<LessonScreen>
 
     if (!mounted) return;
 
-    // Level-up overlay before navigating to result
     if (levelAfter > levelBefore) {
       await showLevelUpOverlay(context, levelAfter);
       if (!mounted) return;
@@ -235,8 +225,6 @@ class _LessonScreenState extends State<LessonScreen>
     );
   }
 
-  // ── Build ─────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,7 +245,6 @@ class _LessonScreenState extends State<LessonScreen>
                   ),
               ],
             ),
-            // Screen flash overlay
             if (_showFlash)
               Positioned.fill(
                 child: ScreenFlash(key: ValueKey(_flashKey), color: _flashColor),
@@ -355,6 +342,21 @@ class _LessonScreenState extends State<LessonScreen>
             _onAnswer(correct, correctAns: 'Match all pairs'),
         answered: _showFeedback,
       );
+    } else if (q is SentenceBuilderExercise) {
+      exercise = SentenceBuilderScreen(
+        exercise: q,
+        onAnswer: (correct) => _onAnswer(correct,
+            correctAns: q.thaiChips.join(' ')),
+        answered: _showFeedback,
+        lastCorrect: _lastCorrect,
+      );
+    } else if (q is ConversationExercise) {
+      exercise = ConversationScreen(
+        exercise: q,
+        onAnswer: (correct) =>
+            _onAnswer(correct, correctAns: 'Comprehension check'),
+        answered: _showFeedback,
+      );
     } else if (q is Exercise) {
       switch (q.type) {
         case ExerciseType.listenAndChoose:
@@ -368,7 +370,23 @@ class _LessonScreenState extends State<LessonScreen>
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
           );
-          break;
+        case ExerciseType.speedTap:
+          exercise = SpeedTapScreen(
+            exercise: q,
+            onAnswer: (correct, {int bonusXp = 0}) => _onAnswer(correct,
+                correctAns: q.targetWord.english,
+                bonusXp: bonusXp),
+            answered: _showFeedback,
+            lastCorrect: _lastCorrect,
+          );
+        case ExerciseType.typing:
+          exercise = TypingScreen(
+            exercise: q,
+            onAnswer: (correct) => _onAnswer(correct,
+                correctAns: q.targetWord.phonetic),
+            answered: _showFeedback,
+            lastCorrect: _lastCorrect,
+          );
         default:
           exercise = McScreen(
             exercise: q,
@@ -411,7 +429,6 @@ class _LessonScreenState extends State<LessonScreen>
               ),
             ),
           ),
-        // Sparkle particles on correct answer
         if (_showSparkles)
           Positioned.fill(
             child: SparkleParticles(key: ValueKey(_sparkleKey)),

@@ -1,0 +1,22 @@
+{
+  "id": 105,
+  "title": "Reading Practice",
+  "subtitle": "Put it all together",
+  "icon": "lesson_alpha5",
+  "color": "#E65100",
+  "xpReward": 25,
+  "words": [
+    {"id":"a5_01","thai":"สวัสดี","phonetic":"sa-wat-dee","english":"Hello — ส + วั + ส + ดี","image":"word_read_sawatdee","audio":"a5_01.mp3","example":"ส(s) + วั(wa) + ส(s) + ดี(dee) = sawatdee"},
+    {"id":"a5_02","thai":"ขอบคุณ","phonetic":"khob-khun","english":"Thank you — ขอบ + คุณ","image":"word_read_thankyou","audio":"a5_02.mp3","example":"ขอบ(khob) + คุณ(khun) = khobkhun"},
+    {"id":"a5_03","thai":"ไม่เป็นไร","phonetic":"mai-pen-rai","english":"No worries — ไม่ + เป็น + ไร","image":"word_read_maipenrai","audio":"a5_03.mp3","example":"ไม่(mai) + เป็น(pen) + ไร(rai) = maipenrai"},
+    {"id":"a5_04","thai":"อร่อย","phonetic":"a-roi","english":"Delicious — อ + ร่อย","image":"word_read_aroi","audio":"a5_04.mp3","example":"อ(a) + ร่อย(roi) = aroi"},
+    {"id":"a5_05","thai":"ข้าวผัด","phonetic":"khao-phat","english":"Fried rice — ข้าว + ผัด","image":"word_read_friedrice","audio":"a5_05.mp3","example":"ข้าว(khao) + ผัด(phat) = fried rice"},
+    {"id":"a5_06","thai":"น้ำ","phonetic":"naam","english":"Water — น + ้ + าม","image":"word_read_water","audio":"a5_06.mp3","example":"น(n) + ้าม(aam falling) = naam"},
+    {"id":"a5_07","thai":"ไปไหน","phonetic":"bpai-nai","english":"Where are you going? — ไป + ไหน","image":"word_read_whereyougo","audio":"a5_07.mp3","example":"ไป(bpai) + ไหน(nai) = bpai nai"},
+    {"id":"a5_08","thai":"เท่าไหร่","phonetic":"thao-rai","english":"How much? — เท่า + ไหร่","image":"word_read_howmuch","audio":"a5_08.mp3","example":"เท่า(thao) + ไหร่(rai) = thaurai"},
+    {"id":"a5_09","thai":"ห้องน้ำ","phonetic":"hong-naam","english":"Bathroom — ห้อง + น้ำ","image":"word_read_bathroom","audio":"a5_09.mp3","example":"ห้อง(hong) + น้ำ(naam) = bathroom"},
+    {"id":"a5_10","thai":"กินข้าว","phonetic":"gin-khao","english":"Eat (rice/food) — กิน + ข้าว","image":"word_read_eatrice","audio":"a5_10.mp3","example":"กิน(gin) + ข้าว(khao) = eat food"},
+    {"id":"a5_11","thai":"ขอบคุณมาก","phonetic":"khob-khun-mak","english":"Thank you very much","image":"word_read_thankyoumuch","audio":"a5_11.mp3","example":"ขอบคุณ(thank you) + มาก(very much)"},
+    {"id":"a5_12","thai":"ยินดีที่รู้จัก","phonetic":"yin-dee-tee-ruu-jak","english":"Nice to meet you","image":"word_read_nicetomeet","audio":"a5_12.mp3","example":"ยิน(yin)+ดี(dee)+ที่(tee)+รู้(ruu)+จัก(jak)"}
+  ]
+}

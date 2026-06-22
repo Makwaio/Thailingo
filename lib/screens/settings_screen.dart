@@ -20,6 +20,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool get _music => _settings.musicEnabled;
   bool get _dev => _settings.devMode;
 
+  // Game type getters
+  bool get _gtMatchPairs    => _settings.gtMatchPairs;
+  bool get _gtListen        => _settings.gtListen;
+  bool get _gtSpeedTap      => _settings.gtSpeedTap;
+  bool get _gtSentence      => _settings.gtSentenceBuilder;
+  bool get _gtConversation  => _settings.gtConversation;
+  bool get _gtTyping        => _settings.gtTyping;
+
   // ── Build ─────────────────────────────────────────────────────────
 
   @override
@@ -79,6 +87,68 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
+          // ── Game Types ─────────────────────────────────────────
+          _SectionHeader('Game Types 🎮'),
+          _SettingsCard(
+            children: [
+              _ToggleTile(
+                icon: Icons.shuffle_rounded,
+                label: 'Multiple Choice',
+                subtitle: 'Always enabled',
+                value: true,
+                onChanged: (_) {}, // always on
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.grid_view_rounded,
+                label: 'Match Pairs',
+                value: _gtMatchPairs,
+                onChanged: (v) => _setGameType('gt_match_pairs_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.volume_up_rounded,
+                label: 'Listen & Choose',
+                value: _gtListen,
+                onChanged: (v) => _setGameType('gt_listen_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.bolt_rounded,
+                label: 'Speed Tap',
+                subtitle: 'Race against the clock',
+                value: _gtSpeedTap,
+                onChanged: (v) => _setGameType('gt_speed_tap_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.sort_rounded,
+                label: 'Sentence Builder',
+                subtitle: 'Arrange word chips',
+                value: _gtSentence,
+                onChanged: (v) => _setGameType('gt_sentence_builder_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.chat_bubble_rounded,
+                label: 'Conversation Mode',
+                subtitle: 'Real Thai dialogue',
+                value: _gtConversation,
+                onChanged: (v) => _setGameType('gt_conversation_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.keyboard_rounded,
+                label: 'Typing Challenge',
+                subtitle: 'Type the phonetic spelling',
+                value: _gtTyping,
+                onChanged: (v) => _setGameType('gt_typing_v1', v),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
           // ── Language ───────────────────────────────────────────
           _SectionHeader('Language'),
           _SettingsCard(
@@ -111,7 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // ── App info ───────────────────────────────────────────
           Center(
             child: Text(
-              'Thai Lab  v1.0.0',
+              'Thailingo  v1.0.0',
               style: TextStyle(
                   fontSize: 13,
                   color: AppTheme.textSecondary.withOpacity(0.7)),
@@ -215,11 +285,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<void> _setGameType(String key, bool v) async {
+    final ok = await _settings.setGameType(key, v);
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('At least 2 game types must remain enabled.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+    setState(() {});
+  }
+
   Future<void> _unlockAllLessons() async {
     await ProgressService().unlockAllLessons(LessonService.totalLessons);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('All 15 lessons unlocked with 3 stars!')),
+        SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked with 3 stars!')),
       );
     }
   }

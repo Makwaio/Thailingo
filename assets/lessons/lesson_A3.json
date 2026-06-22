@@ -1,0 +1,25 @@
+{
+  "id": 103,
+  "title": "Vowels",
+  "subtitle": "Thai vowel sounds",
+  "icon": "lesson_alpha3",
+  "color": "#880E4F",
+  "xpReward": 20,
+  "words": [
+    {"id":"a3_01","thai":"า","phonetic":"aa","english":"Long 'aa' sound — like father","image":"word_aa","audio":"a3_01.mp3","example":"มา (maa) — to come"},
+    {"id":"a3_02","thai":"ิ","phonetic":"i","english":"Short 'i' sound — like bit","image":"word_i","audio":"a3_02.mp3","example":"จิ (ji) — short i sound"},
+    {"id":"a3_03","thai":"ี","phonetic":"ii","english":"Long 'ii' sound — like see","image":"word_ii","audio":"a3_03.mp3","example":"ดี (dii) — good"},
+    {"id":"a3_04","thai":"ุ","phonetic":"u","english":"Short 'u' sound — like put","image":"word_u","audio":"a3_04.mp3","example":"กุ (gu) — short u sound"},
+    {"id":"a3_05","thai":"ู","phonetic":"uu","english":"Long 'uu' sound — like moon","image":"word_uu","audio":"a3_05.mp3","example":"ดู (duu) — to watch"},
+    {"id":"a3_06","thai":"เ","phonetic":"ay/eh","english":"'Ay' or 'eh' sound — before consonant","image":"word_eh","audio":"a3_06.mp3","example":"เก (gay) — prefix vowel sound"},
+    {"id":"a3_07","thai":"แ","phonetic":"ae","english":"Like 'ae' in cat — แมว (cat)","image":"word_ae","audio":"a3_07.mp3","example":"แมว (maew) — cat"},
+    {"id":"a3_08","thai":"โ","phonetic":"oh","english":"'Oh' sound — โต (dtoh) big","image":"word_oh","audio":"a3_08.mp3","example":"โต (dtoh) — big/grown"},
+    {"id":"a3_09","thai":"ไ","phonetic":"ai","english":"Like 'ai' in Thai — ไป (bpai) go","image":"word_ai","audio":"a3_09.mp3","example":"ไป (bpai) — to go"},
+    {"id":"a3_10","thai":"ใ","phonetic":"ai","english":"Also 'ai' sound — ใจ (jai) heart","image":"word_ai2","audio":"a3_10.mp3","example":"ใจ (jai) — heart/mind"},
+    {"id":"a3_11","thai":"เอา","phonetic":"ao","english":"'Ao' sound — เอา (ao) take/want","image":"word_ao","audio":"a3_11.mp3","example":"เอา (ao) — want/take"},
+    {"id":"a3_12","thai":"เีย","phonetic":"ia","english":"'Ia' sound — เรีย... like ear","image":"word_ia","audio":"a3_12.mp3","example":"เรียน (rian) — to study"},
+    {"id":"a3_13","thai":"ัว","phonetic":"ua","english":"'Ua' sound — มัว like tour","image":"word_ua","audio":"a3_13.mp3","example":"รัว — ua sound"},
+    {"id":"a3_14","thai":"อ","phonetic":"oe/er","english":"'Oe' sound — like 'her' without r","image":"word_oe","audio":"a3_14.mp3","example":"เธอ (ther) — you (informal)"},
+    {"id":"a3_15","thai":"◌ะ","phonetic":"a","english":"Short 'a' — quick cut vowel","image":"word_a","audio":"a3_15.mp3","example":"จะ (ja) — will/going to"}
+  ]
+}

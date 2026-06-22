@@ -1,0 +1,20 @@
+{
+  "id": 28,
+  "title": "Talking About Yourself",
+  "subtitle": "Introduce yourself in Thai",
+  "icon": "lesson_self",
+  "color": "#4527A0",
+  "xpReward": 40,
+  "words": [
+    {"id":"slf_01","thai":"ผมชื่อ","phonetic":"pom-chue","english":"My name is (male)","image":"word_myname","audio":"slf_01.mp3","example":"ผมชื่อ Max ครับ — My name is Max"},
+    {"id":"slf_02","thai":"ผมมาจาก","phonetic":"pom-maa-jaak","english":"I am from","image":"word_fromwhere","audio":"slf_02.mp3","example":"ผมมาจากอังกฤษ — I'm from England"},
+    {"id":"slf_03","thai":"ผมอายุ","phonetic":"pom-aa-yu","english":"I am X years old","image":"word_age","audio":"slf_03.mp3","example":"ผมอายุยี่สิบห้าปี — I am 25 years old"},
+    {"id":"slf_04","thai":"ผมทำงานเป็น","phonetic":"pom-tham-ngaan-pen","english":"I work as","image":"word_work","audio":"slf_04.mp3","example":"ผมทำงานเป็นครู — I work as a teacher"},
+    {"id":"slf_05","thai":"ผมชอบประเทศไทย","phonetic":"pom-chob-bpra-tet-thai","english":"I like Thailand","image":"word_likethailand","audio":"slf_05.mp3","example":"ผมชอบประเทศไทยมากครับ — I really like Thailand"},
+    {"id":"slf_06","thai":"ผมมาได้หลายวันแล้ว","phonetic":"pom-maa-dai-wan-laeo","english":"I've been here a few days","image":"word_herefewdays","audio":"slf_06.mp3","example":"ผมมาได้หนึ่งอาทิตย์แล้ว — I've been here a week"},
+    {"id":"slf_07","thai":"ผมกำลังเรียนภาษาไทย","phonetic":"pom-gam-lang-rian-paa-saa-thai","english":"I am learning Thai","image":"word_learnthai","audio":"slf_07.mp3","example":"ผมกำลังเรียนภาษาไทยอยู่ — I'm currently studying Thai"},
+    {"id":"slf_08","thai":"พูดภาษาไทยได้นิดหน่อย","phonetic":"phuut-paa-saa-thai-dai-nit-noi","english":"I speak a little Thai","image":"word_littlethai2","audio":"slf_08.mp3","example":"พูดภาษาไทยได้นิดหน่อยครับ — I speak just a little Thai"},
+    {"id":"slf_09","thai":"ยินดีที่รู้จัก","phonetic":"yin-dee-tee-ruu-jak","english":"Nice to meet you","image":"word_nicetomeet","audio":"slf_09.mp3","example":"ยินดีที่รู้จักครับ — Pleased to meet you"},
+    {"id":"slf_10","thai":"ผมรักอาหารไทย","phonetic":"pom-rak-aa-haan-thai","english":"I love Thai food","image":"word_loveFood","audio":"slf_10.mp3","example":"ผมรักอาหารไทยมากครับ — I absolutely love Thai food!"}
+  ]
+}

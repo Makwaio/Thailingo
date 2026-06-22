@@ -1,0 +1,25 @@
+{
+  "id": 102,
+  "title": "Consonants Part 2",
+  "subtitle": "15 more consonants",
+  "icon": "lesson_alpha2",
+  "color": "#1A237E",
+  "xpReward": 20,
+  "words": [
+    {"id":"a2_01","thai":"ฉ","phonetic":"ch","english":"Like 'ch' (high class) — ฉฉิ่ง (cymbals)","image":"word_ch2","audio":"a2_01.mp3","example":"ฉฉิ่ง — ch high class"},
+    {"id":"a2_02","thai":"ซ","phonetic":"s","english":"Like 's' in sun — ซโซ่ (chain)","image":"word_s2","audio":"a2_02.mp3","example":"ซโซ่ — s like Sun"},
+    {"id":"a2_03","thai":"ญ","phonetic":"y","english":"Like 'y' in yes — ญหญิง (woman)","image":"word_y","audio":"a2_03.mp3","example":"ญหญิง — y like Yes"},
+    {"id":"a2_04","thai":"ณ","phonetic":"n","english":"Like 'n' (high class) — ณเณร (novice)","image":"word_n2","audio":"a2_04.mp3","example":"ณเณร — n high class"},
+    {"id":"a2_05","thai":"ท","phonetic":"th","english":"Like 't' with puff — ททหาร (soldier)","image":"word_th","audio":"a2_05.mp3","example":"ทหาร — th like Top"},
+    {"id":"a2_06","thai":"ธ","phonetic":"th","english":"Like 'th' (low class) — ธธง (flag)","image":"word_th2","audio":"a2_06.mp3","example":"ธธง — th low class"},
+    {"id":"a2_07","thai":"บ","phonetic":"b","english":"Like 'b' in ball — ขใบไม้ (leaf)","image":"word_b","audio":"a2_07.mp3","example":"บใบไม้ — b like Ball"},
+    {"id":"a2_08","thai":"ผ","phonetic":"ph","english":"Like 'ph' (high class) — ผผึ้ง (bee)","image":"word_ph2","audio":"a2_08.mp3","example":"ผผึ้ง — ph high class"},
+    {"id":"a2_09","thai":"ฝ","phonetic":"f","english":"Like 'f' in fan — ฝฝา (lid)","image":"word_f","audio":"a2_09.mp3","example":"ฝฝา — f like Fan"},
+    {"id":"a2_10","thai":"ฟ","phonetic":"f","english":"Like 'f' (low class) — ฟฟัน (teeth)","image":"word_f2","audio":"a2_10.mp3","example":"ฟฟัน — f low class"},
+    {"id":"a2_11","thai":"ภ","phonetic":"ph","english":"Like 'ph' (low class) — ภสำเภา (junk boat)","image":"word_ph3","audio":"a2_11.mp3","example":"ภสำเภา — ph low class"},
+    {"id":"a2_12","thai":"ย","phonetic":"y","english":"Like 'y' (low class) — ยยักษ์ (giant)","image":"word_y2","audio":"a2_12.mp3","example":"ยยักษ์ — y low class"},
+    {"id":"a2_13","thai":"ว","phonetic":"w","english":"Like 'w' in wow — วแหวน (ring)","image":"word_w","audio":"a2_13.mp3","example":"วแหวน — w like Wow"},
+    {"id":"a2_14","thai":"ห","phonetic":"h","english":"Like 'h' in hat — หหีบ (chest)","image":"word_h","audio":"a2_14.mp3","example":"หหีบ — h like Hat"},
+    {"id":"a2_15","thai":"อ","phonetic":"silent/oh","english":"Silent or 'oh' sound — ออ่าง (basin)","image":"word_silent","audio":"a2_15.mp3","example":"อ — often silent, or glottal stop"}
+  ]
+}

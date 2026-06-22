@@ -6,7 +6,7 @@ class UserProgress {
   int totalWordsReviewed;
   String? lastPlayedDate;
   Map<int, LessonProgress> lessonProgress;
-  Map<String, String> achievementsUnlocked; // id → ISO-date unlocked
+  Map<String, String> achievementsUnlocked;
 
   UserProgress({
     this.totalXp = 0,
@@ -25,6 +25,16 @@ class UserProgress {
 
   bool isLessonUnlocked(int lessonId) {
     if (lessonId == 1) return true;
+    // Lesson 23 (first Stage 2 lesson) requires ALL Stage 1 lessons complete
+    if (lessonId == 23) {
+      return List.generate(22, (i) => i + 1)
+          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+    }
+    // Alphabet lessons (101-105) unlock sequentially, no 3-star requirement
+    if (lessonId >= 101 && lessonId <= 105) {
+      if (lessonId == 101) return true;
+      return lessonProgress[lessonId - 1]?.completed ?? false;
+    }
     return (lessonProgress[lessonId - 1]?.stars ?? 0) >= 3;
   }
 
@@ -32,6 +42,14 @@ class UserProgress {
       lessonProgress[lessonId]?.completed ?? false;
 
   int lessonStars(int lessonId) => lessonProgress[lessonId]?.stars ?? 0;
+
+  bool get allStage1Complete =>
+      List.generate(22, (i) => i + 1)
+          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+
+  bool get allStage2Complete =>
+      List.generate(15, (i) => i + 23)
+          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
 
   factory UserProgress.fromJson(Map<String, dynamic> json) => UserProgress(
         totalXp: json['totalXp'] as int? ?? 0,
@@ -69,10 +87,10 @@ class UserProgress {
 class LessonProgress {
   bool completed;
   int stars;
-  int bestScore;       // correct count
-  int bestAccuracy;    // 0-100 percentage
+  int bestScore;
+  int bestAccuracy;
   int timesPlayed;
-  int bestTimeSeconds; // 0 = not yet recorded
+  int bestTimeSeconds;
   String? lastPlayedDate;
 
   LessonProgress({
@@ -106,7 +124,6 @@ class LessonProgress {
       };
 }
 
-// Computed dynamically — not stored.
 class AchievementDef {
   final String id;
   final String emoji;
@@ -125,15 +142,16 @@ const kAchievements = [
   AchievementDef('word_collector', '📚', 'Word Collector', 'Learn 50+ words'),
   AchievementDef('sharp_shooter', '🎯', 'Sharp Shooter', 'Hit a 10× combo in a lesson'),
   AchievementDef('diamond', '💎', 'Diamond', 'Reach level 10 (2 000 XP)'),
-  AchievementDef('bangkok_ready', '🌍', 'Bangkok Ready', 'Complete all 15 lessons with 3 stars'),
+  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 22 Stage 1 lessons with 3 stars'),
+  AchievementDef('stage2_master', '🏙️', 'Survival Thai', 'Complete all 15 Stage 2 lessons with 3 stars'),
 ];
 
-// Stage lesson IDs — duplicated here so stats can compute without importing home_screen.
 const kStageLessonIds = [
   [1, 2, 3, 4],
   [5, 6, 7, 8],
   [9, 10, 11, 12],
-  [13, 14, 15],
+  [13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
 ];
 
 bool isAchievementUnlocked(
@@ -160,9 +178,10 @@ bool isAchievementUnlocked(
       return p.maxCombo >= 10;
     case 'diamond':
       return p.totalXp >= 2000;
-    case 'bangkok_ready':
-      return List.generate(15, (i) => i + 1)
-          .every((id) => (p.lessonProgress[id]?.stars ?? 0) >= 3);
+    case 'stage1_master':
+      return p.allStage1Complete;
+    case 'stage2_master':
+      return p.allStage2Complete;
     default:
       return false;
   }

@@ -1,0 +1,20 @@
+{
+  "id": 26,
+  "title": "At the Hospital",
+  "subtitle": "Medical vocabulary",
+  "icon": "lesson_medical",
+  "color": "#2E7D32",
+  "xpReward": 40,
+  "words": [
+    {"id":"hsp_01","thai":"ปวดหัว","phonetic":"bpuat-hua","english":"I have a headache","image":"word_headache","audio":"hsp_01.mp3","example":"ผมปวดหัวมาก — I have a severe headache"},
+    {"id":"hsp_02","thai":"มีไข้","phonetic":"mee-khai","english":"I have a fever","image":"word_fever","audio":"hsp_02.mp3","example":"ผมมีไข้สูง — I have a high fever"},
+    {"id":"hsp_03","thai":"ปวดท้อง","phonetic":"bpuat-tong","english":"My stomach hurts","image":"word_stomachache","audio":"hsp_03.mp3","example":"ผมปวดท้องมาก — My stomach hurts a lot"},
+    {"id":"hsp_04","thai":"เวียนหัว","phonetic":"wian-hua","english":"I feel dizzy","image":"word_dizzy","audio":"hsp_04.mp3","example":"ผมเวียนหัว — I'm feeling dizzy"},
+    {"id":"hsp_05","thai":"ท้องเสีย","phonetic":"tong-sia","english":"I have diarrhea","image":"word_diarrhea","audio":"hsp_05.mp3","example":"ผมท้องเสีย — I have diarrhea"},
+    {"id":"hsp_06","thai":"แพ้","phonetic":"pae","english":"I'm allergic","image":"word_allergic2","audio":"hsp_06.mp3","example":"ผมแพ้ยา — I'm allergic to this medicine"},
+    {"id":"hsp_07","thai":"กินยานี้","phonetic":"gin-yaa-nee","english":"Take this medicine","image":"word_takemeds","audio":"hsp_07.mp3","example":"กินยานี้วันละสามครั้ง — Take this medicine three times a day"},
+    {"id":"hsp_08","thai":"วันละสามครั้ง","phonetic":"wan-la-saam-khrang","english":"Three times a day","image":"word_threetimes","audio":"hsp_08.mp3","example":"กินยาวันละสามครั้งนะ — Take medicine three times a day"},
+    {"id":"hsp_09","thai":"ก่อนอาหาร","phonetic":"gorn-aa-haan","english":"Before meals","image":"word_beforemeal","audio":"hsp_09.mp3","example":"กินยาก่อนอาหาร — Take medicine before meals"},
+    {"id":"hsp_10","thai":"ต้องการใบสั่งยา","phonetic":"dtong-gaan-bai-sang-yaa","english":"I need a prescription","image":"word_prescription","audio":"hsp_10.mp3","example":"ผมต้องการใบสั่งยา — I need a prescription"}
+  ]
+}

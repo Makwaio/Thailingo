@@ -1,0 +1,24 @@
+{
+  "id": 104,
+  "title": "Tone Marks",
+  "subtitle": "The 4 tone marks explained",
+  "icon": "lesson_alpha4",
+  "color": "#1B5E20",
+  "xpReward": 20,
+  "words": [
+    {"id":"a4_01","thai":"◌่","phonetic":"mai ek","english":"Tone mark 1 — lowers the tone","image":"word_maieko","audio":"a4_01.mp3","example":"ไม่ (mài) — not/no — falling tone"},
+    {"id":"a4_02","thai":"◌้","phonetic":"mai tho","english":"Tone mark 2 — falling tone","image":"word_maitho","audio":"a4_02.mp3","example":"น้ำ (nám) — water — falling tone"},
+    {"id":"a4_03","thai":"◌๊","phonetic":"mai dtri","english":"Tone mark 3 — high tone","image":"word_maidtri","audio":"a4_03.mp3","example":"ฉั๊กๆ — used in specific words"},
+    {"id":"a4_04","thai":"◌๋","phonetic":"mai jattawa","english":"Tone mark 4 — rising tone","image":"word_maijat","audio":"a4_04.mp3","example":"เก๋ (gae) — stylish — rising tone"},
+    {"id":"a4_05","thai":"มา","phonetic":"maa (mid)","english":"Mid tone — flat, normal voice","image":"word_midtone","audio":"a4_05.mp3","example":"มา (maa) — to come — flat"},
+    {"id":"a4_06","thai":"ม้า","phonetic":"máa (high)","english":"High tone — start higher, stay high","image":"word_hightone","audio":"a4_06.mp3","example":"ม้า (máa) — horse — high tone"},
+    {"id":"a4_07","thai":"หมา","phonetic":"mǎa (rising)","english":"Rising tone — dip then rise","image":"word_risingtone","audio":"a4_07.mp3","example":"หมา (mǎa) — dog — rising tone"},
+    {"id":"a4_08","thai":"ไม่","phonetic":"mâi (falling)","english":"Falling tone — start high, fall sharply","image":"word_fallingtone","audio":"a4_08.mp3","example":"ไม่ (mâi) — not — falling tone"},
+    {"id":"a4_09","thai":"ไม้","phonetic":"mài (low)","english":"Low tone — slightly lower than normal","image":"word_lowtone","audio":"a4_09.mp3","example":"ไม้ (mài) — wood — low tone"},
+    {"id":"a4_10","thai":"ข้าว","phonetic":"khâao","english":"Rice — falling tone example","image":"word_rice2","audio":"a4_10.mp3","example":"ข้าว — rice (falling tone) vs เขา — he (mid)"},
+    {"id":"a4_11","thai":"ห","phonetic":"h leading","english":"ห before consonant raises tone","image":"word_hleading","audio":"a4_11.mp3","example":"หมา vs มา — h raises tone class"},
+    {"id":"a4_12","thai":"อ","phonetic":"o leading","english":"อ before consonant can modify tone","image":"word_oleading","audio":"a4_12.mp3","example":"อยู่ — to be/live (mid class)"},
+    {"id":"a4_13","thai":"สวย","phonetic":"suay","english":"Beautiful (right tone) vs. unlucky (wrong tone)","image":"word_careful","audio":"a4_13.mp3","example":"สวย (suay) — beautiful — be careful with tones!"},
+    {"id":"a4_14","thai":"5 เสียง","phonetic":"ha-siang","english":"Thai has 5 tones total","image":"word_fivetones","audio":"a4_14.mp3","example":"สาม สาม้ สาม่ สามา สาม — 5 different meanings!"}
+  ]
+}

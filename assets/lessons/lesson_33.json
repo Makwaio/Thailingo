@@ -1,0 +1,20 @@
+{
+  "id": 33,
+  "title": "Relationships & Social",
+  "subtitle": "People in your life",
+  "icon": "lesson_social",
+  "color": "#880E4F",
+  "xpReward": 40,
+  "words": [
+    {"id":"rel_01","thai":"แฟน","phonetic":"faen","english":"Boyfriend / Girlfriend","image":"word_partner","audio":"rel_01.mp3","example":"แฟนผม — My girlfriend/boyfriend"},
+    {"id":"rel_02","thai":"เพื่อน","phonetic":"pheuan","english":"Friend","image":"word_friend","audio":"rel_02.mp3","example":"เพื่อนสนิท — Close friend"},
+    {"id":"rel_03","thai":"เพื่อนสนิท","phonetic":"pheuan-sa-nit","english":"Best friend","image":"word_bestfriend","audio":"rel_03.mp3","example":"เพื่อนสนิทตั้งแต่เด็ก — Best friend since childhood"},
+    {"id":"rel_04","thai":"เจ้านาย","phonetic":"jao-naai","english":"Boss / Employer","image":"word_boss","audio":"rel_04.mp3","example":"เจ้านายดี — Good boss"},
+    {"id":"rel_05","thai":"เพื่อนร่วมงาน","phonetic":"pheuan-ruam-ngaan","english":"Colleague","image":"word_colleague","audio":"rel_05.mp3","example":"เพื่อนร่วมงานใจดี — Kind colleague"},
+    {"id":"rel_06","thai":"เพื่อนบ้าน","phonetic":"pheuan-baan","english":"Neighbor","image":"word_neighbor","audio":"rel_06.mp3","example":"เพื่อนบ้านดีมาก — Great neighbor"},
+    {"id":"rel_07","thai":"คนแปลกหน้า","phonetic":"kon-bplaek-naa","english":"Stranger","image":"word_stranger","audio":"rel_07.mp3","example":"อย่าคุยกับคนแปลกหน้า — Don't talk to strangers"},
+    {"id":"rel_08","thai":"ผมรักคุณ","phonetic":"pom-rak-khun","english":"I love you","image":"word_iloveyou","audio":"rel_08.mp3","example":"ผมรักคุณมากครับ — I love you very much"},
+    {"id":"rel_09","thai":"ผมชอบคุณ","phonetic":"pom-chob-khun","english":"I like you","image":"word_ilikeyou","audio":"rel_09.mp3","example":"ผมชอบคุณมากครับ — I really like you"},
+    {"id":"rel_10","thai":"โสดไหม","phonetic":"sot-mai","english":"Are you single?","image":"word_single","audio":"rel_10.mp3","example":"โสดอยู่ไหมครับ — Are you currently single?"}
+  ]
+}
