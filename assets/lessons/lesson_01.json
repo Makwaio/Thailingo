@@ -1,0 +1,100 @@
+{
+  "id": 1,
+  "title": "Greetings",
+  "subtitle": "Say hello in Bangkok",
+  "icon": "lesson_greetings",
+  "color": "#1565C0",
+  "xpReward": 20,
+  "words": [
+    {
+      "id": "greet_01",
+      "thai": "สวัสดี",
+      "phonetic": "sa-wat-dee",
+      "english": "Hello / Goodbye",
+      "image": "word_hello",
+      "audio": "greet_01.mp3",
+      "example": "สวัสดีครับ — Hello (formal, male)"
+    },
+    {
+      "id": "greet_02",
+      "thai": "ขอบคุณ",
+      "phonetic": "khob-khun",
+      "english": "Thank you",
+      "image": "word_thankyou",
+      "audio": "greet_02.mp3",
+      "example": "ขอบคุณมากครับ — Thank you very much"
+    },
+    {
+      "id": "greet_03",
+      "thai": "ขอโทษ",
+      "phonetic": "khor-toad",
+      "english": "Sorry / Excuse me",
+      "image": "word_sorry",
+      "audio": "greet_03.mp3",
+      "example": "ขอโทษครับ — Excuse me (male)"
+    },
+    {
+      "id": "greet_04",
+      "thai": "ไม่เป็นไร",
+      "phonetic": "mai-pen-rai",
+      "english": "Never mind / No worries",
+      "image": "word_nomind",
+      "audio": "greet_04.mp3",
+      "example": "Thailand's famous phrase — don't worry about it"
+    },
+    {
+      "id": "greet_05",
+      "thai": "ใช่",
+      "phonetic": "chai",
+      "english": "Yes / Correct",
+      "image": "word_yes",
+      "audio": "greet_05.mp3",
+      "example": "ใช่แล้ว — That's right"
+    },
+    {
+      "id": "greet_06",
+      "thai": "ไม่",
+      "phonetic": "mai",
+      "english": "No / Not",
+      "image": "word_no",
+      "audio": "greet_06.mp3",
+      "example": "ไม่ใช่ — That's not right"
+    },
+    {
+      "id": "greet_07",
+      "thai": "ครับ",
+      "phonetic": "khrap",
+      "english": "Polite (male)",
+      "image": "word_politem",
+      "audio": "greet_07.mp3",
+      "example": "Added at end of sentences by males to be polite"
+    },
+    {
+      "id": "greet_08",
+      "thai": "ค่ะ",
+      "phonetic": "kha",
+      "english": "Polite (female)",
+      "image": "word_politef",
+      "audio": "greet_08.mp3",
+      "example": "Added at end of sentences by females to be polite"
+    },
+    {
+      "id": "greet_09",
+      "thai": "สบายดีไหม",
+      "phonetic": "sa-bai-dee-mai",
+      "english": "How are you?",
+      "image": "word_howareyou",
+      "audio": "greet_09.mp3",
+      "example": "Literal: Are you comfortable/well?"
+    },
+    {
+      "id": "greet_10",
+      "thai": "สบายดี",
+      "phonetic": "sa-bai-dee",
+      "english": "I'm fine / Good",
+      "image": "word_fine",
+      "audio": "greet_10.mp3",
+      "example": "สบายดีครับ — I'm doing well (male)"
+    }
+  ]
+}

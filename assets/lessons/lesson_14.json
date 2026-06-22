@@ -1,0 +1,22 @@
+{
+  "id": 14,
+  "title": "Time & Days",
+  "subtitle": "Never be late again",
+  "icon": "lesson_time",
+  "color": "#00695C",
+  "xpReward": 30,
+  "words": [
+    {"id":"time_01","thai":"วันนี้","phonetic":"wan-nee","english":"Today","image":"word_today","audio":"time_01.mp3","example":"วันนี้อากาศดี — The weather is nice today"},
+    {"id":"time_02","thai":"พรุ่งนี้","phonetic":"prung-nee","english":"Tomorrow","image":"word_tomorrow","audio":"time_02.mp3","example":"พรุ่งนี้เจอกัน — See you tomorrow"},
+    {"id":"time_03","thai":"เมื่อวาน","phonetic":"muea-waan","english":"Yesterday","image":"word_yesterday","audio":"time_03.mp3","example":"เมื่อวานฝนตก — It rained yesterday"},
+    {"id":"time_04","thai":"เช้า","phonetic":"chao","english":"Morning","image":"word_morning","audio":"time_04.mp3","example":"ตอนเช้า — In the morning"},
+    {"id":"time_05","thai":"บ่าย","phonetic":"baai","english":"Afternoon","image":"word_afternoon","audio":"time_05.mp3","example":"ตอนบ่าย — In the afternoon"},
+    {"id":"time_06","thai":"เย็น","phonetic":"yen","english":"Evening","image":"word_evening","audio":"time_06.mp3","example":"ตอนเย็น — In the evening"},
+    {"id":"time_07","thai":"วันจันทร์","phonetic":"wan-jan","english":"Monday","image":"word_monday","audio":"time_07.mp3","example":"วันจันทร์หน้า — Next Monday"},
+    {"id":"time_08","thai":"วันศุกร์","phonetic":"wan-suk","english":"Friday","image":"word_friday","audio":"time_08.mp3","example":"วันศุกร์คืนนี้ — This Friday night"},
+    {"id":"time_09","thai":"วันเสาร์","phonetic":"wan-sao","english":"Saturday","image":"word_saturday","audio":"time_09.mp3","example":"วันเสาร์อาทิตย์ — Weekend"},
+    {"id":"time_10","thai":"วันอาทิตย์","phonetic":"wan-aa-thit","english":"Sunday","image":"word_sunday","audio":"time_10.mp3","example":"วันอาทิตย์ไปไหน — Where are you going Sunday?"},
+    {"id":"time_11","thai":"กี่โมง","phonetic":"gee-moong","english":"What time?","image":"word_whattime","audio":"time_11.mp3","example":"ตอนนี้กี่โมงแล้ว — What time is it now?"},
+    {"id":"time_12","thai":"ตอนนี้","phonetic":"ton-nee","english":"Now / Right now","image":"word_now","audio":"time_12.mp3","example":"ตอนนี้เลย — Right now!"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 9,
+  "title": "Animals",
+  "subtitle": "Bangkok wildlife & pets",
+  "icon": "lesson_animals",
+  "color": "#4527A0",
+  "xpReward": 25,
+  "words": [
+    {"id":"ani_01","thai":"หมา","phonetic":"maa","english":"Dog","image":"word_dog","audio":"ani_01.mp3","example":"หมาน่ารัก — Cute dog"},
+    {"id":"ani_02","thai":"แมว","phonetic":"maeo","english":"Cat","image":"word_cat","audio":"ani_02.mp3","example":"แมวดำ — Black cat"},
+    {"id":"ani_03","thai":"ช้าง","phonetic":"chaang","english":"Elephant","image":"word_elephant","audio":"ani_03.mp3","example":"ช้างเป็นสัตว์ประจำชาติ — Elephant is the national animal"},
+    {"id":"ani_04","thai":"ลิง","phonetic":"ling","english":"Monkey","image":"word_monkey","audio":"ani_04.mp3","example":"ลิงชอบกินกล้วย — Monkeys like bananas"},
+    {"id":"ani_05","thai":"นก","phonetic":"nok","english":"Bird","image":"word_bird","audio":"ani_05.mp3","example":"นกแก้ว — Parrot"},
+    {"id":"ani_06","thai":"ปลา","phonetic":"plaa","english":"Fish","image":"word_fish","audio":"ani_06.mp3","example":"ปลาทอด — Fried fish"},
+    {"id":"ani_07","thai":"งู","phonetic":"nguu","english":"Snake","image":"word_snake","audio":"ani_07.mp3","example":"ระวังงู — Beware of snakes"},
+    {"id":"ani_08","thai":"จระเข้","phonetic":"jo-ra-khae","english":"Crocodile","image":"word_croc","audio":"ani_08.mp3","example":"ฟาร์มจระเข้ — Crocodile farm"},
+    {"id":"ani_09","thai":"หมู","phonetic":"muu","english":"Pig / Pork","image":"word_pig","audio":"ani_09.mp3","example":"หมูปิ้ง — Grilled pork"},
+    {"id":"ani_10","thai":"ไก่","phonetic":"gai","english":"Chicken","image":"word_chicken","audio":"ani_10.mp3","example":"ไก่ทอด — Fried chicken"}
+  ]
+}

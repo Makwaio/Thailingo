@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" && flutter analyze --no-fatal-infos 2>&1 | Where-Object { $_ -match \"error|warning\" } | Select-Object -First 30)",
+      "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" && flutter analyze --no-fatal-infos 2>&1 | Where-Object { $_ -match \"error|warning\" } | Select-Object -First 20)",
+      "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" && flutter analyze --no-fatal-infos 2>&1 | Where-Object { $_ -match \"error|warning\" })"
+    ]
+  }
+}

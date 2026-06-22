@@ -1,0 +1,20 @@
+{
+  "id": 7,
+  "title": "Transportation",
+  "subtitle": "Get around Bangkok",
+  "icon": "lesson_transport",
+  "color": "#00695C",
+  "xpReward": 30,
+  "words": [
+    {"id":"trans_01","thai":"แท็กซี่","phonetic":"taek-see","english":"Taxi","image":"word_taxi","audio":"trans_01.mp3","example":"เรียกแท็กซี่ — Call a taxi"},
+    {"id":"trans_02","thai":"รถไฟฟ้า","phonetic":"rot-fai-faa","english":"Sky train (BTS)","image":"word_bts","audio":"trans_02.mp3","example":"ขึ้นรถไฟฟ้า — Take the BTS"},
+    {"id":"trans_03","thai":"มอเตอร์ไซค์","phonetic":"mor-ter-sai","english":"Motorbike","image":"word_motorbike","audio":"trans_03.mp3","example":"มอเตอร์ไซค์รับจ้าง — Motorbike taxi"},
+    {"id":"trans_04","thai":"รถเมล์","phonetic":"rot-mae","english":"Bus","image":"word_bus","audio":"trans_04.mp3","example":"ขึ้นรถเมล์ — Take the bus"},
+    {"id":"trans_05","thai":"เรือ","phonetic":"ruea","english":"Boat","image":"word_boat","audio":"trans_05.mp3","example":"เรือแม่น้ำ — River boat"},
+    {"id":"trans_06","thai":"สนามบิน","phonetic":"sa-naam-bin","english":"Airport","image":"word_airport","audio":"trans_06.mp3","example":"ไปสนามบิน — Go to the airport"},
+    {"id":"trans_07","thai":"สถานี","phonetic":"sa-thaa-nee","english":"Station","image":"word_station","audio":"trans_07.mp3","example":"สถานีรถไฟ — Train station"},
+    {"id":"trans_08","thai":"ตั๋ว","phonetic":"tua","english":"Ticket","image":"word_ticket","audio":"trans_08.mp3","example":"ซื้อตั๋ว — Buy a ticket"},
+    {"id":"trans_09","thai":"ถนน","phonetic":"tha-non","english":"Road / Street","image":"word_road","audio":"trans_09.mp3","example":"ถนนสุขุมวิท — Sukhumvit Road"},
+    {"id":"trans_10","thai":"จราจร","phonetic":"ja-raa-jorn","english":"Traffic","image":"word_traffic","audio":"trans_10.mp3","example":"จราจรติด — Traffic jam"}
+  ]
+}

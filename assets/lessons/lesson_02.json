@@ -1,0 +1,22 @@
+{
+  "id": 2,
+  "title": "Numbers",
+  "subtitle": "Count at the market",
+  "icon": "lesson_numbers",
+  "color": "#6A1B9A",
+  "xpReward": 25,
+  "words": [
+    {"id":"num_01","thai":"หนึ่ง","phonetic":"neung","english":"One (1)","image":"word_one","audio":"num_01.mp3","example":"ขอหนึ่งอัน — One please"},
+    {"id":"num_02","thai":"สอง","phonetic":"song","english":"Two (2)","image":"word_two","audio":"num_02.mp3","example":"สองคน — Two people"},
+    {"id":"num_03","thai":"สาม","phonetic":"saam","english":"Three (3)","image":"word_three","audio":"num_03.mp3","example":"สามวัน — Three days"},
+    {"id":"num_04","thai":"สี่","phonetic":"see","english":"Four (4)","image":"word_four","audio":"num_04.mp3","example":"สี่โมงเย็น — 4pm"},
+    {"id":"num_05","thai":"ห้า","phonetic":"haa","english":"Five (5)","image":"word_five","audio":"num_05.mp3","example":"ห้าบาท — Five baht"},
+    {"id":"num_06","thai":"หก","phonetic":"hok","english":"Six (6)","image":"word_six","audio":"num_06.mp3","example":"หกโมงเช้า — 6am"},
+    {"id":"num_07","thai":"เจ็ด","phonetic":"jet","english":"Seven (7)","image":"word_seven","audio":"num_07.mp3","example":"เจ็ดวัน — Seven days"},
+    {"id":"num_08","thai":"แปด","phonetic":"paet","english":"Eight (8)","image":"word_eight","audio":"num_08.mp3","example":"แปดบาท — Eight baht"},
+    {"id":"num_09","thai":"เก้า","phonetic":"gao","english":"Nine (9)","image":"word_nine","audio":"num_09.mp3","example":"เก้าโมง — 9 o'clock"},
+    {"id":"num_10","thai":"สิบ","phonetic":"sip","english":"Ten (10)","image":"word_ten","audio":"num_10.mp3","example":"สิบบาท — Ten baht"},
+    {"id":"num_11","thai":"ยี่สิบ","phonetic":"yee-sip","english":"Twenty (20)","image":"word_twenty","audio":"num_11.mp3","example":"ยี่สิบบาท — Twenty baht"},
+    {"id":"num_12","thai":"ร้อย","phonetic":"roi","english":"Hundred (100)","image":"word_hundred","audio":"num_12.mp3","example":"ร้อยบาท — One hundred baht"}
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": 3,
+  "title": "Street Food",
+  "subtitle": "Order like a local",
+  "icon": "lesson_food",
+  "color": "#E65100",
+  "xpReward": 30,
+  "words": [
+    {"id":"food_01","thai":"ข้าวผัด","phonetic":"khao-pad","english":"Fried rice","image":"word_friedrice","audio":"food_01.mp3","example":"ขอข้าวผัดไข่ครับ — Fried rice with egg please"},
+    {"id":"food_02","thai":"ผัดไทย","phonetic":"pad-tai","english":"Pad Thai","image":"word_padthai","audio":"food_02.mp3","example":"Most famous Thai noodle dish worldwide"},
+    {"id":"food_03","thai":"ต้มยำ","phonetic":"tom-yam","english":"Tom Yum soup","image":"word_tomyum","audio":"food_03.mp3","example":"ต้มยำกุ้ง — Prawn Tom Yum"},
+    {"id":"food_04","thai":"ส้มตำ","phonetic":"som-tam","english":"Papaya salad","image":"word_papayasalad","audio":"food_04.mp3","example":"ส้มตำไทย — Thai-style papaya salad"},
+    {"id":"food_05","thai":"แกงเขียวหวาน","phonetic":"gaeng-khiao-wan","english":"Green curry","image":"word_greencurry","audio":"food_05.mp3","example":"Literally 'sweet green curry'"},
+    {"id":"food_06","thai":"หมูปิ้ง","phonetic":"moo-ping","english":"Grilled pork skewers","image":"word_porkskewer","audio":"food_06.mp3","example":"Famous Bangkok street food"},
+    {"id":"food_07","thai":"ข้าวมันไก่","phonetic":"khao-man-gai","english":"Chicken rice","image":"word_chickenrice","audio":"food_07.mp3","example":"Thai version of Hainanese chicken rice"},
+    {"id":"food_08","thai":"อร่อย","phonetic":"a-roi","english":"Delicious","image":"word_delicious","audio":"food_08.mp3","example":"อร่อยมากครับ — Very delicious!"},
+    {"id":"food_09","thai":"เผ็ด","phonetic":"phet","english":"Spicy","image":"word_spicy","audio":"food_09.mp3","example":"เผ็ดมาก — Very spicy"},
+    {"id":"food_10","thai":"ไม่เผ็ด","phonetic":"mai-phet","english":"Not spicy","image":"word_notspicy","audio":"food_10.mp3","example":"ขอไม่เผ็ดนะครับ — Please not spicy"},
+    {"id":"food_11","thai":"หวาน","phonetic":"waan","english":"Sweet","image":"word_sweet","audio":"food_11.mp3","example":"หวานมาก — Very sweet"},
+    {"id":"food_12","thai":"เค็ม","phonetic":"khem","english":"Salty","image":"word_salty","audio":"food_12.mp3","example":"เค็มไป — Too salty"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": 11,
+  "title": "Common Phrases",
+  "subtitle": "Sound like a local",
+  "icon": "lesson_phrases",
+  "color": "#E65100",
+  "xpReward": 30,
+  "words": [
+    {"id":"phr_01","thai":"ไม่เป็นไร","phonetic":"mai-pen-rai","english":"Never mind / No worries","image":"word_nvm","audio":"phr_01.mp3","example":"Thailand's most famous phrase — go with the flow"},
+    {"id":"phr_02","thai":"สบาย","phonetic":"sa-bai","english":"Relaxed / Comfortable","image":"word_chill","audio":"phr_02.mp3","example":"สบายๆ — Take it easy"},
+    {"id":"phr_03","thai":"เหมือนกัน","phonetic":"muean-gan","english":"Same same","image":"word_same","audio":"phr_03.mp3","example":"เหมือนกันแต่ต่าง — Same same but different"},
+    {"id":"phr_04","thai":"แล้วแต่คุณ","phonetic":"laeo-tae-khun","english":"Up to you","image":"word_uptoyou","audio":"phr_04.mp3","example":"แล้วแต่คุณเลย — It's completely up to you"},
+    {"id":"phr_05","thai":"ไม่มีปัญหา","phonetic":"mai-mee-pan-haa","english":"No problem","image":"word_noproblem","audio":"phr_05.mp3","example":"ไม่มีปัญหาครับ — No problem at all"},
+    {"id":"phr_06","thai":"เป็นยังไง","phonetic":"pen-yang-ngai","english":"What's up / How's it going","image":"word_whatsup","audio":"phr_06.mp3","example":"เป็นยังไงบ้าง — How are things going?"},
+    {"id":"phr_07","thai":"เท่าไหร่","phonetic":"thao-rai","english":"How much?","image":"word_howmuch","audio":"phr_07.mp3","example":"ราคาเท่าไหร่ — How much is the price?"},
+    {"id":"phr_08","thai":"ช่วยได้ไหม","phonetic":"chuai-dai-mai","english":"Can you help?","image":"word_helpme","audio":"phr_08.mp3","example":"ช่วยผมได้ไหมครับ — Can you help me?"},
+    {"id":"phr_09","thai":"ไม่เข้าใจ","phonetic":"mai-khao-jai","english":"I don't understand","image":"word_dontget","audio":"phr_09.mp3","example":"พูดช้าๆ ได้ไหม ไม่เข้าใจ — Speak slowly, I don't understand"},
+    {"id":"phr_10","thai":"เข้าใจ","phonetic":"khao-jai","english":"I understand","image":"word_gotit","audio":"phr_10.mp3","example":"โอเค เข้าใจแล้ว — OK, I understand now"}
+  ]
+}

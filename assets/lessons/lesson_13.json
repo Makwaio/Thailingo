@@ -1,0 +1,20 @@
+{
+  "id": 13,
+  "title": "Basic Sentences",
+  "subtitle": "Build your first sentences",
+  "icon": "lesson_sentences",
+  "color": "#2E7D32",
+  "xpReward": 35,
+  "words": [
+    {"id":"sen_01","thai":"ผมอยากได้","phonetic":"phom-yak-dai","english":"I want (male)","image":"word_iwant","audio":"sen_01.mp3","example":"ผมอยากได้กาแฟ — I want a coffee"},
+    {"id":"sen_02","thai":"ไม่อยากได้","phonetic":"mai-yak-dai","english":"I don't want","image":"word_dontwant2","audio":"sen_02.mp3","example":"ผมไม่อยากได้ — I don't want it"},
+    {"id":"sen_03","thai":"ชอบ","phonetic":"chob","english":"Like / Enjoy","image":"word_like","audio":"sen_03.mp3","example":"ผมชอบอาหารไทย — I like Thai food"},
+    {"id":"sen_04","thai":"ไม่ชอบ","phonetic":"mai-chob","english":"Don't like","image":"word_dontlike","audio":"sen_04.mp3","example":"ไม่ชอบกินเผ็ด — Don't like spicy food"},
+    {"id":"sen_05","thai":"มี","phonetic":"mee","english":"Have / There is","image":"word_have","audio":"sen_05.mp3","example":"มีห้องว่างไหม — Is there a room available?"},
+    {"id":"sen_06","thai":"ไม่มี","phonetic":"mai-mee","english":"Don't have / There isn't","image":"word_donthave","audio":"sen_06.mp3","example":"ไม่มีครับ — There isn't any"},
+    {"id":"sen_07","thai":"เข้าใจ","phonetic":"khao-jai","english":"Understand","image":"word_understand2","audio":"sen_07.mp3","example":"เข้าใจแล้ว — I understand now"},
+    {"id":"sen_08","thai":"ไม่เข้าใจ","phonetic":"mai-khao-jai","english":"Don't understand","image":"word_dontget2","audio":"sen_08.mp3","example":"ไม่เข้าใจครับ — I don't understand"},
+    {"id":"sen_09","thai":"พูดภาษาไทยได้นิดหน่อย","phonetic":"phuut-phaa-saa-thai-dai-nit-noi","english":"I speak a little Thai","image":"word_littlethai","audio":"sen_09.mp3","example":"Thais love when you try to speak Thai!"},
+    {"id":"sen_10","thai":"ห้องน้ำอยู่ที่ไหน","phonetic":"hong-naam-yuu-thee-nai","english":"Where is the bathroom?","image":"word_bathroom","audio":"sen_10.mp3","example":"The most essential travel question!"}
+  ]
+}

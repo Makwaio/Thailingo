@@ -1,0 +1,22 @@
+{
+  "id": 15,
+  "title": "Emotions",
+  "subtitle": "Express how you feel",
+  "icon": "lesson_emotions",
+  "color": "#6A1B9A",
+  "xpReward": 40,
+  "words": [
+    {"id":"emo_01","thai":"ดีใจ","phonetic":"dee-jai","english":"Happy / Glad","image":"word_happy","audio":"emo_01.mp3","example":"ดีใจมากเลย — I'm so happy"},
+    {"id":"emo_02","thai":"เศร้า","phonetic":"sao","english":"Sad","image":"word_sad","audio":"emo_02.mp3","example":"เศร้าจัง — So sad"},
+    {"id":"emo_03","thai":"โกรธ","phonetic":"grot","english":"Angry","image":"word_angry","audio":"emo_03.mp3","example":"โกรธมาก — Very angry"},
+    {"id":"emo_04","thai":"เหนื่อย","phonetic":"neuai","english":"Tired","image":"word_tired","audio":"emo_04.mp3","example":"เหนื่อยมากเลย — I'm so tired"},
+    {"id":"emo_05","thai":"หิว","phonetic":"hiw","english":"Hungry","image":"word_hungry","audio":"emo_05.mp3","example":"หิวข้าวแล้ว — I'm hungry (for rice/food)"},
+    {"id":"emo_06","thai":"อิ่ม","phonetic":"im","english":"Full / Satisfied","image":"word_full","audio":"emo_06.mp3","example":"อิ่มมากแล้ว — I'm very full"},
+    {"id":"emo_07","thai":"ร้อน","phonetic":"ron","english":"Hot","image":"word_hot","audio":"emo_07.mp3","example":"ร้อนมากเลย — It's so hot (Bangkok in April!)"},
+    {"id":"emo_08","thai":"หนาว","phonetic":"naao","english":"Cold","image":"word_cold","audio":"emo_08.mp3","example":"หนาวจัง — It's so cold (air-con!)"},
+    {"id":"emo_09","thai":"กลัว","phonetic":"glua","english":"Scared / Afraid","image":"word_scared","audio":"emo_09.mp3","example":"กลัวงู — Afraid of snakes"},
+    {"id":"emo_10","thai":"ตกใจ","phonetic":"tok-jai","english":"Surprised / Startled","image":"word_surprised","audio":"emo_10.mp3","example":"ตกใจมาก — Very surprised"},
+    {"id":"emo_11","thai":"เบื่อ","phonetic":"buea","english":"Bored","image":"word_bored","audio":"emo_11.mp3","example":"เบื่อจัง — So bored"},
+    {"id":"emo_12","thai":"ตื่นเต้น","phonetic":"tuen-ten","english":"Excited","image":"word_excited","audio":"emo_12.mp3","example":"ตื่นเต้นมาก — So excited"}
+  ]
+}

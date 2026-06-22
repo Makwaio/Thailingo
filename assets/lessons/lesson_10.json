@@ -1,0 +1,22 @@
+{
+  "id": 10,
+  "title": "Shopping",
+  "subtitle": "Bargain like a pro",
+  "icon": "lesson_shopping",
+  "color": "#BF360C",
+  "xpReward": 35,
+  "words": [
+    {"id":"shop_01","thai":"เท่าไหร่","phonetic":"thao-rai","english":"How much?","image":"word_howmuch","audio":"shop_01.mp3","example":"ราคาเท่าไหร่ครับ — How much is the price?"},
+    {"id":"shop_02","thai":"แพง","phonetic":"phaeng","english":"Expensive","image":"word_expensive","audio":"shop_02.mp3","example":"แพงมาก — Too expensive"},
+    {"id":"shop_03","thai":"ถูก","phonetic":"thuuk","english":"Cheap","image":"word_cheap","audio":"shop_03.mp3","example":"ถูกมาก — Very cheap"},
+    {"id":"shop_04","thai":"ลดราคา","phonetic":"lot-raa-khaa","english":"Discount / Sale","image":"word_discount","audio":"shop_04.mp3","example":"ลดราคาได้ไหม — Can you give a discount?"},
+    {"id":"shop_05","thai":"ซื้อ","phonetic":"sue","english":"Buy","image":"word_buy","audio":"shop_05.mp3","example":"ผมจะซื้อ — I will buy it"},
+    {"id":"shop_06","thai":"ขาย","phonetic":"khai","english":"Sell","image":"word_sell","audio":"shop_06.mp3","example":"ขายอะไร — What do you sell?"},
+    {"id":"shop_07","thai":"บาท","phonetic":"baat","english":"Thai Baht","image":"word_baht","audio":"shop_07.mp3","example":"ห้าสิบบาท — Fifty baht"},
+    {"id":"shop_08","thai":"ใหญ่","phonetic":"yai","english":"Big / Large","image":"word_big","audio":"shop_08.mp3","example":"ขอไซส์ใหญ่ — Large size please"},
+    {"id":"shop_09","thai":"เล็ก","phonetic":"lek","english":"Small","image":"word_small","audio":"shop_09.mp3","example":"ไซส์เล็กเกินไป — Too small"},
+    {"id":"shop_10","thai":"สวย","phonetic":"suai","english":"Beautiful / Pretty","image":"word_beautiful","audio":"shop_10.mp3","example":"สวยมาก — Very beautiful"},
+    {"id":"shop_11","thai":"ไม่เอา","phonetic":"mai-ao","english":"Don't want it","image":"word_dontwant","audio":"shop_11.mp3","example":"ไม่เอาครับ — No thank you"},
+    {"id":"shop_12","thai":"เอา","phonetic":"ao","english":"Want / Take it","image":"word_want","audio":"shop_12.mp3","example":"เอาครับ — I'll take it"}
+  ]
+}

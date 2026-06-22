@@ -1,0 +1,20 @@
+{
+  "id": 8,
+  "title": "Directions",
+  "subtitle": "Navigate like a local",
+  "icon": "lesson_directions",
+  "color": "#1B5E20",
+  "xpReward": 30,
+  "words": [
+    {"id":"dir_01","thai":"ขวา","phonetic":"khwaa","english":"Right","image":"word_right","audio":"dir_01.mp3","example":"เลี้ยวขวา — Turn right"},
+    {"id":"dir_02","thai":"ซ้าย","phonetic":"saai","english":"Left","image":"word_left","audio":"dir_02.mp3","example":"เลี้ยวซ้าย — Turn left"},
+    {"id":"dir_03","thai":"ตรงไป","phonetic":"trong-bpai","english":"Straight ahead","image":"word_straight","audio":"dir_03.mp3","example":"ตรงไปเลย — Go straight ahead"},
+    {"id":"dir_04","thai":"หยุด","phonetic":"yoot","english":"Stop","image":"word_stop","audio":"dir_04.mp3","example":"หยุดตรงนี้ — Stop here"},
+    {"id":"dir_05","thai":"ใกล้","phonetic":"glai","english":"Near / Close","image":"word_near","audio":"dir_05.mp3","example":"ใกล้แค่นี้เอง — It's this close"},
+    {"id":"dir_06","thai":"ไกล","phonetic":"glai","english":"Far","image":"word_far","audio":"dir_06.mp3","example":"ไกลมาก — Very far"},
+    {"id":"dir_07","thai":"ที่ไหน","phonetic":"tee-nai","english":"Where?","image":"word_where","audio":"dir_07.mp3","example":"ห้องน้ำอยู่ที่ไหน — Where is the bathroom?"},
+    {"id":"dir_08","thai":"แผนที่","phonetic":"phaen-tee","english":"Map","image":"word_map","audio":"dir_08.mp3","example":"ขอดูแผนที่ได้ไหม — Can I see the map?"},
+    {"id":"dir_09","thai":"เลี้ยว","phonetic":"liao","english":"Turn","image":"word_turn","audio":"dir_09.mp3","example":"เลี้ยวที่สี่แยก — Turn at the intersection"},
+    {"id":"dir_10","thai":"ข้าม","phonetic":"khaam","english":"Cross / Over","image":"word_cross","audio":"dir_10.mp3","example":"ข้ามถนน — Cross the road"}
+  ]
+}

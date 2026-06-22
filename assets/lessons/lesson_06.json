@@ -1,0 +1,20 @@
+{
+  "id": 6,
+  "title": "Colors",
+  "subtitle": "The colors of Thailand",
+  "icon": "lesson_colors",
+  "color": "#558B2F",
+  "xpReward": 25,
+  "words": [
+    {"id":"col_01","thai":"แดง","phonetic":"daeng","english":"Red","image":"word_red","audio":"col_01.mp3","example":"เสื้อแดง — Red shirt"},
+    {"id":"col_02","thai":"น้ำเงิน","phonetic":"naam-ngern","english":"Blue","image":"word_blue","audio":"col_02.mp3","example":"รถสีน้ำเงิน — Blue car"},
+    {"id":"col_03","thai":"เขียว","phonetic":"khiao","english":"Green","image":"word_green","audio":"col_03.mp3","example":"ผักสีเขียว — Green vegetables"},
+    {"id":"col_04","thai":"เหลือง","phonetic":"lueang","english":"Yellow","image":"word_yellow","audio":"col_04.mp3","example":"มะม่วงสีเหลือง — Yellow mango"},
+    {"id":"col_05","thai":"ขาว","phonetic":"khao","english":"White","image":"word_white","audio":"col_05.mp3","example":"ข้าวสีขาว — White rice"},
+    {"id":"col_06","thai":"ดำ","phonetic":"dam","english":"Black","image":"word_black","audio":"col_06.mp3","example":"แมวดำ — Black cat"},
+    {"id":"col_07","thai":"ส้ม","phonetic":"som","english":"Orange","image":"word_orange","audio":"col_07.mp3","example":"ส้มสีส้ม — Orange orange (fruit)"},
+    {"id":"col_08","thai":"ม่วง","phonetic":"muang","english":"Purple","image":"word_purple","audio":"col_08.mp3","example":"ดอกไม้สีม่วง — Purple flower"},
+    {"id":"col_09","thai":"ชมพู","phonetic":"chom-puu","english":"Pink","image":"word_pink","audio":"col_09.mp3","example":"เสื้อสีชมพู — Pink shirt"},
+    {"id":"col_10","thai":"น้ำตาล","phonetic":"naam-taan","english":"Brown","image":"word_brown","audio":"col_10.mp3","example":"หมีสีน้ำตาล — Brown bear"}
+  ]
+}

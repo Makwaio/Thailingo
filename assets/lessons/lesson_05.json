@@ -1,0 +1,20 @@
+{
+  "id": 5,
+  "title": "Family",
+  "subtitle": "Talk about your family",
+  "icon": "lesson_family",
+  "color": "#AD1457",
+  "xpReward": 25,
+  "words": [
+    {"id":"fam_01","thai":"พ่อ","phonetic":"por","english":"Father / Dad","image":"word_father","audio":"fam_01.mp3","example":"พ่อผม — My father"},
+    {"id":"fam_02","thai":"แม่","phonetic":"mae","english":"Mother / Mom","image":"word_mother","audio":"fam_02.mp3","example":"แม่ผม — My mother"},
+    {"id":"fam_03","thai":"พี่","phonetic":"pee","english":"Older sibling","image":"word_older","audio":"fam_03.mp3","example":"พี่ชาย — Older brother"},
+    {"id":"fam_04","thai":"น้อง","phonetic":"nong","english":"Younger sibling","image":"word_younger","audio":"fam_04.mp3","example":"น้องสาว — Younger sister"},
+    {"id":"fam_05","thai":"ลูก","phonetic":"luuk","english":"Child / Kid","image":"word_child","audio":"fam_05.mp3","example":"ลูกชาย — Son, ลูกสาว — Daughter"},
+    {"id":"fam_06","thai":"ปู่","phonetic":"bpuu","english":"Grandfather (paternal)","image":"word_grandpa","audio":"fam_06.mp3","example":"ปู่ผม — My grandfather"},
+    {"id":"fam_07","thai":"ย่า","phonetic":"yaa","english":"Grandmother (paternal)","image":"word_grandma","audio":"fam_07.mp3","example":"ย่าผม — My grandmother"},
+    {"id":"fam_08","thai":"สามี","phonetic":"saa-mee","english":"Husband","image":"word_husband","audio":"fam_08.mp3","example":"สามีฉัน — My husband"},
+    {"id":"fam_09","thai":"ภรรยา","phonetic":"pan-ra-yaa","english":"Wife","image":"word_wife","audio":"fam_09.mp3","example":"ภรรยาผม — My wife"},
+    {"id":"fam_10","thai":"เพื่อน","phonetic":"peuan","english":"Friend","image":"word_friend","audio":"fam_10.mp3","example":"เพื่อนสนิท — Close friend"}
+  ]
+}

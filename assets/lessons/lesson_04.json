@@ -1,0 +1,20 @@
+{
+  "id": 4,
+  "title": "Drinks",
+  "subtitle": "Stay hydrated in Bangkok",
+  "icon": "lesson_drinks",
+  "color": "#00838F",
+  "xpReward": 25,
+  "words": [
+    {"id":"drink_01","thai":"น้ำ","phonetic":"naam","english":"Water","image":"word_water","audio":"drink_01.mp3","example":"ขอน้ำครับ — Water please"},
+    {"id":"drink_02","thai":"ชา","phonetic":"chaa","english":"Tea","image":"word_tea","audio":"drink_02.mp3","example":"ชาเย็น — Iced tea"},
+    {"id":"drink_03","thai":"กาแฟ","phonetic":"gaa-fae","english":"Coffee","image":"word_coffee","audio":"drink_03.mp3","example":"กาแฟเย็น — Iced coffee"},
+    {"id":"drink_04","thai":"นมสด","phonetic":"nom-sot","english":"Fresh milk","image":"word_milk","audio":"drink_04.mp3","example":"นมสดเย็น — Cold fresh milk"},
+    {"id":"drink_05","thai":"น้ำส้ม","phonetic":"naam-som","english":"Orange juice","image":"word_orangejuice","audio":"drink_05.mp3","example":"น้ำส้มคั้น — Fresh squeezed OJ"},
+    {"id":"drink_06","thai":"เบียร์","phonetic":"bia","english":"Beer","image":"word_beer","audio":"drink_06.mp3","example":"เบียร์สิงห์ — Singha beer"},
+    {"id":"drink_07","thai":"ร้อน","phonetic":"ron","english":"Hot","image":"word_hot","audio":"drink_07.mp3","example":"ชาร้อน — Hot tea"},
+    {"id":"drink_08","thai":"เย็น","phonetic":"yen","english":"Cold / Iced","image":"word_cold","audio":"drink_08.mp3","example":"กาแฟเย็น — Iced coffee"},
+    {"id":"drink_09","thai":"หวานน้อย","phonetic":"waan-noi","english":"Less sweet","image":"word_lesssweet","audio":"drink_09.mp3","example":"ขอหวานน้อยครับ — Less sweet please"},
+    {"id":"drink_10","thai":"แก้วใหญ่","phonetic":"gaeo-yai","english":"Large cup","image":"word_largecup","audio":"drink_10.mp3","example":"ขอแก้วใหญ่ครับ — Large cup please"}
+  ]
+}

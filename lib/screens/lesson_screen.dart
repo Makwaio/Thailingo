@@ -1,0 +1,443 @@
+import 'package:flutter/material.dart';
+import '../models/lesson.dart';
+import '../models/exercise.dart';
+import '../services/exercise_service.dart';
+import '../services/progress_service.dart';
+import '../services/audio_service.dart';
+import '../ui/theme/app_theme.dart';
+import '../ui/widgets/common_widgets.dart';
+import 'exercise_screens/mc_screen.dart';
+import 'exercise_screens/pairs_screen.dart';
+import 'exercise_screens/listen_screen.dart';
+import 'result_screen.dart';
+import 'game_over_screen.dart';
+import '../services/review_service.dart';
+
+class LessonScreen extends StatefulWidget {
+  final Lesson lesson;
+  const LessonScreen({super.key, required this.lesson});
+
+  @override
+  State<LessonScreen> createState() => _LessonScreenState();
+}
+
+class _LessonScreenState extends State<LessonScreen>
+    with TickerProviderStateMixin {
+  final _exerciseService = ExerciseService();
+  final _progressService = ProgressService();
+
+  late List<dynamic> _queue;
+  int _idx = 0;
+  int _correct = 0;
+  int _totalAnswered = 0;
+  int _xpGained = 0;
+  int _combo = 0;
+  int _peakCombo = 0;
+  int _lives = 3;
+  bool _showFeedback = false;
+  bool _lastCorrect = false;
+  String _correctAnswer = '';
+  String? _hint;
+  bool _showXpPop = false;
+  int _xpPopAmount = 0;
+  final Stopwatch _timer = Stopwatch();
+
+  // Correct-answer particles
+  bool _showSparkles = false;
+  int _sparkleKey = 0;
+
+  // Screen flash
+  bool _showFlash = false;
+  Color _flashColor = AppTheme.success;
+  int _flashKey = 0;
+
+  // Game-over state
+  bool _gameOverTriggered = false;
+  bool _gameOverSequenceRunning = false;
+
+  // Heart animation: which heart index is currently breaking (-1 = none)
+  int _breakingHeartIdx = -1;
+  late AnimationController _heartBreakCtrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _queue = _exerciseService.buildQueue(widget.lesson);
+    _timer.start();
+
+    _heartBreakCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _heartBreakCtrl.addStatusListener((status) {
+      if (status == AnimationStatus.completed && mounted) {
+        setState(() => _breakingHeartIdx = -1);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _heartBreakCtrl.dispose();
+    super.dispose();
+  }
+
+  double get _progress => _queue.isEmpty ? 0 : _idx / _queue.length;
+
+  // ── Answer handling ────────────────────────────────────────────────
+
+  void _onAnswer(bool correct, {String correctAns = '', String? hint}) {
+    if (_showFeedback || _gameOverSequenceRunning) return;
+    setState(() {
+      _totalAnswered++;
+      _showFeedback = true;
+      _lastCorrect = correct;
+      _correctAnswer = correctAns;
+      _hint = hint;
+
+      if (correct) {
+        _correct++;
+        _combo++;
+        if (_combo > _peakCombo) _peakCombo = _combo;
+        final xp = 10 + (_combo >= 3 ? 5 : 0);
+        _xpGained += xp;
+        _xpPopAmount = xp;
+        _showXpPop = true;
+        if (_combo >= 2) AudioService().playCombo();
+
+        // Sparkle burst + green flash
+        _showSparkles = true;
+        _sparkleKey++;
+        _flashColor = AppTheme.success;
+        _showFlash = true;
+        _flashKey++;
+        Future.delayed(const Duration(milliseconds: 700),
+            () { if (mounted) setState(() => _showSparkles = false); });
+      } else {
+        _combo = 0;
+        _lives = (_lives - 1).clamp(0, 3);
+
+        // Add wrong word to review queue
+        final currentQ = _idx < _queue.length ? _queue[_idx] : null;
+        if (currentQ is Exercise) {
+          ReviewService().addToQueue(currentQ.targetWord, widget.lesson.id);
+        }
+
+        AudioService().playWrong();
+
+        // Red flash
+        _flashColor = AppTheme.danger;
+        _showFlash = true;
+        _flashKey++;
+
+        if (_lives > 0) {
+          _breakingHeartIdx = _lives;
+          _heartBreakCtrl.forward(from: 0);
+        } else {
+          _gameOverTriggered = true;
+        }
+      }
+    });
+  }
+
+  void _onContinue() {
+    if (_gameOverTriggered && !_gameOverSequenceRunning) {
+      _triggerGameOver();
+      return;
+    }
+    if (_gameOverSequenceRunning) return;
+    setState(() {
+      _showFeedback = false;
+      _showXpPop = false;
+      _showFlash = false;
+      _idx++;
+    });
+    if (_idx >= _queue.length) _finishLesson();
+  }
+
+  // ── Game Over sequence ─────────────────────────────────────────────
+
+  Future<void> _triggerGameOver() async {
+    if (_gameOverSequenceRunning) return;
+    setState(() {
+      _showFeedback = false;
+      _showXpPop = false;
+      _showFlash = false;
+      _gameOverSequenceRunning = true;
+    });
+
+    await Future.delayed(const Duration(milliseconds: 400));
+    if (!mounted) return;
+    setState(() => _breakingHeartIdx = 0);
+    _heartBreakCtrl.forward(from: 0);
+
+    await AudioService().playGameOver();
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => GameOverScreen(
+          lesson: widget.lesson,
+          questionsAnswered: _totalAnswered,
+        ),
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
+
+  // ── Lesson complete ────────────────────────────────────────────────
+
+  Future<void> _finishLesson() async {
+    _timer.stop();
+    final score = _totalAnswered > 0
+        ? (_correct / _totalAnswered * 100).round()
+        : 0;
+    AudioService().playComplete();
+
+    final levelBefore = _progressService.current.level;
+    await _progressService.addXp(_xpGained + widget.lesson.xpReward);
+    await _progressService.completeLesson(
+      lessonId: widget.lesson.id,
+      score: _correct,
+      maxScore: _totalAnswered,
+      peakCombo: _peakCombo,
+      wordCount: widget.lesson.words.length,
+      timeTaken: _timer.elapsed,
+    );
+    final levelAfter = _progressService.current.level;
+
+    if (!mounted) return;
+
+    // Level-up overlay before navigating to result
+    if (levelAfter > levelBefore) {
+      await showLevelUpOverlay(context, levelAfter);
+      if (!mounted) return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => ResultScreen(
+          lesson: widget.lesson,
+          correct: _correct,
+          total: _totalAnswered,
+          xpGained: _xpGained + widget.lesson.xpReward,
+          timeTaken: _timer.elapsed,
+          score: score,
+        ),
+        transitionsBuilder: (_, anim, __, child) =>
+            FadeTransition(opacity: anim, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
+      ),
+    );
+  }
+
+  // ── Build ─────────────────────────────────────────────────────────
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                _buildTopBar(),
+                Expanded(child: _buildContent()),
+                if (_showFeedback)
+                  FeedbackBar(
+                    isCorrect: _lastCorrect,
+                    correctAnswer: _correctAnswer,
+                    hint: _hint,
+                    onContinue: _onContinue,
+                  ),
+              ],
+            ),
+            // Screen flash overlay
+            if (_showFlash)
+              Positioned.fill(
+                child: ScreenFlash(key: ValueKey(_flashKey), color: _flashColor),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: _gameOverSequenceRunning ? null : _confirmExit,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                border: Border.all(color: AppTheme.border),
+              ),
+              child: const Icon(Icons.close_rounded,
+                  color: AppTheme.textSecondary, size: 20),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+              child: LinearProgressIndicator(
+                value: _progress,
+                minHeight: 14,
+                backgroundColor: AppTheme.border,
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(AppTheme.success),
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Row(
+            children: List.generate(3, (i) => _buildHeart(i)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeart(int i) {
+    final alive = i < _lives;
+    final isBreaking = i == _breakingHeartIdx;
+
+    if (isBreaking) {
+      return AnimatedBuilder(
+        animation: _heartBreakCtrl,
+        builder: (_, __) {
+          final t = _heartBreakCtrl.value;
+          double scale;
+          if (t < 0.25) {
+            scale = 1.0 + (t / 0.25) * 0.6;
+          } else {
+            scale = 1.6 * (1.0 - (t - 0.25) / 0.75);
+          }
+          return Padding(
+            padding: const EdgeInsets.only(left: 2),
+            child: Transform.scale(
+              scale: scale.clamp(0.0, 2.0),
+              child: const Text('❤️', style: TextStyle(fontSize: 16)),
+            ),
+          );
+        },
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 2),
+      child: Text(alive ? '❤️' : '🖤', style: const TextStyle(fontSize: 16)),
+    );
+  }
+
+  Widget _buildContent() {
+    if (_idx >= _queue.length) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final q = _queue[_idx];
+    Widget exercise;
+
+    if (q is MatchPairExercise) {
+      exercise = PairsScreen(
+        exercise: q,
+        onComplete: (correct) =>
+            _onAnswer(correct, correctAns: 'Match all pairs'),
+        answered: _showFeedback,
+      );
+    } else if (q is Exercise) {
+      switch (q.type) {
+        case ExerciseType.listenAndChoose:
+          exercise = ListenScreen(
+            exercise: q,
+            onAnswer: (correct) => _onAnswer(correct,
+                correctAns: q.targetWord.english,
+                hint: q.targetWord.example.isNotEmpty
+                    ? q.targetWord.example
+                    : null),
+            answered: _showFeedback,
+            lastCorrect: _lastCorrect,
+          );
+          break;
+        default:
+          exercise = McScreen(
+            exercise: q,
+            onAnswer: (correct) => _onAnswer(correct,
+                correctAns: q.type == ExerciseType.multipleChoiceTh
+                    ? '${q.targetWord.thai} (${q.targetWord.phonetic})'
+                    : q.targetWord.english,
+                hint: q.targetWord.example.isNotEmpty
+                    ? q.targetWord.example
+                    : null),
+            answered: _showFeedback,
+            lastCorrect: _lastCorrect,
+          );
+      }
+    } else {
+      exercise = const SizedBox.shrink();
+    }
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            if (_combo >= 2)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ComboBanner(combo: _combo, key: ValueKey(_combo)),
+              ),
+            Expanded(child: exercise),
+          ],
+        ),
+        if (_showXpPop)
+          Positioned(
+            bottom: 120,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: XpPopWidget(
+                amount: _xpPopAmount,
+                onDone: () => setState(() => _showXpPop = false),
+              ),
+            ),
+          ),
+        // Sparkle particles on correct answer
+        if (_showSparkles)
+          Positioned.fill(
+            child: SparkleParticles(key: ValueKey(_sparkleKey)),
+          ),
+      ],
+    );
+  }
+
+  Future<void> _confirmExit() async {
+    AudioService().playClick();
+    final exit = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Leave lesson?'),
+        content: const Text('Your progress will be lost.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Keep going')),
+          TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Leave',
+                  style: TextStyle(color: AppTheme.danger))),
+        ],
+      ),
+    );
+    if (exit == true && mounted) Navigator.pop(context);
+  }
+}

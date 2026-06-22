@@ -1,0 +1,20 @@
+{
+  "id": 12,
+  "title": "At the Market",
+  "subtitle": "Shop smart in Bangkok",
+  "icon": "lesson_market",
+  "color": "#BF360C",
+  "xpReward": 35,
+  "words": [
+    {"id":"mkt_01","thai":"ต่อรองได้ไหม","phonetic":"tor-rong-dai-mai","english":"Can we bargain?","image":"word_bargain","audio":"mkt_01.mp3","example":"At markets you can almost always negotiate"},
+    {"id":"mkt_02","thai":"ราคา","phonetic":"raa-khaa","english":"Price","image":"word_price","audio":"mkt_02.mp3","example":"ราคานี้เท่าไหร่ — What is this price?"},
+    {"id":"mkt_03","thai":"แพงเกินไป","phonetic":"phaeng-goen-pai","english":"Too expensive","image":"word_tooexp","audio":"mkt_03.mp3","example":"แพงเกินไปครับ — That's too expensive"},
+    {"id":"mkt_04","thai":"ลดได้ไหม","phonetic":"lot-dai-mai","english":"Can you discount?","image":"word_discount2","audio":"mkt_04.mp3","example":"ลดได้ไหมครับ — Can you give me a discount?"},
+    {"id":"mkt_05","thai":"เอาแล้ว","phonetic":"ao-laeo","english":"I'll take it","image":"word_takeit","audio":"mkt_05.mp3","example":"โอเค เอาแล้ว — OK, I'll take it"},
+    {"id":"mkt_06","thai":"กี่อัน","phonetic":"gee-an","english":"How many pieces?","image":"word_howmany","audio":"mkt_06.mp3","example":"ซื้อกี่อัน — How many are you buying?"},
+    {"id":"mkt_07","thai":"ขอ","phonetic":"khor","english":"Give me / I'd like","image":"word_gimme","audio":"mkt_07.mp3","example":"ขออันนั้นด้วย — Give me that one too"},
+    {"id":"mkt_08","thai":"ห่อด้วย","phonetic":"hor-duai","english":"Wrap it up","image":"word_wrap","audio":"mkt_08.mp3","example":"ห่อด้วยนะครับ — Please wrap it"},
+    {"id":"mkt_09","thai":"ถุง","phonetic":"tung","english":"Bag","image":"word_bag","audio":"mkt_09.mp3","example":"ขอถุงด้วย — Can I have a bag?"},
+    {"id":"mkt_10","thai":"ใบเสร็จ","phonetic":"bai-set","english":"Receipt","image":"word_receipt","audio":"mkt_10.mp3","example":"ขอใบเสร็จด้วยครับ — May I have the receipt?"}
+  ]
+}
