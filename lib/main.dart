@@ -11,6 +11,8 @@ import 'services/settings_service.dart';
 import 'services/firebase_service.dart';
 import 'services/user_service.dart';
 import 'services/progress_service.dart';
+import 'services/bug_report_service.dart';
+import 'services/patch_notes_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +20,8 @@ Future<void> main() async {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   }
   await SettingsService().load();
+  BugReportService().retryPendingReports();
+  PatchNotesService().seedInitialPatchNotes();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -163,7 +167,7 @@ class _SplashScreenState extends State<SplashScreen>
                               color: AppTheme.thaiGold, width: 3),
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.thaiNavy.withOpacity(0.5),
+                              color: AppTheme.thaiNavy.withValues(alpha: 0.5),
                               blurRadius: 24,
                               offset: const Offset(0, 8),
                             ),
@@ -194,7 +198,7 @@ class _SplashScreenState extends State<SplashScreen>
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                              AppTheme.thaiNavy.withOpacity(0.6)),
+                              AppTheme.thaiNavy.withValues(alpha: 0.6)),
                         ),
                       ),
                     ],

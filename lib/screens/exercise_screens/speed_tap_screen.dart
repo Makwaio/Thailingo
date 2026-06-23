@@ -109,9 +109,13 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
       _selectedId = wordId;
       if (correct) {
         final ratio = 1.0 - (timeUsed / _totalSeconds);
-        if (ratio > 0.8) _flashLabel = '⚡ LIGHTNING!';
-        else if (ratio > 0.6) _flashLabel = '🔥 FAST!';
-        else if (ratio > 0.4) _flashLabel = '🌟 NICE!';
+        if (ratio > 0.8) {
+          _flashLabel = '⚡ LIGHTNING!';
+        } else if (ratio > 0.6) {
+          _flashLabel = '🔥 FAST!';
+        } else if (ratio > 0.4) {
+          _flashLabel = '🌟 NICE!';
+        }
       }
     });
 
@@ -174,7 +178,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
               borderRadius: BorderRadius.circular(AppTheme.radiusXl),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.thaiNavy.withOpacity(0.4),
+                  color: AppTheme.thaiNavy.withValues(alpha: 0.4),
                   blurRadius: 16,
                   offset: const Offset(0, 6),
                 ),
@@ -206,7 +210,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                   target.phonetic,
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
               ],
@@ -261,10 +265,10 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                   bg = Colors.white;
                   border = AppTheme.border;
                 } else if (isTarget) {
-                  bg = AppTheme.success.withOpacity(0.1);
+                  bg = AppTheme.success.withValues(alpha: 0.1);
                   border = AppTheme.success;
                 } else if (opt.id == _selectedId) {
-                  bg = AppTheme.thaiRed.withOpacity(0.1);
+                  bg = AppTheme.thaiRed.withValues(alpha: 0.1);
                   border = AppTheme.thaiRed;
                 } else {
                   bg = Colors.white;

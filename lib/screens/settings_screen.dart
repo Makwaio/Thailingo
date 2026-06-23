@@ -5,6 +5,9 @@ import '../services/progress_service.dart';
 import '../services/review_service.dart';
 import '../services/lesson_service.dart';
 import '../ui/theme/app_theme.dart';
+import 'bug_report_dialog.dart';
+import 'bug_reports_screen.dart';
+import 'whats_new_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -59,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             20, 20, 20, MediaQuery.of(context).padding.bottom + 32),
         children: [
           // ── Audio ──────────────────────────────────────────────
-          _SectionHeader('Audio'),
+          const _SectionHeader('Audio'),
           _SettingsCard(
             children: [
               _ToggleTile(
@@ -88,7 +91,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Game Types ─────────────────────────────────────────
-          _SectionHeader('Game Types 🎮'),
+          const _SectionHeader('Game Types 🎮'),
           _SettingsCard(
             children: [
               _ToggleTile(
@@ -150,8 +153,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Language ───────────────────────────────────────────
-          _SectionHeader('Language'),
-          _SettingsCard(
+          const _SectionHeader('Language'),
+          const _SettingsCard(
             children: [
               _InfoTile(
                 icon: Icons.language_rounded,
@@ -164,9 +167,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Account ────────────────────────────────────────────
-          _SectionHeader('Account'),
+          const _SectionHeader('Account'),
           _SettingsCard(
             children: [
+              _ActionTile(
+                icon: Icons.new_releases_rounded,
+                label: "What's New 📋",
+                color: AppTheme.textPrimary,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const WhatsNewScreen()),
+                ),
+              ),
+              const _Divider(),
+              _ActionTile(
+                icon: Icons.bug_report_rounded,
+                label: 'Report a Bug 🐛',
+                color: AppTheme.textPrimary,
+                onTap: () => showBugReportDialog(context, screen: 'Settings'),
+              ),
+              const _Divider(),
               _ActionTile(
                 icon: Icons.refresh_rounded,
                 label: 'Reset Progress',
@@ -184,7 +204,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               'Thailingo  v1.0.0',
               style: TextStyle(
                   fontSize: 13,
-                  color: AppTheme.textSecondary.withOpacity(0.7)),
+                  color: AppTheme.textSecondary.withValues(alpha: 0.7)),
             ),
           ),
 
@@ -217,7 +237,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const Spacer(),
                     Switch(
                       value: _dev,
-                      activeColor: const Color(0xFF58A6FF),
+                      activeThumbColor: const Color(0xFF58A6FF),
                       onChanged: (v) async {
                         await _settings.setDevMode(v);
                         setState(() {});
@@ -240,6 +260,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _DevButton(
                     label: '🗑️ Clear Review Queue',
                     onTap: _clearReviewQueue,
+                  ),
+                  const SizedBox(height: 8),
+                  _DevButton(
+                    label: '🐛 View Bug Reports',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const BugReportsScreen()),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _DevButton(
+                    label: '📋 Add Patch Note',
+                    onTap: () => showAddPatchNoteDialog(context),
                   ),
                 ],
               ],
@@ -302,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await ProgressService().unlockAllLessons(LessonService.totalLessons);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked with 3 stars!')),
+        const SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked with 3 stars!')),
       );
     }
   }
@@ -397,7 +431,7 @@ class _ToggleTile extends StatelessWidget {
           ),
           Switch(
             value: value,
-            activeColor: AppTheme.primary,
+            activeThumbColor: AppTheme.primary,
             onChanged: onChanged,
           ),
         ],
@@ -470,7 +504,7 @@ class _ActionTile extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: color)),
             const Spacer(),
-            Icon(Icons.chevron_right_rounded, color: color.withOpacity(0.6)),
+            Icon(Icons.chevron_right_rounded, color: color.withValues(alpha: 0.6)),
           ],
         ),
       ),

@@ -12,12 +12,12 @@ class _PairCard {
   final Word word;
   final _CardSide side;
   _CardState state;
-  _PairCard(this.word, this.side, {this.state = _CardState.idle});
+  _PairCard(this.word, this.side) : state = _CardState.idle;
 }
 
 class PairsScreen extends StatefulWidget {
   final MatchPairExercise exercise;
-  final void Function(bool) onComplete;
+  final void Function(int correct, int total) onComplete;
   final bool answered;
 
   const PairsScreen({
@@ -161,7 +161,7 @@ class _PairsScreenState extends State<PairsScreen> {
                   style: TextStyle(
                       fontSize: 12,
                       fontStyle: FontStyle.italic,
-                      color: textColor.withOpacity(0.7))),
+                      color: textColor.withValues(alpha: 0.7))),
           ],
         ),
       ),
@@ -209,8 +209,10 @@ class _PairsScreenState extends State<PairsScreen> {
       });
       if (_matched == widget.exercise.pairs.length) {
         setState(() => _completed = true);
+        final total = widget.exercise.pairs.length;
+        final correct = (total - _mistakes).clamp(0, total);
         Future.delayed(const Duration(milliseconds: 600), () {
-          widget.onComplete(_mistakes == 0);
+          widget.onComplete(correct, total);
         });
       }
     } else {

@@ -25,17 +25,14 @@ class UserProgress {
 
   bool isLessonUnlocked(int lessonId) {
     if (lessonId == 1) return true;
-    // Lesson 23 (first Stage 2 lesson) requires ALL Stage 1 lessons complete
-    if (lessonId == 23) {
-      return List.generate(22, (i) => i + 1)
-          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
-    }
-    // Alphabet lessons (101-105) unlock sequentially, no 3-star requirement
+    // Stage 2 unlocks when all Stage 1 lessons have at least 1 star
+    if (lessonId == 23) return allStage1Complete;
+    // Alphabet lessons (101-105) unlock sequentially, no star requirement
     if (lessonId >= 101 && lessonId <= 105) {
       if (lessonId == 101) return true;
       return lessonProgress[lessonId - 1]?.completed ?? false;
     }
-    return (lessonProgress[lessonId - 1]?.stars ?? 0) >= 3;
+    return (lessonProgress[lessonId - 1]?.stars ?? 0) >= 1;
   }
 
   bool isLessonCompleted(int lessonId) =>
@@ -43,11 +40,21 @@ class UserProgress {
 
   int lessonStars(int lessonId) => lessonProgress[lessonId]?.stars ?? 0;
 
+  // Stage complete = all lessons have at least 1 star (used for unlock gates)
   bool get allStage1Complete =>
+      List.generate(22, (i) => i + 1)
+          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+
+  bool get allStage2Complete =>
+      List.generate(15, (i) => i + 23)
+          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+
+  // Mastered = all lessons have 3 stars (used for achievement checks)
+  bool get allStage1Mastered =>
       List.generate(22, (i) => i + 1)
           .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
 
-  bool get allStage2Complete =>
+  bool get allStage2Mastered =>
       List.generate(15, (i) => i + 23)
           .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
 
@@ -90,6 +97,7 @@ class LessonProgress {
   int bestScore;
   int bestAccuracy;
   int timesPlayed;
+  int timesCompleted;
   int bestTimeSeconds;
   String? lastPlayedDate;
 
@@ -99,19 +107,28 @@ class LessonProgress {
     this.bestScore = 0,
     this.bestAccuracy = 0,
     this.timesPlayed = 0,
+    this.timesCompleted = 0,
     this.bestTimeSeconds = 0,
     this.lastPlayedDate,
   });
 
-  factory LessonProgress.fromJson(Map<String, dynamic> json) => LessonProgress(
-        completed: json['completed'] as bool? ?? false,
-        stars: json['stars'] as int? ?? 0,
-        bestScore: json['bestScore'] as int? ?? 0,
-        bestAccuracy: json['bestAccuracy'] as int? ?? 0,
-        timesPlayed: json['timesPlayed'] as int? ?? 0,
-        bestTimeSeconds: json['bestTimeSeconds'] as int? ?? 0,
-        lastPlayedDate: json['lastPlayedDate'] as String?,
-      );
+  factory LessonProgress.fromJson(Map<String, dynamic> json) {
+    final completed = json['completed'] as bool? ?? false;
+    final stars = json['stars'] as int? ?? 0;
+    // Migrate: if timesCompleted not yet persisted, infer from stored stars
+    final timesCompleted = (json['timesCompleted'] as int?) ??
+        (completed ? stars.clamp(1, 3) : 0);
+    return LessonProgress(
+      completed: completed,
+      stars: stars,
+      bestScore: json['bestScore'] as int? ?? 0,
+      bestAccuracy: json['bestAccuracy'] as int? ?? 0,
+      timesPlayed: json['timesPlayed'] as int? ?? 0,
+      timesCompleted: timesCompleted,
+      bestTimeSeconds: json['bestTimeSeconds'] as int? ?? 0,
+      lastPlayedDate: json['lastPlayedDate'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'completed': completed,
@@ -119,6 +136,7 @@ class LessonProgress {
         'bestScore': bestScore,
         'bestAccuracy': bestAccuracy,
         'timesPlayed': timesPlayed,
+        'timesCompleted': timesCompleted,
         'bestTimeSeconds': bestTimeSeconds,
         'lastPlayedDate': lastPlayedDate,
       };
@@ -179,9 +197,9 @@ bool isAchievementUnlocked(
     case 'diamond':
       return p.totalXp >= 2000;
     case 'stage1_master':
-      return p.allStage1Complete;
+      return p.allStage1Mastered;
     case 'stage2_master':
-      return p.allStage2Complete;
+      return p.allStage2Mastered;
     default:
       return false;
   }

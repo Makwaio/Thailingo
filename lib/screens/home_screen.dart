@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/lesson.dart';
 import '../models/user_progress.dart';
 import '../services/lesson_service.dart';
@@ -11,6 +12,7 @@ import '../services/user_service.dart';
 import '../ui/theme/app_theme.dart';
 import '../ui/widgets/common_widgets.dart';
 import '../ui/widgets/thai_mascot.dart';
+import '../services/patch_notes_service.dart';
 import 'lesson_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
@@ -19,6 +21,7 @@ import 'guide_book_screen.dart';
 import 'stage0_screen.dart';
 import 'leaderboard_screen.dart';
 import 'profile_screen.dart';
+import 'whats_new_screen.dart';
 
 // ── Row groupings ──────────────────────────────────────────────────────
 class _RowConfig {
@@ -95,17 +98,31 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   String _avatarEmoji = '';
   bool _isSignedIn = false;
 
+  int? _weeklyRank;
+  int? _weeklyXp;
+  bool _weeklyBannerVisible = false;
+  Timer? _weeklyBannerTimer;
+  static const _weeklyRankPrefKey = 'weekly_rank_last';
+
+  bool _whatsNewChecked = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _load();
+    _load().then((_) {
+      if (!_whatsNewChecked) {
+        _whatsNewChecked = true;
+        _checkForWhatsNew();
+      }
+    });
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _bannerTimer?.cancel();
+    _weeklyBannerTimer?.cancel();
     _scrollCtrl.dispose();
     super.dispose();
   }
@@ -138,18 +155,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       status = _StreakStatus.none;
     }
 
-    // Load Firebase avatar if signed in
+    // Load Firebase profile + weekly rank if signed in
     final firebaseService = FirebaseService();
     String avatarEmoji = '';
     bool isSignedIn = firebaseService.isSignedIn();
+    int? weeklyRank;
+    int? weeklyXp;
+    bool showWeeklyBanner = false;
+
     if (isSignedIn) {
       final uid = firebaseService.getUserId()!;
       final profile = await UserService().getUserProfile(uid);
       avatarEmoji = profile?['avatarEmoji'] as String? ?? '';
+
+      final rankInfo = await UserService().getWeeklyRankInfo(uid);
+      if (rankInfo != null) {
+        final rank = rankInfo['rank']!;
+        final xp = rankInfo['weeklyXp']!;
+        final prefs = await SharedPreferences.getInstance();
+        final lastRank = prefs.getInt(_weeklyRankPrefKey) ?? 9999;
+        if (rank < lastRank) {
+          weeklyRank = rank;
+          weeklyXp = xp;
+          showWeeklyBanner = true;
+          await prefs.setInt(_weeklyRankPrefKey, rank);
+        }
+      }
     }
 
     if (mounted) {
       _bannerTimer?.cancel();
+      _weeklyBannerTimer?.cancel();
       setState(() {
         _lessons = lessons;
         _progress = progress;
@@ -159,12 +195,36 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _bannerVisible = status != _StreakStatus.none;
         _avatarEmoji = avatarEmoji;
         _isSignedIn = isSignedIn;
+        if (weeklyRank != null) {
+          _weeklyRank = weeklyRank;
+          _weeklyXp = weeklyXp;
+          _weeklyBannerVisible = showWeeklyBanner;
+        }
       });
       if (status == _StreakStatus.playedToday) {
         _bannerTimer = Timer(const Duration(seconds: 3),
             () { if (mounted) setState(() => _bannerVisible = false); });
       }
+      if (showWeeklyBanner) {
+        _weeklyBannerTimer = Timer(const Duration(seconds: 6),
+            () { if (mounted) setState(() => _weeklyBannerVisible = false); });
+      }
     }
+  }
+
+  Future<void> _checkForWhatsNew() async {
+    if (!mounted) return;
+    final hasUnread = await PatchNotesService().hasUnreadNotes();
+    if (!mounted || !hasUnread) return;
+    final unread = await PatchNotesService().getUnreadNotes();
+    if (!mounted || unread.isEmpty) return;
+    await PatchNotesService()
+        .markAllAsRead(unread.map((n) => n.version).toList());
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      builder: (_) => WhatsNewDialog(notes: unread),
+    );
   }
 
   void _scrollToLessons() {
@@ -193,6 +253,19 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 streak: _progress.streak,
                 onStartLearning: _scrollToLessons,
                 onDismiss: () => setState(() => _bannerVisible = false),
+              ),
+            ),
+          if (_weeklyBannerVisible && _weeklyRank != null)
+            SliverToBoxAdapter(
+              child: _WeeklyRankBanner(
+                rank: _weeklyRank!,
+                weeklyXp: _weeklyXp ?? 0,
+                onViewLeaderboard: () {
+                  setState(() => _weeklyBannerVisible = false);
+                  _weeklyBannerTimer?.cancel();
+                  _openLeaderboard();
+                },
+                onDismiss: () => setState(() => _weeklyBannerVisible = false),
               ),
             ),
           SliverPadding(
@@ -228,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     ));
 
     // Gradient divider s1 → s2
-    items.add(_GradientDivider(from: _s1Bg, to: _s2Bg));
+    items.add(const _GradientDivider(from: _s1Bg, to: _s2Bg));
 
     // ── Stage 2 section ──
     final stage2Unlocked = _progress.allStage1Complete;
@@ -239,14 +312,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       title: 'Survival Thai 🏙️',
       subtitle: stage2Unlocked
           ? '15 lessons · Real-world Thai'
-          : 'Complete all Stage 1 with ⭐⭐⭐ to unlock',
+          : 'Complete all Stage 1 lessons to unlock',
       locked: !stage2Unlocked,
       allComplete: _progress.allStage2Complete,
       rows: stage2Unlocked ? _stage2Rows : const [],
     ));
 
     // Gradient divider s2 → s3
-    items.add(_GradientDivider(from: _s2Bg, to: _s3Bg));
+    items.add(const _GradientDivider(from: _s2Bg, to: _s3Bg));
 
     // ── Stage 3 placeholder ──
     items.add(_Stage3Placeholder());
@@ -1011,7 +1084,7 @@ class _HexBubbleState extends State<_HexBubble>
                         : AppTheme.textSecondary),
               ),
             ),
-            if (widget.completed) ...[
+            if (widget.unlocked) ...[
               const SizedBox(height: 2),
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -1022,7 +1095,7 @@ class _HexBubbleState extends State<_HexBubble>
                           fontSize: 9,
                           color: i < widget.stars
                               ? null
-                              : Colors.grey.withValues(alpha: 0.3))),
+                              : Colors.grey.withValues(alpha: 0.25))),
                 ),
               ),
             ],
@@ -1233,7 +1306,7 @@ class _Stage3Placeholder extends StatelessWidget {
                   color: _s3Accent.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('3',
                       style: TextStyle(
                           fontSize: 18,
@@ -1246,7 +1319,7 @@ class _Stage3Placeholder extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('STAGE 3',
+                    const Text('STAGE 3',
                         style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
@@ -1268,7 +1341,7 @@ class _Stage3Placeholder extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          Text(
+          const Text(
             'Advanced conversations, Thai script reading, proverbs, tone mastery and more!',
             style: TextStyle(
                 fontSize: 12,
@@ -1366,6 +1439,103 @@ class _StreakBanner extends StatelessWidget {
               child: Icon(Icons.close_rounded, color: border, size: 18),
             ),
           ],
+        ],
+      ),
+    )
+        .animate()
+        .fadeIn(duration: 350.ms)
+        .slideY(begin: -0.3, duration: 350.ms, curve: Curves.easeOut);
+  }
+}
+
+// ── Weekly Rank Banner ─────────────────────────────────────────────────
+class _WeeklyRankBanner extends StatelessWidget {
+  final int rank;
+  final int weeklyXp;
+  final VoidCallback onViewLeaderboard;
+  final VoidCallback onDismiss;
+
+  const _WeeklyRankBanner({
+    required this.rank,
+    required this.weeklyXp,
+    required this.onViewLeaderboard,
+    required this.onDismiss,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    String emoji;
+    String headline;
+
+    if (rank == 1) {
+      emoji = '🥇';
+      headline = 'You\'re #1 on the weekly leaderboard!';
+    } else if (rank <= 3) {
+      emoji = '🏆';
+      headline = 'You\'re #$rank on the weekly leaderboard!';
+    } else if (rank <= 10) {
+      emoji = '🔥';
+      headline = 'Top 10 this week — you\'re #$rank!';
+    } else {
+      emoji = '📈';
+      headline = 'You climbed to #$rank this week!';
+    }
+
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E1),
+        borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        border: Border.all(color: const Color(0xFFFFB300), width: 1.5),
+      ),
+      child: Row(
+        children: [
+          Text(emoji, style: const TextStyle(fontSize: 22)),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  headline,
+                  style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textPrimary),
+                ),
+                Text(
+                  '$weeklyXp XP earned this week',
+                  style: const TextStyle(
+                      fontSize: 11, color: AppTheme.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: onViewLeaderboard,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFB300),
+                borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+              ),
+              child: const Text(
+                'View',
+                style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white),
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: onDismiss,
+            child: const Icon(Icons.close_rounded,
+                size: 16, color: AppTheme.textSecondary),
+          ),
         ],
       ),
     )

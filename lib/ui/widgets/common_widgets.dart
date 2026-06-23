@@ -82,9 +82,9 @@ class StatPill extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -268,17 +268,17 @@ class _ChoiceCardState extends State<ChoiceCard>
                       Text(widget.sublabel!,
                           style: TextStyle(
                               fontSize: 13,
-                              color: textColor.withOpacity(0.7))),
+                              color: textColor.withValues(alpha: 0.7))),
                     ],
                   ],
                 ),
               ),
               if (widget.state == ChoiceState.correct ||
                   widget.state == ChoiceState.revealed)
-                Icon(Icons.check_circle_rounded,
+                const Icon(Icons.check_circle_rounded,
                     color: AppTheme.success, size: 22),
               if (widget.state == ChoiceState.wrong)
-                Icon(Icons.cancel_rounded, color: AppTheme.danger, size: 22),
+                const Icon(Icons.cancel_rounded, color: AppTheme.danger, size: 22),
             ],
           ),
         ),
@@ -422,7 +422,7 @@ class ScreenFlash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: Container(color: color.withOpacity(0.18))
+      child: Container(color: color.withValues(alpha: 0.18))
           .animate()
           .fadeIn(duration: 60.ms)
           .then()
@@ -475,7 +475,7 @@ Future<void> showLevelUpOverlay(BuildContext context, int level) async {
     context: context,
     barrierDismissible: true,
     barrierLabel: 'dismiss',
-    barrierColor: Colors.black.withOpacity(0.75),
+    barrierColor: Colors.black.withValues(alpha: 0.75),
     transitionDuration: const Duration(milliseconds: 300),
     pageBuilder: (ctx, _, __) => GestureDetector(
       onTap: () => Navigator.pop(ctx),
@@ -529,7 +529,7 @@ class _LevelUpContent extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: List.generate(5, (i) {
-                return Text('✨', style: const TextStyle(fontSize: 28))
+                return const Text('✨', style: TextStyle(fontSize: 28))
                     .animate(delay: (600 + i * 80).ms)
                     .scale(
                         begin: const Offset(0, 0),
@@ -540,7 +540,7 @@ class _LevelUpContent extends StatelessWidget {
             const SizedBox(height: 32),
             Text(
               'Tap to continue',
-              style: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.5)),
+              style: TextStyle(fontSize: 14, color: Colors.white.withValues(alpha: 0.5)),
             ).animate(delay: 1200.ms).fadeIn(),
           ],
         ),
@@ -600,7 +600,7 @@ class FeedbackBar extends StatelessWidget {
                       Text('Answer: $correctAnswer',
                           style: TextStyle(
                               fontSize: 14,
-                              color: titleColor.withOpacity(0.8))),
+                              color: titleColor.withValues(alpha: 0.8))),
                     if (hint != null)
                       Text(hint!,
                           style: const TextStyle(

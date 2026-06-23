@@ -69,6 +69,19 @@ class AudioService {
     await _playWordAudio(audioFile, thaiText: thaiText);
   }
 
+  /// Plays Thai text via Google TTS directly — always uses the provided text,
+  /// never falls back to a local asset. Use for conversation lines where each
+  /// line has unique Thai text.
+  Future<void> playThai(String thaiText) async {
+    if (!_soundEnabled || thaiText.isEmpty || kIsWeb) return;
+    try {
+      final url = 'https://translate.google.com/translate_tts'
+          '?ie=UTF-8&q=${Uri.encodeComponent(thaiText)}&tl=th&client=tw-ob';
+      await _wordPlayer.setUrl(url);
+      _wordPlayer.play();
+    } catch (_) {}
+  }
+
   Future<void> _playWordAudio(String audioFile, {String? thaiText}) async {
     try {
       await _wordPlayer.setAsset('assets/audio/$audioFile');

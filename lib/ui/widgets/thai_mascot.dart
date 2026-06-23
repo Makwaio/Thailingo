@@ -106,7 +106,7 @@ class _MascotPainter extends CustomPainter {
     _drawMouth(canvas, Offset(w * 0.5, h * 0.34), w * 0.14, mood);
 
     // Cheek blush
-    final blushPaint = Paint()..color = const Color(0xFFE8756A).withOpacity(0.4);
+    final blushPaint = Paint()..color = const Color(0xFFE8756A).withValues(alpha: 0.4);
     canvas.drawOval(
         Rect.fromLTWH(w * 0.18, h * 0.28, w * 0.14, h * 0.07), blushPaint);
     canvas.drawOval(

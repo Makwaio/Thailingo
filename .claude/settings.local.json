@@ -12,7 +12,10 @@
       "Bash(grep \"\\\\.mp3$\")",
       "Bash(python -c \"import gtts; print\\('gtts ok'\\)\")",
       "Bash(pip install *)",
-      "Bash(python generate_stage2_audio.py)"
+      "Bash(python generate_stage2_audio.py)",
+      "Bash(dart analyze *)",
+      "Bash(dart fix *)",
+      "Bash(shorebird patch *)"
     ]
   }
 }

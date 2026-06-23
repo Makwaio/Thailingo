@@ -42,6 +42,12 @@ class ProgressService {
     await save();
   }
 
+  static int _computeStars(int timesCompleted, int bestAccuracy) {
+    if (timesCompleted >= 3 || bestAccuracy >= 100) return 3;
+    if (timesCompleted >= 2 || bestAccuracy >= 80) return 2;
+    return 1;
+  }
+
   Future<void> completeLesson({
     required int lessonId,
     required int score,
@@ -53,9 +59,13 @@ class ProgressService {
     final p = await load();
     final pct = maxScore > 0 ? score / maxScore : 0.0;
     final accuracyPct = (pct * 100).round();
-    final stars = pct >= 0.9 ? 3 : pct >= 0.7 ? 2 : 1;
     final existing = p.lessonProgress[lessonId];
     final today = DateTime.now().toIso8601String().substring(0, 10);
+
+    final timesCompleted = (existing?.timesCompleted ?? 0) + 1;
+    final bestAccuracy = max(existing?.bestAccuracy ?? 0, accuracyPct);
+    final newStars = _computeStars(timesCompleted, bestAccuracy);
+    final stars = max(existing?.stars ?? 0, newStars);
 
     // Best time: lower is better (0 = not recorded yet)
     int bestTime = existing?.bestTimeSeconds ?? 0;
@@ -67,16 +77,13 @@ class ProgressService {
 
     p.lessonProgress[lessonId] = LessonProgress(
       completed: true,
-      stars: existing != null
-          ? max(existing.stars, stars)
-          : stars,
+      stars: stars,
       bestScore: existing != null
           ? max(existing.bestScore, score)
           : score,
-      bestAccuracy: existing != null
-          ? max(existing.bestAccuracy, accuracyPct)
-          : accuracyPct,
+      bestAccuracy: bestAccuracy,
       timesPlayed: (existing?.timesPlayed ?? 0) + 1,
+      timesCompleted: timesCompleted,
       bestTimeSeconds: bestTime,
       lastPlayedDate: today,
     );
@@ -146,7 +153,8 @@ class ProgressService {
         stars: 3,
         bestScore: max(existing?.bestScore ?? 0, 10),
         bestAccuracy: max(existing?.bestAccuracy ?? 0, 100),
-        timesPlayed: max(existing?.timesPlayed ?? 0, 1),
+        timesPlayed: max(existing?.timesPlayed ?? 0, 3),
+        timesCompleted: max(existing?.timesCompleted ?? 0, 3),
         bestTimeSeconds: existing?.bestTimeSeconds ?? 0,
         lastPlayedDate: existing?.lastPlayedDate ?? today,
       );

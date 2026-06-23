@@ -1,6 +1,6 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-23 (v3 — Firebase Auth + Firestore leaderboard)  
+**Last updated:** 2026-06-23 (v6 — Star rework, pairs scoring, patch notes, typing hints)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
@@ -65,7 +65,7 @@ Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star l
 
 ### Stage 2 — Survival Thai (IDs 23-37)
 
-Unlock condition: ALL Stage 1 lessons (1-22) must have 3 stars.
+Unlock condition: ALL Stage 1 lessons (1-22) must have at least 1 star (completed once).
 
 | # | Title | Audio prefix | Words |
 |---|-------|-------------|-------|
@@ -284,12 +284,75 @@ Located in `assets/audio/`:
 2. **Create Firestore indexes** — deploy via Firebase CLI or follow the auto-generated links in the Android logcat when running `getLeaderboard()` / `getWeeklyLeaderboard()`
 3. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
 4. **Friend requests system** — currently add-by-username (no request/accept flow)
-5. **Weekly XP banner** — show in home screen when weekly rank changes
+5. ~~**Weekly XP banner**~~ ✅ Done in v5
 
 ### Known Issues (v3)
 - Weekly leaderboard requires a Firestore composite index on `leaderboard` collection (`weeklyXp DESC`). Follow the error link in logcat to auto-create it.
 - `getFriends` limits to first 30 friends (Firestore `whereIn` limit).
-- `getUserRank` uses `count()` aggregate — requires Firestore billing plan (Blaze) for large datasets; free tier supports up to 1M reads/day.
+- `getUserRank` and `getWeeklyRankInfo` use `count()` aggregate — requires Firestore billing plan (Blaze) for large datasets; free tier supports up to 1M reads/day.
+
+---
+
+## v4 Changes — 2026-06-23
+
+### Fix: Conversation Mode Audio
+- **Root cause**: `_playCurrentLine()` was using `line.audioFile` to look up a local asset; all conversation lines shared the same (or a missing) audio file so the same sound played every time.
+- **Fix**: Added `AudioService.playThai(String thaiText)` method that always uses Google TTS directly (`translate.google.com/translate_tts`), bypassing local file lookup entirely. Each conversation line now plays its own Thai text via TTS.
+- **Replay button**: Added 🔊 speaker icon to each dialogue bubble in `_DialogueBubble`. Tapping it calls `AudioService().playThai(line.thai)` to replay that specific line.
+
+### Feature: Bug Reporting System
+- **`BugReportService`** (`services/bug_report_service.dart`) — singleton that submits reports to Firestore `bug_reports` collection; falls back to SharedPreferences queue when offline; `retryPendingReports()` called on app start from `main.dart`.
+- **`BugReport` model** — fields: type, description, lessonId, lessonName, screen, appVersion, userId, deviceInfo, status, timestamp.
+- **`showBugReportDialog()`** (`screens/bug_report_dialog.dart`) — shared dialog with bug type dropdown (6 options), multiline description field, auto-filled lesson/screen/version/device info. Shows confirmation snackbar on submit.
+- **Settings screen** — "Report a Bug 🐛" action tile added to Account section. "🐛 View Bug Reports" dev button added to Developer Mode section.
+- **Lesson screen** — 🐛 icon button added to top bar next to the close (X) button; opens bug report dialog pre-filled with lesson name and ID.
+- **`BugReportsScreen`** (`screens/bug_reports_screen.dart`) — developer-only screen (accessed via Settings → Developer Mode); streams all reports from Firestore ordered by timestamp; shows open bug count banner; tap any report to mark as "fixed", "won't fix", or reopen.
+
+---
+
+## v5 Changes — 2026-06-23
+
+### Feature: Weekly XP Rank Banner
+- **`UserService.getWeeklyRankInfo(uid)`** — new method that reads the user's weekly XP from `leaderboard/{uid}`, counts how many users have higher `weeklyXp`, and returns `{'rank': int, 'weeklyXp': int}`. Returns `null` if weeklyXp is 0 or on any error.
+- **Home screen banner** — shown as a `SliverToBoxAdapter` below the streak banner. Appears when the user's weekly rank improves (lower rank number than the last stored value in SharedPreferences key `weekly_rank_last`). Auto-dismisses after 6 seconds. Has a "View" button that opens the leaderboard and a dismiss ×.
+- **Banner messages** by rank tier: 🥇 #1 · 🏆 top 3 · 🔥 top 10 · 📈 any improvement.
+- **`_WeeklyRankBanner`** widget — gold/amber themed container, shows rank + weekly XP earned, consistent animation with streak banner (fadeIn + slideY).
+- **Persistence**: SharedPreferences key `weekly_rank_last` stores the last shown rank; banner only fires again when rank numerically improves (prevents re-showing same rank on every app open).
+
+---
+
+## v6 Changes — 2026-06-23
+
+### 1. Star System Rework
+- **New star rules** — stars are now based on play count + accuracy:
+  - ⭐ 1 star: complete the lesson once (any score)
+  - ⭐⭐ 2 stars: complete 2+ times OR get 80%+ accuracy on any attempt
+  - ⭐⭐⭐ 3 stars: complete 3+ times OR get 100% accuracy on any attempt
+- **`LessonProgress.timesCompleted`** — new field added; migrates from old data using stored star count as estimate.
+- **`ProgressService._computeStars()`** — static helper implementing the new rules.
+- **Unlock gates updated** — individual lessons now unlock with 1 star (was 3); Stage 2 unlocks when all 22 Stage 1 lessons have 1+ star.
+- **`allStage1Mastered` / `allStage2Mastered`** — new getters for the 3-star achievement checks; `allStage1Complete` / `allStage2Complete` now mean "1 star each" (for unlock gates).
+- **Result screen** — `timesCompleted` and `newStars` passed from `lesson_screen.dart`; shows "Completed X/3" pill with next-star hint below the star row.
+- **Home hex map** — stars now shown below ALL unlocked lessons (not just completed ones).
+- **Dev unlock** — `unlockAllLessons()` now sets `timesCompleted = 3`.
+
+### 2. Match Pairs Scoring Fix
+- **`PairsScreen.onComplete`** signature changed from `void Function(bool)` to `void Function(int correct, int total)`.
+- **Score calculation**: `correct = (totalPairs - mistakes).clamp(0, totalPairs)` — each mistake costs one point.
+- **`_onPairsComplete(int, int)`** added to `lesson_screen.dart` — adds all pairs to `_totalAnswered` / `_correct` (each pair is its own point), and loses one heart per wrong match.
+- **`review_screen.dart`** — updated to use the new pairs callback signature.
+
+### 3. Patch Notes / Changelog System
+- **`PatchNotesService`** (`services/patch_notes_service.dart`) — singleton; reads/writes Firestore `patch_notes` collection; tracks read versions in SharedPreferences (`patch_notes_read_v1`); seeds two initial versions (1.0.0 and 1.0.1) on first run from `main.dart`.
+- **`WhatsNewScreen`** (`screens/whats_new_screen.dart`) — full changelog accessible from Settings → "What's New 📋".
+- **`WhatsNewDialog`** — popup shown automatically on home screen load when there are unread notes; marks notes as read on dismiss.
+- **`showAddPatchNoteDialog()`** — developer-only dialog to add new patch notes to Firestore.
+- **Settings screen** — "What's New 📋" action tile added to Account section; "📋 Add Patch Note" dev button added.
+- **Home screen** — checks for unread notes once per app session after `_load()` completes.
+
+### 4. Typing Challenge Improvements
+- **Fuzzy matching** — threshold raised from fixed `≤2` to `≤30% of answer length` (clamped 2-8); common romanization variants accepted: ph/p, aa/a, th/t, ee/i, oo/u, dt/t, kh/k.
+- **Hint system** — 💡 Hint button shown below input field; level 1 shows first letter of each syllable; level 2 shows first 3 letters; max 2 hints per question; using a hint reduces XP reward by 5 (from 10 to 5).
 
 ---
 

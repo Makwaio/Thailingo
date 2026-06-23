@@ -12,6 +12,8 @@ class ResultScreen extends StatefulWidget {
   final int xpGained;
   final Duration timeTaken;
   final int score;
+  final int timesCompleted;
+  final int newStars;
 
   const ResultScreen({
     super.key,
@@ -21,6 +23,8 @@ class ResultScreen extends StatefulWidget {
     required this.xpGained,
     required this.timeTaken,
     required this.score,
+    required this.timesCompleted,
+    required this.newStars,
   });
 
   @override
@@ -32,7 +36,11 @@ class _ResultScreenState extends State<ResultScreen>
   late AnimationController _xpCtrl;
   late Animation<double> _xpAnim;
 
-  int get _stars => widget.score >= 90 ? 3 : widget.score >= 70 ? 2 : 1;
+  String get _progressHint {
+    if (widget.newStars >= 3) return '🌟 Mastered!';
+    if (widget.newStars == 2) return '→ 1 more play for ⭐⭐⭐';
+    return '→ 1 more play for ⭐⭐';
+  }
 
   String get _timeStr {
     final s = widget.timeTaken.inSeconds;
@@ -53,10 +61,9 @@ class _ResultScreenState extends State<ResultScreen>
     });
 
     // Star pop sounds: click for stars 1 & 2, correct tone for star 3
-    final stars = _stars;
-    if (stars >= 1) Future.delayed(400.ms, () { if (mounted) AudioService().playClick(); });
-    if (stars >= 2) Future.delayed(580.ms, () { if (mounted) AudioService().playClick(); });
-    if (stars >= 3) Future.delayed(760.ms, () { if (mounted) AudioService().playCorrect(); });
+    if (widget.newStars >= 1) Future.delayed(400.ms, () { if (mounted) AudioService().playClick(); });
+    if (widget.newStars >= 2) Future.delayed(580.ms, () { if (mounted) AudioService().playClick(); });
+    if (widget.newStars >= 3) Future.delayed(760.ms, () { if (mounted) AudioService().playCorrect(); });
   }
 
   @override
@@ -73,7 +80,7 @@ class _ResultScreenState extends State<ResultScreen>
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [lessonColor.withOpacity(0.08), Colors.white, Colors.white],
+            colors: [lessonColor.withValues(alpha: 0.08), Colors.white, Colors.white],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -88,7 +95,7 @@ class _ResultScreenState extends State<ResultScreen>
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        widget.score == 100 ? '🏆' : _stars >= 2 ? '🎉' : '💪',
+                        widget.score == 100 ? '🏆' : widget.newStars >= 2 ? '🎉' : '💪',
                         style: const TextStyle(fontSize: 80),
                       )
                           .animate()
@@ -101,7 +108,7 @@ class _ResultScreenState extends State<ResultScreen>
                       Text(
                         widget.score == 100
                             ? 'Perfect Score!'
-                            : _stars >= 2
+                            : widget.newStars >= 2
                                 ? 'Lesson Complete!'
                                 : 'Keep Practicing!',
                         style: const TextStyle(
@@ -131,9 +138,9 @@ class _ResultScreenState extends State<ResultScreen>
                             child: Text('⭐',
                                     style: TextStyle(
                                         fontSize: 44,
-                                        color: i < _stars
+                                        color: i < widget.newStars
                                             ? null
-                                            : Colors.grey.withOpacity(0.3)))
+                                            : Colors.grey.withValues(alpha: 0.3)))
                                 .animate(delay: (400 + i * 180).ms)
                                 .scale(
                                     begin: const Offset(0.1, 0.1),
@@ -143,7 +150,35 @@ class _ResultScreenState extends State<ResultScreen>
                         }),
                       ),
 
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 10),
+
+                      // Completion progress + next star hint
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 7),
+                        decoration: BoxDecoration(
+                          color: widget.newStars >= 3
+                              ? AppTheme.success.withValues(alpha: 0.1)
+                              : AppTheme.surface,
+                          borderRadius:
+                              BorderRadius.circular(AppTheme.radiusFull),
+                          border: Border.all(
+                              color: widget.newStars >= 3
+                                  ? AppTheme.success.withValues(alpha: 0.4)
+                                  : AppTheme.border),
+                        ),
+                        child: Text(
+                          'Completed ${widget.timesCompleted}/3  $_progressHint',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: widget.newStars >= 3
+                                  ? AppTheme.success
+                                  : AppTheme.textSecondary),
+                        ),
+                      ).animate(delay: 450.ms).fadeIn(),
+
+                      const SizedBox(height: 22),
 
                       // Stat boxes — XP is animated counter
                       Row(
@@ -275,9 +310,9 @@ class _StatBox extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.10),
+          color: color.withValues(alpha: 0.10),
           borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-          border: Border.all(color: color.withOpacity(0.25)),
+          border: Border.all(color: color.withValues(alpha: 0.25)),
         ),
         child: Column(
           children: [

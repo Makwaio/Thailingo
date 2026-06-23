@@ -16,6 +16,7 @@ import 'exercise_screens/typing_screen.dart';
 import 'result_screen.dart';
 import 'game_over_screen.dart';
 import '../services/review_service.dart';
+import 'bug_report_dialog.dart';
 
 class LessonScreen extends StatefulWidget {
   final Lesson lesson;
@@ -135,6 +136,56 @@ class _LessonScreenState extends State<LessonScreen>
     });
   }
 
+  void _onPairsComplete(int correctMatches, int totalPairs) {
+    if (_showFeedback || _gameOverSequenceRunning) return;
+    final allCorrect = correctMatches == totalPairs;
+    final wrongCount = totalPairs - correctMatches;
+    setState(() {
+      _totalAnswered += totalPairs;
+      _correct += correctMatches;
+      _showFeedback = true;
+      _lastCorrect = allCorrect;
+      _correctAnswer = allCorrect
+          ? 'All $totalPairs pairs matched!'
+          : '$correctMatches/$totalPairs pairs correct';
+      _hint = null;
+
+      if (allCorrect) {
+        _combo++;
+        if (_combo > _peakCombo) _peakCombo = _combo;
+        final xp = 10 + (_combo >= 3 ? 5 : 0);
+        _xpGained += xp;
+        _xpPopAmount = xp;
+        _showXpPop = true;
+        if (_combo >= 2) AudioService().playCombo();
+        _showSparkles = true;
+        _sparkleKey++;
+        _flashColor = AppTheme.success;
+        _showFlash = true;
+        _flashKey++;
+        Future.delayed(const Duration(milliseconds: 700),
+            () { if (mounted) setState(() => _showSparkles = false); });
+      } else {
+        _combo = 0;
+        AudioService().playWrong();
+        for (int i = 0; i < wrongCount; i++) {
+          _lives = (_lives - 1).clamp(0, 3);
+          if (_lives <= 0) {
+            _gameOverTriggered = true;
+            break;
+          }
+        }
+        _flashColor = AppTheme.danger;
+        _showFlash = true;
+        _flashKey++;
+        if (_lives > 0 && !_gameOverTriggered) {
+          _breakingHeartIdx = _lives;
+          _heartBreakCtrl.forward(from: 0);
+        }
+      }
+    });
+  }
+
   void _onContinue() {
     if (_gameOverTriggered && !_gameOverSequenceRunning) {
       _triggerGameOver();
@@ -207,6 +258,7 @@ class _LessonScreenState extends State<LessonScreen>
       if (!mounted) return;
     }
 
+    final lp = _progressService.current.lessonProgress[widget.lesson.id];
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
@@ -217,6 +269,8 @@ class _LessonScreenState extends State<LessonScreen>
           xpGained: _xpGained + widget.lesson.xpReward,
           timeTaken: _timer.elapsed,
           score: score,
+          timesCompleted: lp?.timesCompleted ?? 1,
+          newStars: lp?.stars ?? 1,
         ),
         transitionsBuilder: (_, anim, __, child) =>
             FadeTransition(opacity: anim, child: child),
@@ -271,6 +325,26 @@ class _LessonScreenState extends State<LessonScreen>
               ),
               child: const Icon(Icons.close_rounded,
                   color: AppTheme.textSecondary, size: 20),
+            ),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: _gameOverSequenceRunning
+                ? null
+                : () => showBugReportDialog(
+                      context,
+                      lessonId: widget.lesson.id,
+                      lessonName: widget.lesson.title,
+                      screen: 'Lesson: ${widget.lesson.title}',
+                    ),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.surface,
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+                border: Border.all(color: AppTheme.border),
+              ),
+              child: const Text('🐛', style: TextStyle(fontSize: 14)),
             ),
           ),
           const SizedBox(width: 12),
@@ -338,8 +412,7 @@ class _LessonScreenState extends State<LessonScreen>
     if (q is MatchPairExercise) {
       exercise = PairsScreen(
         exercise: q,
-        onComplete: (correct) =>
-            _onAnswer(correct, correctAns: 'Match all pairs'),
+        onComplete: (correct, total) => _onPairsComplete(correct, total),
         answered: _showFeedback,
       );
     } else if (q is SentenceBuilderExercise) {
@@ -382,8 +455,11 @@ class _LessonScreenState extends State<LessonScreen>
         case ExerciseType.typing:
           exercise = TypingScreen(
             exercise: q,
-            onAnswer: (correct) => _onAnswer(correct,
-                correctAns: q.targetWord.phonetic),
+            onAnswer: (correct, {bool hintUsed = false}) => _onAnswer(
+              correct,
+              correctAns: q.targetWord.phonetic,
+              bonusXp: hintUsed ? -5 : 0,
+            ),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
           );

@@ -140,11 +140,11 @@ class _GameOverScreenState extends State<GameOverScreen>
                           padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 24),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.07),
+                            color: Colors.white.withValues(alpha: 0.07),
                             borderRadius:
                                 BorderRadius.circular(AppTheme.radiusLg),
                             border: Border.all(
-                                color: Colors.white.withOpacity(0.12)),
+                                color: Colors.white.withValues(alpha: 0.12)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +157,7 @@ class _GameOverScreenState extends State<GameOverScreen>
                               Container(
                                 width: 1,
                                 height: 40,
-                                color: Colors.white.withOpacity(0.15),
+                                color: Colors.white.withValues(alpha: 0.15),
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 24),
                               ),
@@ -177,7 +177,7 @@ class _GameOverScreenState extends State<GameOverScreen>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 14,
-                            color: Colors.white.withOpacity(0.55),
+                            color: Colors.white.withValues(alpha: 0.55),
                           ),
                         ).animate(delay: 600.ms).fadeIn(),
                       ],
@@ -200,7 +200,7 @@ class _GameOverScreenState extends State<GameOverScreen>
                     const SizedBox(height: 12),
                     _GameOverButton(
                       label: '← Back to Lessons',
-                      color: Colors.white.withOpacity(0.12),
+                      color: Colors.white.withValues(alpha: 0.12),
                       textColor: Colors.white70,
                       onTap: _backToLessons,
                     ).animate(delay: 800.ms).fadeIn().slideY(begin: 0.4),
@@ -272,7 +272,7 @@ class _GameOverButton extends StatelessWidget {
           boxShadow: color == AppTheme.danger
               ? [
                   BoxShadow(
-                      color: AppTheme.danger.withOpacity(0.35),
+                      color: AppTheme.danger.withValues(alpha: 0.35),
                       blurRadius: 16,
                       offset: const Offset(0, 4))
                 ]

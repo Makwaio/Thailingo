@@ -86,7 +86,7 @@ class _ListenScreenState extends State<ListenScreen>
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.primary.withOpacity(0.4),
+                        color: AppTheme.primary.withValues(alpha: 0.4),
                         blurRadius: 20,
                         offset: const Offset(0, 6),
                       ),
@@ -131,8 +131,11 @@ class _ListenScreenState extends State<ListenScreen>
             final word = entry.value;
             ChoiceState state = ChoiceState.idle;
             if (widget.answered) {
-              if (word.id == ex.targetWord.id) state = ChoiceState.correct;
-              else if (_selected?.id == word.id) state = ChoiceState.wrong;
+              if (word.id == ex.targetWord.id) {
+                state = ChoiceState.correct;
+              } else if (_selected?.id == word.id) {
+                state = ChoiceState.wrong;
+              }
             } else if (_selected?.id == word.id) {
               state = ChoiceState.selected;
             }

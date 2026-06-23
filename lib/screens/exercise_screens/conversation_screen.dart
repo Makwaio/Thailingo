@@ -36,11 +36,9 @@ class _ConversationScreenState extends State<ConversationScreen> {
   void _playCurrentLine() {
     if (_lineIdx < widget.exercise.lines.length) {
       final line = widget.exercise.lines[_lineIdx];
-      if (line.audioFile.isNotEmpty) {
-        Future.delayed(const Duration(milliseconds: 300), () {
-          if (mounted) AudioService().playWord(line.audioFile, thaiText: line.thai);
-        });
-      }
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) AudioService().playThai(line.thai);
+      });
     }
   }
 
@@ -115,6 +113,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                 return _DialogueBubble(
                   line: line,
                   isNew: isNew,
+                  onReplay: () => AudioService().playThai(line.thai),
                 ).animate(key: ValueKey(i)).fadeIn(duration: 350.ms).slideY(
                     begin: 0.2, duration: 350.ms, curve: Curves.easeOut);
               },
@@ -194,10 +193,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
             if (_selectedOption != null) {
               if (i == q.correctIndex) {
-                bg = AppTheme.success.withOpacity(0.1);
+                bg = AppTheme.success.withValues(alpha: 0.1);
                 border = AppTheme.success;
               } else if (i == _selectedOption) {
-                bg = AppTheme.thaiRed.withOpacity(0.1);
+                bg = AppTheme.thaiRed.withValues(alpha: 0.1);
                 border = AppTheme.thaiRed;
               }
             }
@@ -239,8 +238,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
 class _DialogueBubble extends StatelessWidget {
   final ConversationLine line;
   final bool isNew;
+  final VoidCallback onReplay;
 
-  const _DialogueBubble({required this.line, required this.isNew});
+  const _DialogueBubble({
+    required this.line,
+    required this.isNew,
+    required this.onReplay,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -249,12 +253,34 @@ class _DialogueBubble extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            line.speaker,
-            style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: AppTheme.textSecondary),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  line.speaker,
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textSecondary),
+                ),
+              ),
+              GestureDetector(
+                onTap: onReplay,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surface,
+                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    border: Border.all(color: AppTheme.border),
+                  ),
+                  child: const Icon(
+                    Icons.volume_up_rounded,
+                    size: 14,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 4),
           Container(

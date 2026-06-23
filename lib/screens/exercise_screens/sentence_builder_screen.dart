@@ -87,7 +87,9 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
 
   bool _listEquals(List<String> a, List<String> b) {
     if (a.length != b.length) return false;
-    for (int i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
     return true;
   }
 
@@ -150,9 +152,9 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: widget.answered && widget.lastCorrect
-                    ? AppTheme.success.withOpacity(0.1)
+                    ? AppTheme.success.withValues(alpha: 0.1)
                     : widget.answered
-                        ? AppTheme.thaiRed.withOpacity(0.1)
+                        ? AppTheme.thaiRed.withValues(alpha: 0.1)
                         : AppTheme.surface,
                 borderRadius: BorderRadius.circular(AppTheme.radiusLg),
                 border: Border.all(

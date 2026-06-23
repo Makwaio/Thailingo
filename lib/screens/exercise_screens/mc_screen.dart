@@ -71,7 +71,9 @@ class _McScreenState extends State<McScreen> {
             if (widget.answered) {
               if (word.id == target.id) {
                 state = ChoiceState.correct;
-              } else if (_selected?.id == word.id) state = ChoiceState.wrong;
+              } else if (_selected?.id == word.id) {
+                state = ChoiceState.wrong;
+              }
             } else if (_selected?.id == word.id) {
               state = ChoiceState.selected;
             }

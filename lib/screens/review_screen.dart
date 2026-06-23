@@ -179,10 +179,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
             padding:
                 const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-              color: const Color(0xFF7C3AED).withOpacity(0.12),
+              color: const Color(0xFF7C3AED).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(AppTheme.radiusFull),
               border: Border.all(
-                  color: const Color(0xFF7C3AED).withOpacity(0.3)),
+                  color: const Color(0xFF7C3AED).withValues(alpha: 0.3)),
             ),
             child: const Row(
               mainAxisSize: MainAxisSize.min,
@@ -216,17 +216,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
       final pairs = q.pairs;
       exercise = PairsScreen(
         exercise: q,
-        onComplete: (correct) {
-          if (correct) {
+        onComplete: (correct, total) {
+          final allCorrect = correct == total;
+          if (allCorrect) {
             // Remove all pair words from the queue
             for (final word in pairs) {
               ReviewService().removeFromQueue(word.id);
             }
           }
           _onAnswer(
-            correct,
-            correctAns: 'Match all pairs',
-            pairsCleared: correct ? pairs.length : 0,
+            allCorrect,
+            correctAns: allCorrect
+                ? 'Match all pairs'
+                : '$correct/$total pairs correct',
+            pairsCleared: allCorrect ? pairs.length : 0,
           );
         },
         answered: _showFeedback,

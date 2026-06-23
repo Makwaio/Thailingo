@@ -90,10 +90,10 @@ class _Stage0ScreenState extends State<Stage0Screen> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.18),
+                color: Colors.white.withValues(alpha: 0.18),
                 shape: BoxShape.circle,
                 border:
-                    Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+                    Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
               ),
               child: const Icon(Icons.arrow_back_rounded,
                   color: Colors.white, size: 20),
@@ -131,9 +131,9 @@ class _Stage0ScreenState extends State<Stage0Screen> {
             padding: const EdgeInsets.all(16),
             margin: const EdgeInsets.only(bottom: 32),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: Colors.white.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
             child: const Text(
               '📚 These 5 lessons teach you Thai consonants, vowels, tone marks and basic reading. They\'re optional — you can start the main course at any time!',
@@ -225,7 +225,7 @@ class _VerticalPath extends StatelessWidget {
       painter: _VPathPainter(
           color: completed
               ? AppTheme.success
-              : Colors.white.withOpacity(0.3)),
+              : Colors.white.withValues(alpha: 0.3)),
     );
   }
 }
@@ -296,7 +296,7 @@ class _AlphabetBubbleState extends State<_AlphabetBubble>
   Widget build(BuildContext context) {
     final bubbleColor = widget.unlocked
         ? (widget.completed ? AppTheme.thaiGold : Colors.white)
-        : Colors.white.withOpacity(0.2);
+        : Colors.white.withValues(alpha: 0.2);
 
     return GestureDetector(
       onTap: widget.onTap,
@@ -325,7 +325,7 @@ class _AlphabetBubbleState extends State<_AlphabetBubble>
                           color: (widget.completed
                                   ? AppTheme.thaiGold
                                   : Colors.white)
-                              .withOpacity(0.3),
+                              .withValues(alpha: 0.3),
                           blurRadius: 16,
                           offset: const Offset(0, 4),
                         )
@@ -397,7 +397,7 @@ class _AlphabetBubbleState extends State<_AlphabetBubble>
                             fontSize: 12,
                             color: i < widget.stars
                                 ? null
-                                : Colors.grey.withOpacity(0.3)),
+                                : Colors.grey.withValues(alpha: 0.3)),
                       ),
                     ),
                   ),

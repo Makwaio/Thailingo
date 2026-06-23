@@ -213,9 +213,9 @@ class _StatsScreenState extends State<StatsScreen> {
         .toList();
 
     if (completed.isEmpty) {
-      return Column(
+      return const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           _SectionLabel('PERSONAL BESTS'),
           SizedBox(height: 12),
           Center(
@@ -307,7 +307,7 @@ class _AchievementTile extends StatelessWidget {
         color: unlocked ? Colors.white : AppTheme.surface,
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(
-          color: unlocked ? AppTheme.accent.withOpacity(0.4) : AppTheme.border,
+          color: unlocked ? AppTheme.accent.withValues(alpha: 0.4) : AppTheme.border,
           width: unlocked ? 1.5 : 1,
         ),
         boxShadow: unlocked ? AppTheme.shadowSm : [],
@@ -349,7 +349,7 @@ class _AchievementTile extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: AppTheme.success.withOpacity(0.12),
+                    color: AppTheme.success.withValues(alpha: 0.12),
                     borderRadius:
                         BorderRadius.circular(AppTheme.radiusFull),
                   ),
@@ -407,7 +407,7 @@ class _LessonBestTile extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: lessonColor.withOpacity(0.15),
+                  color: lessonColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
@@ -443,7 +443,7 @@ class _LessonBestTile extends StatelessWidget {
                           fontSize: 14,
                           color: i < lp.stars
                               ? null
-                              : Colors.grey.withOpacity(0.3))),
+                              : Colors.grey.withValues(alpha: 0.3))),
                 ),
               ),
             ],

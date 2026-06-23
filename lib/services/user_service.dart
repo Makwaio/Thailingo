@@ -159,6 +159,27 @@ class UserService {
     }
   }
 
+  /// Returns {'rank': int, 'weeklyXp': int} for the user's current weekly
+  /// position, or null if the user has 0 weekly XP or on any error.
+  Future<Map<String, int>?> getWeeklyRankInfo(String uid) async {
+    if (kIsWeb) return null;
+    try {
+      final userDoc = await _db.collection('leaderboard').doc(uid).get();
+      if (!userDoc.exists) return null;
+      final weeklyXp = userDoc.data()?['weeklyXp'] as int? ?? 0;
+      if (weeklyXp == 0) return null;
+      final result = await _db
+          .collection('leaderboard')
+          .where('weeklyXp', isGreaterThan: weeklyXp)
+          .count()
+          .get();
+      final rank = (result.count ?? 0) + 1;
+      return {'rank': rank, 'weeklyXp': weeklyXp};
+    } catch (_) {
+      return null;
+    }
+  }
+
   // ── Weekly reset ──────────────────────────────────────────────────────
 
   Future<void> resetWeeklyXpIfNeeded(String uid) async {
