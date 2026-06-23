@@ -21,7 +21,7 @@ Future<void> main() async {
   }
   await SettingsService().load();
   BugReportService().retryPendingReports();
-  PatchNotesService().seedInitialPatchNotes();
+  await PatchNotesService().seedInitialPatchNotes();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
