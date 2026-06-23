@@ -23,8 +23,7 @@ class SpeedTapScreen extends StatefulWidget {
   State<SpeedTapScreen> createState() => _SpeedTapScreenState();
 }
 
-class _SpeedTapScreenState extends State<SpeedTapScreen>
-    with SingleTickerProviderStateMixin {
+class _SpeedTapScreenState extends State<SpeedTapScreen> {
   static const _totalSeconds = 5;
   late Timer _timer;
   double _timeLeft = _totalSeconds.toDouble();
@@ -36,14 +35,37 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
   void initState() {
     super.initState();
     _startTimer();
+    _playWordAudio();
   }
 
   @override
   void didUpdateWidget(SpeedTapScreen old) {
     super.didUpdateWidget(old);
-    if (!old.answered && widget.answered) {
+    if (old.exercise.targetWord.id != widget.exercise.targetWord.id) {
+      // New word arrived — reset everything and animate in
+      _timer.cancel();
+      setState(() {
+        _answered = false;
+        _selectedId = null;
+        _flashLabel = null;
+        _timeLeft = _totalSeconds.toDouble();
+      });
+      _startTimer();
+      _playWordAudio();
+    } else if (!old.answered && widget.answered) {
       _timer.cancel();
     }
+  }
+
+  void _playWordAudio() {
+    Future.delayed(const Duration(milliseconds: 250), () {
+      if (mounted) {
+        AudioService().playWord(
+          widget.exercise.targetWord.audio,
+          thaiText: widget.exercise.targetWord.thai,
+        );
+      }
+    });
   }
 
   void _startTimer() {
@@ -100,13 +122,14 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
   @override
   Widget build(BuildContext context) {
     final target = widget.exercise.targetWord;
-    final showThai = DateTime.now().millisecondsSinceEpoch % 2 == 0;
+    // Key drives flutter_animate re-trigger on every new word
+    final wordKey = ValueKey(target.id);
 
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          // Timer bar
+          // ── Timer bar — wipes in from left to signal reset ──────────────
           ClipRRect(
             borderRadius: BorderRadius.circular(AppTheme.radiusFull),
             child: LinearProgressIndicator(
@@ -121,7 +144,16 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
                         : AppTheme.thaiRed,
               ),
             ),
-          ),
+          )
+              .animate(key: wordKey)
+              .scaleX(
+                begin: 0.0,
+                end: 1.0,
+                alignment: Alignment.centerLeft,
+                duration: 300.ms,
+                curve: Curves.easeOut,
+              ),
+
           const SizedBox(height: 8),
           Text(
             '${_timeLeft.toStringAsFixed(1)}s',
@@ -131,12 +163,12 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
               color: _timeLeft <= 1 ? AppTheme.thaiRed : AppTheme.textSecondary,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
 
-          // Prompt word
+          // ── Stimulus — always Thai, slides in from right ─────────────────
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
             decoration: BoxDecoration(
               color: AppTheme.thaiNavy,
               borderRadius: BorderRadius.circular(AppTheme.radiusXl),
@@ -150,42 +182,70 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
             ),
             child: Column(
               children: [
-                Text(
-                  showThai ? target.thai : target.english,
+                const Text(
+                  'WHAT DOES THIS MEAN?',
                   style: TextStyle(
-                    fontSize: showThai ? 36 : 22,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.4,
+                    color: Colors.white38,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  target.thai,
+                  style: const TextStyle(
+                    fontSize: 42,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                if (showThai)
-                  Text(
-                    target.phonetic,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withOpacity(0.7),
-                    ),
+                const SizedBox(height: 6),
+                Text(
+                  target.phonetic,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withOpacity(0.6),
                   ),
+                ),
               ],
             ),
+          )
+              .animate(key: wordKey)
+              .slideX(
+                begin: 0.45,
+                end: 0.0,
+                duration: 280.ms,
+                curve: Curves.easeOut,
+              )
+              .fadeIn(duration: 200.ms),
+
+          // Speed-bonus label
+          SizedBox(
+            height: 44,
+            child: _flashLabel != null
+                ? Text(
+                    _flashLabel!,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: AppTheme.thaiGold,
+                    ),
+                  )
+                    .animate(key: ValueKey(_flashLabel))
+                    .scale(
+                      begin: const Offset(0.5, 0.5),
+                      duration: 300.ms,
+                      curve: Curves.elasticOut,
+                    )
+                    .fadeIn(duration: 180.ms)
+                : const SizedBox.shrink(),
           ),
 
-          if (_flashLabel != null)
-            Text(
-              _flashLabel!,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-                color: AppTheme.thaiGold,
-              ),
-            )
-                .animate(key: ValueKey(_flashLabel))
-                .scale(begin: const Offset(0.5, 0.5), duration: 300.ms)
-                .fadeIn(duration: 200.ms),
+          const SizedBox(height: 8),
 
-          const SizedBox(height: 24),
-
+          // ── Answer grid — always English, slides in slightly after stimulus ─
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
@@ -194,12 +254,13 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: widget.exercise.options.map((opt) {
+                final isTarget = opt.id == widget.exercise.targetWord.id;
                 Color bg;
                 Color border;
                 if (!_answered && !widget.answered) {
                   bg = Colors.white;
                   border = AppTheme.border;
-                } else if (opt.id == widget.exercise.targetWord.id) {
+                } else if (isTarget) {
                   bg = AppTheme.success.withOpacity(0.1);
                   border = AppTheme.success;
                 } else if (opt.id == _selectedId) {
@@ -221,33 +282,30 @@ class _SpeedTapScreenState extends State<SpeedTapScreen>
                       boxShadow: AppTheme.shadowSm,
                     ),
                     padding: const EdgeInsets.all(12),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          showThai ? opt.english : opt.thai,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: AppTheme.textPrimary,
-                          ),
+                    child: Center(
+                      child: Text(
+                        opt.english,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.textPrimary,
                         ),
-                        if (!showThai)
-                          Text(
-                            opt.phonetic,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: AppTheme.textSecondary,
-                            ),
-                          ),
-                      ],
+                      ),
                     ),
                   ),
                 );
               }).toList(),
-            ),
+            )
+                .animate(key: wordKey)
+                .slideX(
+                  begin: 0.3,
+                  end: 0.0,
+                  delay: 60.ms,
+                  duration: 300.ms,
+                  curve: Curves.easeOut,
+                )
+                .fadeIn(delay: 60.ms, duration: 220.ms),
           ),
         ],
       ),
