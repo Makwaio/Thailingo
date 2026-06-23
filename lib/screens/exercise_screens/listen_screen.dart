@@ -66,7 +66,7 @@ class _ListenScreenState extends State<ListenScreen>
             child: GestureDetector(
               onTap: () {
   setState(() => _played = true);
-  AudioService().playWord(widget.exercise.targetWord.audio);
+  AudioService().playWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
 },
               child: AnimatedBuilder(
                 animation: _pulseCtrl,

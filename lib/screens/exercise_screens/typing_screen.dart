@@ -32,7 +32,7 @@ class _TypingScreenState extends State<TypingScreen> {
     // Play the word audio automatically
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted && widget.exercise.targetWord.audio.isNotEmpty) {
-        AudioService().playWord(widget.exercise.targetWord.audio);
+        AudioService().playWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
       }
     });
   }
@@ -79,7 +79,7 @@ class _TypingScreenState extends State<TypingScreen> {
       _wasCorrect = correct;
     });
     if (correct) {
-      AudioService().playCorrectThenWord(widget.exercise.targetWord.audio);
+      AudioService().playCorrectThenWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
     }
     widget.onAnswer(correct);
   }
@@ -124,7 +124,7 @@ class _TypingScreenState extends State<TypingScreen> {
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () => AudioService().playWord(word.audio),
+                  onTap: () => AudioService().playWord(word.audio, thaiText: word.thai),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 8),

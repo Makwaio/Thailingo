@@ -77,7 +77,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
   void _checkAnswer() {
     final correct = _listEquals(_placed, widget.exercise.thaiChips);
     if (correct) {
-      AudioService().playCorrectThenWord(widget.exercise.audioFile);
+      AudioService().playCorrectThenWord(widget.exercise.audioFile, thaiText: widget.exercise.thaiChips.join(''));
     } else {
       setState(() => _shakeWrong = true);
       _shakeCtrl.forward();

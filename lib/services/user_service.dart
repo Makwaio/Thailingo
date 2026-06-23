@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import '../models/user_progress.dart';
 
 class UserService {
@@ -6,7 +7,8 @@ class UserService {
   factory UserService() => _instance;
   UserService._internal();
 
-  final _db = FirebaseFirestore.instance;
+  // Getter so FirebaseFirestore.instance isn't accessed at construction time.
+  FirebaseFirestore get _db => FirebaseFirestore.instance;
 
   // ── Profile management ───────────────────────────────────────────────
 
@@ -122,6 +124,7 @@ class UserService {
   }
 
   Stream<List<Map<String, dynamic>>> getLeaderboard() {
+    if (kIsWeb) return Stream.value([]);
     return _db
         .collection('leaderboard')
         .orderBy('totalXp', descending: true)
@@ -131,6 +134,7 @@ class UserService {
   }
 
   Stream<List<Map<String, dynamic>>> getWeeklyLeaderboard() {
+    if (kIsWeb) return Stream.value([]);
     return _db
         .collection('leaderboard')
         .orderBy('weeklyXp', descending: true)

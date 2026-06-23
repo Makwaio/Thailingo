@@ -38,7 +38,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
       final line = widget.exercise.lines[_lineIdx];
       if (line.audioFile.isNotEmpty) {
         Future.delayed(const Duration(milliseconds: 300), () {
-          if (mounted) AudioService().playWord(line.audioFile);
+          if (mounted) AudioService().playWord(line.audioFile, thaiText: line.thai);
         });
       }
     }

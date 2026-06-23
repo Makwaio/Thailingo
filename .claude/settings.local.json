@@ -6,7 +6,13 @@
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" && flutter analyze --no-fatal-infos 2>&1 | Where-Object { $_ -match \"error|warning\" })",
       "PowerShell(tree *)",
       "Bash(flutter analyze *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(grep \"\\\\.mp3$\")",
+      "Bash(python -c \"import gtts; print\\('gtts ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python generate_stage2_audio.py)"
     ]
   }
 }

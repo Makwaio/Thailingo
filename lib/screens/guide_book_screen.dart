@@ -123,7 +123,7 @@ class _InfoBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.blueTint,
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-        border: Border.all(color: AppTheme.thaiNavy.withOpacity(0.2)),
+        border: Border.all(color: AppTheme.thaiNavy.withValues(alpha: 0.2)),
       ),
       child: Text(text,
           style: const TextStyle(
@@ -143,9 +143,9 @@ class _TipBox extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: AppTheme.thaiGold.withOpacity(0.1),
+        color: AppTheme.thaiGold.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-        border: Border.all(color: AppTheme.thaiGold.withOpacity(0.5)),
+        border: Border.all(color: AppTheme.thaiGold.withValues(alpha: 0.5)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,24 +195,24 @@ class _BasicsTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
-      children: [
+      children: const [
         _Section(
           title: 'Welcome to Thai! 🇹🇭',
-          children: const [
+          children: [
             _InfoBox(
                 'This app teaches Bangkok spoken Thai — the everyday language used in the capital. It\'s casual, practical, and what you\'ll actually hear on the streets of Bangkok.\n\nFormal Thai exists (used in news, official settings) but Bangkokians speak a friendly, relaxed version. That\'s what we teach.'),
           ],
         ),
         _Section(
           title: 'Why Learn Thai?',
-          children: const [
+          children: [
             _InfoBox(
                 '🤝 Cultural respect — Thais are deeply touched when foreigners speak Thai\n\n💰 Better prices — vendors give you farang (foreigner) prices. Thai unlocks local prices.\n\n👫 Making friends — most locals don\'t speak much English. Thai opens doors.\n\n🛡️ Safety — knowing key phrases can get you out of trouble fast.'),
           ],
         ),
         _Section(
           title: 'Thai is Tonal',
-          children: const [
+          children: [
             _InfoBox(
                 'Thai has 5 tones! The same syllable said with different tones means completely different things. Don\'t worry — context helps a lot, and Thais are patient and understanding.'),
             _TipBox(
@@ -221,7 +221,7 @@ class _BasicsTab extends StatelessWidget {
         ),
         _Section(
           title: 'How This App Works',
-          children: const [
+          children: [
             _InfoBox(
                 '📚 22 lessons in Stage 1 (Foundations)\n🏙️ 15 lessons in Stage 2 (Survival Thai)\n\nEach lesson has 10-12 vocabulary words with multiple exercise types. Earn 3 stars to unlock the next lesson.'),
             _TipBox('Tip: The "Review Mode" at the bottom of the home screen reinforces words you got wrong. Use it daily!'),
@@ -229,7 +229,7 @@ class _BasicsTab extends StatelessWidget {
         ),
         _Section(
           title: 'Tips for Success',
-          children: const [
+          children: [
             _InfoBox(
                 '⏰ Practice daily — even 5 minutes beats 1 hour once a week\n\n🎧 Listen to the audio every time — pronunciation is key\n\n🗣️ Use words with real Thai people as soon as you learn them\n\n😄 Don\'t fear mistakes — Thais LOVE when foreigners try Thai\n\n🧩 Context matters more than perfect pronunciation'),
           ],
@@ -249,9 +249,9 @@ class _TonesTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
       children: [
-        _Section(
+        const _Section(
           title: 'Thai has 5 Tones',
-          children: const [
+          children: [
             _InfoBox('Tones are crucial in Thai! The same syllable means completely different things depending on how you say it.'),
           ],
         ),
@@ -263,9 +263,9 @@ class _TonesTab extends StatelessWidget {
               example: t[3],
               meaning: t[4],
             )),
-        _Section(
+        const _Section(
           title: 'The Magic of "maa"',
-          children: const [
+          children: [
             _CodeBox(
                 'มา  (maa)  — mid tone     = to come\n'
                 'ม้า  (máa)  — high tone    = horse\n'
@@ -275,9 +275,9 @@ class _TonesTab extends StatelessWidget {
             _TipBox('When in doubt, use mid tone (flat, normal voice). Thais will understand from context!'),
           ],
         ),
-        _Section(
+        const _Section(
           title: 'Common Tone Mistakes',
-          children: const [
+          children: [
             _InfoBox(
                 '⚠️  ไม่ (mai = no) vs ใหม่ (mai = new) — same sound, different tones\n\n'
                 '⚠️  ข้าว (khao = rice) vs เขา (khao = he/she) — essential distinction!\n\n'
@@ -371,9 +371,9 @@ class _PhoneticsTab extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
       children: [
-        _Section(
+        const _Section(
           title: 'Reading Phonetics',
-          children: const [
+          children: [
             _InfoBox('This app uses simplified phonetic spelling (romanization). Here\'s how to read it:'),
           ],
         ),
@@ -411,9 +411,9 @@ class _PhoneticsTab extends StatelessWidget {
             ]),
           ],
         ),
-        _Section(
+        const _Section(
           title: 'Reading Practice',
-          children: const [
+          children: [
             _CodeBox(
                 'สวัสดี  = sa + wat + dee  → "sa-wat-dee"\n'
                 'ขอบคุณ  = khob + khun     → "khob-khun"\n'
@@ -440,7 +440,7 @@ class _PhoneticsTab extends StatelessWidget {
           // Header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppTheme.thaiNavy,
               borderRadius: BorderRadius.vertical(
                   top: Radius.circular(AppTheme.radiusLg - 1)),
@@ -485,17 +485,17 @@ class _AlphabetTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 40),
-      children: [
+      children: const [
         _Section(
           title: 'Thai Script Overview',
-          children: const [
+          children: [
             _InfoBox('Thai has 44 consonants, 32 vowels, and 4 tone marks. That sounds scary — but you don\'t need all of them to speak Thai!\n\nThis app focuses on spoken Thai with phonetics first. The alphabet is a bonus for advanced learners.'),
             _TipBox('Learn the 15 most common consonants first. That covers ~80% of everyday words!'),
           ],
         ),
         _Section(
           title: 'The 15 Most Common Consonants',
-          children: const [
+          children: [
             _CodeBox(
                 'ก  g/k   — กไก่  (gai = chicken)\n'
                 'ข  kh    — ขไข่  (khai = egg)\n'
@@ -516,13 +516,13 @@ class _AlphabetTab extends StatelessWidget {
         ),
         _Section(
           title: 'Consonant Classes',
-          children: const [
+          children: [
             _InfoBox('Thai consonants are grouped into 3 classes (high, mid, low). This affects the tone of the syllable:\n\n🔴 High class — tends to raise the tone\n🟡 Mid class — neutral baseline\n🟢 Low class — tends to lower the tone\n\nDon\'t worry about memorizing this yet — just be aware it exists!'),
           ],
         ),
         _Section(
           title: 'Essential Vowels',
-          children: const [
+          children: [
             _CodeBox(
                 'า   aa (long)    — มา  (maa = come)\n'
                 'ิ   i (short)    — กิน  (gin = eat)\n'
@@ -599,7 +599,7 @@ const _survivalPhrases = [
   ['พูดช้าๆได้ไหม', 'phuut-chaa-chaa-dai-mai', 'Speak slowly?', 'Learning Thai'],
   ['พูดภาษาอังกฤษได้ไหม', 'phuut-ang-krit-dai-mai', 'Can you speak English?', 'Emergency backup'],
   ['ราคารวมทุกอย่างไหม', 'raa-khaa-ruam-thuk-yang-mai', 'Is everything included?', 'Checking bills'],
-  ['โทรตำรวจ', 'tho-dtam-ruat', 'Call police', 'Emergency'],
+  ['โทรหาตำรวจ', 'tho-haa-dtam-ruat', 'Call the police', 'Emergency'],
   ['ผมป่วย', 'pom-bpuay', 'I am sick', 'Hospital/pharmacy'],
   ['ขอบิลด้วย', 'khor-bin-duay', 'Bill please', 'Restaurants'],
 ];
@@ -671,7 +671,7 @@ class _PhraseCard extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.thaiGold.withOpacity(0.15),
+              color: AppTheme.thaiGold.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(AppTheme.radiusFull),
             ),
             child: Text(when,

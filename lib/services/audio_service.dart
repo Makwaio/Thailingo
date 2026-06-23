@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:just_audio/just_audio.dart';
 
 class AudioService {
@@ -37,14 +38,13 @@ class AudioService {
   }
 
   /// Plays correct ding then the Thai word audio after a short gap.
-  Future<void> playCorrectThenWord(String audioFile) async {
+  Future<void> playCorrectThenWord(String audioFile, {String? thaiText}) async {
     if (!_soundEnabled) return;
     try {
       await _sfxPlayer.setAsset('assets/audio/sfx_correct.wav');
       _sfxPlayer.play();
       await Future.delayed(const Duration(milliseconds: 500));
-      await _wordPlayer.setAsset('assets/audio/$audioFile');
-      _wordPlayer.play();
+      await _playWordAudio(audioFile, thaiText: thaiText);
     } catch (_) {}
   }
 
@@ -64,12 +64,26 @@ class AudioService {
     } catch (_) {}
   }
 
-  Future<void> playWord(String audioFile) async {
+  Future<void> playWord(String audioFile, {String? thaiText}) async {
     if (!_soundEnabled) return;
+    await _playWordAudio(audioFile, thaiText: thaiText);
+  }
+
+  Future<void> _playWordAudio(String audioFile, {String? thaiText}) async {
     try {
       await _wordPlayer.setAsset('assets/audio/$audioFile');
       _wordPlayer.play();
+      return;
     } catch (_) {}
+    // Local asset missing — fall back to Google TTS (Android/iOS only)
+    if (thaiText != null && thaiText.isNotEmpty && !kIsWeb) {
+      try {
+        final url = 'https://translate.google.com/translate_tts'
+            '?ie=UTF-8&q=${Uri.encodeComponent(thaiText)}&tl=th&client=tw-ob';
+        await _wordPlayer.setUrl(url);
+        _wordPlayer.play();
+      } catch (_) {}
+    }
   }
 
   Future<void> startAmbientMusic() async {

@@ -153,7 +153,7 @@ void _select(Word word) {
     setState(() => _selected = word);
     final correct = word.id == widget.exercise.targetWord.id;
     if (correct) {
-      AudioService().playCorrectThenWord(widget.exercise.targetWord.audio);
+      AudioService().playCorrectThenWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
     }
     widget.onAnswer(correct);
   }
