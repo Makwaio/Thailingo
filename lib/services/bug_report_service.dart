@@ -98,7 +98,7 @@ class BugReportService {
   BugReportService._internal();
 
   static const _queueKey = 'bug_reports_queue';
-  static const appVersion = '1.0.0';
+  static const appVersion = '1.0.1';
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 

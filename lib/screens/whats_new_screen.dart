@@ -296,16 +296,21 @@ Future<void> showAddPatchNoteDialog(BuildContext context) async {
                     border: OutlineInputBorder()),
               ),
               const SizedBox(height: 12),
-              DropdownButtonFormField<String>(
-                initialValue: selectedType,
+              InputDecorator(
                 decoration: const InputDecoration(
                     labelText: 'Type', border: OutlineInputBorder()),
-                items: const [
-                  DropdownMenuItem(value: 'major', child: Text('Major')),
-                  DropdownMenuItem(value: 'minor', child: Text('Minor')),
-                  DropdownMenuItem(value: 'patch', child: Text('Patch')),
-                ],
-                onChanged: (v) => setSt(() => selectedType = v ?? 'patch'),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: selectedType,
+                    isExpanded: true,
+                    items: const [
+                      DropdownMenuItem(value: 'major', child: Text('Major')),
+                      DropdownMenuItem(value: 'minor', child: Text('Minor')),
+                      DropdownMenuItem(value: 'patch', child: Text('Patch')),
+                    ],
+                    onChanged: (v) => setSt(() => selectedType = v ?? 'patch'),
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               TextField(

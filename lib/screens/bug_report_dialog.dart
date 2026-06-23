@@ -106,23 +106,28 @@ class _BugReportDialogState extends State<_BugReportDialog> {
                   color: AppTheme.textSecondary),
             ),
             const SizedBox(height: 6),
-            DropdownButtonFormField<String>(
-              initialValue: _selectedType,
+            InputDecorator(
               decoration: InputDecoration(
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 border: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.circular(AppTheme.radiusMd)),
               ),
-              items: _bugTypes
-                  .map((t) => DropdownMenuItem(
-                        value: t,
-                        child: Text(t,
-                            style: const TextStyle(fontSize: 14)),
-                      ))
-                  .toList(),
-              onChanged: (v) => setState(() => _selectedType = v!),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedType,
+                  isExpanded: true,
+                  items: _bugTypes
+                      .map((t) => DropdownMenuItem(
+                            value: t,
+                            child: Text(t,
+                                style: const TextStyle(fontSize: 14)),
+                          ))
+                      .toList(),
+                  onChanged: (v) => setState(() => _selectedType = v!),
+                ),
+              ),
             ),
 
             const SizedBox(height: 16),
