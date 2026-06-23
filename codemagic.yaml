@@ -14,13 +14,13 @@ workflows:
           flutter build apk --release
       - name: Publish to Firebase App Distribution
         script: |
-          npm install -g firebase-tools
           echo $FIREBASE_SERVICE_ACCOUNT > firebase-service-account.json
-          export GOOGLE_APPLICATION_CREDENTIALS=firebase-service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-service-account.json
           firebase appdistribution:distribute \
             build/app/outputs/flutter-apk/app-release.apk \
             --app $FIREBASE_APP_ID \
             --groups testers \
-            --release-notes "New build from Codemagic"
+            --release-notes "New build" \
+            --debug
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
