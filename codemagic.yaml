@@ -1,16 +1,23 @@
 workflows:
-  ios-workflow:
-    name: iOS Workflow
+  android-workflow:
+    name: Android Release
     max_build_duration: 60
     environment:
       flutter: stable
-      xcode: latest
-      cocoapods: default
+      groups:
+        - Thailingo
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
-      - name: Build iOS
+      - name: Build Android APK
         script: |
-          flutter build ios --release --no-codesign
+          flutter build apk --release
     artifacts:
-      - build/ios/iphoneos/Runner.app
+      - build/app/outputs/flutter-apk/app-release.apk
+    publishing:
+      firebase:
+        firebase_service_account: $FIREBASE_SERVICE_ACCOUNT
+        android:
+          app_id: $FIREBASE_APP_ID
+          groups:
+            - testers
