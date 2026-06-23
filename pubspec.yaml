@@ -29,6 +29,7 @@ flutter:
     - assets/lessons/
     - assets/audio/
     - assets/images/
+    - shorebird.yaml
   fonts:
     - family: Sarabun
       fonts:
