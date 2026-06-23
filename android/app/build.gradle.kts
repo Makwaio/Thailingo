@@ -1,13 +1,16 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-val keystoreProperties = java.util.Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
 if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(java.io.FileInputStream(keystorePropertiesFile))
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
 android {
@@ -22,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.thai_lab"
-        minSdk = 21
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -30,7 +33,7 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as? String ?: "thailingo"
+            keyAlias = keystoreProperties["keyAlias"] as? String ?: System.getenv("KEY_ALIAS")
             keyPassword = keystoreProperties["keyPassword"] as? String ?: System.getenv("KEY_PASSWORD")
             storeFile = keystoreProperties["storeFile"]?.let { file(it as String) }
                 ?: System.getenv("KEYSTORE_PATH")?.let { file(it) }
