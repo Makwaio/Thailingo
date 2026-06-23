@@ -16,9 +16,13 @@ workflows:
           echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
           echo "keyAlias=$KEY_ALIAS" >> android/key.properties
           echo "storeFile=../../thailingo-release.jks" >> android/key.properties
-      - name: Build Android APK
+      - name: Install Shorebird
         script: |
-          flutter build apk --release
+          curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
+          echo "$HOME/.shorebird/bin" >> $CM_ENV
+      - name: Build with Shorebird
+        script: |
+          shorebird build apk --release
       - name: Publish to Firebase App Distribution
         script: |
           echo $FIREBASE_SERVICE_ACCOUNT | base64 --decode > firebase-service-account.json
@@ -27,6 +31,6 @@ workflows:
             build/app/outputs/flutter-apk/app-release.apk \
             --app $FIREBASE_APP_ID \
             --groups Testers \
-            --release-notes "New build"
+            --release-notes "New build with OTA updates enabled"
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
