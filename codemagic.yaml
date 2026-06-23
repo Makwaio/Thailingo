@@ -9,6 +9,15 @@ workflows:
     scripts:
       - name: Get Flutter packages
         script: flutter pub get
+      - name: Set up keystore
+        script: |
+          echo $KEYSTORE_FILE | base64 --decode > thailingo-release.jks
+          cat >> android/key.properties <<EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=../../thailingo-release.jks
+          EOF
       - name: Build Android APK
         script: |
           flutter build apk --release

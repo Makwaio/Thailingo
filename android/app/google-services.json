@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1069262998183-440j8u77ne13tqjspjhg7cr9oneuijia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thai_lab",
+            "certificate_hash": "9f5cafbdbe2dab85897e8baddafce3455e6379c4"
+          }
+        },
+        {
           "client_id": "1069262998183-kofk1c7o8lm5vht0tid1um6t2mgsq1om.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
