@@ -12,7 +12,20 @@
           "package_name": "com.example.thai_lab"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1069262998183-kofk1c7o8lm5vht0tid1um6t2mgsq1om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thai_lab",
+            "certificate_hash": "d97a8da5b6127fd2a22dc50b9fb9a4c1ae83f62f"
+          }
+        },
+        {
+          "client_id": "1069262998183-5lv6ekuf9hi4pfiehpjehcjmpck0h13u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDIDkcMhgByXr9NTlwYHXbwXRWfVC1rQZg"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069262998183-5lv6ekuf9hi4pfiehpjehcjmpck0h13u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
