@@ -22,9 +22,8 @@ workflows:
         script: |
           curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
           export PATH="$PATH:$HOME/.shorebird/bin"
-          shorebird --version
-          echo $SHOREBIRD_TOKEN | shorebird login:ci --token $SHOREBIRD_TOKEN || true
-          SHOREBIRD_TOKEN=$SHOREBIRD_TOKEN shorebird build apk --release
+          export SHOREBIRD_TOKEN=$SHOREBIRD_TOKEN
+          shorebird release android --no-pub
 
       - name: Publish to Firebase App Distribution
         script: |
