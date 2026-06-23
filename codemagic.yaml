@@ -14,13 +14,12 @@ workflows:
           flutter build apk --release
       - name: Publish to Firebase App Distribution
         script: |
-          echo $FIREBASE_SERVICE_ACCOUNT > firebase-service-account.json
+          echo $FIREBASE_SERVICE_ACCOUNT | base64 --decode > firebase-service-account.json
           export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/firebase-service-account.json
           firebase appdistribution:distribute \
             build/app/outputs/flutter-apk/app-release.apk \
             --app $FIREBASE_APP_ID \
             --groups testers \
-            --release-notes "New build" \
-            --debug
+            --release-notes "New build"
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
