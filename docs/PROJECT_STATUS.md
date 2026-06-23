@@ -1,6 +1,6 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-23 (v7 — Muay Thai mascot redesign, header layout rework)  
+**Last updated:** 2026-06-23 (v8 — 6 new lessons, 7 new conversation scenarios, Bangkok daily life content)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
@@ -53,6 +53,12 @@ Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star l
 | 20 | Home & House | house_ | 12 |
 | 21 | Classroom & Study | cls_ | 10 |
 | 22 | Polite Particles | pol_ | 10 |
+| 38 | Daily Life Sentences | dly_ | 12 |
+| 39 | Going Out & Plans | out_ | 10 |
+| 40 | Street Ordering & Shopping | str_ | 12 |
+| 41 | Goodbyes & Endings | bye_ | 8 |
+| 42 | Numbers 11 to 1,000,000 | nm2_ | 15 |
+| 43 | Useful Slang & Fillers | slg2_ | 12 |
 
 **Row groupings** (home screen hex map):
 1. Greetings & Speaking [1, 11, 13, 22]
@@ -62,6 +68,10 @@ Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star l
 5. Time & Description [14, 6, 16]
 6. Getting Around [7, 8, 18, 17]
 7. Home & Life [20]
+8. Real Life Thai [38, 39, 40] ← new
+9. Language Tools [41, 42, 43] ← new
+
+> **Note:** IDs 38-43 use IDs beyond Stage 2 (23-37) to avoid collision. They appear in the Stage 1 section and unlock after all 22 Stage 1 lessons have 1+ star (same gate as Stage 2).
 
 ### Stage 2 — Survival Thai (IDs 23-37)
 
@@ -280,11 +290,11 @@ Located in `assets/audio/`:
 | UserService | `user_service.dart` | Firestore CRUD; leaderboard streams; friends |
 
 ### Next 5 Tasks
-1. **Add SHA-1 fingerprint** to Firebase Console to enable Google Sign In on device
-2. **Create Firestore indexes** — deploy via Firebase CLI or follow the auto-generated links in the Android logcat when running `getLeaderboard()` / `getWeeklyLeaderboard()`
-3. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
-4. **Friend requests system** — currently add-by-username (no request/accept flow)
-5. **Publish v1.0.2 patch** via `shorebird patch android --allow-asset-diffs` after mascot redesign ships
+1. **Generate audio for lessons 38-43** — run `python scripts/generate_audio_38_43.py` (requires `pip install gtts`)
+2. **Add SHA-1 fingerprint** to Firebase Console to enable Google Sign In on device
+3. **Create Firestore indexes** — deploy via Firebase CLI or follow the auto-generated links in the Android logcat when running `getLeaderboard()` / `getWeeklyLeaderboard()`
+4. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
+5. **Publish v1.0.3 patch** via `shorebird patch android --allow-asset-diffs` after audio generation ships
 
 ### Known Issues (v3)
 - Weekly leaderboard requires a Firestore composite index on `leaderboard` collection (`weeklyXp DESC`). Follow the error link in logcat to auto-create it.
@@ -370,6 +380,38 @@ Located in `assets/audio/`:
 
 ### Patch Notes
 - **v1.0.2 seeded** in `PatchNotesService.seedInitialPatchNotes()` — title "Muay Thai Mascot Update 🥊", type "minor", 4 notes about the mascot/header/speech bubble changes.
+
+---
+
+## v8 Changes — 2026-06-23
+
+### 6 New Lessons (IDs 38-43) — Real Bangkok Content
+Added to Stage 1 rows 8-9 (`_stage1Rows`). Unlock: lesson 38 requires all Stage 1 (1-22) complete; 39-43 chain sequentially. `LessonService.totalLessons` bumped 37 → 43.
+
+| ID | Title | Prefix | Words |
+|----|-------|--------|-------|
+| 38 | Daily Life Sentences | dly_ | 12 |
+| 39 | Going Out & Plans | out_ | 10 |
+| 40 | Street Ordering & Shopping | str_ | 12 |
+| 41 | Goodbyes & Endings | bye_ | 8 |
+| 42 | Numbers 11 to 1,000,000 | nm2_ | 15 |
+| 43 | Useful Slang & Fillers | slg2_ | 12 |
+
+### 7 New Conversation Scenarios
+Added to `ExerciseService._conversations` (total now 10):
+- 🏪 Going to 7-Eleven
+- 🍗 Ordering Kao Man Gai
+- 🎬 Planning Movie Night
+- 📱 Daily Check-in
+- 🚗 Getting a Pickup
+- 🛒 Bargaining at Chatuchak
+- 🥗 Ordering Som Tam
+
+### Audio Script
+`scripts/generate_audio_38_43.py` — generates TTS audio for all 69 new words using gTTS, skipping existing files.
+
+### Patch Notes
+v1.0.3 "Real Bangkok Thai Content 🏙️" seeded in `PatchNotesService.seedInitialPatchNotes()`.
 
 ---
 

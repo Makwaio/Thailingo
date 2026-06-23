@@ -155,6 +155,26 @@ class PatchNotesService {
           ],
         });
       }
+      final v4doc = await _db.collection('patch_notes').doc('1.0.3').get();
+      if (!v4doc.exists) {
+        await _db.collection('patch_notes').doc('1.0.3').set({
+          'version': '1.0.3',
+          'title': 'Real Bangkok Thai Content 🏙️',
+          'date': Timestamp.now(),
+          'type': 'minor',
+          'notes': [
+            '6 new lessons added from real Bangkok daily life',
+            'Daily life sentences (going to kitchen, bathroom and more)',
+            'Going out and making plans phrases',
+            'Street ordering and shopping (kao man gai, som tam and more)',
+            'Goodbyes and conversation endings',
+            'Numbers 11 to 1,000,000',
+            'Bangkok slang and useful fillers',
+            '7 new conversation scenarios based on real situations',
+            'Ordering kao man gai, som tam, 7-Eleven run and more',
+          ],
+        });
+      }
       final v3doc = await _db.collection('patch_notes').doc('1.0.2').get();
       if (!v3doc.exists) {
         await _db.collection('patch_notes').doc('1.0.2').set({

@@ -52,6 +52,104 @@ class ExerciseService {
         ConversationQuestion(question: 'What does ยินดีที่รู้จัก mean?', options: ['Goodbye', 'Thank you', 'Nice to meet you', 'How are you?'], correctIndex: 2),
       ],
     ),
+    ConversationExercise(
+      scenarioTitle: '🏪 Going to 7-Eleven',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'ผมจะไป 7-11', phonetic: 'pom-ja-bai-seven', english: "I'm going to 7-Eleven", audioFile: 'out_04.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'คุณจะเอาอะไรไหม', phonetic: 'khun-ja-ao-arai-mai', english: 'Do you need anything?', audioFile: 'out_05.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'เอาไอศครีมด้วยได้ไหม', phonetic: 'ao-ai-sa-kreem-duay-dai-mai', english: 'Can you get ice cream too?', audioFile: 'out_06.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'ได้ครับ แล้วอะไรอีก', phonetic: 'dai-khrap-laeo-arai-eek', english: 'Sure, anything else?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'แค่นั้นพอครับ ขอบคุณ', phonetic: 'khae-nan-por-khrap-khob-khun', english: "That's all, thank you", audioFile: 'greet_02.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What were you asked to bring back?', options: ['Water', 'Snacks', 'Ice cream', 'Coffee'], correctIndex: 2),
+        ConversationQuestion(question: 'Did you want anything else besides ice cream?', options: ['Yes, coffee', 'Yes, snacks', 'Yes, drinks', 'No, just ice cream'], correctIndex: 3),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🍗 Ordering Kao Man Gai',
+      lines: [
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'สวัสดีครับ จะกินอะไร', phonetic: 'sa-wat-dee-khrap, ja-gin-a-rai', english: 'Hello! What would you like?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ขอข้าวมันไก่หนึ่งจานครับ', phonetic: 'khor-khao-man-gai-neung-jaan-khrap', english: 'One chicken rice please', audioFile: 'str_03.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'เอาซอสพิเศษไหมครับ', phonetic: 'ao-sot-pi-set-mai-khrap', english: 'Would you like special sauce?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'เอาครับ ขอบคุณ', phonetic: 'ao-khrap-khob-khun', english: 'Yes please, thank you', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'รอแป๊บนึงนะครับ', phonetic: 'ror-paep-neung-na-khrap', english: 'Wait just a moment', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What dish did you order?', options: ['Pad Thai', 'Som Tam', 'Chicken rice', 'Fried rice'], correctIndex: 2),
+        ConversationQuestion(question: 'Did you want special sauce?', options: ['No', 'Yes', 'Maybe', 'No sauce at all'], correctIndex: 1),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🎬 Planning Movie Night',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'คืนนี้อยากดูหนังมั้ย', phonetic: 'kheun-nee-yak-duu-nang-mai', english: 'Want to watch a movie tonight?', audioFile: 'out_02.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'อยากครับ ดูอะไรดี', phonetic: 'yak-khrap-duu-a-rai-dee', english: 'Yes! What should we watch?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'แล้วแต่คุณเลย', phonetic: 'laeo-dtae-khun-loei', english: 'Up to you', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'โอเค งั้นฉันเลือกเองนะ', phonetic: 'oh-kay-ngan-chan-leuak-eng-na', english: "OK I'll choose then", audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ใช่ครับ มาดูหนังกันเถอะ', phonetic: 'chai-khrap-maa-duu-nang-gan-ther', english: "Yes let's watch a movie", audioFile: 'out_03.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'Who decided what movie to watch?', options: ['You chose', 'The partner chose', 'You chose together', 'Nobody decided'], correctIndex: 1),
+        ConversationQuestion(question: 'What does แล้วแต่คุณเลย mean?', options: ['I want action', 'Up to you', "Let's go out", 'I choose'], correctIndex: 1),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '📱 Daily Check-in',
+      lines: [
+        ConversationLine(speaker: '👤 Partner', thai: 'วันนี้ที่ทำงานเป็นยังไงบ้าง', phonetic: 'wan-nee-tee-tam-ngan-pen-yang-ngai-bang', english: 'How was work today?', audioFile: 'dly_05.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'เหนื่อยมากครับ แต่โอเค', phonetic: 'nuay-mak-khrap-dtae-oh-kay', english: 'Very tired but OK', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'คุณจะกลับบ้านกี่โมง', phonetic: 'khun-ja-glap-baan-gee-mong', english: 'What time will you be home?', audioFile: 'dly_11.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ประมาณสามทุ่มครับ', phonetic: 'bpra-maan-saam-thoom-khrap', english: 'Around 9pm', audioFile: 'dly_12.mp3'),
+        ConversationLine(speaker: '👤 Partner', thai: 'โอเค ฉันรอนะ', phonetic: 'oh-kay-chan-ror-na', english: "OK I'll wait for you", audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'How did you feel about work?', options: ['Great', 'Bored', 'Tired but OK', 'Really happy'], correctIndex: 2),
+        ConversationQuestion(question: 'What time will you be home?', options: ['8pm', '9pm', '10pm', '11pm'], correctIndex: 1),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🚗 Getting a Pickup',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'ฉันกำลังไปแล้ว', phonetic: 'chan-gam-lang-bai-laeo', english: "I'm on my way", audioFile: 'dly_08.mp3'),
+        ConversationLine(speaker: '👤 Friend', thai: 'คุณอยู่ที่ไหน', phonetic: 'khun-yuu-tee-nai', english: 'Where are you?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ผมอยู่แถวสยามครับ', phonetic: 'pom-yuu-thaeo-siam-khrap', english: "I'm near Siam", audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '👤 Friend', thai: 'คุณต้องการให้ฉันไปรับไหม', phonetic: 'khun-dtong-gaan-hai-chan-bai-rap-mai', english: 'Do you need me to pick you up?', audioFile: 'dly_09.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ได้เลยครับ ขอบคุณมาก', phonetic: 'dai-loei-khrap-khob-khun-mak', english: 'Yes please, thank you so much', audioFile: 'greet_02.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'Where are you waiting?', options: ['Near Sukhumvit', 'Near Siam', 'Near On Nut', 'Near Asok'], correctIndex: 1),
+        ConversationQuestion(question: 'Did you accept the ride offer?', options: ['No', 'Maybe later', 'Yes', 'Not needed'], correctIndex: 2),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🛒 Bargaining at Chatuchak',
+      lines: [
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'อันนี้สองร้อยบาทครับ', phonetic: 'an-nee-song-roi-baat-khrap', english: 'This one is 200 baht', audioFile: 'str_04.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'แพงเกินไปครับ ลดได้ไหม', phonetic: 'paeng-gern-bpai-khrap-lot-dai-mai', english: 'Too expensive, can you lower it?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'ลดให้ร้อยห้าสิบได้ครับ', phonetic: 'lot-hai-roi-haa-sib-dai-khrap', english: 'I can do 150 baht', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ร้อยสองสิบได้ไหมครับ', phonetic: 'roi-song-sib-dai-mai-khrap', english: 'How about 120 baht?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'โอเคครับ ตกลง', phonetic: 'oh-kay-khrap-dtok-long', english: 'OK deal', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What was the original price?', options: ['100 baht', '150 baht', '200 baht', '250 baht'], correctIndex: 2),
+        ConversationQuestion(question: 'What was the final agreed price?', options: ['200 baht', '150 baht', '130 baht', '120 baht'], correctIndex: 3),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🥗 Ordering Som Tam',
+      lines: [
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'สวัสดีค่ะ จะสั่งอะไรคะ', phonetic: 'sa-wat-dee-kha-ja-sang-a-rai-kha', english: 'Hello! What would you like to order?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ขอส้มตำหนึ่งจานได้ไหมครับ', phonetic: 'khor-som-tam-neung-jaan-dai-mai-khrap', english: 'Can I have one papaya salad please?', audioFile: 'str_02.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'เผ็ดแค่ไหนคะ', phonetic: 'phet-khae-nai-kha', english: 'How spicy?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ไม่เผ็ดนะครับ', phonetic: 'mai-phet-na-khrap', english: 'Not spicy please', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🧑‍🍳 Vendor', thai: 'โอเคค่ะ รอแป๊บนึงนะคะ', phonetic: 'oh-kay-kha-ror-paep-neung-na-kha', english: 'OK wait just a moment', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What did you order?', options: ['Pad Thai', 'Papaya salad', 'Chicken rice', 'Fried rice'], correctIndex: 1),
+        ConversationQuestion(question: 'How spicy did you order it?', options: ['Very spicy', 'Medium spicy', 'A little spicy', 'Not spicy'], correctIndex: 3),
+      ],
+    ),
   ];
 
   static const _sentences = [

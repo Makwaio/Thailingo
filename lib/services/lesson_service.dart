@@ -10,7 +10,7 @@ class LessonService {
   final Map<int, Lesson> _cache = {};
   final Map<String, Lesson> _alphabetCache = {};
   List<Lesson>? _allLessons;
-  static const int totalLessons = 37;
+  static const int totalLessons = 43;
   static const int stage1Count = 22;
   static const int stage2Start = 23;
 

@@ -1,0 +1,18 @@
+{
+  "id": 41,
+  "title": "Goodbyes & Endings",
+  "subtitle": "How to end conversations properly",
+  "icon": "lesson_goodbye",
+  "color": "#1B5E20",
+  "xpReward": 30,
+  "words": [
+    {"id":"bye_01","thai":"ลาก่อนครับ","phonetic":"laa-gorn-khrap","english":"Goodbye (formal, for a long time)","image":"word_goodbye","audio":"bye_01.mp3","example":"ถึงเวลาต้องไปแล้ว ลาก่อนครับ — It's time to go. Goodbye"},
+    {"id":"bye_02","thai":"แล้วเจอกันครับ","phonetic":"laeo-jer-gan-khrap","english":"See you again","image":"word_seeyou","audio":"bye_02.mp3","example":"แล้วเจอกันครับ ระวังด้วยนะ — See you again, take care"},
+    {"id":"bye_03","thai":"โชคดีนะครับ","phonetic":"chok-dee-na-khrap","english":"Good luck","image":"word_goodluck","audio":"bye_03.mp3","example":"โชคดีนะครับ สำหรับการสอบพรุ่งนี้ — Good luck for the exam tomorrow"},
+    {"id":"bye_04","thai":"ราตรีสวัสดิ์ครับ","phonetic":"raa-dtree-sa-wat-khrap","english":"Good night","image":"word_goodnight","audio":"bye_04.mp3","example":"ดึกแล้ว ราตรีสวัสดิ์ครับ — It's late, good night"},
+    {"id":"bye_05","thai":"ฝันดีนะครับ","phonetic":"fan-dee-na-khrap","english":"Sweet dreams","image":"word_sweetdreams","audio":"bye_05.mp3","example":"ราตรีสวัสดิ์ครับ ฝันดีนะครับ — Good night, sweet dreams"},
+    {"id":"bye_06","thai":"เดี๋ยวเจอกัน","phonetic":"diao-jer-gan","english":"See you soon","image":"word_seeyousoon","audio":"bye_06.mp3","example":"ไปก่อนนะ เดี๋ยวเจอกัน — Going now, see you soon"},
+    {"id":"bye_07","thai":"ดูแลตัวเองด้วยนะ","phonetic":"duu-lae-dtua-eng-duay-na","english":"Take care of yourself","image":"word_takecare","audio":"bye_07.mp3","example":"ดูแลตัวเองด้วยนะ สุขภาพต้องมาก่อน — Take care of yourself, health comes first"},
+    {"id":"bye_08","thai":"คิดถึงนะ","phonetic":"khit-thueng-na","english":"I'll miss you / thinking of you","image":"word_missyou","audio":"bye_08.mp3","example":"เดินทางดีนะ คิดถึงนะ — Safe travels, thinking of you"}
+  ]
+}

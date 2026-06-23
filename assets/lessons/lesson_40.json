@@ -1,0 +1,22 @@
+{
+  "id": 40,
+  "title": "Street Ordering & Shopping",
+  "subtitle": "Order and shop like a local",
+  "icon": "lesson_street",
+  "color": "#E65100",
+  "xpReward": 30,
+  "words": [
+    {"id":"str_01","thai":"ผมขออันหนึ่งได้ไหม","phonetic":"pom-khor-an-neung-dai-mai","english":"Can I have one of those please?","image":"word_oneofthem","audio":"str_01.mp3","example":"ผมขออันหนึ่งได้ไหม อันที่วางอยู่ข้างหน้านั้น — Can I have one, the one in front?"},
+    {"id":"str_02","thai":"ผมขอส้มตำหนึ่งจานได้ไหม","phonetic":"pom-khor-som-tam-neung-jaan-dai-mai","english":"Can I have one papaya salad please?","image":"word_somtam","audio":"str_02.mp3","example":"ผมขอส้มตำหนึ่งจานได้ไหม ไม่เผ็ดนะครับ — Can I have one papaya salad? Not spicy"},
+    {"id":"str_03","thai":"ข้าวมันไก่หนึ่งครับ","phonetic":"khao-man-gai-neung-khrap","english":"One chicken rice please","image":"word_khaomangai","audio":"str_03.mp3","example":"ข้าวมันไก่หนึ่งครับ เอาซอสด้วย — One chicken rice please, with sauce"},
+    {"id":"str_04","thai":"อันนี้เท่าไหร่ครับ","phonetic":"an-nee-thao-rai-khrap","english":"How much is this one?","image":"word_howmuchone","audio":"str_04.mp3","example":"อันนี้เท่าไหร่ครับ ราคาดีไหม — How much is this one? Is it a good price?"},
+    {"id":"str_05","thai":"อันนั้น","phonetic":"an-nan","english":"That one","image":"word_thatone","audio":"str_05.mp3","example":"ไม่เอาอันนี้ครับ เอาอันนั้น — Not this one, that one"},
+    {"id":"str_06","thai":"นี่คืออะไรครับ","phonetic":"nee-khue-arai-khrap","english":"What is this?","image":"word_whatisthis","audio":"str_06.mp3","example":"นี่คืออะไรครับ ผมไม่รู้จัก — What is this? I don't recognize it"},
+    {"id":"str_07","thai":"ใหญ่เกินไป","phonetic":"yai-gern-bpai","english":"This is too big","image":"word_toobig","audio":"str_07.mp3","example":"ขอบคุณ แต่ใหญ่เกินไปสำหรับผม — Thank you but this is too big for me"},
+    {"id":"str_08","thai":"เล็กเกินไป","phonetic":"lek-gern-bpai","english":"This is too small","image":"word_toosmall","audio":"str_08.mp3","example":"อันนี้เล็กเกินไป มีไซส์ใหญ่กว่านี้ไหม — This is too small, do you have a bigger size?"},
+    {"id":"str_09","thai":"อันนี้ดีครับ","phonetic":"an-nee-dee-khrap","english":"This one is good","image":"word_thisgood","audio":"str_09.mp3","example":"อันนี้ดีครับ ขอซื้อเลย — This one is good, I'll buy it"},
+    {"id":"str_10","thai":"ผมขออันนี้หนึ่งกิโลได้ไหม","phonetic":"pom-khor-an-nee-neung-gi-lo-dai-mai","english":"Can I have one kilo of this?","image":"word_onekilo","audio":"str_10.mp3","example":"ผมขออันนี้หนึ่งกิโลได้ไหม ราคาเท่าไหร่ — Can I have one kilo of this? What's the price?"},
+    {"id":"str_11","thai":"ผมขออันนี้หนึ่งชิ้นได้ไหม","phonetic":"pom-khor-an-nee-neung-chin-dai-mai","english":"Can I have one piece of this?","image":"word_onepiece","audio":"str_11.mp3","example":"ผมขออันนี้หนึ่งชิ้นได้ไหม แค่ลองชิมก่อน — Can I have one piece? Just to try"},
+    {"id":"str_12","thai":"ไม่เอาครับ ขอบคุณ","phonetic":"mai-ao-khrap-khob-khun","english":"No thank you I don't want it","image":"word_nothanks","audio":"str_12.mp3","example":"ไม่เอาครับ ขอบคุณ แพงเกินไป — No thank you, it's too expensive"}
+  ]
+}

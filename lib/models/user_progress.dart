@@ -27,6 +27,8 @@ class UserProgress {
     if (lessonId == 1) return true;
     // Stage 2 unlocks when all Stage 1 lessons have at least 1 star
     if (lessonId == 23) return allStage1Complete;
+    // Bonus Stage 1 batch (38-43) — 38 gates on Stage 1 complete; 39-43 chain sequentially
+    if (lessonId == 38) return allStage1Complete;
     // Alphabet lessons (101-105) unlock sequentially, no star requirement
     if (lessonId >= 101 && lessonId <= 105) {
       if (lessonId == 101) return true;

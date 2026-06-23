@@ -1,0 +1,20 @@
+{
+  "id": 39,
+  "title": "Going Out & Plans",
+  "subtitle": "Making plans Bangkok style",
+  "icon": "lesson_goingout",
+  "color": "#AD1457",
+  "xpReward": 30,
+  "words": [
+    {"id":"out_01","thai":"คืนนี้คุณอยากออกไปข้างนอกมั้ย","phonetic":"kheun-nee-khun-yak-ok-bpai-khang-nok-mai","english":"Would you like to go out tonight?","image":"word_goout","audio":"out_01.mp3","example":"คืนนี้คุณอยากออกไปข้างนอกมั้ย อากาศดีมาก — Would you like to go out tonight? The weather is great"},
+    {"id":"out_02","thai":"คุณอยากดูหนังมั้ย","phonetic":"khun-yak-duu-nang-mai","english":"Would you like to watch a movie?","image":"word_movie","audio":"out_02.mp3","example":"คุณอยากดูหนังมั้ย มีหนังใหม่ฉาย — Would you like to watch a movie? There's a new film"},
+    {"id":"out_03","thai":"ใช่ครับ มาดูหนังกันเถอะ","phonetic":"chai-khrap-maa-duu-nang-gan-ther","english":"Yes let's watch a movie","image":"word_watchmovie","audio":"out_03.mp3","example":"ใช่ครับ มาดูหนังกันเถอะ คืนนี้เลย — Yes let's watch a movie, tonight"},
+    {"id":"out_04","thai":"ผมจะไป 7-11","phonetic":"pom-ja-bai-seven","english":"I'm going to 7-Eleven","image":"word_711","audio":"out_04.mp3","example":"ผมจะไป 7-11 แวะหน่อยนะ — I'm going to 7-Eleven, just stopping by"},
+    {"id":"out_05","thai":"คุณจะเอาอะไรไหม","phonetic":"khun-ja-ao-arai-mai","english":"Do you need anything?","image":"word_needanything","audio":"out_05.mp3","example":"ผมจะออกไป คุณจะเอาอะไรไหม — I'm heading out, do you need anything?"},
+    {"id":"out_06","thai":"ผมอยากกินไอศครีม","phonetic":"pom-yak-gin-ai-sa-kreem","english":"I want to eat ice cream","image":"word_icecream","audio":"out_06.mp3","example":"อากาศร้อนมาก ผมอยากกินไอศครีม — It's so hot, I want to eat ice cream"},
+    {"id":"out_07","thai":"ไปด้วยกันไหม","phonetic":"bpai-duay-gan-mai","english":"Want to come with me?","image":"word_comewith","audio":"out_07.mp3","example":"ผมจะออกไปเดิน ไปด้วยกันไหม — I'm going for a walk, want to come?"},
+    {"id":"out_08","thai":"เจอกันที่ไหน","phonetic":"jer-gan-tee-nai","english":"Where shall we meet?","image":"word_meetwhere","audio":"out_08.mp3","example":"เจอกันที่ไหน ร้านกาแฟนั้นได้ไหม — Where shall we meet? That coffee shop?"},
+    {"id":"out_09","thai":"กี่โมง","phonetic":"gee-mong","english":"What time?","image":"word_whattime","audio":"out_09.mp3","example":"เจอกันที่สยาม กี่โมงดี — Meet at Siam, what time?"},
+    {"id":"out_10","thai":"โอเคครับ นัดกันเลย","phonetic":"oh-kay-khrap-nat-gan-loei","english":"OK let's make plans","image":"word_makeplans","audio":"out_10.mp3","example":"โอเคครับ นัดกันเลย พรุ่งนี้เย็น — OK let's make plans, tomorrow evening"}
+  ]
+}

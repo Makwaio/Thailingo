@@ -1,0 +1,25 @@
+{
+  "id": 42,
+  "title": "Numbers 11 to 1,000,000",
+  "subtitle": "Count to a million like a local",
+  "icon": "lesson_numbers2",
+  "color": "#4527A0",
+  "xpReward": 35,
+  "words": [
+    {"id":"nm2_01","thai":"สิบเอ็ด","phonetic":"sib-et","english":"Eleven (11)","image":"word_11","audio":"nm2_01.mp3","example":"ห้องสิบเอ็ด อยู่ชั้นสอง — Room eleven is on the second floor"},
+    {"id":"nm2_02","thai":"ยี่สิบ","phonetic":"yee-sib","english":"Twenty (20)","image":"word_20","audio":"nm2_02.mp3","example":"ยี่สิบบาทครับ — Twenty baht please"},
+    {"id":"nm2_03","thai":"สามสิบ","phonetic":"saam-sib","english":"Thirty (30)","image":"word_30","audio":"nm2_03.mp3","example":"สามสิบนาทีก็ถึงแล้ว — In thirty minutes we'll arrive"},
+    {"id":"nm2_04","thai":"สี่สิบ","phonetic":"see-sib","english":"Forty (40)","image":"word_40","audio":"nm2_04.mp3","example":"เขาอายุสี่สิบปี — He is forty years old"},
+    {"id":"nm2_05","thai":"ห้าสิบ","phonetic":"haa-sib","english":"Fifty (50)","image":"word_50","audio":"nm2_05.mp3","example":"ห้าสิบบาทเท่านั้น — Only fifty baht"},
+    {"id":"nm2_06","thai":"หกสิบ","phonetic":"hok-sib","english":"Sixty (60)","image":"word_60","audio":"nm2_06.mp3","example":"หกสิบกิโลเมตรต่อชั่วโมง — Sixty kilometres per hour"},
+    {"id":"nm2_07","thai":"เจ็ดสิบ","phonetic":"jet-sib","english":"Seventy (70)","image":"word_70","audio":"nm2_07.mp3","example":"เจ็ดสิบปีที่ผ่านมา — Seventy years ago"},
+    {"id":"nm2_08","thai":"แปดสิบ","phonetic":"paet-sib","english":"Eighty (80)","image":"word_80","audio":"nm2_08.mp3","example":"แปดสิบบาทครับ ค่าแท็กซี่ — Eighty baht for the taxi"},
+    {"id":"nm2_09","thai":"เก้าสิบ","phonetic":"gao-sib","english":"Ninety (90)","image":"word_90","audio":"nm2_09.mp3","example":"เก้าสิบเปอร์เซ็นต์ถูกต้อง — Ninety percent correct"},
+    {"id":"nm2_10","thai":"หนึ่งร้อย","phonetic":"neung-roi","english":"One hundred (100)","image":"word_100","audio":"nm2_10.mp3","example":"หนึ่งร้อยบาทพอดี — Exactly one hundred baht"},
+    {"id":"nm2_11","thai":"หนึ่งพัน","phonetic":"neung-phan","english":"One thousand (1,000)","image":"word_1000","audio":"nm2_11.mp3","example":"หนึ่งพันบาทต่อคืน — One thousand baht per night"},
+    {"id":"nm2_12","thai":"หนึ่งหมื่น","phonetic":"neung-muen","english":"Ten thousand (10,000)","image":"word_10000","audio":"nm2_12.mp3","example":"เงินเดือนหนึ่งหมื่นบาท — A salary of ten thousand baht"},
+    {"id":"nm2_13","thai":"หนึ่งแสน","phonetic":"neung-saen","english":"Hundred thousand (100,000)","image":"word_100000","audio":"nm2_13.mp3","example":"รถคันนี้ราคาหนึ่งแสนบาท — This car costs one hundred thousand baht"},
+    {"id":"nm2_14","thai":"หนึ่งล้าน","phonetic":"neung-laan","english":"One million (1,000,000)","image":"word_1000000","audio":"nm2_14.mp3","example":"หนึ่งล้านบาท ฝันเลย — One million baht, just a dream"},
+    {"id":"nm2_15","thai":"หนึ่งร้อยสี่สิบบาท","phonetic":"neung-roi-see-sib-baht","english":"One hundred forty baht","image":"word_140baht","audio":"nm2_15.mp3","example":"หนึ่งร้อยสี่สิบบาท ค่าแท็กซี่ไปสนามบิน — One hundred forty baht for the taxi to the airport"}
+  ]
+}

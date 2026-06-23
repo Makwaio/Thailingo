@@ -38,6 +38,8 @@ const _stage1Rows = [
   _RowConfig('Time & Description', [14, 6, 16]),
   _RowConfig('Getting Around', [7, 8, 18, 17]),
   _RowConfig('Home & Life', [20]),
+  _RowConfig('Real Life Thai', [38, 39, 40]),
+  _RowConfig('Language Tools', [41, 42, 43]),
 ];
 
 const _stage2Rows = [
@@ -69,6 +71,8 @@ String _lessonEmoji(int id) {
     29: '⏰', 30: '🔢', 31: '😎', 32: '💯',
     33: '❤️', 34: '📱', 35: '🏯', 36: '💼',
     37: '🗺️',
+    38: '📅', 39: '🎬', 40: '🛒',
+    41: '👋', 42: '💯', 43: '😎',
   };
   return map[id] ?? '📚';
 }

@@ -1,0 +1,22 @@
+{
+  "id": 38,
+  "title": "Daily Life Sentences",
+  "subtitle": "Real phrases for everyday Bangkok life",
+  "icon": "lesson_daily",
+  "color": "#1565C0",
+  "xpReward": 30,
+  "words": [
+    {"id":"dly_01","thai":"ผมจะไปห้องครัว","phonetic":"pom-ja-bai-hong-krua","english":"I'm going to the kitchen","image":"word_kitchen","audio":"dly_01.mp3","example":"ผมจะไปห้องครัว ใครจะเอาอะไรไหม — I'm going to the kitchen, does anyone want anything?"},
+    {"id":"dly_02","thai":"ไปห้องนอนกันเถอะ","phonetic":"bai-hong-non-gan-ther","english":"Let's go to the bedroom","image":"word_bedroom","audio":"dly_02.mp3","example":"เหนื่อยแล้ว ไปห้องนอนกันเถอะ — I'm tired, let's go to the bedroom"},
+    {"id":"dly_03","thai":"ผมต้องไปห้องน้ำ","phonetic":"pom-dtong-bai-hong-naam","english":"I need to go to the bathroom","image":"word_bathroom","audio":"dly_03.mp3","example":"รอแป๊บหนึ่งนะ ผมต้องไปห้องน้ำ — Wait a moment, I need to go to the bathroom"},
+    {"id":"dly_04","thai":"วันนี้คุณทำอะไรบ้าง","phonetic":"wan-nee-khun-tam-arai-bang","english":"What did you do today?","image":"word_today","audio":"dly_04.mp3","example":"วันนี้คุณทำอะไรบ้าง บอกฉันหน่อย — What did you do today? Tell me"},
+    {"id":"dly_05","thai":"วันนี้ที่ทำงานเป็นยังไงบ้าง","phonetic":"wan-nee-tee-tam-ngan-pen-yang-ngai-bang","english":"How was work today?","image":"word_work","audio":"dly_05.mp3","example":"วันนี้ที่ทำงานเป็นยังไงบ้าง เหนื่อยไหม — How was work today? Are you tired?"},
+    {"id":"dly_06","thai":"พรุ่งนี้คุณทำอะไร","phonetic":"phroong-nee-khun-tam-arai","english":"What are you doing tomorrow?","image":"word_tomorrow","audio":"dly_06.mp3","example":"พรุ่งนี้คุณทำอะไร ว่างไหม — What are you doing tomorrow? Are you free?"},
+    {"id":"dly_07","thai":"ผมกำลังจะไปร้านค้า","phonetic":"pom-gam-lang-ja-bai-raan-kha","english":"I'm going to the store","image":"word_store","audio":"dly_07.mp3","example":"ผมกำลังจะไปร้านค้า จะเอาอะไรไหม — I'm going to the store, do you want anything?"},
+    {"id":"dly_08","thai":"ฉันกำลังไปแล้ว","phonetic":"chan-gam-lang-bai-laeo","english":"I'm on my way","image":"word_onway","audio":"dly_08.mp3","example":"ฉันกำลังไปแล้ว รอแป๊บนึงนะ — I'm on my way, wait just a moment"},
+    {"id":"dly_09","thai":"คุณต้องการให้ฉันไปรับไหม","phonetic":"khun-dtong-gaan-hai-chan-bai-rap-mai","english":"Do you need me to pick you up?","image":"word_pickup","audio":"dly_09.mp3","example":"คุณต้องการให้ฉันไปรับไหม บอกฉันนะ — Do you need me to pick you up? Let me know"},
+    {"id":"dly_10","thai":"ผมได้รับข้อความของคุณแล้ว","phonetic":"pom-dai-rap-khao-khwam-khong-khun-laeo","english":"I got your text message","image":"word_text","audio":"dly_10.mp3","example":"ผมได้รับข้อความของคุณแล้ว จะตอบตอนเย็น — I got your text, will reply this evening"},
+    {"id":"dly_11","thai":"คุณจะกลับบ้านกี่โมง","phonetic":"khun-ja-glap-baan-gee-mong","english":"What time will you be home?","image":"word_hometime","audio":"dly_11.mp3","example":"คุณจะกลับบ้านกี่โมง รอคุณอยู่ — What time will you be home? I'm waiting"},
+    {"id":"dly_12","thai":"ผมจะถึงบ้านตอนสามทุ่ม","phonetic":"pom-ja-thueng-baan-dton-saam-thoom","english":"I'll be home at 9pm","image":"word_9pm","audio":"dly_12.mp3","example":"ผมจะถึงบ้านตอนสามทุ่ม ฝากข้าวไว้ด้วยนะ — I'll be home at 9pm, please save me dinner"}
+  ]
+}
