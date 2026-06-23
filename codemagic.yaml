@@ -19,7 +19,7 @@ workflows:
           firebase appdistribution:distribute \
             build/app/outputs/flutter-apk/app-release.apk \
             --app $FIREBASE_APP_ID \
-            --groups testers \
+            --groups Testers \
             --release-notes "New build"
     artifacts:
       - build/app/outputs/flutter-apk/app-release.apk
