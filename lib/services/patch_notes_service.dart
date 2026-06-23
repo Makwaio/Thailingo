@@ -155,6 +155,21 @@ class PatchNotesService {
           ],
         });
       }
+      final v3doc = await _db.collection('patch_notes').doc('1.0.2').get();
+      if (!v3doc.exists) {
+        await _db.collection('patch_notes').doc('1.0.2').set({
+          'version': '1.0.2',
+          'title': 'Muay Thai Mascot Update 🥊',
+          'date': Timestamp.now(),
+          'type': 'minor',
+          'notes': [
+            'Mascot redesigned as a Muay Thai fighter with mongkol headband and hand wraps',
+            'Mascot repositioned to the right of the header for better readability on small screens',
+            'Speech bubble moved to the left of the mascot',
+            'Various bug fixes and UI polish',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }

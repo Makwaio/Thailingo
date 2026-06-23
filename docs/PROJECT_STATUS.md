@@ -1,6 +1,6 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-23 (v6 — Star rework, pairs scoring, patch notes, typing hints)  
+**Last updated:** 2026-06-23 (v7 — Muay Thai mascot redesign, header layout rework)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
@@ -167,7 +167,7 @@ Placeholder card shown on home screen. Not yet implemented.
 
 | Widget | File | Notes |
 |--------|------|-------|
-| `ThaiMascot` | `ui/widgets/thai_mascot.dart` | CustomPainter Thai-dressed character |
+| `ThaiMascot` | `ui/widgets/thai_mascot.dart` | CustomPainter Muay Thai fighter — mongkol, hand wraps, guard stance |
 | `BobbingMascot` | same file | Animated wrapper with bobbing motion |
 | `MascotMood` | same file | `happy`, `excited`, `sad`, `encouraging`, `neutral` |
 | `XpProgressBar` | `ui/widgets/common_widgets.dart` | Now has `onDark` param — white text/track, gold fill, 12px height |
@@ -239,7 +239,7 @@ Located in `assets/audio/`:
 | Stage 1 bg | `#E8EAF6` (light indigo) / accent navy |
 | Stage 2 bg | `#E8F5E9` (light green) / accent `#1B5E20` |
 | Stage 3 bg | `#FFF3E0` (light orange) / accent `#E65100` |
-| Mascot placement | Integrated in header, speech bubble above mascot |
+| Mascot placement | Integrated in header, speech bubble to the LEFT of mascot (Row layout) |
 | XP bar on header | `onDark: true` — white labels, gold fill, 12px height |
 | Stage banner trophy | Only shown when `allComplete == true` |
 | Entry cards | `IntrinsicHeight` — no fixed `height: 100` |
@@ -284,7 +284,7 @@ Located in `assets/audio/`:
 2. **Create Firestore indexes** — deploy via Firebase CLI or follow the auto-generated links in the Android logcat when running `getLeaderboard()` / `getWeeklyLeaderboard()`
 3. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
 4. **Friend requests system** — currently add-by-username (no request/accept flow)
-5. ~~**Weekly XP banner**~~ ✅ Done in v5
+5. **Publish v1.0.2 patch** via `shorebird patch android --allow-asset-diffs` after mascot redesign ships
 
 ### Known Issues (v3)
 - Weekly leaderboard requires a Firestore composite index on `leaderboard` collection (`weeklyXp DESC`). Follow the error link in logcat to auto-create it.
@@ -353,6 +353,23 @@ Located in `assets/audio/`:
 ### 4. Typing Challenge Improvements
 - **Fuzzy matching** — threshold raised from fixed `≤2` to `≤30% of answer length` (clamped 2-8); common romanization variants accepted: ph/p, aa/a, th/t, ee/i, oo/u, dt/t, kh/k.
 - **Hint system** — 💡 Hint button shown below input field; level 1 shows first letter of each syllable; level 2 shows first 3 letters; max 2 hints per question; using a hint reduces XP reward by 5 (from 10 to 5).
+
+---
+
+## v7 Changes — 2026-06-23
+
+### Muay Thai Mascot Redesign
+- **`_MascotPainter` rewritten** — full CustomPainter replacement in `lib/ui/widgets/thai_mascot.dart`. New fighter draws: red Muay Thai shorts with gold waistband and center stripe, athletic trapezoid torso with muscle line, skin-tone arms in a Muay Thai guard stance (upper arm down → forearm back up → fist), white hand wraps with red stripe, oval head with short dark hair, red mongkol headband with gold border and center jewel, angled brows for focused expression. Mood variants: guard stance (happy/neutral), fists raised high (excited), drooping arms (sad), guard + one raised fist (encouraging).
+- **Colors** — mongkol red `#B5001C`, mongkol gold `#D4A017`, skin `#D4956A`, dark hair/pupils `#1A0A00`.
+
+### Header Layout Rework
+- **Speech bubble moved LEFT of mascot** — `home_screen.dart` `_buildHeader()` right section changed from `Column` (bubble above mascot) to `Row` (bubble left → right-pointing tail → mascot right).
+- **`_BubbleTailRightPainter`** — new `CustomPainter` in `home_screen.dart` drawing a right-pointing triangle tail; replaces downward tail from the old layout.
+- **Mascot repositioned right** — mascot is the rightmost element in the header row; outer section gap reduced from 10px to 6px for tighter layout on small screens.
+- **Mascot size** — reduced from 68px to 64px to compensate for the wider horizontal layout.
+
+### Patch Notes
+- **v1.0.2 seeded** in `PatchNotesService.seedInitialPatchNotes()` — title "Muay Thai Mascot Update 🥊", type "minor", 4 notes about the mascot/header/speech bubble changes.
 
 ---
 

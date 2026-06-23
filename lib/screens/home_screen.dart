@@ -600,14 +600,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       ],
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  // ── Right: mascot + speech bubble ──────────────────
-                  Column(
+                  const SizedBox(width: 6),
+                  // ── Right: speech bubble + mascot ──────────────────
+                  Row(
                     mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Speech bubble above mascot
+                      // Speech bubble to the left of mascot
                       Container(
-                        constraints: const BoxConstraints(maxWidth: 84),
+                        constraints: const BoxConstraints(maxWidth: 80),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 5),
                         decoration: BoxDecoration(
@@ -633,14 +634,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      // Triangle pointer
+                      // Right-pointing tail toward mascot
                       CustomPaint(
-                        size: const Size(10, 5),
-                        painter: _BubbleTailPainter(),
+                        size: const Size(6, 10),
+                        painter: _BubbleTailRightPainter(),
                       ),
-                      // Mascot character
-                      BobbingMascot(size: 68, mood: mood),
+                      const SizedBox(width: 2),
+                      // Mascot character — flush to right edge
+                      BobbingMascot(size: 64, mood: mood),
                     ],
                   ),
                 ],
@@ -798,14 +799,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-// ── Bubble tail painter ────────────────────────────────────────────────
-class _BubbleTailPainter extends CustomPainter {
+// ── Bubble tail — right-pointing (speech bubble left of mascot) ────────
+class _BubbleTailRightPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
       ..moveTo(0, 0)
-      ..lineTo(size.width / 2, size.height)
-      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height / 2)
+      ..lineTo(0, size.height)
       ..close();
     canvas.drawPath(path, Paint()..color = Colors.white);
     canvas.drawPath(
@@ -818,7 +819,7 @@ class _BubbleTailPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_BubbleTailPainter _) => false;
+  bool shouldRepaint(_BubbleTailRightPainter _) => false;
 }
 
 // ── Lesson Row ─────────────────────────────────────────────────────────

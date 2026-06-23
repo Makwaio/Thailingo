@@ -37,196 +37,268 @@ class _MascotPainter extends CustomPainter {
   final MascotMood mood;
   const _MascotPainter({required this.mood});
 
+  static const _skin = Color(0xFFD4956A);
+  static const _skinShade = Color(0xFFBF7D52);
+  static const _mongkolRed = Color(0xFFB5001C);
+  static const _mongkolGold = Color(0xFFD4A017);
+  static const _dark = Color(0xFF1A0A00);
+
   @override
   void paint(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
+    _drawShorts(canvas, w, h);
+    _drawTorso(canvas, w, h);
+    _drawArms(canvas, w, h);
+    _drawNeck(canvas, w, h);
+    _drawHead(canvas, w, h);
+    _drawHair(canvas, w, h);
+    _drawMongkol(canvas, w, h);
+    _drawFace(canvas, w, h);
+    _drawFists(canvas, w, h);
+  }
 
-    // Body (Thai outfit — red/gold)
-    final bodyPaint = Paint()..color = AppTheme.thaiRed;
-    final goldPaint = Paint()..color = AppTheme.thaiGold;
-    final skinPaint = Paint()..color = const Color(0xFFD4956A);
-    final darkPaint = Paint()..color = const Color(0xFF1A0A00);
-    final outlinePaint = Paint()
-      ..color = const Color(0xFF1A0A00)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5;
-
-    // Body
-    final bodyRect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(w * 0.2, h * 0.48, w * 0.6, h * 0.38),
-      Radius.circular(w * 0.12),
+  void _drawShorts(Canvas canvas, double w, double h) {
+    // Legs (skin) below shorts
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.29, h * 0.84, w * 0.16, h * 0.15),
+        Radius.circular(w * 0.04),
+      ),
+      Paint()..color = _skin,
     );
-    canvas.drawRRect(bodyRect, bodyPaint);
-
-    // Gold sash across body
-    final sashPath = Path()
-      ..moveTo(w * 0.2, h * 0.58)
-      ..lineTo(w * 0.8, h * 0.58)
-      ..lineTo(w * 0.8, h * 0.65)
-      ..lineTo(w * 0.2, h * 0.65)
-      ..close();
-    canvas.drawPath(sashPath, goldPaint);
-
-    // Neck
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.55, h * 0.84, w * 0.16, h * 0.15),
+        Radius.circular(w * 0.04),
+      ),
+      Paint()..color = _skin,
+    );
+    // Red Muay Thai shorts
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.22, h * 0.65, w * 0.56, h * 0.22),
+        Radius.circular(w * 0.06),
+      ),
+      Paint()..color = _mongkolRed,
+    );
+    // Gold waistband
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.20, h * 0.63, w * 0.60, h * 0.06),
+        Radius.circular(w * 0.04),
+      ),
+      Paint()..color = _mongkolGold,
+    );
+    // Gold center stripe on shorts
     canvas.drawRect(
-        Rect.fromLTWH(w * 0.38, h * 0.42, w * 0.24, h * 0.08), skinPaint);
+      Rect.fromLTWH(w * 0.46, h * 0.67, w * 0.08, h * 0.20),
+      Paint()..color = _mongkolGold.withValues(alpha: 0.5),
+    );
+  }
 
-    // Head
-    final headPaint = Paint()..color = const Color(0xFFD4956A);
-    canvas.drawOval(
-        Rect.fromLTWH(w * 0.15, h * 0.08, w * 0.7, h * 0.38), headPaint);
-    canvas.drawOval(
-        Rect.fromLTWH(w * 0.15, h * 0.08, w * 0.7, h * 0.38), outlinePaint);
+  void _drawTorso(Canvas canvas, double w, double h) {
+    // Athletic trapezoid torso — wider at shoulders
+    final path = Path()
+      ..moveTo(w * 0.16, h * 0.44)
+      ..lineTo(w * 0.22, h * 0.65)
+      ..lineTo(w * 0.78, h * 0.65)
+      ..lineTo(w * 0.84, h * 0.44)
+      ..quadraticBezierTo(w * 0.50, h * 0.40, w * 0.16, h * 0.44)
+      ..close();
+    canvas.drawPath(path, Paint()..color = _skin);
+    // Center muscle line
+    canvas.drawLine(
+      Offset(w * 0.50, h * 0.44),
+      Offset(w * 0.50, h * 0.64),
+      Paint()
+        ..color = _skinShade
+        ..strokeWidth = 1.0,
+    );
+  }
 
-    // Hair (black)
-    final hairPath = Path()
-      ..addOval(Rect.fromLTWH(w * 0.15, h * 0.04, w * 0.7, h * 0.22));
-    canvas.drawPath(hairPath, darkPaint);
-
-    // Traditional headdress (gold)
-    final crownPath = Path()
-      ..moveTo(w * 0.35, h * 0.08)
-      ..lineTo(w * 0.5, h * -0.02)
-      ..lineTo(w * 0.65, h * 0.08);
-    final crownPaint = Paint()
-      ..color = AppTheme.thaiGold
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3
+  void _drawArms(Canvas canvas, double w, double h) {
+    final armPaint = Paint()
+      ..color = _skin
+      ..strokeWidth = w * 0.11
       ..strokeCap = StrokeCap.round;
-    canvas.drawPath(crownPath, crownPaint);
-    canvas.drawCircle(Offset(w * 0.5, h * -0.02), w * 0.045, goldPaint);
-
-    // Eyes
-    final eyeY = h * 0.24;
-    _drawEye(canvas, Offset(w * 0.36, eyeY), w * 0.065, mood);
-    _drawEye(canvas, Offset(w * 0.64, eyeY), w * 0.065, mood);
-
-    // Mouth
-    _drawMouth(canvas, Offset(w * 0.5, h * 0.34), w * 0.14, mood);
-
-    // Cheek blush
-    final blushPaint = Paint()..color = const Color(0xFFE8756A).withValues(alpha: 0.4);
-    canvas.drawOval(
-        Rect.fromLTWH(w * 0.18, h * 0.28, w * 0.14, h * 0.07), blushPaint);
-    canvas.drawOval(
-        Rect.fromLTWH(w * 0.68, h * 0.28, w * 0.14, h * 0.07), blushPaint);
-
-    // Arms (wai gesture for happy/neutral)
-    if (mood == MascotMood.happy || mood == MascotMood.neutral) {
-      // Left arm going up in wai
-      final leftArm = Path()
-        ..moveTo(w * 0.22, h * 0.55)
-        ..quadraticBezierTo(w * 0.05, h * 0.60, w * 0.28, h * 0.80);
-      canvas.drawPath(leftArm, Paint()
-        ..color = AppTheme.thaiRed
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = w * 0.12
-        ..strokeCap = StrokeCap.round);
-
-      // Right arm going up in wai
-      final rightArm = Path()
-        ..moveTo(w * 0.78, h * 0.55)
-        ..quadraticBezierTo(w * 0.95, h * 0.60, w * 0.72, h * 0.80);
-      canvas.drawPath(rightArm, Paint()
-        ..color = AppTheme.thaiRed
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = w * 0.12
-        ..strokeCap = StrokeCap.round);
-
-      // Hands joined in wai
-      canvas.drawOval(
-          Rect.fromLTWH(w * 0.38, h * 0.76, w * 0.24, h * 0.12), skinPaint);
-    } else if (mood == MascotMood.excited) {
-      // Arms raised up
-      _drawArm(canvas, Offset(w * 0.22, h * 0.55),
-          Offset(w * 0.05, h * 0.35), AppTheme.thaiRed, w * 0.1);
-      _drawArm(canvas, Offset(w * 0.78, h * 0.55),
-          Offset(w * 0.95, h * 0.35), AppTheme.thaiRed, w * 0.1);
-    } else if (mood == MascotMood.sad) {
-      // Arms drooping down
-      _drawArm(canvas, Offset(w * 0.22, h * 0.55),
-          Offset(w * 0.08, h * 0.80), AppTheme.thaiRed, w * 0.1);
-      _drawArm(canvas, Offset(w * 0.78, h * 0.55),
-          Offset(w * 0.92, h * 0.80), AppTheme.thaiRed, w * 0.1);
-      // Tear
-      final tearPaint = Paint()..color = const Color(0xFF6AACFF);
-      canvas.drawOval(
-          Rect.fromLTWH(w * 0.62, h * 0.29, w * 0.05, h * 0.07), tearPaint);
-    } else {
-      // Encouraging — one arm up
-      _drawArm(canvas, Offset(w * 0.22, h * 0.55),
-          Offset(w * 0.05, h * 0.40), AppTheme.thaiRed, w * 0.1);
-      _drawArm(canvas, Offset(w * 0.78, h * 0.55),
-          Offset(w * 0.92, h * 0.70), AppTheme.thaiRed, w * 0.1);
-    }
-
-    // Gold details on body
-    canvas.drawCircle(Offset(w * 0.5, h * 0.56), w * 0.04, goldPaint);
-    canvas.drawCircle(Offset(w * 0.5, h * 0.70), w * 0.03, goldPaint);
-  }
-
-  void _drawArm(Canvas canvas, Offset start, Offset end, Color color, double width) {
-    canvas.drawLine(start, end, Paint()
-      ..color = color
-      ..strokeWidth = width
-      ..strokeCap = StrokeCap.round);
-  }
-
-  void _drawEye(Canvas canvas, Offset center, double radius, MascotMood mood) {
-    final whitePaint = Paint()..color = Colors.white;
-    final pupilPaint = Paint()..color = const Color(0xFF1A0A00);
-    final highlightPaint = Paint()..color = Colors.white;
 
     if (mood == MascotMood.sad) {
-      // Downward arched eye (sad)
-      final path = Path()
-        ..moveTo(center.dx - radius, center.dy)
-        ..quadraticBezierTo(center.dx, center.dy + radius * 0.8, center.dx + radius, center.dy);
-      canvas.drawPath(
-          path, Paint()..color = const Color(0xFF1A0A00)..style = PaintingStyle.stroke..strokeWidth = 2);
+      canvas.drawLine(Offset(w * 0.16, h * 0.48), Offset(w * 0.05, h * 0.70), armPaint);
+      canvas.drawLine(Offset(w * 0.84, h * 0.48), Offset(w * 0.95, h * 0.70), armPaint);
+    } else if (mood == MascotMood.excited) {
+      // Victory — both arms raised high
+      canvas.drawLine(Offset(w * 0.16, h * 0.48), Offset(w * 0.05, h * 0.25), armPaint);
+      canvas.drawLine(Offset(w * 0.84, h * 0.48), Offset(w * 0.95, h * 0.25), armPaint);
     } else {
-      canvas.drawOval(
-          Rect.fromCenter(center: center, width: radius * 2, height: radius * 1.4),
-          whitePaint);
-      canvas.drawOval(
-          Rect.fromCenter(
-              center: Offset(center.dx, center.dy + (mood == MascotMood.excited ? -2 : 0)),
-              width: radius * 1.0,
-              height: radius * 1.1),
-          pupilPaint);
-      canvas.drawOval(
-          Rect.fromCenter(
-              center: Offset(center.dx + radius * 0.2, center.dy - radius * 0.2),
-              width: radius * 0.3,
-              height: radius * 0.3),
-          highlightPaint);
+      // Muay Thai guard — upper arm down, forearm back up
+      canvas.drawLine(Offset(w * 0.16, h * 0.48), Offset(w * 0.08, h * 0.62), armPaint);
+      canvas.drawLine(Offset(w * 0.08, h * 0.62), Offset(w * 0.18, h * 0.36), armPaint);
+      canvas.drawLine(Offset(w * 0.84, h * 0.48), Offset(w * 0.92, h * 0.62), armPaint);
+      canvas.drawLine(Offset(w * 0.92, h * 0.62), Offset(w * 0.82, h * 0.36), armPaint);
     }
   }
 
-  void _drawMouth(Canvas canvas, Offset center, double width, MascotMood mood) {
-    final paint = Paint()
-      ..color = const Color(0xFF1A0A00)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.2
-      ..strokeCap = StrokeCap.round;
-
-    final path = Path();
-    if (mood == MascotMood.happy || mood == MascotMood.excited) {
-      // Big smile
-      path.moveTo(center.dx - width / 2, center.dy);
-      path.quadraticBezierTo(
-          center.dx, center.dy + width * 0.5, center.dx + width / 2, center.dy);
-    } else if (mood == MascotMood.sad) {
-      // Frown
-      path.moveTo(center.dx - width / 2, center.dy + width * 0.2);
-      path.quadraticBezierTo(
-          center.dx, center.dy - width * 0.3, center.dx + width / 2, center.dy + width * 0.2);
+  void _drawFists(Canvas canvas, double w, double h) {
+    if (mood == MascotMood.sad) {
+      _drawFist(canvas, Offset(w * 0.05, h * 0.70), w * 0.08);
+      _drawFist(canvas, Offset(w * 0.95, h * 0.70), w * 0.08);
+    } else if (mood == MascotMood.excited) {
+      _drawFist(canvas, Offset(w * 0.05, h * 0.19), w * 0.08);
+      _drawFist(canvas, Offset(w * 0.95, h * 0.19), w * 0.08);
     } else {
-      // Small smile / neutral
-      path.moveTo(center.dx - width / 2, center.dy);
-      path.quadraticBezierTo(
-          center.dx, center.dy + width * 0.25, center.dx + width / 2, center.dy);
+      _drawFist(canvas, Offset(w * 0.18, h * 0.30), w * 0.08);
+      _drawFist(canvas, Offset(w * 0.82, h * 0.30), w * 0.08);
+    }
+  }
+
+  void _drawFist(Canvas canvas, Offset center, double r) {
+    // White hand wrap
+    canvas.drawOval(
+      Rect.fromCenter(center: center, width: r * 2.2, height: r * 1.6),
+      Paint()..color = Colors.white,
+    );
+    // Red stripe across wrap
+    canvas.drawRect(
+      Rect.fromCenter(center: center, width: r * 2.2, height: r * 0.5),
+      Paint()..color = _mongkolRed,
+    );
+    // Outline
+    canvas.drawOval(
+      Rect.fromCenter(center: center, width: r * 2.2, height: r * 1.6),
+      Paint()
+        ..color = _dark
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 0.8,
+    );
+  }
+
+  void _drawNeck(Canvas canvas, double w, double h) {
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.38, h * 0.37, w * 0.24, h * 0.09),
+        Radius.circular(w * 0.04),
+      ),
+      Paint()..color = _skin,
+    );
+  }
+
+  void _drawHead(Canvas canvas, double w, double h) {
+    canvas.drawOval(
+      Rect.fromLTWH(w * 0.17, h * 0.05, w * 0.66, h * 0.36),
+      Paint()..color = _skin,
+    );
+  }
+
+  void _drawHair(Canvas canvas, double w, double h) {
+    // Short dark hair — top portion of head
+    canvas.drawPath(
+      Path()..addOval(Rect.fromLTWH(w * 0.17, h * 0.03, w * 0.66, h * 0.20)),
+      Paint()..color = _dark,
+    );
+  }
+
+  void _drawMongkol(Canvas canvas, double w, double h) {
+    // Red headband across forehead
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.15, h * 0.155, w * 0.70, h * 0.072),
+        Radius.circular(w * 0.025),
+      ),
+      Paint()..color = _mongkolRed,
+    );
+    // Gold border on headband
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(w * 0.15, h * 0.155, w * 0.70, h * 0.072),
+        Radius.circular(w * 0.025),
+      ),
+      Paint()
+        ..color = _mongkolGold
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5,
+    );
+    // Gold center jewel
+    canvas.drawCircle(
+      Offset(w * 0.50, h * 0.191),
+      w * 0.045,
+      Paint()..color = _mongkolGold,
+    );
+  }
+
+  void _drawFace(Canvas canvas, double w, double h) {
+    // Angled brows — focused fighter expression
+    final browPaint = Paint()
+      ..color = _dark
+      ..strokeWidth = w * 0.038
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(Offset(w * 0.28, h * 0.255), Offset(w * 0.40, h * 0.272), browPaint);
+    canvas.drawLine(Offset(w * 0.60, h * 0.272), Offset(w * 0.72, h * 0.255), browPaint);
+
+    // Eyes
+    _drawEye(canvas, Offset(w * 0.35, h * 0.305), w * 0.06);
+    _drawEye(canvas, Offset(w * 0.65, h * 0.305), w * 0.06);
+
+    // Mouth
+    _drawMouth(canvas, Offset(w * 0.50, h * 0.370), w * 0.13);
+  }
+
+  void _drawEye(Canvas canvas, Offset center, double r) {
+    if (mood == MascotMood.sad) {
+      canvas.drawPath(
+        Path()
+          ..moveTo(center.dx - r, center.dy)
+          ..quadraticBezierTo(center.dx, center.dy + r * 0.9, center.dx + r, center.dy),
+        Paint()
+          ..color = _dark
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8,
+      );
+      return;
+    }
+    canvas.drawOval(
+      Rect.fromCenter(center: center, width: r * 2.0, height: r * 1.3),
+      Paint()..color = Colors.white,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(center.dx, center.dy + (mood == MascotMood.excited ? -r * 0.1 : 0)),
+        width: r * 0.95,
+        height: r * 1.0,
+      ),
+      Paint()..color = _dark,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(center.dx + r * 0.25, center.dy - r * 0.25),
+        width: r * 0.28,
+        height: r * 0.28,
+      ),
+      Paint()..color = Colors.white,
+    );
+  }
+
+  void _drawMouth(Canvas canvas, Offset center, double width) {
+    final paint = Paint()
+      ..color = _dark
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..strokeCap = StrokeCap.round;
+    final path = Path();
+    switch (mood) {
+      case MascotMood.happy || MascotMood.encouraging:
+        path.moveTo(center.dx - width * 0.4, center.dy);
+        path.quadraticBezierTo(center.dx, center.dy + width * 0.32, center.dx + width * 0.4, center.dy);
+      case MascotMood.excited:
+        path.moveTo(center.dx - width * 0.5, center.dy);
+        path.quadraticBezierTo(center.dx, center.dy + width * 0.50, center.dx + width * 0.5, center.dy);
+      case MascotMood.sad:
+        path.moveTo(center.dx - width * 0.4, center.dy + width * 0.18);
+        path.quadraticBezierTo(center.dx, center.dy - width * 0.22, center.dx + width * 0.4, center.dy + width * 0.18);
+      default:
+        // Neutral — determined straight line
+        path.moveTo(center.dx - width * 0.28, center.dy);
+        path.lineTo(center.dx + width * 0.28, center.dy);
     }
     canvas.drawPath(path, paint);
   }
