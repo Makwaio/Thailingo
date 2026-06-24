@@ -16,6 +16,7 @@ import 'exercise_screens/typing_screen.dart';
 import 'result_screen.dart';
 import 'game_over_screen.dart';
 import '../services/review_service.dart';
+import '../services/missed_questions_service.dart';
 import 'bug_report_dialog.dart';
 
 class LessonScreen extends StatefulWidget {
@@ -253,6 +254,20 @@ class _LessonScreenState extends State<LessonScreen>
       timeTaken: _timer.elapsed,
     );
     final levelAfter = _progressService.current.level;
+
+    // Track missed words: words not shown in this session's exercise queue
+    final lp2 = _progressService.current.lessonProgress[widget.lesson.id];
+    if ((lp2?.stars ?? 0) >= 3) {
+      final seenIds = _queue
+          .whereType<Exercise>()
+          .map((e) => e.targetWord.id)
+          .toSet();
+      for (final word in widget.lesson.words) {
+        if (!seenIds.contains(word.id)) {
+          await MissedQuestionsService().addMissedWord(word);
+        }
+      }
+    }
 
     if (!mounted) return;
 

@@ -7,6 +7,7 @@ import '../models/user_progress.dart';
 import '../services/lesson_service.dart';
 import '../services/progress_service.dart';
 import '../services/review_service.dart';
+import '../services/missed_questions_service.dart';
 import '../services/firebase_service.dart';
 import '../services/user_service.dart';
 import '../ui/theme/app_theme.dart';
@@ -16,6 +17,7 @@ import '../services/patch_notes_service.dart';
 import 'lesson_screen.dart';
 import 'login_screen.dart';
 import 'review_screen.dart';
+import 'missed_review_screen.dart';
 import 'settings_screen.dart';
 import 'stats_screen.dart';
 import 'guide_book_screen.dart';
@@ -144,6 +146,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   List<Lesson> _lessons = [];
   UserProgress _progress = UserProgress();
   int _reviewCount = 0;
+  int _missedCount = 0;
   bool _loading = true;
   _StreakStatus _streakStatus = _StreakStatus.none;
   bool _bannerVisible = false;
@@ -189,6 +192,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     final lessons = await _lessonService.loadAllLessons();
     final progress = await _progressService.load();
     final reviewCount = await ReviewService().getCount();
+    final missedCount = await MissedQuestionsService().getMissedCount();
 
     final today = DateTime.now().toIso8601String().substring(0, 10);
     final yesterday = DateTime.now()
@@ -243,6 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _lessons = lessons;
         _progress = progress;
         _reviewCount = reviewCount;
+        _missedCount = missedCount;
         _loading = false;
         _streakStatus = status;
         _bannerVisible = status != _StreakStatus.none;
@@ -382,7 +387,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     // ── Review ──
     items.add(const SizedBox(height: 24));
-    items.add(_ReviewSection(count: _reviewCount, onTap: _startReview));
+    items.add(_ReviewSection(
+      count: _reviewCount,
+      onTap: _startReview,
+      missedCount: _missedCount,
+      onMissedTap: _startMissedReview,
+    ));
 
     return items;
   }
@@ -868,6 +878,31 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       context,
       PageRouteBuilder(
         pageBuilder: (_, anim, __) => const ReviewScreen(),
+        transitionsBuilder: (_, anim, __, child) => SlideTransition(
+          position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
+              .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
+          child: child,
+        ),
+        transitionDuration: const Duration(milliseconds: 350),
+      ),
+    );
+    if (mounted) _load();
+  }
+
+  Future<void> _startMissedReview() async {
+    if (_missedCount == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No missed words yet! Earn 3 stars on a lesson first.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+    await Navigator.push<bool>(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => const MissedReviewScreen(),
         transitionsBuilder: (_, anim, __, child) => SlideTransition(
           position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
               .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
@@ -1948,44 +1983,63 @@ class _WeeklyRankBanner extends StatelessWidget {
 class _ReviewSection extends StatefulWidget {
   final int count;
   final VoidCallback onTap;
-  const _ReviewSection({required this.count, required this.onTap});
+  final int missedCount;
+  final VoidCallback onMissedTap;
+
+  const _ReviewSection({
+    required this.count,
+    required this.onTap,
+    required this.missedCount,
+    required this.onMissedTap,
+  });
 
   @override
   State<_ReviewSection> createState() => _ReviewSectionState();
 }
 
 class _ReviewSectionState extends State<_ReviewSection>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _bobble;
+    with TickerProviderStateMixin {
+  late AnimationController _reviewBobble;
+  late AnimationController _missedBobble;
 
   @override
   void initState() {
     super.initState();
-    _bobble = AnimationController(
+    _reviewBobble = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1800));
-    if (widget.count > 0) _bobble.repeat(reverse: true);
+    _missedBobble = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1600));
+    if (widget.count > 0) _reviewBobble.repeat(reverse: true);
+    if (widget.missedCount > 0) _missedBobble.repeat(reverse: true);
   }
 
   @override
   void didUpdateWidget(_ReviewSection old) {
     super.didUpdateWidget(old);
-    if (widget.count > 0 && !_bobble.isAnimating) {
-      _bobble.repeat(reverse: true);
-    } else if (widget.count == 0 && _bobble.isAnimating) {
-      _bobble.stop();
+    if (widget.count > 0 && !_reviewBobble.isAnimating) {
+      _reviewBobble.repeat(reverse: true);
+    } else if (widget.count == 0 && _reviewBobble.isAnimating) {
+      _reviewBobble.stop();
+    }
+    if (widget.missedCount > 0 && !_missedBobble.isAnimating) {
+      _missedBobble.repeat(reverse: true);
+    } else if (widget.missedCount == 0 && _missedBobble.isAnimating) {
+      _missedBobble.stop();
     }
   }
 
   @override
   void dispose() {
-    _bobble.dispose();
+    _reviewBobble.dispose();
+    _missedBobble.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final active = widget.count > 0;
-    final bubbleColor = active ? const Color(0xFF7C3AED) : AppTheme.locked;
+    final reviewActive = widget.count > 0;
+    final missedActive = widget.missedCount > 0;
+    final headerActive = reviewActive || missedActive;
 
     return Column(
       children: [
@@ -1993,7 +2047,7 @@ class _ReviewSectionState extends State<_ReviewSection>
           children: [
             Expanded(
                 child: Divider(
-                    color: (active
+                    color: (headerActive
                             ? const Color(0xFF7C3AED)
                             : AppTheme.textSecondary)
                         .withValues(alpha: 0.3),
@@ -2001,12 +2055,12 @@ class _ReviewSectionState extends State<_ReviewSection>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                'REVIEW',
+                'PRACTICE',
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 2,
-                  color: active
+                  color: headerActive
                       ? const Color(0xFF7C3AED)
                       : AppTheme.textSecondary,
                 ),
@@ -2014,7 +2068,7 @@ class _ReviewSectionState extends State<_ReviewSection>
             ),
             Expanded(
                 child: Divider(
-                    color: (active
+                    color: (headerActive
                             ? const Color(0xFF7C3AED)
                             : AppTheme.textSecondary)
                         .withValues(alpha: 0.3),
@@ -2022,86 +2076,169 @@ class _ReviewSectionState extends State<_ReviewSection>
           ],
         ),
         const SizedBox(height: 20),
-        GestureDetector(
-          onTap: widget.onTap,
-          child: AnimatedBuilder(
-            animation: _bobble,
-            builder: (_, child) => Transform.translate(
-              offset: Offset(0, active ? (_bobble.value - 0.5) * 8 : 0),
-              child: child,
-            ),
-            child: Column(
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    // Hex shape for review bubble
-                    SizedBox(
-                      width: 72,
-                      height: 82,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          CustomPaint(
-                            size: const Size(72, 82),
-                            painter: _OctagonPainter(
-                              fillColor: bubbleColor,
-                            ),
-                          ),
-                          const Text('📝',
-                              style: TextStyle(fontSize: 28)),
-                        ],
-                      ),
-                    ),
-                    if (active)
-                      Positioned(
-                        top: -4,
-                        right: -4,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: AppTheme.thaiRed,
-                            borderRadius: BorderRadius.circular(
-                                AppTheme.radiusFull),
-                            border: Border.all(
-                                color: Colors.white, width: 1.5),
-                          ),
-                          child: Text('${widget.count}',
-                              style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.white)),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 6),
-                Text('Review Mode',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: active
-                            ? AppTheme.textPrimary
-                            : AppTheme.textSecondary)),
-                const SizedBox(height: 2),
-                Text(
-                  active
-                      ? '${widget.count} ${widget.count == 1 ? 'word' : 'words'} to practise'
-                      : 'All caught up! ✓',
-                  style: TextStyle(
-                      fontSize: 11,
-                      color: active
-                          ? AppTheme.textSecondary
-                          : const Color(0xFF2E7D32),
-                      fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildReviewBubble(reviewActive),
+            _buildMissedBubble(missedActive),
+          ],
         ),
         const SizedBox(height: 32),
       ],
     ).animate().fadeIn(duration: 500.ms, delay: 100.ms);
+  }
+
+  Widget _buildReviewBubble(bool active) {
+    final bubbleColor = active ? const Color(0xFF7C3AED) : AppTheme.locked;
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _reviewBobble,
+        builder: (_, child) => Transform.translate(
+          offset: Offset(0, active ? (_reviewBobble.value - 0.5) * 8 : 0),
+          child: child,
+        ),
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SizedBox(
+                  width: 72,
+                  height: 82,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CustomPaint(
+                        size: const Size(72, 82),
+                        painter: _OctagonPainter(fillColor: bubbleColor),
+                      ),
+                      const Text('📝', style: TextStyle(fontSize: 28)),
+                    ],
+                  ),
+                ),
+                if (active)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.thaiRed,
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.radiusFull),
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      child: Text('${widget.count}',
+                          style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white)),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text('Review Mode',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: active
+                        ? AppTheme.textPrimary
+                        : AppTheme.textSecondary)),
+            const SizedBox(height: 2),
+            Text(
+              active
+                  ? '${widget.count} ${widget.count == 1 ? 'word' : 'words'} to practise'
+                  : 'All caught up! ✓',
+              style: TextStyle(
+                  fontSize: 11,
+                  color: active
+                      ? AppTheme.textSecondary
+                      : const Color(0xFF2E7D32),
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMissedBubble(bool active) {
+    final bubbleColor = active ? const Color(0xFFE65100) : AppTheme.locked;
+    return GestureDetector(
+      onTap: widget.onMissedTap,
+      child: AnimatedBuilder(
+        animation: _missedBobble,
+        builder: (_, child) => Transform.translate(
+          offset: Offset(0, active ? (_missedBobble.value - 0.5) * 8 : 0),
+          child: child,
+        ),
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                SizedBox(
+                  width: 72,
+                  height: 82,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CustomPaint(
+                        size: const Size(72, 82),
+                        painter: _OctagonPainter(fillColor: bubbleColor),
+                      ),
+                      const Text('❓', style: TextStyle(fontSize: 28)),
+                    ],
+                  ),
+                ),
+                if (active)
+                  Positioned(
+                    top: -4,
+                    right: -4,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: AppTheme.thaiRed,
+                        borderRadius:
+                            BorderRadius.circular(AppTheme.radiusFull),
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      child: Text('${widget.missedCount}',
+                          style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white)),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text('Missed',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: active
+                        ? AppTheme.textPrimary
+                        : AppTheme.textSecondary)),
+            const SizedBox(height: 2),
+            Text(
+              active
+                  ? '${widget.missedCount} ${widget.missedCount == 1 ? 'word' : 'words'} to catch up'
+                  : 'All Clear ✅',
+              style: TextStyle(
+                  fontSize: 11,
+                  color: active
+                      ? AppTheme.textSecondary
+                      : const Color(0xFF2E7D32),
+                  fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
