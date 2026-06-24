@@ -33,15 +33,15 @@ class _RowConfig {
 }
 
 const _stage1Rows = [
-  _RowConfig('Greetings & Speaking', [1, 11, 13, 22]),
+  _RowConfig('First Steps', [1, 22, 11]),
   _RowConfig('Numbers & Money', [2, 10, 12]),
   _RowConfig('Food & Drinks', [3, 4, 9]),
-  _RowConfig('People & Feelings', [5, 15, 19, 21]),
-  _RowConfig('Time & Description', [14, 6, 16]),
-  _RowConfig('Getting Around', [7, 8, 18, 17]),
-  _RowConfig('Home & Life', [20]),
-  _RowConfig('Real Life Thai', [38, 39, 40]),
-  _RowConfig('Language Tools', [41, 42, 43]),
+  _RowConfig('Language Basics', [13, 14, 6]),
+  _RowConfig('People & Feelings', [5, 15, 19]),
+  _RowConfig('Getting Around', [7, 8, 17, 18]),
+  _RowConfig('Home & Learning', [16, 20, 21]),
+  _RowConfig('Real Bangkok Life', [38, 39, 40]),
+  _RowConfig('Finishing Stage 1', [41, 42, 43]),
 ];
 
 const _stage2Rows = [
@@ -51,6 +51,53 @@ const _stage2Rows = [
   _RowConfig('Language Tools', [30, 32, 36, 34]),
   _RowConfig('Getting Around Advanced', [37]),
 ];
+
+// ── Stage 1 lesson unlock chain (old IDs in unlock order) ─────────────
+const _stage1Chain = [1, 22, 11, 2, 3, 4, 13, 14, 6, 5, 7, 8, 10, 12, 15, 9, 16, 17, 18, 19, 20, 21, 38, 39, 40, 41, 42, 43];
+
+// ── Stage color anchors for smooth progression ─────────────────────────
+const _s1ColorAnchors = <(int, Color)>[
+  (1,  Color(0xFF4CAF50)),
+  (4,  Color(0xFF2E7D32)),
+  (7,  Color(0xFF00796B)),
+  (10, Color(0xFF00838F)),
+  (13, Color(0xFF0277BD)),
+  (16, Color(0xFF1565C0)),
+  (19, Color(0xFF283593)),
+  (22, Color(0xFF3949AB)),
+  (25, Color(0xFF4527A0)),
+  (28, Color(0xFF311B92)),
+];
+
+const _s2ColorAnchors = <(int, Color)>[
+  (1,  Color(0xFF6A1B9A)),
+  (5,  Color(0xFF880E4F)),
+  (9,  Color(0xFFC62828)),
+  (12, Color(0xFFBF360C)),
+  (15, Color(0xFFE65100)),
+];
+
+Color _lerpAnchors(int pos, List<(int, Color)> anchors) {
+  if (pos <= anchors.first.$1) return anchors.first.$2;
+  if (pos >= anchors.last.$1) return anchors.last.$2;
+  for (int i = 0; i < anchors.length - 1; i++) {
+    final (p1, c1) = anchors[i];
+    final (p2, c2) = anchors[i + 1];
+    if (pos >= p1 && pos <= p2) {
+      return Color.lerp(c1, c2, (pos - p1) / (p2 - p1))!;
+    }
+  }
+  return anchors.last.$2;
+}
+
+Color _lessonFillColor(int lessonId) {
+  final s1Idx = _stage1Chain.indexOf(lessonId);
+  if (s1Idx >= 0) return _lerpAnchors(s1Idx + 1, _s1ColorAnchors);
+  const s2Ids = [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37];
+  final s2Idx = s2Ids.indexOf(lessonId);
+  if (s2Idx >= 0) return _lerpAnchors(s2Idx + 1, _s2ColorAnchors);
+  return AppTheme.primary;
+}
 
 // ── Stage color themes ─────────────────────────────────────────────────
 const _s1Bg     = Color(0xFFE8EAF6); // light indigo
@@ -300,11 +347,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       accentColor: _s1Accent,
       stageNum: 1,
       title: 'Foundations 🇹🇭',
-      subtitle: '22 lessons · Bangkok Thai basics',
+      subtitle: '28 lessons · Bangkok Thai basics',
       locked: false,
       allComplete: _progress.allStage1Complete,
       rows: _stage1Rows,
     ));
+
+    // Stage 1 star tally
+    items.add(_Stage1TallyCard(progress: _progress));
 
     // Gradient divider s1 → s2
     items.add(const _GradientDivider(from: _s1Bg, to: _s2Bg));
@@ -1090,7 +1140,6 @@ class _LessonRow extends StatelessWidget {
                     color: completed ? AppTheme.success : labelColor.withValues(alpha: 0.3)),
                 _HexBubble(
                   lesson: lesson,
-                  color: HexColor.fromHex(lesson.colorHex),
                   unlocked: unlocked,
                   completed: completed,
                   stars: stars,
@@ -1107,53 +1156,114 @@ class _LessonRow extends StatelessWidget {
   }
 }
 
-// ── Hexagon Painter ────────────────────────────────────────────────────
-class _HexPainter extends CustomPainter {
+// ── Octagon Painter ────────────────────────────────────────────────────
+class _OctagonPainter extends CustomPainter {
   final Color fillColor;
-  final Color strokeColor;
-  final double strokeWidth;
+  final int stars;
+  final double shimmer; // 0.0–1.0 for gold border shimmer
+  final bool completed;
 
-  const _HexPainter({
+  _OctagonPainter({
     required this.fillColor,
-    required this.strokeColor,
-    this.strokeWidth = 2.5,
+    this.stars = 0,
+    this.shimmer = 0,
+    this.completed = false,
   });
 
-  Path _hexPath(Size size) {
-    final w = size.width;
-    final h = size.height;
+  Path _oct(Size size, double inset) {
+    final l = inset;
+    final t = inset;
+    final w = size.width - inset * 2;
+    final h = size.height - inset * 2;
+    if (w <= 2 || h <= 2) return Path();
     return Path()
-      ..moveTo(w * 0.25, 0)
-      ..lineTo(w * 0.75, 0)
-      ..lineTo(w, h * 0.5)
-      ..lineTo(w * 0.75, h)
-      ..lineTo(w * 0.25, h)
-      ..lineTo(0, h * 0.5)
+      ..moveTo(l + w * 0.29, t)
+      ..lineTo(l + w * 0.71, t)
+      ..lineTo(l + w, t + h * 0.29)
+      ..lineTo(l + w, t + h * 0.71)
+      ..lineTo(l + w * 0.71, t + h)
+      ..lineTo(l + w * 0.29, t + h)
+      ..lineTo(l, t + h * 0.71)
+      ..lineTo(l, t + h * 0.29)
       ..close();
   }
 
   @override
   void paint(Canvas canvas, Size size) {
-    final path = _hexPath(size);
-    canvas.drawPath(path, Paint()..color = fillColor);
-    canvas.drawPath(
-      path,
-      Paint()
-        ..color = strokeColor
+    double fillInset;
+    if (stars >= 3) {
+      // Gold outer + Silver middle + Bronze inner
+      final goldColor =
+          Color.lerp(const Color(0xFFD4A017), Colors.white, shimmer * 0.4)!;
+      canvas.drawPath(_oct(size, 2.0), Paint()
+        ..color = goldColor
         ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth,
-    );
+        ..strokeWidth = 4.0);
+      canvas.drawPath(_oct(size, 5.5), Paint()
+        ..color = const Color(0xFFB0BEC5)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0);
+      canvas.drawPath(_oct(size, 8.5), Paint()
+        ..color = const Color(0xFFCD7F32)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0);
+      fillInset = 10.5;
+    } else if (stars >= 2) {
+      // Silver outer + Bronze inner
+      canvas.drawPath(_oct(size, 1.5), Paint()
+        ..color = const Color(0xFFB0BEC5)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0);
+      canvas.drawPath(_oct(size, 4.5), Paint()
+        ..color = const Color(0xFFCD7F32)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0);
+      fillInset = 6.5;
+    } else if (stars >= 1) {
+      // Bronze border only
+      canvas.drawPath(_oct(size, 1.5), Paint()
+        ..color = const Color(0xFFCD7F32)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3.0);
+      fillInset = 3.5;
+    } else {
+      fillInset = 0.0;
+    }
+
+    canvas.drawPath(_oct(size, fillInset), Paint()..color = fillColor);
+
+    // Glossy highlight for completed lessons
+    if (completed) {
+      final glossRect = Rect.fromLTWH(
+          fillInset, fillInset,
+          size.width - fillInset * 2, size.height - fillInset * 2);
+      canvas.drawPath(
+        _oct(size, fillInset),
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topLeft,
+            end: const Alignment(0.4, 1),
+            colors: [
+              Colors.white.withValues(alpha: 0.25),
+              Colors.transparent,
+            ],
+            stops: const [0.0, 0.55],
+          ).createShader(glossRect),
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(_HexPainter old) =>
-      old.fillColor != fillColor || old.strokeColor != strokeColor;
+  bool shouldRepaint(_OctagonPainter old) =>
+      old.fillColor != fillColor ||
+      old.stars != stars ||
+      old.shimmer != shimmer ||
+      old.completed != completed;
 }
 
-// ── Hex Bubble (lesson node) ───────────────────────────────────────────
+// ── Octagon Bubble (lesson node) ───────────────────────────────────────
 class _HexBubble extends StatefulWidget {
   final Lesson lesson;
-  final Color color;
   final bool unlocked;
   final bool completed;
   final int stars;
@@ -1162,7 +1272,6 @@ class _HexBubble extends StatefulWidget {
 
   const _HexBubble({
     required this.lesson,
-    required this.color,
     required this.unlocked,
     required this.completed,
     required this.stars,
@@ -1175,20 +1284,25 @@ class _HexBubble extends StatefulWidget {
 }
 
 class _HexBubbleState extends State<_HexBubble>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _bobble;
+  late AnimationController _shimmer;
 
   @override
   void initState() {
     super.initState();
     _bobble = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1800));
+    _shimmer = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2200));
     if (widget.unlocked && !widget.completed) _bobble.repeat(reverse: true);
+    if (widget.stars >= 3) _shimmer.repeat(reverse: true);
   }
 
   @override
   void dispose() {
     _bobble.dispose();
+    _shimmer.dispose();
     super.dispose();
   }
 
@@ -1197,119 +1311,108 @@ class _HexBubbleState extends State<_HexBubble>
     const hexW = 68.0;
     const hexH = 78.0;
 
-    final fillColor =
-        widget.unlocked ? (widget.completed ? AppTheme.thaiNavy : widget.color) : AppTheme.locked;
-    final strokeColor = widget.unlocked
-        ? (widget.completed ? AppTheme.thaiGold : widget.color.withValues(alpha: 0.7))
-        : Colors.grey.withValues(alpha: 0.4);
+    final baseColor = _lessonFillColor(widget.lesson.id);
+    final fillColor = widget.unlocked
+        ? (widget.completed
+            ? Color.lerp(baseColor, Colors.black, 0.18)!
+            : baseColor)
+        : AppTheme.locked;
 
     return GestureDetector(
       onTap: widget.onTap,
       child: AnimatedBuilder(
-        animation: _bobble,
+        animation: Listenable.merge([_bobble, _shimmer]),
         builder: (_, child) => Transform.translate(
           offset: Offset(
               0,
               widget.unlocked && !widget.completed
                   ? (_bobble.value - 0.5) * 8
                   : 0),
-          child: child,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: hexW,
-              height: hexH,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // Shadow layer
-                  if (widget.unlocked)
-                    Positioned(
-                      top: 2,
-                      child: CustomPaint(
-                        size: const Size(hexW, hexH),
-                        painter: _HexPainter(
-                          fillColor: fillColor.withValues(alpha: 0.3),
-                          strokeColor: Colors.transparent,
-                          strokeWidth: 0,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: hexW,
+                height: hexH,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // Octagon shape with star borders
+                    CustomPaint(
+                      size: const Size(hexW, hexH),
+                      painter: _OctagonPainter(
+                        fillColor: fillColor,
+                        stars: widget.unlocked ? widget.stars : 0,
+                        shimmer: _shimmer.value,
+                        completed: widget.completed,
+                      ),
+                    ),
+                    // Emoji
+                    Text(widget.emoji,
+                        style: const TextStyle(fontSize: 22)),
+                    // Lock overlay
+                    if (!widget.unlocked)
+                      Positioned(
+                        bottom: 12,
+                        right: 10,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: const BoxDecoration(
+                              color: Colors.white54, shape: BoxShape.circle),
+                          child: const Icon(Icons.lock_rounded,
+                              color: AppTheme.textSecondary, size: 11),
                         ),
                       ),
-                    ),
-                  // Hex shape
-                  CustomPaint(
-                    size: const Size(hexW, hexH),
-                    painter: _HexPainter(
-                      fillColor: fillColor,
-                      strokeColor: strokeColor,
-                    ),
-                  ),
-                  // Emoji
-                  Text(widget.emoji,
-                      style: const TextStyle(fontSize: 24)),
-                  // Lock overlay
-                  if (!widget.unlocked)
-                    Positioned(
-                      bottom: 12,
-                      right: 10,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                            color: Colors.white54, shape: BoxShape.circle),
-                        child: const Icon(Icons.lock_rounded,
-                            color: AppTheme.textSecondary, size: 11),
+                    // Completed checkmark badge
+                    if (widget.completed)
+                      Positioned(
+                        top: 5,
+                        right: 7,
+                        child: Container(
+                          width: 18,
+                          height: 18,
+                          decoration: const BoxDecoration(
+                              color: AppTheme.success, shape: BoxShape.circle),
+                          child: const Icon(Icons.check_rounded,
+                              color: Colors.white, size: 12),
+                        ),
                       ),
-                    ),
-                  // Completed checkmark badge
-                  if (widget.completed)
-                    Positioned(
-                      top: 6,
-                      right: 8,
-                      child: Container(
-                        width: 18,
-                        height: 18,
-                        decoration: const BoxDecoration(
-                            color: AppTheme.success, shape: BoxShape.circle),
-                        child: const Icon(Icons.check_rounded,
-                            color: Colors.white, size: 12),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: 76,
-              child: Text(
-                widget.lesson.title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: widget.unlocked
-                        ? AppTheme.textPrimary
-                        : AppTheme.textSecondary),
-              ),
-            ),
-            if (widget.unlocked) ...[
-              const SizedBox(height: 2),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(
-                  3,
-                  (i) => Text('⭐',
-                      style: TextStyle(
-                          fontSize: 9,
-                          color: i < widget.stars
-                              ? null
-                              : Colors.grey.withValues(alpha: 0.25))),
+                  ],
                 ),
               ),
+              const SizedBox(height: 5),
+              SizedBox(
+                width: 76,
+                child: Text(
+                  widget.lesson.title,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: widget.unlocked
+                          ? AppTheme.textPrimary
+                          : AppTheme.textSecondary),
+                ),
+              ),
+              if (widget.unlocked) ...[
+                const SizedBox(height: 2),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(
+                    3,
+                    (i) => Text('⭐',
+                        style: TextStyle(
+                            fontSize: 9,
+                            color: i < widget.stars
+                                ? null
+                                : Colors.grey.withValues(alpha: 0.25))),
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -1366,6 +1469,92 @@ class _GradientDivider extends StatelessWidget {
           colors: [from, to],
         ),
       ),
+    );
+  }
+}
+
+// ── Stage 1 Star Tally Card ────────────────────────────────────────────
+class _Stage1TallyCard extends StatelessWidget {
+  final UserProgress progress;
+  const _Stage1TallyCard({required this.progress});
+
+  @override
+  Widget build(BuildContext context) {
+    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+        17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43];
+    int totalStars = 0, bronze = 0, silver = 0, gold = 0;
+    for (final id in stage1Ids) {
+      final s = progress.lessonStars(id);
+      totalStars += s;
+      if (s >= 1) bronze++;
+      if (s >= 2) silver++;
+      if (s >= 3) gold++;
+    }
+    const maxStars = 28 * 3; // 84
+
+    return Container(
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: _s1Bg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _s1Accent.withValues(alpha: 0.18)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Stage 1 Stars',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700,
+                      color: AppTheme.textPrimary)),
+              Text('$totalStars / $maxStars ⭐',
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
+                      color: _s1Accent)),
+            ],
+          ),
+          const SizedBox(height: 8),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: LinearProgressIndicator(
+              value: maxStars > 0 ? totalStars / maxStars : 0,
+              minHeight: 8,
+              backgroundColor: Colors.grey.shade200,
+              valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.thaiGold),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _TallyBadge('🥉', '$bronze/28', 'Bronze', const Color(0xFFCD7F32)),
+              _TallyBadge('🥈', '$silver/28', 'Silver', const Color(0xFF90A4AE)),
+              _TallyBadge('🥇', '$gold/28', 'Gold', const Color(0xFFD4A017)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TallyBadge extends StatelessWidget {
+  final String icon;
+  final String count;
+  final String label;
+  final Color color;
+  const _TallyBadge(this.icon, this.count, this.label, this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text('$icon $count',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: color)),
+        Text(label,
+            style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+      ],
     );
   }
 }
@@ -1855,10 +2044,8 @@ class _ReviewSectionState extends State<_ReviewSection>
                         children: [
                           CustomPaint(
                             size: const Size(72, 82),
-                            painter: _HexPainter(
+                            painter: _OctagonPainter(
                               fillColor: bubbleColor,
-                              strokeColor: AppTheme.thaiGold,
-                              strokeWidth: 2,
                             ),
                           ),
                           const Text('📝',

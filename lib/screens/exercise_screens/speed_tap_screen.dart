@@ -10,6 +10,7 @@ class SpeedTapScreen extends StatefulWidget {
   final void Function(bool correct, {int bonusXp}) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  final bool hideEnglish;
 
   const SpeedTapScreen({
     super.key,
@@ -17,6 +18,7 @@ class SpeedTapScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    this.hideEnglish = false,
   });
 
   @override
@@ -288,7 +290,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                     padding: const EdgeInsets.all(12),
                     child: Center(
                       child: Text(
-                        opt.english,
+                        widget.hideEnglish ? opt.phonetic : opt.english,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 15,

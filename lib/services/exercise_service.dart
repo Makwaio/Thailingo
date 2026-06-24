@@ -180,6 +180,9 @@ class ExerciseService {
     ),
   ];
 
+  bool _isStage1Lesson(int lessonId) =>
+      lessonId <= 22 || (lessonId >= 38 && lessonId <= 43);
+
   List<dynamic> buildQueue(Lesson lesson) {
     final settings = SettingsService();
     final words = List<Word>.from(lesson.words)..shuffle(_rng);
@@ -245,8 +248,8 @@ class ExerciseService {
         queue.add(_sentences[_rng.nextInt(_sentences.length)]);
       }
 
-      // Insert conversation every 8 words
-      if (i > 0 && i % 8 == 7 && settings.gtConversation) {
+      // Insert conversation every 8 words (Stage 2+ only — Stage 1 stays phonetic-focused)
+      if (i > 0 && i % 8 == 7 && settings.gtConversation && !_isStage1Lesson(lesson.id)) {
         queue.add(_conversations[_rng.nextInt(_conversations.length)]);
       }
 
@@ -273,6 +276,21 @@ class ExerciseService {
         promptText: '⭐ Final review',
       ));
     }
+
+    // Pad to 20 questions minimum; trim if over 20
+    const targetCount = 20;
+    while (queue.length < targetCount) {
+      final word = words[_rng.nextInt(words.length)];
+      final others = words.where((w) => w.id != word.id).toList()..shuffle(_rng);
+      final distractors = others.take(3).toList();
+      queue.add(Exercise(
+        type: ExerciseType.multipleChoice,
+        targetWord: word,
+        options: _shuffle([word, ...distractors]),
+        promptText: 'Practice',
+      ));
+    }
+    if (queue.length > targetCount) queue.removeRange(targetCount, queue.length);
 
     return queue;
   }

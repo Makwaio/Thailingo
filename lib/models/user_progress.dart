@@ -24,16 +24,21 @@ class UserProgress {
   int get xpInLevel => totalXp % 200;
 
   bool isLessonUnlocked(int lessonId) {
-    if (lessonId == 1) return true;
-    // Stage 2 unlocks when all Stage 1 lessons have at least 1 star
+    // Stage 1 unlock chain (lessons unlock in this order, each requiring previous ≥1 star)
+    const s1Chain = [1, 22, 11, 2, 3, 4, 13, 14, 6, 5, 7, 8, 10, 12, 15, 9, 16, 17, 18, 19, 20, 21, 38, 39, 40, 41, 42, 43];
+    final s1Idx = s1Chain.indexOf(lessonId);
+    if (s1Idx >= 0) {
+      if (s1Idx == 0) return true;
+      return (lessonProgress[s1Chain[s1Idx - 1]]?.stars ?? 0) >= 1;
+    }
+    // Stage 2 unlocks when all Stage 1 lessons complete
     if (lessonId == 23) return allStage1Complete;
-    // Bonus Stage 1 batch (38-43) — 38 gates on Stage 1 complete; 39-43 chain sequentially
-    if (lessonId == 38) return allStage1Complete;
-    // Alphabet lessons (101-105) unlock sequentially, no star requirement
+    // Alphabet lessons (101-105) unlock sequentially by completion
     if (lessonId >= 101 && lessonId <= 105) {
       if (lessonId == 101) return true;
       return lessonProgress[lessonId - 1]?.completed ?? false;
     }
+    // Stage 2 lessons (24-37): unlock sequentially
     return (lessonProgress[lessonId - 1]?.stars ?? 0) >= 1;
   }
 
@@ -43,18 +48,20 @@ class UserProgress {
   int lessonStars(int lessonId) => lessonProgress[lessonId]?.stars ?? 0;
 
   // Stage complete = all lessons have at least 1 star (used for unlock gates)
-  bool get allStage1Complete =>
-      List.generate(22, (i) => i + 1)
-          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+  bool get allStage1Complete {
+    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43];
+    return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+  }
 
   bool get allStage2Complete =>
       List.generate(15, (i) => i + 23)
           .every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
 
   // Mastered = all lessons have 3 stars (used for achievement checks)
-  bool get allStage1Mastered =>
-      List.generate(22, (i) => i + 1)
-          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+  bool get allStage1Mastered {
+    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43];
+    return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+  }
 
   bool get allStage2Mastered =>
       List.generate(15, (i) => i + 23)
@@ -162,7 +169,7 @@ const kAchievements = [
   AchievementDef('word_collector', '📚', 'Word Collector', 'Learn 50+ words'),
   AchievementDef('sharp_shooter', '🎯', 'Sharp Shooter', 'Hit a 10× combo in a lesson'),
   AchievementDef('diamond', '💎', 'Diamond', 'Reach level 10 (2 000 XP)'),
-  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 22 Stage 1 lessons with 3 stars'),
+  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 28 Stage 1 lessons with 3 stars'),
   AchievementDef('stage2_master', '🏙️', 'Survival Thai', 'Complete all 15 Stage 2 lessons with 3 stars'),
 ];
 

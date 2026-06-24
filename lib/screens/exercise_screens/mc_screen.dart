@@ -11,6 +11,7 @@ class McScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  final bool hideEnglish;
 
   const McScreen({
     super.key,
@@ -18,6 +19,7 @@ class McScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    this.hideEnglish = false,
   });
 
   @override
@@ -64,8 +66,10 @@ class _McScreenState extends State<McScreen> {
           ...ex.options.asMap().entries.map((entry) {
             final i = entry.key;
             final word = entry.value;
-            final label = _isTh2En ? word.english : word.thai;
-            final sublabel = _isTh2En ? null : word.phonetic;
+            final label = _isTh2En
+                ? (widget.hideEnglish ? word.phonetic : word.english)
+                : word.thai;
+            final sublabel = _isTh2En ? null : (widget.hideEnglish ? null : word.phonetic);
 
             ChoiceState state = ChoiceState.idle;
             if (widget.answered) {
@@ -137,7 +141,8 @@ class _McScreenState extends State<McScreen> {
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           border: Border.all(color: AppTheme.accent, width: 1.5),
         ),
-        child: Text(target.english,
+        child: Text(
+            widget.hideEnglish ? target.phonetic : target.english,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 fontSize: 28, fontWeight: FontWeight.w800,

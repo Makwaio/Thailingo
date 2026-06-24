@@ -107,6 +107,50 @@ class _StatsScreenState extends State<StatsScreen> {
       children: [
         const _SectionLabel('OVERVIEW'),
         const SizedBox(height: 10),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF5B21B6), Color(0xFF7C3AED)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF7C3AED).withValues(alpha: 0.3),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('📚', style: TextStyle(fontSize: 32)),
+              const SizedBox(width: 14),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$_totalWordsLearned',
+                    style: const TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        height: 1.0),
+                  ),
+                  const Text(
+                    'words learned',
+                    style: TextStyle(fontSize: 13, color: Colors.white70),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 10),
         GridView.count(
           crossAxisCount: 3,
           shrinkWrap: true,
@@ -119,7 +163,6 @@ class _StatsScreenState extends State<StatsScreen> {
             _StatCard('📊', 'Level', '${_progress.level}', AppTheme.primary),
             _StatCard('🔥', 'Best Streak', '${_progress.longestStreak}d', const Color(0xFFFF9600)),
             _StatCard('✅', 'Lessons Done', '$_totalCompleted / ${_lessons.length}', AppTheme.success),
-            _StatCard('📚', 'Words Learned', '$_totalWordsLearned', const Color(0xFF7C3AED)),
             _StatCard('💯', 'Perfect', '$_perfectLessons', AppTheme.success),
             _StatCard('🎯', 'Avg Accuracy', '${_avgAccuracy.round()}%', AppTheme.primary),
             _StatCard('⚡', 'Best Combo', '${_progress.maxCombo}×', const Color(0xFFFF9600)),

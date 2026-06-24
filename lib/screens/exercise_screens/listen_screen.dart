@@ -11,6 +11,7 @@ class ListenScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  final bool hideEnglish;
 
   const ListenScreen({
     super.key,
@@ -18,6 +19,7 @@ class ListenScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    this.hideEnglish = false,
   });
 
   @override
@@ -142,7 +144,7 @@ class _ListenScreenState extends State<ListenScreen>
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ChoiceCard(
-                label: word.english,
+                label: widget.hideEnglish ? word.phonetic : word.english,
                 state: state,
                 onTap: () => _select(word),
               ),

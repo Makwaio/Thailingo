@@ -174,6 +174,26 @@ class PatchNotesService {
           ],
         });
       }
+      final v6doc = await _db.collection('patch_notes').doc('1.0.5').get();
+      if (!v6doc.exists) {
+        await _db.collection('patch_notes').doc('1.0.5').set({
+          'version': '1.0.5',
+          'title': 'Major UI & Content Update 🎨',
+          'date': Timestamp.now(),
+          'type': 'major',
+          'notes': [
+            'Stage 1 expanded to 28 lessons with new unlock order',
+            'Hexagons redesigned as octagons with layered star borders (bronze/silver/gold)',
+            'Smooth green→indigo color gradient across Stage 1',
+            'Stage 1 phonetic-only mode — learn sounds before English translations',
+            'No conversation exercises in Stage 1 — stays focused on vocabulary',
+            'Stage 1 star tally card shows bronze/silver/gold progress',
+            'Lessons now pad to 20 questions minimum for longer practice sessions',
+            'Words Learned shown prominently in stats',
+            'Keyboard no longer blocks typing challenge input field',
+          ],
+        });
+      }
       final v4doc = await _db.collection('patch_notes').doc('1.0.3').get();
       if (!v4doc.exists) {
         await _db.collection('patch_notes').doc('1.0.3').set({

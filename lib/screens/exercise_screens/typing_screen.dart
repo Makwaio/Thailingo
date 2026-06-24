@@ -127,8 +127,9 @@ class _TypingScreenState extends State<TypingScreen> {
   Widget build(BuildContext context) {
     final word = widget.exercise.targetWord;
 
-    return Padding(
-      padding: const EdgeInsets.all(20),
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    return SingleChildScrollView(
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + bottomInset),
       child: Column(
         children: [
           // Thai word display
