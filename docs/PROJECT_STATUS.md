@@ -1,6 +1,6 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-23 (v8 — 6 new lessons, 7 new conversation scenarios, Bangkok daily life content)  
+**Last updated:** 2026-06-24 (v9 — Cloud content, audio caching, menu bottom sheet, Manage Lessons screen)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
@@ -290,11 +290,11 @@ Located in `assets/audio/`:
 | UserService | `user_service.dart` | Firestore CRUD; leaderboard streams; friends |
 
 ### Next 5 Tasks
-1. **Generate audio for lessons 38-43** — run `python scripts/generate_audio_38_43.py` (requires `pip install gtts`)
-2. **Add SHA-1 fingerprint** to Firebase Console to enable Google Sign In on device
-3. **Create Firestore indexes** — deploy via Firebase CLI or follow the auto-generated links in the Android logcat when running `getLeaderboard()` / `getWeeklyLeaderboard()`
-4. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
-5. **Publish v1.0.3 patch** via `shorebird patch android --allow-asset-diffs` after audio generation ships
+1. **Upload lessons to Firestore** — run `python scripts/upload_lessons_to_firestore.py` (requires service account key + `pip install firebase-admin`)
+2. **Add Firestore index** for `lessons` collection — Firestore Console → Indexes → add composite index on `id ASC`
+3. **Add SHA-1 fingerprint** to Firebase Console to enable Google Sign In on device
+4. **Create Firestore indexes** for leaderboard — deploy via Firebase CLI or follow links in Android logcat
+5. **iOS setup** — add `GoogleService-Info.plist` + update `firebase_options.dart` for iOS
 
 ### Known Issues (v3)
 - Weekly leaderboard requires a Firestore composite index on `leaderboard` collection (`weeklyXp DESC`). Follow the error link in logcat to auto-create it.
@@ -380,6 +380,40 @@ Located in `assets/audio/`:
 
 ### Patch Notes
 - **v1.0.2 seeded** in `PatchNotesService.seedInitialPatchNotes()` — title "Muay Thai Mascot Update 🥊", type "minor", 4 notes about the mascot/header/speech bubble changes.
+
+---
+
+## v9 Changes — 2026-06-24
+
+### Cloud Content Pipeline
+- `LessonService` now loads from **SharedPreferences cache → Firestore → local assets** in priority order
+- Background Firestore sync on every launch picks up new lessons automatically
+- New lessons only need to be added to Firestore — no app release needed
+- `Lesson.toJson()` / `Word.toJson()` added for cache serialization
+
+### Audio Caching
+- `AudioService._playWordAudio()` now has 4-priority fallback:
+  1. Bundled asset (fast, offline)
+  2. Disk cache in `documents/audio_cache/` (offline after first play)
+  3. Google TTS on-demand + background cache to disk
+  4. Silent skip
+- `path_provider` added to pubspec.yaml
+- Fixes missing audio for lessons 38-43 on users who received code via Shorebird patch (no assets)
+
+### Header Menu Redesign (Section 9)
+- Replaced 4 individual icon buttons (Guide, Stats, Leaderboard, Settings) with single `☰` hamburger menu
+- Menu opens as a bottom sheet with: Profile, Leaderboard, Guide Book, Settings, Bug Report, What's New, Sign Out / Sign In
+- All navigation verified and wired to correct screens
+
+### Developer Mode — Manage Lessons
+- New `ManageLessonsScreen` accessible from Dev Mode in Settings
+- Lists all lessons (from Firestore or local cache)
+- Per-lesson "Upload to Firestore" button and "Upload All" action
+- "Add Lesson" dialog for creating new lessons with words
+- `scripts/upload_lessons_to_firestore.py` — bulk upload script using Firebase Admin SDK
+
+### Patch Notes
+- v1.0.4 "Cloud Content & Auto Audio 🌐" seeded as major patch
 
 ---
 

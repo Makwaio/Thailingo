@@ -14,6 +14,7 @@ import '../ui/widgets/common_widgets.dart';
 import '../ui/widgets/thai_mascot.dart';
 import '../services/patch_notes_service.dart';
 import 'lesson_screen.dart';
+import 'login_screen.dart';
 import 'review_screen.dart';
 import 'settings_screen.dart';
 import 'stats_screen.dart';
@@ -22,6 +23,7 @@ import 'stage0_screen.dart';
 import 'leaderboard_screen.dart';
 import 'profile_screen.dart';
 import 'whats_new_screen.dart';
+import 'bug_report_dialog.dart';
 
 // ── Row groupings ──────────────────────────────────────────────────────
 class _RowConfig {
@@ -562,20 +564,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                     color: Colors.white)),
                             const Spacer(),
                             _HeaderIconBtn(
-                                icon: Icons.menu_book_rounded,
-                                onTap: _openGuideBook),
-                            const SizedBox(width: 5),
-                            _HeaderIconBtn(
-                                icon: Icons.emoji_events_rounded,
-                                onTap: _openStats),
-                            const SizedBox(width: 5),
-                            _HeaderIconBtn(
-                                icon: Icons.leaderboard_rounded,
-                                onTap: _openLeaderboard),
-                            const SizedBox(width: 5),
-                            _HeaderIconBtn(
-                                icon: Icons.settings_rounded,
-                                onTap: _openSettings),
+                                icon: Icons.menu_rounded,
+                                onTap: _openMenu),
                           ],
                         ),
                         const SizedBox(height: 2),
@@ -752,6 +742,68 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     );
   }
 
+  void _openMenu() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => _MenuSheet(
+        isSignedIn: _isSignedIn,
+        avatarEmoji: _avatarEmoji,
+        onProfile: () { Navigator.pop(context); _openProfile(); },
+        onStats: () { Navigator.pop(context); _openStats(); },
+        onLeaderboard: () { Navigator.pop(context); _openLeaderboard(); },
+        onGuideBook: () { Navigator.pop(context); _openGuideBook(); },
+        onSettings: () { Navigator.pop(context); _openSettings(); },
+        onBugReport: () {
+          Navigator.pop(context);
+          showBugReportDialog(context, screen: 'Home');
+        },
+        onWhatsNew: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (_) => const WhatsNewScreen()));
+        },
+        onSignOut: () { Navigator.pop(context); _signOut(); },
+        onSignIn: () { Navigator.pop(context); _openSignIn(); },
+      ),
+    );
+  }
+
+  Future<void> _signOut() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Sign out?'),
+        content: const Text('Your progress is saved to the cloud.'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Sign Out',
+                  style: TextStyle(color: AppTheme.danger))),
+        ],
+      ),
+    );
+    if (confirm != true || !mounted) return;
+    await FirebaseService().signOut();
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+      (_) => false,
+    );
+  }
+
+  Future<void> _openSignIn() async {
+    await Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginScreen()),
+    );
+  }
+
   Future<void> _startReview() async {
     if (_reviewCount == 0) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -800,6 +852,159 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       ),
     );
     if (mounted) _load();
+  }
+}
+
+// ── Menu bottom sheet ──────────────────────────────────────────────────
+class _MenuSheet extends StatelessWidget {
+  final bool isSignedIn;
+  final String avatarEmoji;
+  final VoidCallback onProfile;
+  final VoidCallback onStats;
+  final VoidCallback onLeaderboard;
+  final VoidCallback onGuideBook;
+  final VoidCallback onSettings;
+  final VoidCallback onBugReport;
+  final VoidCallback onWhatsNew;
+  final VoidCallback onSignOut;
+  final VoidCallback onSignIn;
+
+  const _MenuSheet({
+    required this.isSignedIn,
+    required this.avatarEmoji,
+    required this.onProfile,
+    required this.onStats,
+    required this.onLeaderboard,
+    required this.onGuideBook,
+    required this.onSettings,
+    required this.onBugReport,
+    required this.onWhatsNew,
+    required this.onSignOut,
+    required this.onSignIn,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppTheme.thaiNavy,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      padding: EdgeInsets.fromLTRB(
+          0, 12, 0, MediaQuery.of(context).padding.bottom + 24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Handle bar
+          Container(
+            width: 40, height: 4,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Profile header
+          if (isSignedIn)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  Container(
+                    width: 44, height: 44,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppTheme.thaiGold, width: 2),
+                    ),
+                    child: Center(
+                      child: avatarEmoji.isNotEmpty
+                          ? Text(avatarEmoji,
+                              style: const TextStyle(fontSize: 22))
+                          : const Icon(Icons.person_rounded,
+                              color: Colors.white, size: 22),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  const Text('My Account',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white)),
+                ],
+              ),
+            ),
+          if (isSignedIn) const SizedBox(height: 12),
+          const Divider(color: Colors.white12, height: 1),
+          const SizedBox(height: 8),
+          // Menu items
+          _MenuItem(icon: '👤', label: 'Profile & Stats', onTap: onProfile),
+          _MenuItem(icon: '🏆', label: 'Leaderboard', onTap: onLeaderboard),
+          _MenuItem(icon: '📖', label: 'Guide Book', onTap: onGuideBook),
+          _MenuItem(icon: '⚙️', label: 'Settings', onTap: onSettings),
+          _MenuItem(icon: '🐛', label: 'Report a Bug', onTap: onBugReport),
+          _MenuItem(icon: '📋', label: "What's New", onTap: onWhatsNew),
+          const SizedBox(height: 8),
+          const Divider(color: Colors.white12, height: 1),
+          const SizedBox(height: 8),
+          if (isSignedIn)
+            _MenuItem(
+              icon: '🚪',
+              label: 'Sign Out',
+              onTap: onSignOut,
+              labelColor: Colors.redAccent.shade100,
+            )
+          else
+            _MenuItem(
+              icon: '🔑',
+              label: 'Sign In with Google',
+              onTap: onSignIn,
+              labelColor: AppTheme.thaiGold,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MenuItem extends StatelessWidget {
+  final String icon;
+  final String label;
+  final VoidCallback onTap;
+  final Color? labelColor;
+
+  const _MenuItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.labelColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        child: Row(
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 20)),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: labelColor ?? Colors.white),
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded,
+                color: Colors.white.withValues(alpha: 0.4), size: 20),
+          ],
+        ),
+      ),
+    );
   }
 }
 

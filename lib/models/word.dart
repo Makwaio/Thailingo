@@ -26,4 +26,14 @@ class Word {
         audio: json['audio'] as String? ?? '',
         example: json['example'] as String? ?? '',
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'thai': thai,
+        'phonetic': phonetic,
+        'english': english,
+        'image': image,
+        'audio': audio,
+        'example': example,
+      };
 }

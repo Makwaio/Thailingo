@@ -155,6 +155,25 @@ class PatchNotesService {
           ],
         });
       }
+      final v5doc = await _db.collection('patch_notes').doc('1.0.4').get();
+      if (!v5doc.exists) {
+        await _db.collection('patch_notes').doc('1.0.4').set({
+          'version': '1.0.4',
+          'title': 'Cloud Content & Auto Audio 🌐',
+          'date': Timestamp.now(),
+          'type': 'major',
+          'notes': [
+            'Lessons now load from the cloud — new content appears without app updates',
+            'Audio auto-fetches from Google TTS for any missing pronunciation',
+            'All fetched audio cached to device for offline playback',
+            'New lessons 38-43 now have full audio: Daily Life, Going Out, Street Ordering, Goodbyes, Advanced Numbers, Slang',
+            '7 new Bangkok conversation scenarios',
+            'New hamburger menu in the header replaces icon buttons',
+            'Sign out, leaderboard, guide book and settings all in one place',
+            'Dev mode: Manage Lessons screen to add or upload lessons to Firestore',
+          ],
+        });
+      }
       final v4doc = await _db.collection('patch_notes').doc('1.0.3').get();
       if (!v4doc.exists) {
         await _db.collection('patch_notes').doc('1.0.3').set({

@@ -30,4 +30,14 @@ class Lesson {
             .map((w) => Word.fromJson(w as Map<String, dynamic>))
             .toList(),
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'subtitle': subtitle,
+        'icon': icon,
+        'color': colorHex,
+        'xpReward': xpReward,
+        'words': words.map((w) => w.toJson()).toList(),
+      };
 }

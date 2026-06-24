@@ -8,6 +8,7 @@ import '../ui/theme/app_theme.dart';
 import 'bug_report_dialog.dart';
 import 'bug_reports_screen.dart';
 import 'whats_new_screen.dart';
+import 'manage_lessons_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -274,6 +275,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _DevButton(
                     label: '📋 Add Patch Note',
                     onTap: () => showAddPatchNoteDialog(context),
+                  ),
+                  const SizedBox(height: 8),
+                  _DevButton(
+                    label: '📚 Manage Lessons',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const ManageLessonsScreen()),
+                    ),
                   ),
                 ],
               ],
