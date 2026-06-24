@@ -11,7 +11,6 @@ class ListenScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
-  final bool hideEnglish;
 
   const ListenScreen({
     super.key,
@@ -19,7 +18,6 @@ class ListenScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
-    this.hideEnglish = false,
   });
 
   @override
@@ -38,6 +36,15 @@ class _ListenScreenState extends State<ListenScreen>
     _pulseCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 800))
       ..repeat(reverse: true);
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        setState(() => _played = true);
+        AudioService().playWord(
+          widget.exercise.targetWord.audio,
+          thaiText: widget.exercise.targetWord.thai,
+        );
+      }
+    });
   }
 
   @override
@@ -107,7 +114,7 @@ class _ListenScreenState extends State<ListenScreen>
                               fontSize: 12, color: Colors.white70,
                               fontStyle: FontStyle.italic)),
                       const SizedBox(height: 6),
-                      Text(_played ? 'Tap to review' : 'Tap to reveal',
+                      Text(_played ? 'Tap to replay' : 'Loading...',
                           style: const TextStyle(
                               fontSize: 10, color: Colors.white60,
                               fontWeight: FontWeight.w600)),
@@ -144,7 +151,7 @@ class _ListenScreenState extends State<ListenScreen>
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ChoiceCard(
-                label: widget.hideEnglish ? word.phonetic : word.english,
+                label: word.english,
                 state: state,
                 onTap: () => _select(word),
               ),

@@ -31,6 +31,12 @@ class Lesson {
             .toList(),
       );
 
+  int get stage {
+    if (id <= 22 || (id >= 38 && id <= 43)) return 1;
+    if (id >= 23 && id <= 37) return 2;
+    return 3;
+  }
+
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,

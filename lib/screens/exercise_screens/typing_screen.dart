@@ -45,6 +45,19 @@ class _TypingScreenState extends State<TypingScreen> {
     super.dispose();
   }
 
+  // If phonetic is very long, only require typing the first segment
+  String get _targetPhonetic {
+    final p = widget.exercise.targetWord.phonetic;
+    if (p.length <= 20) return p;
+    final parts = p.split('-');
+    String built = parts[0];
+    for (int i = 1; i < parts.length; i++) {
+      if ('$built-${parts[i]}'.length > 20) break;
+      built = '$built-${parts[i]}';
+    }
+    return built;
+  }
+
   String _normalize(String s) =>
       s.trim().toLowerCase().replaceAll(RegExp(r'[-\s]'), '');
 
@@ -90,7 +103,7 @@ class _TypingScreenState extends State<TypingScreen> {
   int _min(int a, int b) => a < b ? a : b;
 
   String _generateHint(int level) {
-    final parts = widget.exercise.targetWord.phonetic.split('-');
+    final parts = _targetPhonetic.split('-');
     return parts.map((part) {
       if (part.isEmpty) return '';
       final visible = level == 1 ? 1 : part.length.clamp(0, 3);
@@ -110,8 +123,7 @@ class _TypingScreenState extends State<TypingScreen> {
 
   void _submit() {
     if (_submitted || widget.answered) return;
-    final correct = _isCloseEnough(
-        _controller.text, widget.exercise.targetWord.phonetic);
+    final correct = _isCloseEnough(_controller.text, _targetPhonetic);
     setState(() {
       _submitted = true;
       _wasCorrect = correct;
@@ -262,7 +274,7 @@ class _TypingScreenState extends State<TypingScreen> {
                   if (_wasCorrect != true) ...[
                     const SizedBox(height: 4),
                     Text(
-                      word.phonetic,
+                      _targetPhonetic,
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -346,7 +358,7 @@ class _TypingScreenState extends State<TypingScreen> {
               )
             else
               Text(
-                'Accepted: ${word.phonetic} (close spellings OK)',
+                'Accepted: $_targetPhonetic (close spellings OK)',
                 style: const TextStyle(
                     fontSize: 12, color: AppTheme.textSecondary),
                 textAlign: TextAlign.center,

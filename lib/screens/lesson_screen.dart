@@ -84,9 +84,6 @@ class _LessonScreenState extends State<LessonScreen>
     super.dispose();
   }
 
-  bool get _isStage1 =>
-      widget.lesson.id <= 22 || (widget.lesson.id >= 38 && widget.lesson.id <= 43);
-
   double get _progress => _queue.isEmpty ? 0 : _idx / _queue.length;
 
   void _onAnswer(bool correct, {String correctAns = '', String? hint, int bonusXp = 0}) {
@@ -460,7 +457,6 @@ class _LessonScreenState extends State<LessonScreen>
                     : null),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
-            hideEnglish: _isStage1,
           );
         case ExerciseType.speedTap:
           exercise = SpeedTapScreen(
@@ -470,7 +466,6 @@ class _LessonScreenState extends State<LessonScreen>
                 bonusXp: bonusXp),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
-            hideEnglish: _isStage1,
           );
         case ExerciseType.typing:
           exercise = TypingScreen(
@@ -495,7 +490,6 @@ class _LessonScreenState extends State<LessonScreen>
                     : null),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
-            hideEnglish: _isStage1,
           );
       }
     } else {

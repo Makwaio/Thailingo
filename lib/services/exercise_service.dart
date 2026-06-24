@@ -180,119 +180,90 @@ class ExerciseService {
     ),
   ];
 
-  bool _isStage1Lesson(int lessonId) =>
-      lessonId <= 22 || (lessonId >= 38 && lessonId <= 43);
-
   List<dynamic> buildQueue(Lesson lesson) {
     final settings = SettingsService();
-    final words = List<Word>.from(lesson.words)..shuffle(_rng);
-    final queue = <dynamic>[];
+    final words = lesson.words;
+    final isStage1 = lesson.stage == 1;
+    const target = 20;
 
-    // Build enabled exercise type cycle
-    final types = <ExerciseType>[
+    // Ordered type cycle — MC always first, then enabled extras
+    final typeCycle = <ExerciseType>[
       ExerciseType.multipleChoice,
       ExerciseType.multipleChoiceTh,
     ];
-    if (settings.gtListen) types.add(ExerciseType.listenAndChoose);
-    if (settings.gtSpeedTap) types.add(ExerciseType.speedTap);
+    if (settings.gtListen) typeCycle.add(ExerciseType.listenAndChoose);
+    if (settings.gtSpeedTap) typeCycle.add(ExerciseType.speedTap);
+    if (settings.gtTyping) typeCycle.add(ExerciseType.typing);
 
-    for (int i = 0; i < words.length; i++) {
-      final word = words[i];
-      final others = words.where((w) => w.id != word.id).toList()..shuffle(_rng);
-      final distractors = others.take(3).toList();
-      final type = types[i % types.length];
+    final pool = <dynamic>[];
+    int round = 0;
 
-      switch (type) {
-        case ExerciseType.speedTap:
-          queue.add(Exercise(
-            type: ExerciseType.speedTap,
-            targetWord: word,
-            options: _shuffle([word, ...distractors]),
-            promptText: 'Tap the correct answer!',
-          ));
-        case ExerciseType.listenAndChoose:
-          queue.add(Exercise(
-            type: ExerciseType.listenAndChoose,
-            targetWord: word,
-            options: _shuffle([word, ...distractors]),
-            promptText: 'Select what you hear',
-          ));
-        case ExerciseType.multipleChoiceTh:
-          queue.add(Exercise(
-            type: ExerciseType.multipleChoiceTh,
-            targetWord: word,
-            options: _shuffle([word, ...distractors]),
-            promptText: 'How do you write this in Thai?',
-          ));
-        default:
-          queue.add(Exercise(
-            type: ExerciseType.multipleChoice,
-            targetWord: word,
-            options: _shuffle([word, ...distractors]),
-            promptText: 'What does this mean?',
-          ));
-      }
+    while (pool.length < target) {
+      final type = typeCycle[round % typeCycle.length];
+      final shuffledWords = List<Word>.from(words)..shuffle(_rng);
 
-      // Insert match pairs every 4 words
-      if (i > 0 && i % 4 == 3 && words.length >= 4 && settings.gtMatchPairs) {
-        final start = max(0, i - 3);
-        final pairWords =
-            words.sublist(start, min(start + 4, words.length));
-        if (pairWords.length == 4) {
-          queue.add(MatchPairExercise(pairs: _shuffle(pairWords)));
+      for (final word in shuffledWords) {
+        if (pool.length >= target * 3) break;
+        if (type == ExerciseType.typing) {
+          pool.add(Exercise(
+            type: ExerciseType.typing,
+            targetWord: word,
+            options: [],
+            promptText: 'Type the phonetic spelling',
+          ));
+        } else {
+          final dist = _distractors(word, words);
+          pool.add(Exercise(
+            type: type,
+            targetWord: word,
+            options: _shuffle([word, ...dist]),
+            promptText: switch (type) {
+              ExerciseType.multipleChoiceTh => 'How do you write this in Thai?',
+              ExerciseType.listenAndChoose => 'Select what you hear',
+              ExerciseType.speedTap => 'Tap the correct answer!',
+              _ => 'What does this mean?',
+            },
+          ));
         }
       }
 
-      // Insert sentence builder every 6 words
-      if (i > 0 && i % 6 == 5 && settings.gtSentenceBuilder) {
-        queue.add(_sentences[_rng.nextInt(_sentences.length)]);
+      // Pairs block after every 2nd word-round
+      if (settings.gtMatchPairs && words.length >= 3 && round % 2 == 1) {
+        final pairWords = (List<Word>.from(words)..shuffle(_rng))
+            .take(min(4, words.length))
+            .toList();
+        pool.add(MatchPairExercise(pairs: pairWords));
       }
 
-      // Insert conversation every 8 words (Stage 2+ only — Stage 1 stays phonetic-focused)
-      if (i > 0 && i % 8 == 7 && settings.gtConversation && !_isStage1Lesson(lesson.id)) {
-        queue.add(_conversations[_rng.nextInt(_conversations.length)]);
+      // Sentence builder after every 3rd word-round
+      if (settings.gtSentenceBuilder && round % 3 == 2) {
+        pool.add(_sentences[_rng.nextInt(_sentences.length)]);
       }
 
-      // Insert typing every 5 words
-      if (i > 0 && i % 5 == 4 && settings.gtTyping) {
-        queue.add(Exercise(
-          type: ExerciseType.typing,
-          targetWord: word,
-          options: [],
-          promptText: 'Type the phonetic spelling',
-        ));
+      // Conversation after every 4th word-round (Stage 2+ only)
+      if (!isStage1 && settings.gtConversation && round % 4 == 3) {
+        pool.add(_conversations[_rng.nextInt(_conversations.length)]);
       }
+
+      round++;
+      if (round > 20) break;
     }
 
-    // Final review — 3 random MC questions
-    final review = (List<Word>.from(words)..shuffle(_rng)).take(3);
-    for (final word in review) {
-      final others =
-          words.where((w) => w.id != word.id).toList()..shuffle(_rng);
-      queue.add(Exercise(
-        type: ExerciseType.multipleChoice,
-        targetWord: word,
-        options: _shuffle([word, ...others.take(3)]),
-        promptText: '⭐ Final review',
-      ));
-    }
+    pool.shuffle(_rng);
+    return pool.take(target).toList();
+  }
 
-    // Pad to 20 questions minimum; trim if over 20
-    const targetCount = 20;
-    while (queue.length < targetCount) {
-      final word = words[_rng.nextInt(words.length)];
-      final others = words.where((w) => w.id != word.id).toList()..shuffle(_rng);
-      final distractors = others.take(3).toList();
-      queue.add(Exercise(
-        type: ExerciseType.multipleChoice,
-        targetWord: word,
-        options: _shuffle([word, ...distractors]),
-        promptText: 'Practice',
-      ));
+  List<Word> _distractors(Word target, List<Word> pool) {
+    final others = List<Word>.from(pool.where((w) => w.id != target.id))
+      ..shuffle(_rng);
+    if (others.isEmpty) return [target, target, target];
+    final result = <Word>[];
+    int i = 0;
+    while (result.length < 3) {
+      result.add(others[i % others.length]);
+      i++;
     }
-    if (queue.length > targetCount) queue.removeRange(targetCount, queue.length);
-
-    return queue;
+    return result;
   }
 
   List<dynamic> buildReviewQueue(List<Word> words) {
