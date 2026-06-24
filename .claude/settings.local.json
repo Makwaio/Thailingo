@@ -15,7 +15,8 @@
       "Bash(python generate_stage2_audio.py)",
       "Bash(dart analyze *)",
       "Bash(dart fix *)",
-      "Bash(shorebird patch *)"
+      "Bash(shorebird patch *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d['title']\\); [print\\(w['audio'], w['thai'][:10]\\) for w in d['words'][:3]]\")"
     ]
   }
 }
