@@ -180,7 +180,7 @@ class ExerciseService {
     ),
   ];
 
-  static const _visualLessonIds = {3, 4, 9, 11, 16, 17, 44, 47};
+  static const _visualLessonIds = {3, 4, 9, 11, 16, 17, 29, 32};
 
   List<dynamic> buildQueue(Lesson lesson) {
     final settings = SettingsService();
@@ -264,8 +264,8 @@ class ExerciseService {
         }
       }
 
-      // Opposites Challenge — only for lesson 46
-      if (settings.gtOpposites && lesson.id == 46 && round % 2 == 0) {
+      // Opposites Challenge — only for lesson 31
+      if (settings.gtOpposites && lesson.id == 31 && round % 2 == 0) {
         final shuffled = List<Word>.from(words)..shuffle(_rng);
         final opp = _buildOpposites(shuffled, words);
         if (opp != null) pool.add(opp);

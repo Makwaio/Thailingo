@@ -169,11 +169,59 @@ class ProgressService {
     UserService().syncProgressToFirestore(uid, p).catchError((_) {});
   }
 
+  /// Resets lesson progress only — keeps XP, streaks, and stats.
+  Future<void> resetLessonsOnly() async {
+    final p = await load();
+    p.lessonProgress.clear();
+    await save();
+    _trySyncToFirestore(p);
+  }
+
+  /// Marks the given lesson IDs as accessible (stars ≥ 1, timesCompleted ≥ 1)
+  /// or removes their progress entry. Does NOT award XP.
+  Future<void> setLessonsAccessible(List<int> ids, bool accessible) async {
+    final p = await load();
+    for (final id in ids) {
+      if (accessible) {
+        final ex = p.lessonProgress[id];
+        p.lessonProgress[id] = LessonProgress(
+          completed: true,
+          stars: max(ex?.stars ?? 0, 1),
+          bestScore: ex?.bestScore ?? 0,
+          bestAccuracy: ex?.bestAccuracy ?? 0,
+          timesPlayed: ex?.timesPlayed ?? 0,
+          timesCompleted: max(ex?.timesCompleted ?? 0, 1),
+          bestTimeSeconds: ex?.bestTimeSeconds ?? 0,
+          lastPlayedDate: ex?.lastPlayedDate,
+        );
+      } else {
+        p.lessonProgress.remove(id);
+      }
+    }
+    await save();
+    _trySyncToFirestore(p);
+  }
+
   /// Clears all stored progress and resets in-memory cache.
   Future<void> clearAll() async {
     _progress = UserProgress();
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
+  }
+
+  /// Export current progress as a JSON string (for snapshot/backup).
+  Future<String> exportJson() async {
+    final p = await load();
+    return jsonEncode(p.toJson());
+  }
+
+  /// Restore progress from a JSON string snapshot.
+  Future<void> restoreFromJson(String json) async {
+    try {
+      final p = UserProgress.fromJson(jsonDecode(json) as Map<String, dynamic>);
+      _progress = p;
+      await save();
+    } catch (_) {}
   }
 
   UserProgress get current => _progress ?? UserProgress();

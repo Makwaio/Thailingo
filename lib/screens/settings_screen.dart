@@ -23,17 +23,27 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final _settings = SettingsService();
   String _versionDisplay = 'v1.0.2';
+  bool _devUnlocked = false;
+
+  static const _snapshotPrefKey = 'dev_unlock_snapshot';
 
   @override
   void initState() {
     super.initState();
     _loadVersion();
+    _loadDevUnlockedState();
   }
 
   Future<void> _loadVersion() async {
     final prefs = await SharedPreferences.getInstance();
     final patch = prefs.getInt('patch_number') ?? 6;
     if (mounted) setState(() => _versionDisplay = 'v1.0.2-$patch');
+  }
+
+  Future<void> _loadDevUnlockedState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSnapshot = prefs.containsKey(_snapshotPrefKey);
+    if (mounted) setState(() => _devUnlocked = hasSnapshot);
   }
 
   bool get _sound => _settings.soundEnabled;
@@ -299,8 +309,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 12),
                   _DevButton(
-                    label: '⚡ Unlock All Lessons',
-                    onTap: _unlockAllLessons,
+                    label: _devUnlocked
+                        ? '🔒 Revert to Previous State'
+                        : '🔓 Unlock All',
+                    onTap: _toggleUnlockAll,
                   ),
                   const SizedBox(height: 8),
                   _DevButton(
@@ -402,12 +414,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {});
   }
 
-  Future<void> _unlockAllLessons() async {
-    await ProgressService().unlockAllLessons(LessonService.totalLessons);
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked with 3 stars!')),
-      );
+  Future<void> _toggleUnlockAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (_devUnlocked) {
+      // Restore snapshot
+      final snapshot = prefs.getString(_snapshotPrefKey);
+      await prefs.remove(_snapshotPrefKey);
+      if (snapshot != null) {
+        await ProgressService().restoreFromJson(snapshot);
+      }
+      if (mounted) {
+        setState(() => _devUnlocked = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Progress restored to previous state.')),
+        );
+      }
+    } else {
+      // Save snapshot and unlock all
+      final current = await ProgressService().exportJson();
+      await prefs.setString(_snapshotPrefKey, current);
+      await ProgressService().unlockAllLessons(LessonService.totalLessons);
+      if (mounted) {
+        setState(() => _devUnlocked = true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked! Tap again to revert.')),
+        );
+      }
     }
   }
 

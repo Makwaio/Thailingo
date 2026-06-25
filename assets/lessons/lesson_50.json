@@ -1,0 +1,30 @@
+{
+  "id": 50,
+  "title": "Bangkok Slang & Street Talk",
+  "subtitle": "Sound like a local in Bangkok",
+  "icon": "lesson_slang",
+  "color": "#FF8F00",
+  "xpReward": 80,
+  "words": [
+    {"id":"slg_01","thai":"เจ๋ง","phonetic":"jeng","english":"Cool / Awesome (modern slang)","image":"","audio":"lesson50_word01.mp3","example":"รถคันนั้นเจ๋งมาก — That car is so cool"},
+    {"id":"slg_02","thai":"เท่","phonetic":"teh","english":"Cool / Stylish","image":"","audio":"lesson50_word02.mp3","example":"เขาแต่งตัวเท่มาก — He dresses very stylishly"},
+    {"id":"slg_03","thai":"แจ่ม","phonetic":"jaem","english":"Awesome / Great (Bangkok slang)","image":"","audio":"lesson50_word03.mp3","example":"อาหารนี้แจ่มมาก — This food is awesome"},
+    {"id":"slg_04","thai":"โหด","phonetic":"hoot","english":"Intense / Hardcore / Brutal (can be positive)","image":"","audio":"lesson50_word04.mp3","example":"โปรโมชั่นนี้โหดมาก — This promotion is intense (great deal)"},
+    {"id":"slg_05","thai":"กวน","phonetic":"guan","english":"Annoying / Troublemaking","image":"","audio":"lesson50_word05.mp3","example":"อย่ากวนนะ — Don't be annoying"},
+    {"id":"slg_06","thai":"ชิว","phonetic":"chew","english":"Chill / Relaxed","image":"","audio":"lesson50_word06.mp3","example":"วันนี้ชิวมากเลย — Very chill today"},
+    {"id":"slg_07","thai":"เมพ","phonetic":"mep","english":"Pro / Expert (from 'map')","image":"","audio":"lesson50_word07.mp3","example":"เขาเมพมาก เล่นเกมเก่งมาก — He's a pro, plays games really well"},
+    {"id":"slg_08","thai":"ซวย","phonetic":"suay","english":"Unlucky / Bad luck","image":"","audio":"lesson50_word08.mp3","example":"วันนี้ซวยมาก รถยางแตก — So unlucky today, got a flat tire"},
+    {"id":"slg_09","thai":"บ้า","phonetic":"baa","english":"Crazy (can be affectionate)","image":"","audio":"lesson50_word09.mp3","example":"มึงบ้าหรือเปล่า — Are you crazy? (casual between friends)"},
+    {"id":"slg_10","thai":"กรี๊ด","phonetic":"greet","english":"Scream with excitement","image":"","audio":"lesson50_word10.mp3","example":"กรี๊ด! หล่อมาก — Screaming! So handsome"},
+    {"id":"slg_11","thai":"สงสัย","phonetic":"song-sai","english":"Suspect / Suspicious / Wonder","image":"","audio":"lesson50_word11.mp3","example":"สงสัยว่าเขาชอบเธอ — I wonder if he likes her"},
+    {"id":"slg_12","thai":"ชอบ!","phonetic":"chob","english":"Love it! (affirmation)","image":"","audio":"lesson50_word12.mp3","example":"ชอบ! นี่แหละที่ต้องการ — Love it! That's exactly what I wanted"},
+    {"id":"slg_13","thai":"ไหว","phonetic":"wai","english":"Can handle / Manage (casual)","image":"","audio":"lesson50_word13.mp3","example":"ไหวไหม — Can you handle it?"},
+    {"id":"slg_14","thai":"ไม่ไหว","phonetic":"mai-wai","english":"Can't handle it / Too much","image":"","audio":"lesson50_word14.mp3","example":"ไม่ไหวแล้ว เหนื่อยมาก — Can't take it anymore, so tired"},
+    {"id":"slg_15","thai":"ฮา","phonetic":"haa","english":"Funny / Laughing (lol)","image":"","audio":"lesson50_word15.mp3","example":"ฮาแตกเลย — Died laughing (so funny)"},
+    {"id":"slg_16","thai":"อิ่ม","phonetic":"im","english":"Full (after eating)","image":"","audio":"lesson50_word16.mp3","example":"อิ่มแล้วครับ กินไม่ไหวแล้ว — I'm full, can't eat anymore"},
+    {"id":"slg_17","thai":"สาย","phonetic":"saai","english":"Late (also: type/style as in สายกิน = foodie)","image":"","audio":"lesson50_word17.mp3","example":"สายกิน — A food lover / foodie"},
+    {"id":"slg_18","thai":"ปัง","phonetic":"pang","english":"Slay / Stunning (very trendy)","image":"","audio":"lesson50_word18.mp3","example":"แต่งตัวปังมากวันนี้ — You're absolutely slaying today"},
+    {"id":"slg_19","thai":"มีมุก","phonetic":"mee-mook","english":"Witty / Has good jokes","image":"","audio":"lesson50_word19.mp3","example":"เขามีมุกมาก ตลกดี — He's so witty, very funny"},
+    {"id":"slg_20","thai":"เยี่ยมมาก","phonetic":"yiam-maak","english":"Excellent / Superb","image":"","audio":"lesson50_word20.mp3","example":"เยี่ยมมาก! ทำได้ดีมาก — Excellent! You did great"}
+  ]
+}

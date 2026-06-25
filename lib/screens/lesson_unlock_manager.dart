@@ -4,18 +4,20 @@ import '../models/user_progress.dart';
 import '../services/lesson_service.dart';
 import '../services/progress_service.dart';
 
-const _s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
-const _s2Chain = [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37];
+const _s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
+const _s2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
+const _s3Chain = [46, 47, 48, 49, 50];
 
 String _emoji(int id) {
   const m = {
     1: '👋', 2: '🔢', 3: '🍜', 4: '🥤', 5: '👨‍👩‍👧', 6: '🎨', 7: '🚕', 8: '🗺️',
     9: '🐘', 10: '🛒', 11: '💬', 12: '🏪', 13: '📝', 14: '🕐', 15: '😊', 16: '💪',
     17: '⛈️', 18: '🏛️', 19: '👔', 20: '🏠', 21: '📚', 22: '🙏', 23: '🍽️', 24: '💰',
-    25: '🆘', 26: '🏥', 27: '📅', 28: '👤', 29: '⏰', 30: '🔢', 31: '😎', 32: '💯',
-    33: '❤️', 34: '📱', 35: '🏯', 36: '💼', 37: '🗺️',
-    38: '📅', 39: '🎬', 40: '🛒', 41: '👋', 42: '💯', 43: '😎',
-    44: '🔷', 45: '📏', 46: '↔️', 47: '👕', 48: '🪨',
+    25: '🆘', 26: '🏥',
+    29: '🔷', 30: '📏', 31: '↔️', 32: '👕', 33: '🪨',
+    34: '🏥', 35: '🎊', 36: '📅', 37: '👤', 38: '⏰', 39: '🔢',
+    40: '🗺️', 41: '📱', 42: '💼', 43: '❤️', 44: '💯', 45: '🆘',
+    46: '💬', 47: '📜', 48: '📝', 49: '🎵', 50: '😎',
   };
   return m[id] ?? '📚';
 }
@@ -59,7 +61,7 @@ class _LessonUnlockManagerScreenState extends State<LessonUnlockManagerScreen> {
   bool _isUnlocked(int id) => (_progress.lessonProgress[id]?.stars ?? 0) >= 1;
 
   int get _unlockedCount =>
-      [..._s1Chain, ..._s2Chain].where(_isUnlocked).length;
+      [..._s1Chain, ..._s2Chain, ..._s3Chain].where(_isUnlocked).length;
 
   Future<void> _toggle(int lessonId, bool newValue, List<int> chain) async {
     final idx = chain.indexOf(lessonId);
@@ -69,7 +71,9 @@ class _LessonUnlockManagerScreenState extends State<LessonUnlockManagerScreen> {
       // Unlock this lesson + all prerequisites in chain
       final s1Prereqs = (chain == _s2Chain)
           ? _s1Chain.where((id) => !_isUnlocked(id)).toList()
-          : <int>[];
+          : (chain == _s3Chain)
+              ? [..._s1Chain, ..._s2Chain].where((id) => !_isUnlocked(id)).toList()
+              : <int>[];
       final chainPrereqs = chain
           .sublist(0, idx + 1)
           .where((id) => !_isUnlocked(id))
@@ -128,13 +132,13 @@ class _LessonUnlockManagerScreenState extends State<LessonUnlockManagerScreen> {
         await ProgressService().setLessonsAccessible(_s1Chain.toList(), true);
       case 'unlock_all':
         await ProgressService().setLessonsAccessible(
-            [..._s1Chain, ..._s2Chain], true);
+            [..._s1Chain, ..._s2Chain, ..._s3Chain], true);
       case 'lock_all':
         await ProgressService().setLessonsAccessible(
-            [..._s1Chain.skip(1), ..._s2Chain], false);
+            [..._s1Chain.skip(1), ..._s2Chain, ..._s3Chain], false);
       case 'reset_default':
         await ProgressService().setLessonsAccessible(
-            [..._s1Chain.skip(1), ..._s2Chain], false);
+            [..._s1Chain.skip(1), ..._s2Chain, ..._s3Chain], false);
         await ProgressService().setLessonsAccessible([_s1Chain[0]], true);
     }
     await _refresh();
@@ -232,6 +236,17 @@ class _LessonUnlockManagerScreenState extends State<LessonUnlockManagerScreen> {
               isUnlocked: _isUnlocked(e.value),
               onToggle: (v) => _toggle(e.value, v, _s2Chain),
             )),
+        const SizedBox(height: 16),
+        _StageHeader('Stage 3 — ${_s3Chain.length} Lessons'),
+        ..._s3Chain.asMap().entries.map((e) => _LessonRow(
+              position: e.key + 1,
+              lessonId: e.value,
+              title: _lessonMap[e.value]?.title ?? 'Lesson ${e.value}',
+              emoji: _emoji(e.value),
+              stars: _progress.lessonProgress[e.value]?.stars ?? 0,
+              isUnlocked: _isUnlocked(e.value),
+              onToggle: (v) => _toggle(e.value, v, _s3Chain),
+            )),
         const SizedBox(height: 8),
       ],
     );
@@ -243,7 +258,7 @@ class _LessonUnlockManagerScreenState extends State<LessonUnlockManagerScreen> {
       color: const Color(0xFF161B22),
       child: Center(
         child: Text(
-          '$_unlockedCount of ${_s1Chain.length + _s2Chain.length} lessons unlocked',
+          '$_unlockedCount of ${_s1Chain.length + _s2Chain.length + _s3Chain.length} lessons unlocked',
           style: const TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,

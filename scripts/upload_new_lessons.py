@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Upload lessons 44-48 and v1.0.5 patch note to Firestore."""
+"""Upload lessons 29-50 and v1.0.6 patch note to Firestore."""
 import json
 import os
 from datetime import datetime, timezone
@@ -16,7 +16,7 @@ if not firebase_admin._apps:
 
 db = firestore.client()
 
-NEW_LESSON_IDS = [44, 45, 46, 47, 48]
+NEW_LESSON_IDS = list(range(29, 51))  # 29-50 inclusive
 ASSETS_DIR = os.path.join(os.path.dirname(__file__), '..', 'assets', 'lessons')
 
 
@@ -36,28 +36,29 @@ def upload_lesson(lesson_id: int) -> None:
 
 def upload_patch_note() -> None:
     patch = {
-        'version': '1.0.5',
-        'title': 'New Vocabulary & Game Modes 🎮',
+        'version': '1.0.6',
+        'title': 'Stage 2 & Stage 3 Expansion 🏙️🗣️',
         'date': datetime(2026, 6, 25, tzinfo=timezone.utc),
-        'type': 'minor',
+        'type': 'major',
         'notes': [
-            '🔷 New lesson: Shapes — circles, triangles, spheres & more',
-            '📏 New lesson: Sizes & Quantities — big, small, full, empty',
-            '↔️ New lesson: Opposites — learn 14 word pairs (Hot/Cold, Fast/Slow...)',
-            '👕 New lesson: Clothing & Accessories — shirts, shoes, jewellery',
-            '🪨 New lesson: Textures & Materials — soft, hard, wood, metal, plastic',
-            '👁️ New game mode: Visual Spotter — see an emoji, tap the Thai word',
-            '🔄 New game mode: Opposites Challenge — match words with their opposites',
-            '🐛 Fixed lesson counter sometimes showing 21/20',
-            '🔊 Audio now plays after every wrong answer',
+            '🔷 Stage 1 expanded: Shapes, Sizes & Quantities, Opposites, Clothing, Textures',
+            '🏥 Stage 2 — 16 new lessons: Hospital, Celebrations, Plans, About Yourself',
+            '⏰ Stage 2 continued: Tense Markers, Classifiers, Advanced Directions',
+            '📱 Stage 2 continued: Technology, Business Thai, Relationships & Social',
+            '💯 Stage 2 continued: Advanced Numbers, Survival Thai + Bargaining',
+            '💬 Stage 3 unlocked: Full Conversations, Thai Proverbs, Thai Script Basics',
+            '🎵 Stage 3 continued: Thai Tones Mastery, Bangkok Slang & Street Talk',
+            '🎨 Stage 2 color gradient now uses visual position (not lesson ID)',
+            '🔓 Unlock All now toggles — tap again to revert to previous progress',
+            '🌟 New achievement: Thai Master — complete all Stage 3 lessons',
         ],
     }
     db.collection('patch_notes').add(patch)
-    print('  OK patch note v1.0.5 added')
+    print('  OK patch note v1.0.6 added')
 
 
 def main() -> None:
-    print('Uploading new lessons to Firestore...\n')
+    print('Uploading lessons 29-50 to Firestore...\n')
     for lid in NEW_LESSON_IDS:
         upload_lesson(lid)
 

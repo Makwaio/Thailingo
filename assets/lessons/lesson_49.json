@@ -1,0 +1,25 @@
+{
+  "id": 49,
+  "title": "Thai Tones Mastery",
+  "subtitle": "Master the 5 tones that change meaning",
+  "icon": "lesson_tones",
+  "color": "#F57F17",
+  "xpReward": 80,
+  "words": [
+    {"id":"ton_01","thai":"ไม้เอก (่)","phonetic":"mai-ek","english":"Low tone mark — mai ek (่)","image":"","audio":"lesson49_word01.mp3","example":"เสื้อ (suea) — shirt, with low tone on เ-"},
+    {"id":"ton_02","thai":"ไม้โท (้)","phonetic":"mai-tho","english":"Falling tone mark — mai tho (้)","image":"","audio":"lesson49_word02.mp3","example":"ได้ (dai) — can/get, falling tone"},
+    {"id":"ton_03","thai":"ไม้ตรี (๊)","phonetic":"mai-dtree","english":"High tone mark — mai tri (๊)","image":"","audio":"lesson49_word03.mp3","example":"เก๊ (ge) — fake/counterfeit, high tone"},
+    {"id":"ton_04","thai":"ไม้จัตวา (๋)","phonetic":"mai-jat-ta-waa","english":"Rising tone mark — mai jattawa (๋)","image":"","audio":"lesson49_word04.mp3","example":"เก๋ (ge) — stylish/cool, rising tone"},
+    {"id":"ton_05","thai":"เสียงสามัญ","phonetic":"siang-saa-man","english":"Mid tone (no mark)","image":"","audio":"lesson49_word05.mp3","example":"กา (gaa) — crow, mid tone"},
+    {"id":"ton_06","thai":"เสียงเอก","phonetic":"siang-ek","english":"Low tone","image":"","audio":"lesson49_word06.mp3","example":"ก่า (gàa) — low tone sound"},
+    {"id":"ton_07","thai":"เสียงโท","phonetic":"siang-tho","english":"Falling tone","image":"","audio":"lesson49_word07.mp3","example":"ก้า (gâa) — to step / stride"},
+    {"id":"ton_08","thai":"เสียงตรี","phonetic":"siang-dtree","english":"High tone","image":"","audio":"lesson49_word08.mp3","example":"ก๊า (gáa) — high tone sound"},
+    {"id":"ton_09","thai":"เสียงจัตวา","phonetic":"siang-jat-ta-waa","english":"Rising tone","image":"","audio":"lesson49_word09.mp3","example":"ก๋า (gaǎ) — rising tone sound"},
+    {"id":"ton_10","thai":"ไข่ / ใข่","phonetic":"khai","english":"Egg (mid) vs. Wrong (falling) — same spelling, different tones","image":"","audio":"lesson49_word10.mp3","example":"ไข่ไก่ — chicken egg (mid tone)"},
+    {"id":"ton_11","thai":"มา / ม้า / หมา","phonetic":"maa / maa / maa","english":"Come / Horse / Dog — same sound, different tones","image":"","audio":"lesson49_word11.mp3","example":"มา = come; ม้า = horse; หมา = dog"},
+    {"id":"ton_12","thai":"ข้าว / เข้า / เขา","phonetic":"khao / khao / khao","english":"Rice / Enter / He/She — same sound, different tones","image":"","audio":"lesson49_word12.mp3","example":"ข้าวอร่อย = rice is delicious"},
+    {"id":"ton_13","thai":"คลาสสูง","phonetic":"khlaas-suung","english":"High class consonants (control tone)","image":"","audio":"lesson49_word13.mp3","example":"ข ฉ ถ ผ ฝ ส ห — high class consonants"},
+    {"id":"ton_14","thai":"คลาสกลาง","phonetic":"khlaas-glang","english":"Mid class consonants","image":"","audio":"lesson49_word14.mp3","example":"ก จ ด ต ป อ — mid class consonants"},
+    {"id":"ton_15","thai":"คลาสต่ำ","phonetic":"khlaas-dtam","english":"Low class consonants","image":"","audio":"lesson49_word15.mp3","example":"ง น ม ย ว ล ร — low class consonants"}
+  ]
+}

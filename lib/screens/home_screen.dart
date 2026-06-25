@@ -42,22 +42,27 @@ const _stage1Rows = [
   _RowConfig('People & Feelings', [5, 15, 19]),
   _RowConfig('Getting Around', [7, 8, 17, 18]),
   _RowConfig('Home & Learning', [16, 20, 21]),
-  _RowConfig('Real Bangkok Life', [38, 39, 40]),
-  _RowConfig('Finishing Stage 1', [41, 42, 43]),
-  _RowConfig('Describing the World', [44, 45, 46]),
-  _RowConfig('Things & How They Feel', [47, 48]),
+  _RowConfig('Describing the World', [29, 30, 31]),
+  _RowConfig('Things & How They Feel', [32, 33]),
 ];
 
 const _stage2Rows = [
-  _RowConfig('Food & Social', [23, 24, 31, 33]),
-  _RowConfig('Help & Health', [25, 26, 35]),
-  _RowConfig('Planning & Self', [27, 28, 29]),
-  _RowConfig('Language Tools', [30, 32, 36, 34]),
-  _RowConfig('Getting Around Advanced', [37]),
+  _RowConfig('Food & Emergency', [23, 34, 45]),
+  _RowConfig('Culture & Social', [35, 43, 36]),
+  _RowConfig('About You', [37, 38, 39]),
+  _RowConfig('Getting Around & Tech', [40, 41, 42, 24]),
+  _RowConfig('Numbers & Phrases', [44, 25, 26]),
 ];
 
-// ── Stage 1 visual position order (used for color gradient) ───────────
-const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+const _stage3Rows = [
+  _RowConfig('Language Skills', [46, 47, 48]),
+  _RowConfig('Mastery', [49, 50]),
+];
+
+// ── Visual position chains (used for color gradient) ─────────────────
+const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
+const _stage2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
+const _stage3Chain = [46, 47, 48, 49, 50];
 
 // ── Stage color anchors — positions are VISUAL ORDER in chain, not lesson IDs
 const _s1ColorAnchors = <(int, Color)>[
@@ -74,12 +79,28 @@ const _s1ColorAnchors = <(int, Color)>[
 ];
 
 const _s2ColorAnchors = <(int, Color)>[
-  (1,  Color(0xFF4A148C)), // dark purple
-  (3,  Color(0xFF6A1B9A)), // purple
-  (6,  Color(0xFF7B1FA2)), // medium purple
-  (9,  Color(0xFF880E4F)), // deep rose
-  (12, Color(0xFFC62828)), // red
-  (15, Color(0xFFBF360C)), // red-brown
+  (1,  Color(0xFF4A148C)),
+  (2,  Color(0xFF560D99)),
+  (3,  Color(0xFF6A1B9A)),
+  (5,  Color(0xFF7B1FA2)),
+  (6,  Color(0xFF880E4F)),
+  (7,  Color(0xFFAD1457)),
+  (9,  Color(0xFFC2185B)),
+  (10, Color(0xFFD81B60)),
+  (11, Color(0xFFC62828)),
+  (12, Color(0xFFD32F2F)),
+  (13, Color(0xFFE53935)),
+  (14, Color(0xFFBF360C)),
+  (15, Color(0xFFD84315)),
+  (16, Color(0xFFE64A19)),
+];
+
+const _s3ColorAnchors = <(int, Color)>[
+  (1, Color(0xFF4A148C)),
+  (2, Color(0xFF6A1B9A)),
+  (3, Color(0xFFE65100)),
+  (4, Color(0xFFF57F17)),
+  (5, Color(0xFFFF8F00)),
 ];
 
 Color _lerpAnchors(int pos, List<(int, Color)> anchors) {
@@ -98,9 +119,10 @@ Color _lerpAnchors(int pos, List<(int, Color)> anchors) {
 Color _lessonFillColor(int lessonId) {
   final s1Idx = _stage1Chain.indexOf(lessonId);
   if (s1Idx >= 0) return _lerpAnchors(s1Idx + 1, _s1ColorAnchors);
-  const s2Ids = [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37];
-  final s2Idx = s2Ids.indexOf(lessonId);
+  final s2Idx = _stage2Chain.indexOf(lessonId);
   if (s2Idx >= 0) return _lerpAnchors(s2Idx + 1, _s2ColorAnchors);
+  final s3Idx = _stage3Chain.indexOf(lessonId);
+  if (s3Idx >= 0) return _lerpAnchors(s3Idx + 1, _s3ColorAnchors);
   return AppTheme.primary;
 }
 
@@ -122,13 +144,12 @@ String _lessonEmoji(int id) {
     17: '⛈️', 18: '🏛️', 19: '👔', 20: '🏠',
     21: '📚', 22: '🙏', 23: '🍽️', 24: '💰',
     25: '🆘', 26: '🏥', 27: '📅', 28: '👤',
-    29: '⏰', 30: '🔢', 31: '😎', 32: '💯',
-    33: '❤️', 34: '📱', 35: '🏯', 36: '💼',
-    37: '🗺️',
-    38: '📅', 39: '🎬', 40: '🛒',
-    41: '👋', 42: '💯', 43: '😎',
-    44: '🔷', 45: '📏', 46: '↔️',
-    47: '👕', 48: '🪨',
+    29: '🔷', 30: '📏', 31: '↔️', 32: '👕',
+    33: '🪨', 34: '🏥', 35: '🎊', 36: '📅',
+    37: '👤', 38: '⏰', 39: '🔢', 40: '🗺️',
+    41: '📱', 42: '💼', 43: '❤️', 44: '💯',
+    45: '🆘', 46: '💬', 47: '📜', 48: '📝',
+    49: '🎵', 50: '😎',
   };
   return map[id] ?? '📚';
 }
@@ -396,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       accentColor: _s1Accent,
       stageNum: 1,
       title: 'Foundations 🇹🇭',
-      subtitle: '28 lessons · Bangkok Thai basics',
+      subtitle: '27 lessons · Bangkok Thai basics',
       locked: false,
       allComplete: _progress.allStage1Complete,
       rows: _stage1Rows,
@@ -416,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       stageNum: 2,
       title: 'Survival Thai 🏙️',
       subtitle: stage2Unlocked
-          ? '15 lessons · Real-world Thai'
+          ? '16 lessons · Real-world Thai'
           : 'Complete all Stage 1 lessons to unlock',
       locked: !stage2Unlocked,
       allComplete: _progress.allStage2Complete,
@@ -426,8 +447,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // Gradient divider s2 → s3
     items.add(const _GradientDivider(from: _s2Bg, to: _s3Bg));
 
-    // ── Stage 3 placeholder ──
-    items.add(_Stage3Placeholder());
+    // ── Stage 3 section ──
+    final stage3Unlocked = _progress.allStage2Complete;
+    items.add(_buildStageSection(
+      bgColor: _s3Bg,
+      accentColor: _s3Accent,
+      stageNum: 3,
+      title: 'Conversational Thai 🗣️',
+      subtitle: stage3Unlocked
+          ? '5 lessons · Fluency & mastery'
+          : 'Complete all Stage 2 lessons to unlock',
+      locked: !stage3Unlocked,
+      allComplete: _progress.allStage3Complete,
+      rows: stage3Unlocked ? _stage3Rows : const [],
+    ));
 
     // ── Review ──
     items.add(const SizedBox(height: 24));
@@ -1852,76 +1885,6 @@ class _StageBanner extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// ── Stage 3 Placeholder ────────────────────────────────────────────────
-class _Stage3Placeholder extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: _s3Bg,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: _s3Accent.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Text('3',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: _s3Accent)),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('STAGE 3',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 2,
-                            color: _s3Accent)),
-                    const Text('Conversational Thai 🗣️',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w900,
-                            color: AppTheme.textPrimary)),
-                    Text('Coming Soon 🔒',
-                        style: TextStyle(
-                            fontSize: 12, color: _s3Accent.withValues(alpha: 0.7))),
-                  ],
-                ),
-              ),
-              Icon(Icons.lock_rounded,
-                  color: _s3Accent.withValues(alpha: 0.5), size: 22),
-            ],
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Advanced conversations, Thai script reading, proverbs, tone mastery and more!',
-            style: TextStyle(
-                fontSize: 12,
-                color: AppTheme.textSecondary,
-                height: 1.5),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    ).animate().fadeIn(duration: 500.ms);
   }
 }
 

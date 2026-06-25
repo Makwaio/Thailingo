@@ -24,25 +24,29 @@ class UserProgress {
   int get xpInLevel => totalXp % 200;
 
   bool isLessonUnlocked(int lessonId) {
-    // Stage 1 unlock chain (lessons unlock in this order, each requiring previous ≥1 star)
-    // Matches visual row order: Row1[1,22,11] Row2[2,10,12] Row3[3,4,9]
-    // Row4[13,14,6] Row5[5,15,19] Row6[7,8,17,18] Row7[16,20,21]
-    // Row8[38,39,40] Row9[41,42,43]
-    const s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+    const s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
     final s1Idx = s1Chain.indexOf(lessonId);
     if (s1Idx >= 0) {
       if (s1Idx == 0) return true;
       return (lessonProgress[s1Chain[s1Idx - 1]]?.stars ?? 0) >= 1;
     }
-    // Stage 2 unlocks when all Stage 1 lessons complete
-    if (lessonId == 23) return allStage1Complete;
-    // Alphabet lessons (101-105) unlock sequentially by completion
+    const s2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
+    final s2Idx = s2Chain.indexOf(lessonId);
+    if (s2Idx >= 0) {
+      if (s2Idx == 0) return allStage1Complete;
+      return (lessonProgress[s2Chain[s2Idx - 1]]?.stars ?? 0) >= 1;
+    }
+    const s3Chain = [46, 47, 48, 49, 50];
+    final s3Idx = s3Chain.indexOf(lessonId);
+    if (s3Idx >= 0) {
+      if (s3Idx == 0) return allStage2Complete;
+      return (lessonProgress[s3Chain[s3Idx - 1]]?.stars ?? 0) >= 1;
+    }
     if (lessonId >= 101 && lessonId <= 105) {
       if (lessonId == 101) return true;
       return lessonProgress[lessonId - 1]?.completed ?? false;
     }
-    // Stage 2 lessons (24-37): unlock sequentially
-    return (lessonProgress[lessonId - 1]?.stars ?? 0) >= 1;
+    return false;
   }
 
   bool isLessonCompleted(int lessonId) =>
@@ -52,23 +56,35 @@ class UserProgress {
 
   // Stage complete = all lessons have at least 1 star (used for unlock gates)
   bool get allStage1Complete {
-    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+    const stage1Ids = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
     return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
   }
 
-  bool get allStage2Complete =>
-      List.generate(15, (i) => i + 23)
-          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+  bool get allStage2Complete {
+    const stage2Ids = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
+    return stage2Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+  }
+
+  bool get allStage3Complete {
+    const stage3Ids = [46, 47, 48, 49, 50];
+    return stage3Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
+  }
 
   // Mastered = all lessons have 3 stars (used for achievement checks)
   bool get allStage1Mastered {
-    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
+    const stage1Ids = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
     return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
   }
 
-  bool get allStage2Mastered =>
-      List.generate(15, (i) => i + 23)
-          .every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+  bool get allStage2Mastered {
+    const stage2Ids = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
+    return stage2Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+  }
+
+  bool get allStage3Mastered {
+    const stage3Ids = [46, 47, 48, 49, 50];
+    return stage3Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
+  }
 
   factory UserProgress.fromJson(Map<String, dynamic> json) => UserProgress(
         totalXp: json['totalXp'] as int? ?? 0,
@@ -172,16 +188,18 @@ const kAchievements = [
   AchievementDef('word_collector', '📚', 'Word Collector', 'Learn 50+ words'),
   AchievementDef('sharp_shooter', '🎯', 'Sharp Shooter', 'Hit a 10× combo in a lesson'),
   AchievementDef('diamond', '💎', 'Diamond', 'Reach level 10 (2 000 XP)'),
-  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 33 Stage 1 lessons with 3 stars'),
-  AchievementDef('stage2_master', '🏙️', 'Survival Thai', 'Complete all 15 Stage 2 lessons with 3 stars'),
+  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 27 Stage 1 lessons with 3 stars'),
+  AchievementDef('stage2_master', '🏙️', 'Survival Thai', 'Complete all 16 Stage 2 lessons with 3 stars'),
+  AchievementDef('stage3_master', '🌟', 'Thai Master', 'Complete all 5 Stage 3 lessons with 3 stars'),
 ];
 
 const kStageLessonIds = [
   [1, 2, 3, 4],
   [5, 6, 7, 8],
   [9, 10, 11, 12],
-  [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48],
-  [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
+  [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 29, 30, 31, 32, 33],
+  [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26],
+  [46, 47, 48, 49, 50],
 ];
 
 bool isAchievementUnlocked(
@@ -212,6 +230,8 @@ bool isAchievementUnlocked(
       return p.allStage1Mastered;
     case 'stage2_master':
       return p.allStage2Mastered;
+    case 'stage3_master':
+      return p.allStage3Mastered;
     default:
       return false;
   }
