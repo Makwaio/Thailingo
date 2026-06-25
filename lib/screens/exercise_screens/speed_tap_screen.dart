@@ -118,7 +118,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
       }
     });
 
-    if (correct) AudioService().playCorrect();
+    if (correct) AudioService().playCorrectThenWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
     widget.onAnswer(correct, bonusXp: bonus);
   }
 
@@ -210,6 +210,25 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.white.withValues(alpha: 0.6),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () => AudioService().playWord(target.audio, thaiText: target.thai),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.volume_up_rounded, size: 14, color: Colors.white70),
+                        SizedBox(width: 4),
+                        Text('🔊', style: TextStyle(fontSize: 12)),
+                      ],
+                    ),
                   ),
                 ),
               ],

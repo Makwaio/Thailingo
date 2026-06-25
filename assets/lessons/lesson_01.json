@@ -64,19 +64,19 @@
       "id": "greet_07",
       "thai": "ครับ",
       "phonetic": "khrap",
-      "english": "Polite (male)",
+      "english": "Polite word (men say it)",
       "image": "word_politem",
       "audio": "greet_07.mp3",
-      "example": "Added at end of sentences by males to be polite"
+      "example": "Men add ครับ at the end of sentences to sound polite"
     },
     {
       "id": "greet_08",
       "thai": "ค่ะ",
       "phonetic": "kha",
-      "english": "Polite (female)",
+      "english": "Polite word (women say it)",
       "image": "word_politef",
       "audio": "greet_08.mp3",
-      "example": "Added at end of sentences by females to be polite"
+      "example": "Women add ค่ะ at the end of sentences to sound polite"
     },
     {
       "id": "greet_09",

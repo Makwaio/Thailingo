@@ -84,7 +84,7 @@ class _LessonScreenState extends State<LessonScreen>
     super.dispose();
   }
 
-  double get _progress => _queue.isEmpty ? 0 : _idx / _queue.length;
+  double get _progress => (_idx / 20.0).clamp(0.0, 1.0);
 
   void _onAnswer(bool correct, {String correctAns = '', String? hint, int bonusXp = 0}) {
     if (_showFeedback || _gameOverSequenceRunning) return;
@@ -119,6 +119,9 @@ class _LessonScreenState extends State<LessonScreen>
         final currentQ = _idx < _queue.length ? _queue[_idx] : null;
         if (currentQ is Exercise) {
           ReviewService().addToQueue(currentQ.targetWord, widget.lesson.id);
+          Future.delayed(const Duration(milliseconds: 700), () {
+            if (mounted) AudioService().playWord(currentQ.targetWord.audio, thaiText: currentQ.targetWord.thai);
+          });
         }
 
         AudioService().playWrong();
@@ -140,10 +143,9 @@ class _LessonScreenState extends State<LessonScreen>
   void _onPairsComplete(int correctMatches, int totalPairs) {
     if (_showFeedback || _gameOverSequenceRunning) return;
     final allCorrect = correctMatches == totalPairs;
-    final wrongCount = totalPairs - correctMatches;
     setState(() {
-      _totalAnswered += totalPairs;
-      _correct += correctMatches;
+      _totalAnswered++;
+      if (allCorrect) _correct++;
       _showFeedback = true;
       _lastCorrect = allCorrect;
       _correctAnswer = allCorrect
@@ -169,20 +171,16 @@ class _LessonScreenState extends State<LessonScreen>
       } else {
         _combo = 0;
         AudioService().playWrong();
-        for (int i = 0; i < wrongCount; i++) {
-          _lives = (_lives - 1).clamp(0, 3);
-          if (_lives <= 0) {
-            _gameOverTriggered = true;
-            break;
-          }
+        _lives = (_lives - 1).clamp(0, 3);
+        if (_lives <= 0) {
+          _gameOverTriggered = true;
+        } else {
+          _breakingHeartIdx = _lives;
+          _heartBreakCtrl.forward(from: 0);
         }
         _flashColor = AppTheme.danger;
         _showFlash = true;
         _flashKey++;
-        if (_lives > 0 && !_gameOverTriggered) {
-          _breakingHeartIdx = _lives;
-          _heartBreakCtrl.forward(from: 0);
-        }
       }
     });
   }
@@ -235,17 +233,17 @@ class _LessonScreenState extends State<LessonScreen>
 
   Future<void> _finishLesson() async {
     _timer.stop();
-    final score = _totalAnswered > 0
-        ? (_correct / _totalAnswered * 100).round()
-        : 0;
+    final cappedCorrect = _correct.clamp(0, 20);
+    final cappedTotal = _totalAnswered.clamp(1, 20);
+    final score = (cappedCorrect / cappedTotal * 100).round();
     AudioService().playComplete();
 
     final levelBefore = _progressService.current.level;
     await _progressService.addXp(_xpGained + widget.lesson.xpReward);
     await _progressService.completeLesson(
       lessonId: widget.lesson.id,
-      score: _correct,
-      maxScore: _totalAnswered,
+      score: cappedCorrect,
+      maxScore: cappedTotal,
       peakCombo: _peakCombo,
       wordCount: widget.lesson.words.length,
       timeTaken: _timer.elapsed,
@@ -279,8 +277,8 @@ class _LessonScreenState extends State<LessonScreen>
       PageRouteBuilder(
         pageBuilder: (_, anim, __) => ResultScreen(
           lesson: widget.lesson,
-          correct: _correct,
-          total: _totalAnswered,
+          correct: cappedCorrect,
+          total: cappedTotal,
           xpGained: _xpGained + widget.lesson.xpReward,
           timeTaken: _timer.elapsed,
           score: score,
@@ -369,7 +367,7 @@ class _LessonScreenState extends State<LessonScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '${_idx + 1}/20',
+                  '${(_idx + 1).clamp(1, 20)}/20',
                   style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,

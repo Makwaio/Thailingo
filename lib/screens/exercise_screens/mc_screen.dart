@@ -28,9 +28,34 @@ class _McScreenState extends State<McScreen> {
   Word? _selected;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) {
+        AudioService().playWord(
+          widget.exercise.targetWord.audio,
+          thaiText: widget.exercise.targetWord.thai,
+        );
+      }
+    });
+  }
+
+  @override
   void didUpdateWidget(McScreen old) {
     super.didUpdateWidget(old);
-    if (!widget.answered) _selected = null;
+    if (!widget.answered) {
+      _selected = null;
+      if (old.exercise.targetWord.id != widget.exercise.targetWord.id) {
+        Future.delayed(const Duration(milliseconds: 300), () {
+          if (mounted) {
+            AudioService().playWord(
+              widget.exercise.targetWord.audio,
+              thaiText: widget.exercise.targetWord.thai,
+            );
+          }
+        });
+      }
+    }
   }
 
   bool get _isTh2En =>
@@ -121,6 +146,26 @@ class _McScreenState extends State<McScreen> {
                 style: const TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500,
                     color: AppTheme.primary, fontStyle: FontStyle.italic)),
+            const SizedBox(height: 12),
+            GestureDetector(
+              onTap: () => AudioService().playWord(target.audio, thaiText: target.thai),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.55),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                  border: Border.all(color: const Color(0xFF90CAF9)),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.volume_up_rounded, size: 16, color: AppTheme.primary),
+                    SizedBox(width: 4),
+                    Text('Tap to hear', style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ).animate().scale(

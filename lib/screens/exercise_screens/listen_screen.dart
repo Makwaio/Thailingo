@@ -169,7 +169,7 @@ class _ListenScreenState extends State<ListenScreen>
     if (widget.answered) return;
     setState(() { _selected = word; _played = true; });
     final correct = word.id == widget.exercise.targetWord.id;
-    if (correct) AudioService().playCorrect();
+    if (correct) AudioService().playCorrectThenWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
     widget.onAnswer(correct);
   }
 }
