@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/settings_service.dart';
 import '../services/progress_service.dart';
@@ -30,14 +29,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _loadVersion() async {
-    try {
-      final info  = await PackageInfo.fromPlatform();
-      final prefs = await SharedPreferences.getInstance();
-      final patch = prefs.getInt('patch_number') ?? 6;
-      if (mounted) {
-        setState(() => _versionDisplay = 'v${info.version}-$patch');
-      }
-    } catch (_) {}
+    final prefs = await SharedPreferences.getInstance();
+    final patch = prefs.getInt('patch_number') ?? 6;
+    if (mounted) setState(() => _versionDisplay = 'v1.0.2-$patch');
   }
 
   bool get _sound => _settings.soundEnabled;
