@@ -1,0 +1,24 @@
+{
+  "id": 47,
+  "title": "Clothing & Accessories",
+  "subtitle": "What are you wearing?",
+  "icon": "lesson_clothing",
+  "color": "#1565C0",
+  "xpReward": 30,
+  "words": [
+    {"id":"clo_01","thai":"เสื้อ","phonetic":"suea","english":"Shirt / Top","emoji":"👕","image":"","audio":"lesson47_word01.mp3","example":"เสื้อสีแดง — Red shirt"},
+    {"id":"clo_02","thai":"กางเกง","phonetic":"gaang-geng","english":"Pants / Trousers","emoji":"👖","image":"","audio":"lesson47_word02.mp3","example":"กางเกงขายาว — Long trousers"},
+    {"id":"clo_03","thai":"กระโปรง","phonetic":"gra-prong","english":"Skirt / Dress","emoji":"👗","image":"","audio":"lesson47_word03.mp3","example":"กระโปรงสีชมพู — Pink skirt"},
+    {"id":"clo_04","thai":"รองเท้า","phonetic":"rong-thao","english":"Shoes","emoji":"👟","image":"","audio":"lesson47_word04.mp3","example":"รองเท้าคู่ใหม่ — A new pair of shoes"},
+    {"id":"clo_05","thai":"ถุงเท้า","phonetic":"thoong-thao","english":"Socks","emoji":"🧦","image":"","audio":"lesson47_word05.mp3","example":"ถุงเท้าสีขาว — White socks"},
+    {"id":"clo_06","thai":"หมวก","phonetic":"muak","english":"Hat / Cap","emoji":"🧢","image":"","audio":"lesson47_word06.mp3","example":"หมวกกันแดด — Sun hat"},
+    {"id":"clo_07","thai":"กระเป๋า","phonetic":"gra-pao","english":"Bag / Purse","emoji":"👜","image":"","audio":"lesson47_word07.mp3","example":"กระเป๋าใบใหญ่ — Big bag"},
+    {"id":"clo_08","thai":"เข็มขัด","phonetic":"khem-khat","english":"Belt","emoji":"🔗","image":"","audio":"lesson47_word08.mp3","example":"เข็มขัดหนัง — Leather belt"},
+    {"id":"clo_09","thai":"แว่นตา","phonetic":"waen-dtaa","english":"Glasses","emoji":"👓","image":"","audio":"lesson47_word09.mp3","example":"ใส่แว่นตา — Wearing glasses"},
+    {"id":"clo_10","thai":"นาฬิกา","phonetic":"naa-li-gaa","english":"Watch","emoji":"⌚","image":"","audio":"lesson47_word10.mp3","example":"นาฬิกาเรือนสวย — Beautiful watch"},
+    {"id":"clo_11","thai":"แหวน","phonetic":"waen","english":"Ring","emoji":"💍","image":"","audio":"lesson47_word11.mp3","example":"แหวนทองคำ — Gold ring"},
+    {"id":"clo_12","thai":"สร้อยคอ","phonetic":"soi-kho","english":"Necklace","emoji":"📿","image":"","audio":"lesson47_word12.mp3","example":"สร้อยคอเงิน — Silver necklace"},
+    {"id":"clo_13","thai":"เสื้อกันหนาว","phonetic":"suea-gan-naao","english":"Jacket / Sweater","emoji":"🧥","image":"","audio":"lesson47_word13.mp3","example":"ใส่เสื้อกันหนาว — Wearing a jacket"},
+    {"id":"clo_14","thai":"ชุดว่ายน้ำ","phonetic":"choot-waai-naam","english":"Swimsuit","emoji":"🩱","image":"","audio":"lesson47_word14.mp3","example":"ชุดว่ายน้ำสีน้ำเงิน — Blue swimsuit"}
+  ]
+}

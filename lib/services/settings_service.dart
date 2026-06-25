@@ -17,6 +17,8 @@ class SettingsService {
   static const _gtSentenceBuilderKey = 'gt_sentence_builder_v1';
   static const _gtConversationKey = 'gt_conversation_v1';
   static const _gtTypingKey = 'gt_typing_v1';
+  static const _gtVisualSpotterKey = 'gt_visual_spotter_v1';
+  static const _gtOppositesKey = 'gt_opposites_v1';
 
   bool _soundEnabled = true;
   bool _musicEnabled = true;
@@ -28,6 +30,8 @@ class SettingsService {
   bool _gtSentenceBuilder = true;
   bool _gtConversation = true;
   bool _gtTyping = true;
+  bool _gtVisualSpotter = true;
+  bool _gtOpposites = true;
 
   bool get soundEnabled => _soundEnabled;
   bool get musicEnabled => _musicEnabled;
@@ -39,6 +43,8 @@ class SettingsService {
   bool get gtSentenceBuilder => _gtSentenceBuilder;
   bool get gtConversation => _gtConversation;
   bool get gtTyping => _gtTyping;
+  bool get gtVisualSpotter => _gtVisualSpotter;
+  bool get gtOpposites => _gtOpposites;
 
   int get enabledGameTypeCount {
     int count = 1; // MC always on
@@ -62,6 +68,8 @@ class SettingsService {
     _gtSentenceBuilder = prefs.getBool(_gtSentenceBuilderKey) ?? true;
     _gtConversation = prefs.getBool(_gtConversationKey) ?? true;
     _gtTyping = prefs.getBool(_gtTypingKey) ?? true;
+    _gtVisualSpotter = prefs.getBool(_gtVisualSpotterKey) ?? true;
+    _gtOpposites = prefs.getBool(_gtOppositesKey) ?? true;
     AudioService().setSoundEnabled(_soundEnabled);
   }
 
@@ -107,6 +115,12 @@ class SettingsService {
       case 'typing':
         _gtTyping = v;
         await prefs.setBool(_gtTypingKey, v);
+      case 'visualSpotter':
+        _gtVisualSpotter = v;
+        await prefs.setBool(_gtVisualSpotterKey, v);
+      case 'opposites':
+        _gtOpposites = v;
+        await prefs.setBool(_gtOppositesKey, v);
     }
     return true;
   }

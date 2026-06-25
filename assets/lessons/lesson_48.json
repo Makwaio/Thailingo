@@ -1,0 +1,22 @@
+{
+  "id": 48,
+  "title": "Textures & Materials",
+  "subtitle": "Describe how things feel and what they're made of",
+  "icon": "lesson_textures",
+  "color": "#4E342E",
+  "xpReward": 25,
+  "words": [
+    {"id":"tex_01","thai":"นุ่ม","phonetic":"noom","english":"Soft","emoji":"🪶","image":"","audio":"lesson48_word01.mp3","example":"หมอนนุ่มมาก — The pillow is very soft"},
+    {"id":"tex_02","thai":"แข็ง","phonetic":"khaeng","english":"Hard","emoji":"🪨","image":"","audio":"lesson48_word02.mp3","example":"หินแข็งมาก — Rock is very hard"},
+    {"id":"tex_03","thai":"เรียบ","phonetic":"riap","english":"Smooth","emoji":"🪞","image":"","audio":"lesson48_word03.mp3","example":"กระจกเรียบมาก — Glass is very smooth"},
+    {"id":"tex_04","thai":"หยาบ","phonetic":"yaap","english":"Rough","emoji":"🧱","image":"","audio":"lesson48_word04.mp3","example":"อิฐหยาบ — Rough brick"},
+    {"id":"tex_05","thai":"ลื่น","phonetic":"luen","english":"Slippery","emoji":"🧊","image":"","audio":"lesson48_word05.mp3","example":"พื้นลื่น ระวัง — Slippery floor, be careful"},
+    {"id":"tex_06","thai":"เหนียว","phonetic":"niao","english":"Sticky","emoji":"🍬","image":"","audio":"lesson48_word06.mp3","example":"กาวเหนียวมาก — Glue is very sticky"},
+    {"id":"tex_07","thai":"ไม้","phonetic":"maai","english":"Wood","emoji":"🪵","image":"","audio":"lesson48_word07.mp3","example":"โต๊ะทำด้วยไม้ — The table is made of wood"},
+    {"id":"tex_08","thai":"โลหะ","phonetic":"lo-ha","english":"Metal","emoji":"⚙️","image":"","audio":"lesson48_word08.mp3","example":"ช้อนทำด้วยโลหะ — Spoons are made of metal"},
+    {"id":"tex_09","thai":"พลาสติก","phonetic":"phlaat-sa-dtik","english":"Plastic","emoji":"🧴","image":"","audio":"lesson48_word09.mp3","example":"ขวดพลาสติก — Plastic bottle"},
+    {"id":"tex_10","thai":"ผ้า","phonetic":"phaa","english":"Cloth / Fabric","emoji":"🧵","image":"","audio":"lesson48_word10.mp3","example":"เสื้อทำด้วยผ้า — Shirts are made of fabric"},
+    {"id":"tex_11","thai":"แก้ว","phonetic":"gaeo","english":"Glass","emoji":"🪟","image":"","audio":"lesson48_word11.mp3","example":"แก้วน้ำทำด้วยแก้ว — A glass is made of glass"},
+    {"id":"tex_12","thai":"ยาง","phonetic":"yaang","english":"Rubber","emoji":"🛞","image":"","audio":"lesson48_word12.mp3","example":"ยางรถยนต์ทำด้วยยาง — Car tires are made of rubber"}
+  ]
+}

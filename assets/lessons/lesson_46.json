@@ -1,0 +1,24 @@
+{
+  "id": 46,
+  "title": "Opposites",
+  "subtitle": "Learn words in pairs",
+  "icon": "lesson_opposites",
+  "color": "#00695C",
+  "xpReward": 30,
+  "words": [
+    {"id":"opp_01","thai":"ร้อน / เย็น","phonetic":"ron / yen","english":"Hot / Cold","emoji":"🔥","image":"","audio":"lesson46_word01.mp3","example":"อากาศร้อนมาก วันนี้ — Very hot today"},
+    {"id":"opp_02","thai":"เร็ว / ช้า","phonetic":"reo / chaa","english":"Fast / Slow","emoji":"🏃","image":"","audio":"lesson46_word02.mp3","example":"รถไฟเร็ว รถม้าช้า — Train fast, horse slow"},
+    {"id":"opp_03","thai":"เก่า / ใหม่","phonetic":"gao / mai","english":"Old / New","emoji":"📅","image":"","audio":"lesson46_word03.mp3","example":"โทรศัพท์เครื่องใหม่ — New phone"},
+    {"id":"opp_04","thai":"หนัก / เบา","phonetic":"nak / bao","english":"Heavy / Light","emoji":"⚖️","image":"","audio":"lesson46_word04.mp3","example":"กระเป๋าหนัก — Heavy bag"},
+    {"id":"opp_05","thai":"สูง / เตี้ย","phonetic":"suung / dtia","english":"Tall / Short","emoji":"📏","image":"","audio":"lesson46_word05.mp3","example":"เขาตัวสูงมาก — He is very tall"},
+    {"id":"opp_06","thai":"กว้าง / แคบ","phonetic":"gwaang / khaep","english":"Wide / Narrow","emoji":"↔️","image":"","audio":"lesson46_word06.mp3","example":"ถนนกว้างมาก — Very wide road"},
+    {"id":"opp_07","thai":"ดี / แย่","phonetic":"dee / yae","english":"Good / Bad","emoji":"👍","image":"","audio":"lesson46_word07.mp3","example":"อาหารดีมาก — The food is very good"},
+    {"id":"opp_08","thai":"สะอาด / สกปรก","phonetic":"sa-aat / sok-ga-prok","english":"Clean / Dirty","emoji":"🧹","image":"","audio":"lesson46_word08.mp3","example":"ห้องน้ำสะอาดมาก — The bathroom is very clean"},
+    {"id":"opp_09","thai":"เงียบ / เสียงดัง","phonetic":"ngiap / siang-dang","english":"Quiet / Loud","emoji":"🔇","image":"","audio":"lesson46_word09.mp3","example":"ห้องนี้เงียบมาก — This room is very quiet"},
+    {"id":"opp_10","thai":"ง่าย / ยาก","phonetic":"ngaai / yaak","english":"Easy / Difficult","emoji":"🎯","image":"","audio":"lesson46_word10.mp3","example":"ข้อสอบยากมาก — The exam is very difficult"},
+    {"id":"opp_11","thai":"เปิด / ปิด","phonetic":"bpert / bpit","english":"Open / Closed","emoji":"🚪","image":"","audio":"lesson46_word11.mp3","example":"ร้านเปิดแล้ว — The shop is open"},
+    {"id":"opp_12","thai":"ถูก / แพง","phonetic":"thuuk / phaeng","english":"Cheap / Expensive","emoji":"💰","image":"","audio":"lesson46_word12.mp3","example":"ที่นี่ถูกมาก — It's very cheap here"},
+    {"id":"opp_13","thai":"ใกล้ / ไกล","phonetic":"klai / glai","english":"Near / Far","emoji":"📍","image":"","audio":"lesson46_word13.mp3","example":"ร้านอยู่ใกล้ — The shop is nearby"},
+    {"id":"opp_14","thai":"ถูก / ผิด","phonetic":"thuuk / phit","english":"Correct / Wrong","emoji":"✅","image":"","audio":"lesson46_word14.mp3","example":"คำตอบถูกต้อง — The answer is correct"}
+  ]
+}

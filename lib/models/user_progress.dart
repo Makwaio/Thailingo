@@ -28,7 +28,7 @@ class UserProgress {
     // Matches visual row order: Row1[1,22,11] Row2[2,10,12] Row3[3,4,9]
     // Row4[13,14,6] Row5[5,15,19] Row6[7,8,17,18] Row7[16,20,21]
     // Row8[38,39,40] Row9[41,42,43]
-    const s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43];
+    const s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
     final s1Idx = s1Chain.indexOf(lessonId);
     if (s1Idx >= 0) {
       if (s1Idx == 0) return true;
@@ -52,7 +52,7 @@ class UserProgress {
 
   // Stage complete = all lessons have at least 1 star (used for unlock gates)
   bool get allStage1Complete {
-    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43];
+    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
     return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
   }
 
@@ -62,7 +62,7 @@ class UserProgress {
 
   // Mastered = all lessons have 3 stars (used for achievement checks)
   bool get allStage1Mastered {
-    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43];
+    const stage1Ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
     return stage1Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
   }
 
@@ -172,7 +172,7 @@ const kAchievements = [
   AchievementDef('word_collector', '📚', 'Word Collector', 'Learn 50+ words'),
   AchievementDef('sharp_shooter', '🎯', 'Sharp Shooter', 'Hit a 10× combo in a lesson'),
   AchievementDef('diamond', '💎', 'Diamond', 'Reach level 10 (2 000 XP)'),
-  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 28 Stage 1 lessons with 3 stars'),
+  AchievementDef('stage1_master', '🇹🇭', 'Thai Foundation', 'Complete all 33 Stage 1 lessons with 3 stars'),
   AchievementDef('stage2_master', '🏙️', 'Survival Thai', 'Complete all 15 Stage 2 lessons with 3 stars'),
 ];
 
@@ -180,7 +180,7 @@ const kStageLessonIds = [
   [1, 2, 3, 4],
   [5, 6, 7, 8],
   [9, 10, 11, 12],
-  [13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48],
   [23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37],
 ];
 

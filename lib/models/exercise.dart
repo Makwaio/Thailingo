@@ -10,6 +10,8 @@ enum ExerciseType {
   sentenceBuilder,
   conversation,
   typing,
+  visualSpotter,
+  opposites,
 }
 
 class Exercise {
@@ -80,5 +82,29 @@ class ConversationQuestion {
     required this.question,
     required this.options,
     required this.correctIndex,
+  });
+}
+
+class OppositesChallengeExercise {
+  final String promptThai;
+  final String promptEnglish;
+  final String promptPhonetic;
+  final String promptAudio;
+  final String answerThai;
+  final String answerEnglish;
+  final String answerPhonetic;
+  final String answerAudio;
+  final List<(String, String)> wrongChoices;
+
+  const OppositesChallengeExercise({
+    required this.promptThai,
+    required this.promptEnglish,
+    required this.promptPhonetic,
+    required this.promptAudio,
+    required this.answerThai,
+    required this.answerEnglish,
+    required this.answerPhonetic,
+    required this.answerAudio,
+    required this.wrongChoices,
   });
 }

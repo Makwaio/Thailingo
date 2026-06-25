@@ -1,0 +1,22 @@
+{
+  "id": 44,
+  "title": "Shapes",
+  "subtitle": "Describe the world around you",
+  "icon": "lesson_shapes",
+  "color": "#E91E63",
+  "xpReward": 25,
+  "words": [
+    {"id":"shp_01","thai":"วงกลม","phonetic":"wong-glom","english":"Circle","emoji":"⭕","image":"","audio":"lesson44_word01.mp3","example":"ลูกบอลเป็นวงกลม — A ball is a circle"},
+    {"id":"shp_02","thai":"สี่เหลี่ยม","phonetic":"see-liam","english":"Square","emoji":"🟦","image":"","audio":"lesson44_word02.mp3","example":"กระดานเป็นรูปสี่เหลี่ยม — A board is square"},
+    {"id":"shp_03","thai":"สามเหลี่ยม","phonetic":"saam-liam","english":"Triangle","emoji":"🔺","image":"","audio":"lesson44_word03.mp3","example":"ภูเขาเป็นรูปสามเหลี่ยม — A mountain is triangular"},
+    {"id":"shp_04","thai":"สี่เหลี่ยมผืนผ้า","phonetic":"see-liam-pheun-phaa","english":"Rectangle","emoji":"▬","image":"","audio":"lesson44_word04.mp3","example":"ประตูเป็นรูปสี่เหลี่ยมผืนผ้า — A door is a rectangle"},
+    {"id":"shp_05","thai":"ดาว","phonetic":"daao","english":"Star","emoji":"⭐","image":"","audio":"lesson44_word05.mp3","example":"บนฟ้ามีดาวมาก — There are many stars in the sky"},
+    {"id":"shp_06","thai":"หัวใจ","phonetic":"hua-jai","english":"Heart","emoji":"❤️","image":"","audio":"lesson44_word06.mp3","example":"วาดรูปหัวใจ — Draw a heart shape"},
+    {"id":"shp_07","thai":"วงรี","phonetic":"wong-ree","english":"Oval","emoji":"🥚","image":"","audio":"lesson44_word07.mp3","example":"ไข่เป็นรูปวงรี — An egg is oval"},
+    {"id":"shp_08","thai":"เพชร","phonetic":"phet","english":"Diamond","emoji":"🔷","image":"","audio":"lesson44_word08.mp3","example":"รูปเพชรสวยงาม — The diamond shape is beautiful"},
+    {"id":"shp_09","thai":"ครึ่งวงกลม","phonetic":"khrueng-wong-glom","english":"Semicircle","emoji":"🌙","image":"","audio":"lesson44_word09.mp3","example":"พระจันทร์ครึ่งดวงเป็นครึ่งวงกลม — A half moon is a semicircle"},
+    {"id":"shp_10","thai":"ลูกบาศก์","phonetic":"luuk-baat","english":"Cube","emoji":"🎲","image":"","audio":"lesson44_word10.mp3","example":"ลูกเต๋าเป็นรูปลูกบาศก์ — A dice is a cube"},
+    {"id":"shp_11","thai":"ทรงกลม","phonetic":"song-glom","english":"Sphere","emoji":"🌐","image":"","audio":"lesson44_word11.mp3","example":"โลกเป็นทรงกลม — The Earth is a sphere"},
+    {"id":"shp_12","thai":"ทรงกระบอก","phonetic":"song-gra-bok","english":"Cylinder","emoji":"🥫","image":"","audio":"lesson44_word12.mp3","example":"กระป๋องเป็นรูปทรงกระบอก — A can is a cylinder"}
+  ]
+}

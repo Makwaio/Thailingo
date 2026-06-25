@@ -5,11 +5,13 @@ import '../services/settings_service.dart';
 import '../services/progress_service.dart';
 import '../services/review_service.dart';
 import '../services/lesson_service.dart';
+import '../services/missed_questions_service.dart';
 import '../ui/theme/app_theme.dart';
 import 'bug_report_dialog.dart';
 import 'bug_reports_screen.dart';
 import 'whats_new_screen.dart';
 import 'manage_lessons_screen.dart';
+import 'lesson_unlock_manager.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -39,12 +41,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool get _dev => _settings.devMode;
 
   // Game type getters
-  bool get _gtMatchPairs    => _settings.gtMatchPairs;
-  bool get _gtListen        => _settings.gtListen;
-  bool get _gtSpeedTap      => _settings.gtSpeedTap;
-  bool get _gtSentence      => _settings.gtSentenceBuilder;
-  bool get _gtConversation  => _settings.gtConversation;
-  bool get _gtTyping        => _settings.gtTyping;
+  bool get _gtMatchPairs      => _settings.gtMatchPairs;
+  bool get _gtListen          => _settings.gtListen;
+  bool get _gtSpeedTap        => _settings.gtSpeedTap;
+  bool get _gtSentence        => _settings.gtSentenceBuilder;
+  bool get _gtConversation    => _settings.gtConversation;
+  bool get _gtTyping          => _settings.gtTyping;
+  bool get _gtVisualSpotter   => _settings.gtVisualSpotter;
+  bool get _gtOpposites       => _settings.gtOpposites;
 
   // ── Build ─────────────────────────────────────────────────────────
 
@@ -161,6 +165,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 subtitle: 'Type the phonetic spelling',
                 value: _gtTyping,
                 onChanged: (v) => _setGameType('gt_typing_v1', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.remove_red_eye_rounded,
+                label: 'Visual Spotter',
+                subtitle: 'See it, say it in Thai',
+                value: _gtVisualSpotter,
+                onChanged: (v) => _setGameType('visualSpotter', v),
+              ),
+              const _Divider(),
+              _ToggleTile(
+                icon: Icons.swap_horiz_rounded,
+                label: 'Opposites Challenge',
+                subtitle: 'Match words with their opposites',
+                value: _gtOpposites,
+                onChanged: (v) => _setGameType('opposites', v),
               ),
             ],
           ),
@@ -284,6 +304,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 8),
                   _DevButton(
+                    label: '📚 Reset Lessons Only',
+                    danger: true,
+                    onTap: _confirmResetLessonsOnly,
+                  ),
+                  const SizedBox(height: 8),
+                  _DevButton(
+                    label: '🔓 Manage Unlocked Lessons',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const LessonUnlockManagerScreen()),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _DevButton(
                     label: '🗑️ Clear Review Queue',
                     onTap: _clearReviewQueue,
                   ),
@@ -373,6 +408,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('All ${LessonService.totalLessons} lessons unlocked with 3 stars!')),
       );
+    }
+  }
+
+  Future<void> _confirmResetLessonsOnly() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Reset all lesson progress?'),
+        content: const Text(
+          'This will clear all stars, completions and unlock progress. '
+          'Your XP and streak will be kept. This cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Reset Lessons',
+                style: TextStyle(
+                    color: AppTheme.danger, fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true || !mounted) return;
+    await ProgressService().resetLessonsOnly();
+    await ReviewService().clearQueue();
+    await MissedQuestionsService().clearAll();
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Lessons reset! Your stats have been kept ✅'),
+        ),
+      );
+      Navigator.pop(context);
     }
   }
 
@@ -562,8 +634,9 @@ class _Divider extends StatelessWidget {
 class _DevButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
+  final bool danger;
 
-  const _DevButton({required this.label, required this.onTap});
+  const _DevButton({required this.label, required this.onTap, this.danger = false});
 
   @override
   Widget build(BuildContext context) {
@@ -573,16 +646,18 @@ class _DevButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
         decoration: BoxDecoration(
-          color: const Color(0xFF161B22),
+          color: danger ? const Color(0xFF2D1117) : const Color(0xFF161B22),
           borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-          border: Border.all(color: const Color(0xFF30363D)),
+          border: Border.all(
+            color: danger ? const Color(0xFF6E1212) : const Color(0xFF30363D),
+          ),
         ),
         child: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF58A6FF),
+              color: danger ? Colors.red.shade400 : const Color(0xFF58A6FF),
               fontFamily: 'monospace'),
         ),
       ),

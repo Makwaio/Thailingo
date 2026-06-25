@@ -1,0 +1,22 @@
+{
+  "id": 45,
+  "title": "Sizes & Quantities",
+  "subtitle": "How much, how many, how big",
+  "icon": "lesson_sizes",
+  "color": "#FF6F00",
+  "xpReward": 25,
+  "words": [
+    {"id":"sz_01","thai":"ใหญ่","phonetic":"yai","english":"Big / Large","emoji":"🐘","image":"","audio":"lesson45_word01.mp3","example":"ช้างตัวใหญ่มาก — Elephants are very big"},
+    {"id":"sz_02","thai":"เล็ก","phonetic":"lek","english":"Small / Little","emoji":"🐭","image":"","audio":"lesson45_word02.mp3","example":"หนูตัวเล็กมาก — Mice are very small"},
+    {"id":"sz_03","thai":"มาก","phonetic":"maak","english":"Many / A lot","emoji":"💯","image":"","audio":"lesson45_word03.mp3","example":"คนมากมาย — So many people"},
+    {"id":"sz_04","thai":"น้อย","phonetic":"noi","english":"Few / A little","emoji":"🤏","image":"","audio":"lesson45_word04.mp3","example":"น้ำนิดน้อย — Just a little water"},
+    {"id":"sz_05","thai":"ครึ่ง","phonetic":"khrueng","english":"Half","emoji":"🍕","image":"","audio":"lesson45_word05.mp3","example":"ครึ่งชั่วโมง — Half an hour"},
+    {"id":"sz_06","thai":"เต็ม","phonetic":"tem","english":"Full","emoji":"🫙","image":"","audio":"lesson45_word06.mp3","example":"แก้วน้ำเต็ม — The glass is full"},
+    {"id":"sz_07","thai":"ว่าง","phonetic":"waang","english":"Empty","emoji":"🪣","image":"","audio":"lesson45_word07.mp3","example":"ถุงว่างเปล่า — The bag is empty"},
+    {"id":"sz_08","thai":"ทั้งหมด","phonetic":"thang-mot","english":"All / Everything","emoji":"✅","image":"","audio":"lesson45_word08.mp3","example":"ทั้งหมดเท่าไหร่ — How much is everything?"},
+    {"id":"sz_09","thai":"บาง","phonetic":"baang","english":"Thin / Some","emoji":"📄","image":"","audio":"lesson45_word09.mp3","example":"กระดาษบาง — Thin paper"},
+    {"id":"sz_10","thai":"หนัก","phonetic":"nak","english":"Heavy","emoji":"🏋️","image":"","audio":"lesson45_word10.mp3","example":"กระเป๋าหนักมาก — The bag is very heavy"},
+    {"id":"sz_11","thai":"เบา","phonetic":"bao","english":"Light (weight)","emoji":"🪶","image":"","audio":"lesson45_word11.mp3","example":"ผ้าไหมเบามาก — Silk is very light"},
+    {"id":"sz_12","thai":"พอดี","phonetic":"por-dee","english":"Just right / Perfect fit","emoji":"👌","image":"","audio":"lesson45_word12.mp3","example":"รองเท้าพอดีเลย — The shoes fit perfectly"}
+  ]
+}

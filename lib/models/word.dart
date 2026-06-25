@@ -6,6 +6,7 @@ class Word {
   final String image;
   final String audio;
   final String example;
+  final String emoji;
 
   const Word({
     required this.id,
@@ -15,6 +16,7 @@ class Word {
     required this.image,
     required this.audio,
     required this.example,
+    this.emoji = '',
   });
 
   factory Word.fromJson(Map<String, dynamic> json) => Word(
@@ -25,6 +27,7 @@ class Word {
         image: json['image'] as String? ?? '',
         audio: json['audio'] as String? ?? '',
         example: json['example'] as String? ?? '',
+        emoji: json['emoji'] as String? ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +38,6 @@ class Word {
         'image': image,
         'audio': audio,
         'example': example,
+        'emoji': emoji,
       };
 }

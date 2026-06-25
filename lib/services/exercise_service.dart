@@ -180,6 +180,8 @@ class ExerciseService {
     ),
   ];
 
+  static const _visualLessonIds = {3, 4, 9, 11, 16, 17, 44, 47};
+
   List<dynamic> buildQueue(Lesson lesson) {
     final settings = SettingsService();
     final words = lesson.words;
@@ -245,12 +247,75 @@ class ExerciseService {
         pool.add(_conversations[_rng.nextInt(_conversations.length)]);
       }
 
+      // Visual Spotter — only for visual lessons with emoji data
+      if (settings.gtVisualSpotter &&
+          _visualLessonIds.contains(lesson.id) &&
+          round % 3 == 2) {
+        final candidates = words.where((w) => w.emoji.isNotEmpty).toList();
+        if (candidates.isNotEmpty) {
+          final word = candidates[_rng.nextInt(candidates.length)];
+          final dist = _distractors(word, words);
+          pool.add(Exercise(
+            type: ExerciseType.visualSpotter,
+            targetWord: word,
+            options: _shuffle([word, ...dist]),
+            promptText: 'What is this in Thai?',
+          ));
+        }
+      }
+
+      // Opposites Challenge — only for lesson 46
+      if (settings.gtOpposites && lesson.id == 46 && round % 2 == 0) {
+        final shuffled = List<Word>.from(words)..shuffle(_rng);
+        final opp = _buildOpposites(shuffled, words);
+        if (opp != null) pool.add(opp);
+      }
+
       round++;
       if (round > 20) break;
     }
 
     pool.shuffle(_rng);
     return pool.take(target).toList();
+  }
+
+  OppositesChallengeExercise? _buildOpposites(List<Word> shuffled, List<Word> allWords) {
+    final pairWords = allWords.where((w) => w.thai.contains(' / ')).toList();
+    if (pairWords.length < 4) return null;
+
+    final prompt = shuffled.firstWhere(
+      (w) => w.thai.contains(' / '),
+      orElse: () => pairWords[_rng.nextInt(pairWords.length)],
+    );
+
+    final thaiParts = prompt.thai.split(' / ');
+    final phonParts = prompt.phonetic.split(' / ');
+    final engParts = prompt.english.split(' / ');
+    if (thaiParts.length < 2) return null;
+
+    final others = List<Word>.from(pairWords.where((w) => w.id != prompt.id))
+      ..shuffle(_rng);
+    final wrongChoices = others.take(3).map((w) {
+      final wp = w.thai.split(' / ');
+      final wph = w.phonetic.split(' / ');
+      return (
+        wp.length > 1 ? wp[1].trim() : wp[0].trim(),
+        wph.length > 1 ? wph[1].trim() : wph[0].trim(),
+      );
+    }).toList();
+    if (wrongChoices.length < 3) return null;
+
+    return OppositesChallengeExercise(
+      promptThai: thaiParts[0].trim(),
+      promptEnglish: engParts.isNotEmpty ? engParts[0].trim() : '',
+      promptPhonetic: phonParts.isNotEmpty ? phonParts[0].trim() : '',
+      promptAudio: prompt.audio,
+      answerThai: thaiParts[1].trim(),
+      answerEnglish: engParts.length > 1 ? engParts[1].trim() : '',
+      answerPhonetic: phonParts.length > 1 ? phonParts[1].trim() : '',
+      answerAudio: '',
+      wrongChoices: wrongChoices,
+    );
   }
 
   List<Word> _distractors(Word target, List<Word> pool) {

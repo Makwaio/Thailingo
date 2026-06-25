@@ -44,6 +44,8 @@ const _stage1Rows = [
   _RowConfig('Home & Learning', [16, 20, 21]),
   _RowConfig('Real Bangkok Life', [38, 39, 40]),
   _RowConfig('Finishing Stage 1', [41, 42, 43]),
+  _RowConfig('Describing the World', [44, 45, 46]),
+  _RowConfig('Things & How They Feel', [47, 48]),
 ];
 
 const _stage2Rows = [
@@ -55,28 +57,29 @@ const _stage2Rows = [
 ];
 
 // ── Stage 1 visual position order (used for color gradient) ───────────
-const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43];
+const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48];
 
-// ── Stage color anchors for smooth progression ─────────────────────────
+// ── Stage color anchors — positions are VISUAL ORDER in chain, not lesson IDs
 const _s1ColorAnchors = <(int, Color)>[
-  (1,  Color(0xFF4CAF50)),
-  (4,  Color(0xFF2E7D32)),
-  (7,  Color(0xFF00796B)),
-  (10, Color(0xFF00838F)),
-  (13, Color(0xFF0277BD)),
-  (16, Color(0xFF1565C0)),
-  (19, Color(0xFF283593)),
-  (22, Color(0xFF3949AB)),
-  (25, Color(0xFF4527A0)),
-  (28, Color(0xFF311B92)),
+  (1,  Color(0xFF81C784)), // light green
+  (3,  Color(0xFF4CAF50)), // green
+  (7,  Color(0xFF2E7D32)), // dark green
+  (11, Color(0xFF00796B)), // teal
+  (15, Color(0xFF00838F)), // turquoise
+  (19, Color(0xFF0277BD)), // blue
+  (22, Color(0xFF1565C0)), // dark blue
+  (25, Color(0xFF3949AB)), // indigo
+  (28, Color(0xFF311B92)), // deep indigo
+  (33, Color(0xFF4A148C)), // deep violet
 ];
 
 const _s2ColorAnchors = <(int, Color)>[
-  (1,  Color(0xFF6A1B9A)),
-  (5,  Color(0xFF880E4F)),
-  (9,  Color(0xFFC62828)),
-  (12, Color(0xFFBF360C)),
-  (15, Color(0xFFE65100)),
+  (1,  Color(0xFF4A148C)), // dark purple
+  (3,  Color(0xFF6A1B9A)), // purple
+  (6,  Color(0xFF7B1FA2)), // medium purple
+  (9,  Color(0xFF880E4F)), // deep rose
+  (12, Color(0xFFC62828)), // red
+  (15, Color(0xFFBF360C)), // red-brown
 ];
 
 Color _lerpAnchors(int pos, List<(int, Color)> anchors) {
@@ -124,6 +127,8 @@ String _lessonEmoji(int id) {
     37: '🗺️',
     38: '📅', 39: '🎬', 40: '🛒',
     41: '👋', 42: '💯', 43: '😎',
+    44: '🔷', 45: '📏', 46: '↔️',
+    47: '👕', 48: '🪨',
   };
   return map[id] ?? '📚';
 }
@@ -1481,7 +1486,7 @@ class _HexBubbleState extends State<_HexBubble>
         ? (widget.completed
             ? Color.lerp(baseColor, Colors.black, 0.18)!
             : baseColor)
-        : AppTheme.locked;
+        : baseColor.withValues(alpha: 0.35);
 
     return GestureDetector(
       onTap: widget.onTap,

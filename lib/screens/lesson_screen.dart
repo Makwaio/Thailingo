@@ -13,6 +13,8 @@ import 'exercise_screens/speed_tap_screen.dart';
 import 'exercise_screens/sentence_builder_screen.dart';
 import 'exercise_screens/conversation_screen.dart';
 import 'exercise_screens/typing_screen.dart';
+import 'exercise_screens/visual_spotter_screen.dart';
+import 'exercise_screens/opposites_screen.dart';
 import 'result_screen.dart';
 import 'game_over_screen.dart';
 import '../services/review_service.dart';
@@ -443,6 +445,13 @@ class _LessonScreenState extends State<LessonScreen>
         onComplete: (correct, total) => _onPairsComplete(correct, total),
         answered: _showFeedback,
       );
+    } else if (q is OppositesChallengeExercise) {
+      exercise = OppositesScreen(
+        exercise: q,
+        onAnswer: (correct) => _onAnswer(correct, correctAns: q.answerThai),
+        answered: _showFeedback,
+        lastCorrect: _lastCorrect,
+      );
     } else if (q is SentenceBuilderExercise) {
       exercise = SentenceBuilderScreen(
         exercise: q,
@@ -488,6 +497,14 @@ class _LessonScreenState extends State<LessonScreen>
               correctAns: q.targetWord.phonetic,
               bonusXp: hintUsed ? -5 : 0,
             ),
+            answered: _showFeedback,
+            lastCorrect: _lastCorrect,
+          );
+        case ExerciseType.visualSpotter:
+          exercise = VisualSpotterScreen(
+            exercise: q,
+            onAnswer: (correct) => _onAnswer(correct,
+                correctAns: q.targetWord.thai),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
           );

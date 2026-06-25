@@ -1,6 +1,6 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-25 (v11 — Arcade system, bottom nav, left drawer, version display)  
+**Last updated:** 2026-06-25 (v13 — 5 new Stage 1 lessons, Visual Spotter, Opposites Challenge game modes)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
@@ -37,19 +37,48 @@
 
 ---
 
+## v1.0.5 New Content & Features (2026-06-25)
+
+| Item | Status |
+|------|--------|
+| lesson_44.json — Shapes (12 words, IDs shp_01–12) | ✅ Done |
+| lesson_45.json — Sizes & Quantities (12 words, IDs sz_01–12) | ✅ Done |
+| lesson_46.json — Opposites (14 pairs, IDs opp_01–14, "/" notation) | ✅ Done |
+| lesson_47.json — Clothing & Accessories (14 words, IDs clo_01–14) | ✅ Done |
+| lesson_48.json — Textures & Materials (12 words, IDs tex_01–12) | ✅ Done |
+| `Word.emoji` field added to word model | ✅ Done |
+| `ExerciseType.visualSpotter` + `ExerciseType.opposites` added | ✅ Done |
+| `OppositesChallengeExercise` model class | ✅ Done |
+| `VisualSpotterScreen` — emoji + English → tap Thai (2×2 grid) | ✅ Done |
+| `OppositesScreen` — show Thai word → pick opposite | ✅ Done |
+| `ExerciseService` — visual spotter for lessons {3,4,9,11,16,17,44,47} | ✅ Done |
+| `ExerciseService` — opposites challenge for lesson 46 | ✅ Done |
+| `SettingsService` — `gtVisualSpotter`, `gtOpposites` toggles | ✅ Done |
+| Settings screen — Visual Spotter + Opposites Challenge tiles | ✅ Done |
+| Stage 1 rows: added "Describing the World" [44,45,46] + "Things & How They Feel" [47,48] | ✅ Done |
+| `_stage1Chain` + `s1Chain` extended to include 44–48 | ✅ Done |
+| `stage1Ids` extended (allStage1Complete / allStage1Mastered) | ✅ Done |
+| Achievement desc updated: "28 Stage 1" → "33 Stage 1" | ✅ Done |
+| `kStageLessonIds` group 4 now includes 38–48 | ✅ Done |
+| Color gradient extended to position 33 (deep violet `#4A148C`) | ✅ Done |
+| `lesson_unlock_manager.dart` `_s1Chain` extended | ✅ Done |
+| `LessonService.totalLessons` 43 → 48 | ✅ Done |
+| `scripts/upload_new_lessons.py` — uploads lessons 44–48 + patch note | ✅ Done |
+| `flutter analyze` → 0 issues | ✅ Done |
+
 ## Next 5 Tasks
 
-1. **Survival Mode** — 1-heart game that pulls from the same word pool as Speed Mode; game ends on first wrong answer; track longest survival run on Firestore leaderboard.
-2. **Speed Mode high score animation** — Confetti burst + gold shimmer when new record is set on the results screen.
-3. **Arcade tab badge** — Show a "NEW!" or flame badge on the Arcade bottom-nav icon until first visit (store first-visit flag in SharedPreferences).
-4. **Push notification for review reminders** — Use `firebase_messaging` to send a daily local reminder if the user has >5 review words but hasn't opened the app.
-5. **Shorebird patch counter** — Integrate `shorebird_code_push` to auto-increment the patch number in SharedPreferences when a new OTA patch is detected, so the version display in Settings and Drawer footer updates automatically.
+1. **Run upload script** — `python scripts/upload_new_lessons.py` to push lessons 44-48 + v1.0.5 patch note to Firestore.
+2. **Shorebird Patch** — `shorebird patch android --release-version=1.0.1+2 --allow-asset-diffs` (new JSON assets require asset-diff flag).
+3. **Survival Mode** — 1-heart game that pulls from the same word pool as Speed Mode; game ends on first wrong answer; track longest survival run on Firestore leaderboard.
+4. **Speed Mode high score animation** — Confetti burst + gold shimmer when new record is set on the results screen.
+5. **Shorebird patch counter** — Integrate `shorebird_code_push` to auto-increment the patch number in SharedPreferences when a new OTA patch is detected.
 
 ---
 
 ## Summary
 
-Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star lesson system, multiple game types, and a full two-stage curriculum covering 37 lessons plus an optional alphabet Stage 0.
+Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star lesson system, multiple game types, and a two-stage curriculum: Stage 1 (33 lessons, IDs 1–22 + 38–48) and Stage 2 (15 lessons, IDs 23–37), plus an optional alphabet Stage 0.
 
 ---
 
