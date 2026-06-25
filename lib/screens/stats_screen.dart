@@ -7,7 +7,8 @@ import '../services/progress_service.dart';
 import '../ui/theme/app_theme.dart';
 
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+  final bool isTab;
+  const StatsScreen({super.key, this.isTab = false});
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -66,10 +67,13 @@ class _StatsScreenState extends State<StatsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
-          onPressed: () => Navigator.pop(context),
-        ),
+        automaticallyImplyLeading: false,
+        leading: widget.isTab
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
+                onPressed: () => Navigator.pop(context),
+              ),
         title: const Text(
           'Stats & Trophies',
           style: TextStyle(

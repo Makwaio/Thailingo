@@ -1,8 +1,49 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-24 (v9 — Cloud content, audio caching, menu bottom sheet, Manage Lessons screen)  
+**Last updated:** 2026-06-25 (v11 — Arcade system, bottom nav, left drawer, version display)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## Arcade System (v11 — added 2026-06-25)
+
+| Item | Status |
+|------|--------|
+| Bottom navigation bar (Home / Stats / Review / Arcade) | ✅ Done |
+| Left-side drawer (replaces bottom sheet menu) | ✅ Done |
+| Drawer header: avatar, username, email, XP, level | ✅ Done |
+| Drawer footer: version string (v1.0.2-6) | ✅ Done |
+| `ArcadeScreen` hub with 4 game cards | ✅ Done |
+| Speed Mode card (active) + 3 "Coming Soon" cards | ✅ Done |
+| Stage selector (toggle Stage 1 / Stage 2 / All) | ✅ Done |
+| Word pool: all words from completed lessons (timesCompleted ≥ 1) | ✅ Done |
+| Min 20 words gate with clear error message | ✅ Done |
+| `SpeedModeScreen`: 20 questions, 5-sec timer bar | ✅ Done |
+| Timer bar: green→yellow→red, pulse in last 2 seconds | ✅ Done |
+| Audio auto-play per question + replay button | ✅ Done |
+| Combo multiplier 1×–5× MAX with visual effects | ✅ Done |
+| Score: `max(100, 500 - elapsed_s×80) × combo` | ✅ Done |
+| Floating `+X pts` text on correct answer | ✅ Done |
+| "ON FIRE 🔥🔥🔥" banner at 5× combo | ✅ Done |
+| Screen shake on wrong/timeout | ✅ Done |
+| `SpeedModeResultsScreen` with stats + high score | ✅ Done |
+| High score saved locally (SharedPreferences) | ✅ Done |
+| High score uploaded to Firestore if signed in | ✅ Done |
+| Global leaderboard (Firestore stream, top 10) | ✅ Done |
+| `ArcadeService` (`lib/services/arcade_service.dart`) | ✅ Done |
+| `package_info_plus` version display in Settings | ✅ Done |
+| `flutter analyze` → 0 errors | ✅ Done |
+
+---
+
+## Next 5 Tasks
+
+1. **Survival Mode** — 1-heart game that pulls from the same word pool as Speed Mode; game ends on first wrong answer; track longest survival run on Firestore leaderboard.
+2. **Speed Mode high score animation** — Confetti burst + gold shimmer when new record is set on the results screen.
+3. **Arcade tab badge** — Show a "NEW!" or flame badge on the Arcade bottom-nav icon until first visit (store first-visit flag in SharedPreferences).
+4. **Push notification for review reminders** — Use `firebase_messaging` to send a daily local reminder if the user has >5 review words but hasn't opened the app.
+5. **Shorebird patch counter** — Integrate `shorebird_code_push` to auto-increment the patch number in SharedPreferences when a new OTA patch is detected, so the version display in Settings and Drawer footer updates automatically.
 
 ---
 
@@ -60,18 +101,53 @@ Thailingo is a Bangkok Thai learning app with a Duolingo-style hex map, 3-star l
 | 42 | Numbers 11 to 1,000,000 | nm2_ | 15 |
 | 43 | Useful Slang & Fillers | slg2_ | 12 |
 
-**Row groupings** (home screen hex map):
-1. Greetings & Speaking [1, 11, 13, 22]
-2. Numbers & Money [2, 10, 12]
-3. Food & Drinks [3, 4, 9]
-4. People & Feelings [5, 15, 19, 21]
-5. Time & Description [14, 6, 16]
-6. Getting Around [7, 8, 18, 17]
-7. Home & Life [20]
-8. Real Life Thai [38, 39, 40] ← new
-9. Language Tools [41, 42, 43] ← new
+**Row groupings** (home screen hex map, left→right = unlock order):
 
-> **Note:** IDs 38-43 use IDs beyond Stage 2 (23-37) to avoid collision. They appear in the Stage 1 section and unlock after all 22 Stage 1 lessons have 1+ star (same gate as Stage 2).
+| Row | Label | Lesson IDs (visual order) | Unlock rule |
+|-----|-------|--------------------------|-------------|
+| 1 | First Steps | 1, 22, 11 | Pos 1 always open; pos 2 needs pos 1 ≥1★; pos 3 needs pos 2 |
+| 2 | Numbers & Money | 2, 10, 12 | pos 4 needs pos 3; etc. |
+| 3 | Food & Drinks | 3, 4, 9 | sequential |
+| 4 | Language Basics | 13, 14, 6 | sequential |
+| 5 | People & Feelings | 5, 15, 19 | sequential |
+| 6 | Getting Around | 7, 8, 17, 18 | sequential (4 octagons — compact mode) |
+| 7 | Home & Learning | 16, 20, 21 | sequential |
+| 8 | Real Bangkok Life | 38, 39, 40 | sequential |
+| 9 | Finishing Stage 1 | 41, 42, 43 | sequential |
+
+**Full Stage 1 unlock chain (position → lesson ID → title):**
+```
+Pos  1: ID  1  Greetings          → always unlocked
+Pos  2: ID 22  Polite Particles   → needs pos 1 ≥1★
+Pos  3: ID 11  Common Phrases     → needs pos 2 ≥1★
+Pos  4: ID  2  Numbers            → needs pos 3 ≥1★
+Pos  5: ID 10  Shopping           → needs pos 4 ≥1★
+Pos  6: ID 12  At the Market      → needs pos 5 ≥1★
+Pos  7: ID  3  Street Food        → needs pos 6 ≥1★
+Pos  8: ID  4  Drinks             → needs pos 7 ≥1★
+Pos  9: ID  9  Animals            → needs pos 8 ≥1★
+Pos 10: ID 13  Basic Sentences    → needs pos 9 ≥1★
+Pos 11: ID 14  Time & Days        → needs pos 10 ≥1★
+Pos 12: ID  6  Colors             → needs pos 11 ≥1★
+Pos 13: ID  5  Family             → needs pos 12 ≥1★
+Pos 14: ID 15  Emotions           → needs pos 13 ≥1★
+Pos 15: ID 19  Jobs & Occupations → needs pos 14 ≥1★
+Pos 16: ID  7  Transportation     → needs pos 15 ≥1★
+Pos 17: ID  8  Directions         → needs pos 16 ≥1★
+Pos 18: ID 17  Weather & Nature   → needs pos 17 ≥1★
+Pos 19: ID 18  Places in Bangkok  → needs pos 18 ≥1★
+Pos 20: ID 16  Body Parts         → needs pos 19 ≥1★
+Pos 21: ID 20  Home & House       → needs pos 20 ≥1★
+Pos 22: ID 21  Classroom & Study  → needs pos 21 ≥1★
+Pos 23: ID 38  Daily Life Sents.  → needs pos 22 ≥1★
+Pos 24: ID 39  Going Out & Plans  → needs pos 23 ≥1★
+Pos 25: ID 40  Street Ordering    → needs pos 24 ≥1★
+Pos 26: ID 41  Goodbyes & Endings → needs pos 25 ≥1★
+Pos 27: ID 42  Numbers Advanced   → needs pos 26 ≥1★
+Pos 28: ID 43  Slang & Fillers    → needs pos 27 ≥1★
+```
+
+> **Note:** IDs 38-43 use IDs beyond Stage 2 (23-37) to avoid collision. They appear in the Stage 1 section and unlock sequentially like any other Stage 1 lesson.
 
 ### Stage 2 — Survival Thai (IDs 23-37)
 

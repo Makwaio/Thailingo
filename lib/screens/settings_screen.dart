@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/settings_service.dart';
 import '../services/progress_service.dart';
 import '../services/review_service.dart';
@@ -19,6 +21,24 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final _settings = SettingsService();
+  String _versionDisplay = 'v1.0.2';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final info  = await PackageInfo.fromPlatform();
+      final prefs = await SharedPreferences.getInstance();
+      final patch = prefs.getInt('patch_number') ?? 6;
+      if (mounted) {
+        setState(() => _versionDisplay = 'v${info.version}-$patch');
+      }
+    } catch (_) {}
+  }
 
   bool get _sound => _settings.soundEnabled;
   bool get _music => _settings.musicEnabled;
@@ -201,11 +221,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // ── App info ───────────────────────────────────────────
           Center(
-            child: Text(
-              'Thailingo  v1.0.0',
-              style: TextStyle(
-                  fontSize: 13,
-                  color: AppTheme.textSecondary.withValues(alpha: 0.7)),
+            child: Column(
+              children: [
+                Text(
+                  'Thailingo  $_versionDisplay',
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: AppTheme.textSecondary.withValues(alpha: 0.7)),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '© 2026 Thailingo',
+                  style: TextStyle(
+                      fontSize: 11,
+                      color: AppTheme.textSecondary.withValues(alpha: 0.45)),
+                ),
+              ],
             ),
           ),
 

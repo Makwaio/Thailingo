@@ -25,7 +25,10 @@ class UserProgress {
 
   bool isLessonUnlocked(int lessonId) {
     // Stage 1 unlock chain (lessons unlock in this order, each requiring previous ≥1 star)
-    const s1Chain = [1, 22, 11, 2, 3, 4, 13, 14, 6, 5, 7, 8, 10, 12, 15, 9, 16, 17, 18, 19, 20, 21, 38, 39, 40, 41, 42, 43];
+    // Matches visual row order: Row1[1,22,11] Row2[2,10,12] Row3[3,4,9]
+    // Row4[13,14,6] Row5[5,15,19] Row6[7,8,17,18] Row7[16,20,21]
+    // Row8[38,39,40] Row9[41,42,43]
+    const s1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43];
     final s1Idx = s1Chain.indexOf(lessonId);
     if (s1Idx >= 0) {
       if (s1Idx == 0) return true;

@@ -364,15 +364,30 @@ class _LessonScreenState extends State<LessonScreen>
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-              child: LinearProgressIndicator(
-                value: _progress,
-                minHeight: 14,
-                backgroundColor: AppTheme.border,
-                valueColor:
-                    const AlwaysStoppedAnimation<Color>(AppTheme.success),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '${_idx + 1}/20',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: AppTheme.textSecondary,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                  child: LinearProgressIndicator(
+                    value: _progress,
+                    minHeight: 10,
+                    backgroundColor: AppTheme.border,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(AppTheme.success),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(width: 12),

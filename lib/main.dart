@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'ui/theme/app_theme.dart';
-import 'screens/home_screen.dart';
+import 'screens/main_shell.dart';
 import 'screens/login_screen.dart';
 import 'screens/profile_setup_screen.dart';
 import 'services/settings_service.dart';
@@ -94,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen>
       } else {
         final localProgress = await ProgressService().load();
         await UserService().syncLocalProgress(uid, localProgress);
-        destination = const HomeScreen();
+        destination = const MainShell();
       }
     } else {
       destination = const LoginScreen();

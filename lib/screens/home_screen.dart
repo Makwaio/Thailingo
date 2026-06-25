@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/lesson.dart';
 import '../models/user_progress.dart';
@@ -19,7 +21,6 @@ import 'login_screen.dart';
 import 'review_screen.dart';
 import 'missed_review_screen.dart';
 import 'settings_screen.dart';
-import 'stats_screen.dart';
 import 'guide_book_screen.dart';
 import 'stage0_screen.dart';
 import 'leaderboard_screen.dart';
@@ -54,8 +55,8 @@ const _stage2Rows = [
   _RowConfig('Getting Around Advanced', [37]),
 ];
 
-// ── Stage 1 lesson unlock chain (old IDs in unlock order) ─────────────
-const _stage1Chain = [1, 22, 11, 2, 3, 4, 13, 14, 6, 5, 7, 8, 10, 12, 15, 9, 16, 17, 18, 19, 20, 21, 38, 39, 40, 41, 42, 43];
+// ── Stage 1 visual position order (used for color gradient) ───────────
+const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 38, 39, 40, 41, 42, 43];
 
 // ── Stage color anchors for smooth progression ─────────────────────────
 const _s1ColorAnchors = <(int, Color)>[
@@ -132,7 +133,9 @@ enum _StreakStatus { none, playedToday, atRisk, keepAlive }
 
 // ── Home Screen ────────────────────────────────────────────────────────
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final VoidCallback? onSwitchToArcade;
+
+  const HomeScreen({super.key, this.onSwitchToArcade});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -142,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final _lessonService = LessonService();
   final _progressService = ProgressService();
   final _scrollCtrl = ScrollController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Lesson> _lessons = [];
   UserProgress _progress = UserProgress();
@@ -152,6 +156,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   bool _bannerVisible = false;
   Timer? _bannerTimer;
   String _avatarEmoji = '';
+  String _username    = '';
+  String _email       = '';
   bool _isSignedIn = false;
 
   int? _weeklyRank;
@@ -220,10 +226,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     int? weeklyXp;
     bool showWeeklyBanner = false;
 
+    String username = '';
+    String email    = '';
     if (isSignedIn) {
       final uid = firebaseService.getUserId()!;
       final profile = await UserService().getUserProfile(uid);
       avatarEmoji = profile?['avatarEmoji'] as String? ?? '';
+      username    = profile?['username']    as String? ?? '';
+      email       = FirebaseAuth.instance.currentUser?.email ?? '';
 
       final rankInfo = await UserService().getWeeklyRankInfo(uid);
       if (rankInfo != null) {
@@ -252,6 +262,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _streakStatus = status;
         _bannerVisible = status != _StreakStatus.none;
         _avatarEmoji = avatarEmoji;
+        _username    = username;
+        _email       = email;
         _isSignedIn = isSignedIn;
         if (weeklyRank != null) {
           _weeklyRank = weeklyRank;
@@ -299,7 +311,35 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     }
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppTheme.surface,
+      drawer: _AppDrawer(
+        isSignedIn:       _isSignedIn,
+        avatarEmoji:      _avatarEmoji,
+        username:         _username,
+        email:            _email,
+        xp:               _progress.totalXp,
+        level:            _progress.level,
+        onClose:          () => _scaffoldKey.currentState?.closeDrawer(),
+        onProfile:        () { _scaffoldKey.currentState?.closeDrawer(); _openProfile(); },
+        onLeaderboard:    () { _scaffoldKey.currentState?.closeDrawer(); _openLeaderboard(); },
+        onArcade:         () {
+          _scaffoldKey.currentState?.closeDrawer();
+          widget.onSwitchToArcade?.call();
+        },
+        onGuideBook:      () { _scaffoldKey.currentState?.closeDrawer(); _openGuideBook(); },
+        onSettings:       () { _scaffoldKey.currentState?.closeDrawer(); _openSettings(); },
+        onBugReport:      () {
+          _scaffoldKey.currentState?.closeDrawer();
+          showBugReportDialog(context, screen: 'Home');
+        },
+        onWhatsNew:       () {
+          _scaffoldKey.currentState?.closeDrawer();
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const WhatsNewScreen()));
+        },
+        onSignOut:        () { _scaffoldKey.currentState?.closeDrawer(); _signOut(); },
+        onSignIn:         () { _scaffoldKey.currentState?.closeDrawer(); _openSignIn(); },
+      ),
       body: CustomScrollView(
         controller: _scrollCtrl,
         slivers: [
@@ -421,6 +461,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         progress: _progress,
         onTap: _startLesson,
         emojiFor: _lessonEmoji,
+        compact: rowLessons.length >= 4,
       ));
       rowWidgets.add(const SizedBox(height: 8));
     }
@@ -787,47 +828,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     if (mounted) _load();
   }
 
-  Future<void> _openStats() async {
-    await Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, anim, __) => const StatsScreen(),
-        transitionsBuilder: (_, anim, __, child) => SlideTransition(
-          position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
-              .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
-          child: child,
-        ),
-        transitionDuration: const Duration(milliseconds: 300),
-      ),
-    );
-  }
-
   void _openMenu() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (_) => _MenuSheet(
-        isSignedIn: _isSignedIn,
-        avatarEmoji: _avatarEmoji,
-        onProfile: () { Navigator.pop(context); _openProfile(); },
-        onStats: () { Navigator.pop(context); _openStats(); },
-        onLeaderboard: () { Navigator.pop(context); _openLeaderboard(); },
-        onGuideBook: () { Navigator.pop(context); _openGuideBook(); },
-        onSettings: () { Navigator.pop(context); _openSettings(); },
-        onBugReport: () {
-          Navigator.pop(context);
-          showBugReportDialog(context, screen: 'Home');
-        },
-        onWhatsNew: () {
-          Navigator.pop(context);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const WhatsNewScreen()));
-        },
-        onSignOut: () { Navigator.pop(context); _signOut(); },
-        onSignIn: () { Navigator.pop(context); _openSignIn(); },
-      ),
-    );
+    _scaffoldKey.currentState?.openDrawer();
   }
 
   Future<void> _signOut() async {
@@ -940,13 +942,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-// ── Menu bottom sheet ──────────────────────────────────────────────────
-class _MenuSheet extends StatelessWidget {
+// ── Left-side App Drawer ───────────────────────────────────────────────
+class _AppDrawer extends StatefulWidget {
   final bool isSignedIn;
   final String avatarEmoji;
+  final String username;
+  final String email;
+  final int xp;
+  final int level;
+  final VoidCallback onClose;
   final VoidCallback onProfile;
-  final VoidCallback onStats;
   final VoidCallback onLeaderboard;
+  final VoidCallback onArcade;
   final VoidCallback onGuideBook;
   final VoidCallback onSettings;
   final VoidCallback onBugReport;
@@ -954,12 +961,17 @@ class _MenuSheet extends StatelessWidget {
   final VoidCallback onSignOut;
   final VoidCallback onSignIn;
 
-  const _MenuSheet({
+  const _AppDrawer({
     required this.isSignedIn,
     required this.avatarEmoji,
+    required this.username,
+    required this.email,
+    required this.xp,
+    required this.level,
+    required this.onClose,
     required this.onProfile,
-    required this.onStats,
     required this.onLeaderboard,
+    required this.onArcade,
     required this.onGuideBook,
     required this.onSettings,
     required this.onBugReport,
@@ -969,96 +981,208 @@ class _MenuSheet extends StatelessWidget {
   });
 
   @override
+  State<_AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<_AppDrawer> {
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final info  = await PackageInfo.fromPlatform();
+      final prefs = await SharedPreferences.getInstance();
+      final patch = prefs.getInt('patch_number') ?? 6;
+      if (mounted) setState(() => _version = 'v${info.version}-$patch');
+    } catch (_) {}
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: AppTheme.thaiNavy,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    final screenW = MediaQuery.of(context).size.width;
+    return SizedBox(
+      width: screenW * 0.75,
+      child: Drawer(
+        backgroundColor: AppTheme.thaiNavy,
+        child: Column(
+          children: [
+            _buildHeader(),
+            Expanded(child: _buildMenuItems()),
+            _buildFooter(),
+          ],
+        ),
       ),
-      padding: EdgeInsets.fromLTRB(
-          0, 12, 0, MediaQuery.of(context).padding.bottom + 24),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [AppTheme.thaiNavyDk, AppTheme.thaiNavy],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        border: Border(
+          bottom: BorderSide(color: AppTheme.thaiGold.withValues(alpha: 0.5), width: 1.5),
+        ),
+      ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          // Handle bar
-          Container(
-            width: 40, height: 4,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Profile header
-          if (isSignedIn)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
+          // Thai flag accent bar
+          Container(height: 4, color: AppTheme.thaiRed),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // Avatar
                   Container(
-                    width: 44, height: 44,
+                    width: 64,
+                    height: 64,
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
+                      color: Colors.white.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
-                      border: Border.all(color: AppTheme.thaiGold, width: 2),
+                      border: Border.all(color: AppTheme.thaiGold, width: 2.5),
                     ),
                     child: Center(
-                      child: avatarEmoji.isNotEmpty
-                          ? Text(avatarEmoji,
-                              style: const TextStyle(fontSize: 22))
+                      child: widget.isSignedIn && widget.avatarEmoji.isNotEmpty
+                          ? Text(widget.avatarEmoji,
+                              style: const TextStyle(fontSize: 32))
                           : const Icon(Icons.person_rounded,
-                              color: Colors.white, size: 22),
+                              color: Colors.white70, size: 32),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  const Text('My Account',
+                  const SizedBox(height: 10),
+                  Text(
+                    widget.isSignedIn && widget.username.isNotEmpty
+                        ? widget.username
+                        : 'Guest',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  if (widget.isSignedIn && widget.email.isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      widget.email,
                       style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white)),
+                        fontSize: 11,
+                        color: Colors.white.withValues(alpha: 0.55),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _HeaderPill('⭐ ${widget.xp} XP'),
+                      const SizedBox(width: 8),
+                      _HeaderPill('Lv. ${widget.level}'),
+                    ],
+                  ),
                 ],
               ),
             ),
-          if (isSignedIn) const SizedBox(height: 12),
-          const Divider(color: Colors.white12, height: 1),
-          const SizedBox(height: 8),
-          // Menu items
-          _MenuItem(icon: '👤', label: 'Profile & Stats', onTap: onProfile),
-          _MenuItem(icon: '🏆', label: 'Leaderboard', onTap: onLeaderboard),
-          _MenuItem(icon: '📖', label: 'Guide Book', onTap: onGuideBook),
-          _MenuItem(icon: '⚙️', label: 'Settings', onTap: onSettings),
-          _MenuItem(icon: '🐛', label: 'Report a Bug', onTap: onBugReport),
-          _MenuItem(icon: '📋', label: "What's New", onTap: onWhatsNew),
-          const SizedBox(height: 8),
-          const Divider(color: Colors.white12, height: 1),
-          const SizedBox(height: 8),
-          if (isSignedIn)
-            _MenuItem(
-              icon: '🚪',
-              label: 'Sign Out',
-              onTap: onSignOut,
-              labelColor: Colors.redAccent.shade100,
-            )
-          else
-            _MenuItem(
-              icon: '🔑',
-              label: 'Sign In with Google',
-              onTap: onSignIn,
-              labelColor: AppTheme.thaiGold,
-            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItems() {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      children: [
+        _DrawerItem(icon: '👤', label: 'Profile & Stats',    onTap: widget.onProfile),
+        _DrawerItem(icon: '🏆', label: 'Leaderboard',        onTap: widget.onLeaderboard),
+        _DrawerItem(icon: '🕹️', label: 'Arcade',            onTap: widget.onArcade),
+        _DrawerItem(icon: '📖', label: 'Guide Book',          onTap: widget.onGuideBook),
+        _DrawerItem(icon: '⚙️', label: 'Settings',           onTap: widget.onSettings),
+        _DrawerItem(icon: '🐛', label: 'Report a Bug',       onTap: widget.onBugReport),
+        _DrawerItem(icon: '📋', label: "What's New",         onTap: widget.onWhatsNew),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
+        ),
+        if (widget.isSignedIn)
+          _DrawerItem(
+            icon: '🚪',
+            label: 'Sign Out',
+            onTap: widget.onSignOut,
+            labelColor: Colors.redAccent.shade100,
+          )
+        else
+          _DrawerItem(
+            icon: '🔑',
+            label: 'Sign In with Google',
+            onTap: widget.onSignIn,
+            labelColor: AppTheme.thaiGold,
+          ),
+      ],
+    );
+  }
+
+  Widget _buildFooter() {
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+        child: Text(
+          _version.isNotEmpty ? _version : 'Thailingo',
+          style: TextStyle(
+            fontSize: 11,
+            color: Colors.white.withValues(alpha: 0.3),
+          ),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
 }
 
-class _MenuItem extends StatelessWidget {
+class _HeaderPill extends StatelessWidget {
+  final String label;
+  const _HeaderPill(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+        border: Border.all(color: AppTheme.thaiGold.withValues(alpha: 0.4)),
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: AppTheme.thaiGold,
+        ),
+      ),
+    );
+  }
+}
+
+class _DrawerItem extends StatelessWidget {
   final String icon;
   final String label;
   final VoidCallback onTap;
   final Color? labelColor;
 
-  const _MenuItem({
+  const _DrawerItem({
     required this.icon,
     required this.label,
     required this.onTap,
@@ -1069,6 +1193,7 @@ class _MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      splashColor: AppTheme.thaiGold.withValues(alpha: 0.1),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         child: Row(
@@ -1079,13 +1204,14 @@ class _MenuItem extends StatelessWidget {
               child: Text(
                 label,
                 style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: labelColor ?? Colors.white),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: labelColor ?? Colors.white,
+                ),
               ),
             ),
             Icon(Icons.chevron_right_rounded,
-                color: Colors.white.withValues(alpha: 0.4), size: 20),
+                color: Colors.white.withValues(alpha: 0.3), size: 18),
           ],
         ),
       ),
@@ -1124,6 +1250,7 @@ class _LessonRow extends StatelessWidget {
   final UserProgress progress;
   final void Function(Lesson) onTap;
   final String Function(int) emojiFor;
+  final bool compact;
 
   const _LessonRow({
     required this.label,
@@ -1132,6 +1259,7 @@ class _LessonRow extends StatelessWidget {
     required this.progress,
     required this.onTap,
     required this.emojiFor,
+    this.compact = false,
   });
 
   @override
@@ -1160,7 +1288,7 @@ class _LessonRow extends StatelessWidget {
         // Hex bubbles
         Wrap(
           alignment: WrapAlignment.center,
-          spacing: 4,
+          spacing: compact ? 2 : 4,
           runSpacing: 12,
           children: lessons.asMap().entries.map((e) {
             final i = e.key;
@@ -1172,7 +1300,8 @@ class _LessonRow extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (i > 0) _DottedLine(
-                    color: completed ? AppTheme.success : labelColor.withValues(alpha: 0.3)),
+                    color: completed ? AppTheme.success : labelColor.withValues(alpha: 0.3),
+                    width: compact ? 12.0 : 20.0),
                 _HexBubble(
                   lesson: lesson,
                   unlocked: unlocked,
@@ -1180,6 +1309,7 @@ class _LessonRow extends StatelessWidget {
                   stars: stars,
                   emoji: emojiFor(lesson.id),
                   onTap: () => onTap(lesson),
+                  compact: compact,
                 ),
               ],
             );
@@ -1304,6 +1434,7 @@ class _HexBubble extends StatefulWidget {
   final int stars;
   final String emoji;
   final VoidCallback onTap;
+  final bool compact;
 
   const _HexBubble({
     required this.lesson,
@@ -1312,6 +1443,7 @@ class _HexBubble extends StatefulWidget {
     required this.stars,
     required this.emoji,
     required this.onTap,
+    this.compact = false,
   });
 
   @override
@@ -1343,8 +1475,10 @@ class _HexBubbleState extends State<_HexBubble>
 
   @override
   Widget build(BuildContext context) {
-    const hexW = 68.0;
-    const hexH = 78.0;
+    final hexW = widget.compact ? 54.0 : 68.0;
+    final hexH = widget.compact ? 62.0 : 78.0;
+    final textW = widget.compact ? 58.0 : 76.0;
+    final emojiSize = widget.compact ? 18.0 : 22.0;
 
     final baseColor = _lessonFillColor(widget.lesson.id);
     final fillColor = widget.unlocked
@@ -1374,7 +1508,7 @@ class _HexBubbleState extends State<_HexBubble>
                   children: [
                     // Octagon shape with star borders
                     CustomPaint(
-                      size: const Size(hexW, hexH),
+                      size: Size(hexW, hexH),
                       painter: _OctagonPainter(
                         fillColor: fillColor,
                         stars: widget.unlocked ? widget.stars : 0,
@@ -1384,32 +1518,32 @@ class _HexBubbleState extends State<_HexBubble>
                     ),
                     // Emoji
                     Text(widget.emoji,
-                        style: const TextStyle(fontSize: 22)),
+                        style: TextStyle(fontSize: emojiSize)),
                     // Lock overlay
                     if (!widget.unlocked)
                       Positioned(
-                        bottom: 12,
-                        right: 10,
+                        bottom: 10,
+                        right: 8,
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: const BoxDecoration(
                               color: Colors.white54, shape: BoxShape.circle),
                           child: const Icon(Icons.lock_rounded,
-                              color: AppTheme.textSecondary, size: 11),
+                              color: AppTheme.textSecondary, size: 10),
                         ),
                       ),
                     // Completed checkmark badge
                     if (widget.completed)
                       Positioned(
-                        top: 5,
-                        right: 7,
+                        top: 4,
+                        right: 5,
                         child: Container(
-                          width: 18,
-                          height: 18,
+                          width: 16,
+                          height: 16,
                           decoration: const BoxDecoration(
                               color: AppTheme.success, shape: BoxShape.circle),
                           child: const Icon(Icons.check_rounded,
-                              color: Colors.white, size: 12),
+                              color: Colors.white, size: 10),
                         ),
                       ),
                   ],
@@ -1417,14 +1551,14 @@ class _HexBubbleState extends State<_HexBubble>
               ),
               const SizedBox(height: 5),
               SizedBox(
-                width: 76,
+                width: textW,
                 child: Text(
                   widget.lesson.title,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: 10,
+                      fontSize: widget.compact ? 9 : 10,
                       fontWeight: FontWeight.w700,
                       color: widget.unlocked
                           ? AppTheme.textPrimary
@@ -1457,11 +1591,12 @@ class _HexBubbleState extends State<_HexBubble>
 // ── Dotted path line ──────────────────────────────────────────────────
 class _DottedLine extends StatelessWidget {
   final Color color;
-  const _DottedLine({required this.color});
+  final double width;
+  const _DottedLine({required this.color, this.width = 20.0});
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(size: const Size(20, 4), painter: _DottedPainter(color));
+    return CustomPaint(size: Size(width, 4), painter: _DottedPainter(color));
   }
 }
 
