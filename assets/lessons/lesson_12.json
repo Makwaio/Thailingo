@@ -15,6 +15,11 @@
     {"id":"mkt_07","thai":"ขอ","phonetic":"khor","english":"Give me / I'd like","image":"word_gimme","audio":"mkt_07.mp3","example":"ขออันนั้นด้วย — Give me that one too"},
     {"id":"mkt_08","thai":"ห่อด้วย","phonetic":"hor-duai","english":"Wrap it up","image":"word_wrap","audio":"mkt_08.mp3","example":"ห่อด้วยนะครับ — Please wrap it"},
     {"id":"mkt_09","thai":"ถุง","phonetic":"tung","english":"Bag","image":"word_bag","audio":"mkt_09.mp3","example":"ขอถุงด้วย — Can I have a bag?"},
-    {"id":"mkt_10","thai":"ใบเสร็จ","phonetic":"bai-set","english":"Receipt","image":"word_receipt","audio":"mkt_10.mp3","example":"ขอใบเสร็จด้วยครับ — May I have the receipt?"}
+    {"id":"mkt_10","thai":"ใบเสร็จ","phonetic":"bai-set","english":"Receipt","image":"word_receipt","audio":"mkt_10.mp3","example":"ขอใบเสร็จด้วยครับ — May I have the receipt?"},
+    {"id":"mkt_11","thai":"ชำระด้วยบัตร","phonetic":"cham-ra-duay-bat","english":"Pay by card","image":"","audio":"lesson12_word11.mp3","example":"ชำระด้วยบัตรได้ไหมครับ — Can I pay by card?"},
+    {"id":"mkt_12","thai":"โอนเงิน","phonetic":"on-ngern","english":"Bank transfer","image":"","audio":"lesson12_word12.mp3","example":"โอนเงินได้ไหม — Can I transfer money?"},
+    {"id":"mkt_13","thai":"ของสด","phonetic":"khong-sot","english":"Fresh goods / Produce","image":"","audio":"lesson12_word13.mp3","example":"ของสดจากตลาด — Fresh produce from the market"},
+    {"id":"mkt_14","thai":"สินค้า","phonetic":"sin-khaa","english":"Goods / Products","image":"","audio":"lesson12_word14.mp3","example":"สินค้าคุณภาพดี — Good quality products"},
+    {"id":"mkt_15","thai":"แลก","phonetic":"laek","english":"Exchange / Swap","image":"","audio":"lesson12_word15.mp3","example":"แลกเงินได้ไหม — Can I exchange money?"}
   ]
 }

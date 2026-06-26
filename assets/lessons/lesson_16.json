@@ -17,6 +17,11 @@
     {"id":"body_09","thai":"หน้า","phonetic":"naa","english":"Face","image":"word_face","audio":"body_09.mp3","example":"หน้าตาดี — Good-looking face"},
     {"id":"body_10","thai":"หลัง","phonetic":"lang","english":"Back","image":"word_back","audio":"body_10.mp3","example":"ปวดหลัง — Backache"},
     {"id":"body_11","thai":"ท้อง","phonetic":"tong","english":"Stomach","image":"word_stomach","audio":"body_11.mp3","example":"ปวดท้อง — Stomach ache"},
-    {"id":"body_12","thai":"นิ้ว","phonetic":"niu","english":"Finger","image":"word_finger","audio":"body_12.mp3","example":"นิ้วชี้ — Index finger (pointing finger)"}
+    {"id":"body_12","thai":"นิ้ว","phonetic":"niu","english":"Finger","image":"word_finger","audio":"body_12.mp3","example":"นิ้วชี้ — Index finger (pointing finger)"},
+    {"id":"body_13","thai":"คอ","phonetic":"kor","english":"Neck","image":"","audio":"lesson16_word13.mp3","example":"คอยาว — Long neck"},
+    {"id":"body_14","thai":"ไหล่","phonetic":"lai","english":"Shoulder","image":"","audio":"lesson16_word14.mp3","example":"ไหล่กว้าง — Broad shoulders"},
+    {"id":"body_15","thai":"ข้อศอก","phonetic":"khor-sok","english":"Elbow","image":"","audio":"lesson16_word15.mp3","example":"ข้อศอกชน — Hit with elbow"},
+    {"id":"body_16","thai":"ข้อมือ","phonetic":"khor-mue","english":"Wrist","image":"","audio":"lesson16_word16.mp3","example":"ข้อมือเจ็บ — Wrist hurts"},
+    {"id":"body_17","thai":"เข่า","phonetic":"khao","english":"Knee","image":"","audio":"lesson16_word17.mp3","example":"เข่าเจ็บ — Knee hurts"}
   ]
 }

@@ -17,6 +17,10 @@
     {"id":"place_09","thai":"ร้านขายยา","phonetic":"raan-khaai-yaa","english":"Pharmacy","image":"word_pharmacy","audio":"place_09.mp3","example":"ร้านขายยาอยู่ใกล้ๆ — The pharmacy is nearby"},
     {"id":"place_10","thai":"ร้านอาหาร","phonetic":"raan-aa-haan","english":"Restaurant","image":"word_restaurant","audio":"place_10.mp3","example":"ร้านอาหารดี — Good restaurant"},
     {"id":"place_11","thai":"โรงแรม","phonetic":"rong-raem","english":"Hotel","image":"word_hotel","audio":"place_11.mp3","example":"โรงแรมอยู่ใกล้ — The hotel is close"},
-    {"id":"place_12","thai":"ตลาด","phonetic":"dta-laat","english":"Market","image":"word_market","audio":"place_12.mp3","example":"ตลาดนัด — Weekend market (flea market)"}
+    {"id":"place_12","thai":"ตลาด","phonetic":"dta-laat","english":"Market","image":"word_market","audio":"place_12.mp3","example":"ตลาดนัด — Weekend market (flea market)"},
+    {"id":"place_13","thai":"ร้านสะดวกซื้อ","phonetic":"raan-sa-duak-sue","english":"Convenience store","image":"","audio":"lesson18_word13.mp3","example":"ร้านสะดวกซื้อเปิดตลอด — Convenience store open all day"},
+    {"id":"place_14","thai":"ปั๊มน้ำมัน","phonetic":"bpam-naam-man","english":"Gas station","image":"","audio":"lesson18_word14.mp3","example":"แวะปั๊มน้ำมัน — Stop at the gas station"},
+    {"id":"place_15","thai":"ไปรษณีย์","phonetic":"bprai-sa-nee","english":"Post office","image":"","audio":"lesson18_word15.mp3","example":"ส่งพัสดุที่ไปรษณีย์ — Send parcel at the post office"},
+    {"id":"place_16","thai":"สถานีรถไฟฟ้า","phonetic":"sa-thaa-nee-rot-fai-faa","english":"BTS / MRT station","image":"","audio":"lesson18_word16.mp3","example":"สถานีรถไฟฟ้าอโศก — Asok BTS station"}
   ]
 }

@@ -15,6 +15,11 @@
     {"id":"job_07","thai":"พระ","phonetic":"phra","english":"Monk","image":"word_monk","audio":"job_07.mp3","example":"พระออกบิณฑบาต — Monks on alms round"},
     {"id":"job_08","thai":"ชาวนา","phonetic":"chaao-naa","english":"Farmer","image":"word_farmer","audio":"job_08.mp3","example":"ชาวนาปลูกข้าว — Farmer grows rice"},
     {"id":"job_09","thai":"ทหาร","phonetic":"tha-haan","english":"Soldier","image":"word_soldier","audio":"job_09.mp3","example":"ทหารรักษาการ — Soldier on guard"},
-    {"id":"job_10","thai":"นักเรียน","phonetic":"nak-rian","english":"Student","image":"word_student","audio":"job_10.mp3","example":"นักเรียนเก่ง — Smart student"}
+    {"id":"job_10","thai":"นักเรียน","phonetic":"nak-rian","english":"Student","image":"word_student","audio":"job_10.mp3","example":"นักเรียนเก่ง — Smart student"},
+    {"id":"job_11","thai":"นักธุรกิจ","phonetic":"nak-thoo-ra-git","english":"Businessman","image":"","audio":"lesson19_word11.mp3","example":"นักธุรกิจประสบความสำเร็จ — A successful businessman"},
+    {"id":"job_12","thai":"นักศึกษา","phonetic":"nak-suek-saa","english":"University student","image":"","audio":"lesson19_word12.mp3","example":"นักศึกษามหาวิทยาลัย — University student"},
+    {"id":"job_13","thai":"แม่บ้าน","phonetic":"mae-baan","english":"Homemaker / Housewife","image":"","audio":"lesson19_word13.mp3","example":"แม่บ้านดูแลบ้านดีมาก — She takes great care of the home"},
+    {"id":"job_14","thai":"ช่าง","phonetic":"chaang","english":"Technician / Craftsman","image":"","audio":"lesson19_word14.mp3","example":"ช่างซ่อมรถยนต์ — Car mechanic"},
+    {"id":"job_15","thai":"นักกีฬา","phonetic":"nak-gee-laa","english":"Athlete / Sportsperson","image":"","audio":"lesson19_word15.mp3","example":"นักกีฬาซ้อมทุกวัน — Athletes train every day"}
   ]
 }

@@ -15,6 +15,11 @@
     {"id":"pln_07","thai":"เริ่มกี่โมง","phonetic":"rerm-gee-mong","english":"What time does it start?","image":"word_starttime","audio":"pln_07.mp3","example":"งานเริ่มกี่โมง — What time does the event start?"},
     {"id":"pln_08","thai":"ผมไปรับนะ","phonetic":"pom-bpai-rap-na","english":"I'll pick you up","image":"word_pickup","audio":"pln_08.mp3","example":"ผมไปรับที่บ้านนะ — I'll pick you up at home"},
     {"id":"pln_09","thai":"ยกเลิก","phonetic":"yok-lerk","english":"Cancel","image":"word_cancel","audio":"pln_09.mp3","example":"ขอยกเลิกได้ไหม — Can I cancel?"},
-    {"id":"pln_10","thai":"คราวหน้าแน่นอน","phonetic":"kraao-naa-nae-non","english":"Next time for sure","image":"word_nexttime","audio":"pln_10.mp3","example":"คราวหน้าแน่นอนครับ — Definitely next time!"}
+    {"id":"pln_10","thai":"คราวหน้าแน่นอน","phonetic":"kraao-naa-nae-non","english":"Next time for sure","image":"word_nexttime","audio":"pln_10.mp3","example":"คราวหน้าแน่นอนครับ — Definitely next time!"},
+    {"id":"pln_11","thai":"วันไหนดี","phonetic":"wan-nai-dee","english":"Which day is good?","image":"","audio":"lesson27_word11.mp3","example":"วันไหนดีครับ — Which day works for you?"},
+    {"id":"pln_12","thai":"ว่างเมื่อไหร่","phonetic":"waang-muea-rai","english":"When are you free?","image":"","audio":"lesson27_word12.mp3","example":"ว่างเมื่อไหร่ครับ — When are you available?"},
+    {"id":"pln_13","thai":"รอก่อนนะ","phonetic":"ror-gorn-na","english":"Wait a moment","image":"","audio":"lesson27_word13.mp3","example":"รอก่อนนะครับ — Please wait a moment"},
+    {"id":"pln_14","thai":"ไปด้วยกัน","phonetic":"bpai-duay-gan","english":"Go together","image":"","audio":"lesson27_word14.mp3","example":"ไปด้วยกันเลยนะ — Let's go together"},
+    {"id":"pln_15","thai":"แจ้งด้วยนะ","phonetic":"jaeng-duay-na","english":"Let me know","image":"","audio":"lesson27_word15.mp3","example":"แจ้งด้วยนะครับ ถ้าว่าง — Let me know if you're free"}
   ]
 }

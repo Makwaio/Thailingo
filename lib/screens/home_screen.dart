@@ -338,32 +338,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AppTheme.surface,
-      drawer: _AppDrawer(
+      endDrawer: _AppDrawer(
         isSignedIn:       _isSignedIn,
         avatarEmoji:      _avatarEmoji,
         username:         _username,
         email:            _email,
         xp:               _progress.totalXp,
         level:            _progress.level,
-        onClose:          () => _scaffoldKey.currentState?.closeDrawer(),
-        onProfile:        () { _scaffoldKey.currentState?.closeDrawer(); _openProfile(); },
-        onLeaderboard:    () { _scaffoldKey.currentState?.closeDrawer(); _openLeaderboard(); },
+        onClose:          () => _scaffoldKey.currentState?.closeEndDrawer(),
+        onProfile:        () { _scaffoldKey.currentState?.closeEndDrawer(); _openProfile(); },
+        onLeaderboard:    () { _scaffoldKey.currentState?.closeEndDrawer(); _openLeaderboard(); },
         onArcade:         () {
-          _scaffoldKey.currentState?.closeDrawer();
+          _scaffoldKey.currentState?.closeEndDrawer();
           widget.onSwitchToArcade?.call();
         },
-        onGuideBook:      () { _scaffoldKey.currentState?.closeDrawer(); _openGuideBook(); },
-        onSettings:       () { _scaffoldKey.currentState?.closeDrawer(); _openSettings(); },
+        onGuideBook:      () { _scaffoldKey.currentState?.closeEndDrawer(); _openGuideBook(); },
+        onSettings:       () { _scaffoldKey.currentState?.closeEndDrawer(); _openSettings(); },
         onBugReport:      () {
-          _scaffoldKey.currentState?.closeDrawer();
+          _scaffoldKey.currentState?.closeEndDrawer();
           showBugReportDialog(context, screen: 'Home');
         },
         onWhatsNew:       () {
-          _scaffoldKey.currentState?.closeDrawer();
+          _scaffoldKey.currentState?.closeEndDrawer();
           Navigator.push(context, MaterialPageRoute(builder: (_) => const WhatsNewScreen()));
         },
-        onSignOut:        () { _scaffoldKey.currentState?.closeDrawer(); _signOut(); },
-        onSignIn:         () { _scaffoldKey.currentState?.closeDrawer(); _openSignIn(); },
+        onSignOut:        () { _scaffoldKey.currentState?.closeEndDrawer(); _signOut(); },
+        onSignIn:         () { _scaffoldKey.currentState?.closeEndDrawer(); _openSignIn(); },
       ),
       body: CustomScrollView(
         controller: _scrollCtrl,
@@ -656,128 +656,150 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ),
           ),
           child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 16, 14),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // ── Left: info ─────────────────────────────────────
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Title + action buttons
-                        Row(
-                          children: [
-                            // Avatar / profile button
-                            GestureDetector(
-                              onTap: _openProfile,
-                              child: Container(
-                                width: 32,
-                                height: 32,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.18),
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                      color: _isSignedIn
-                                          ? AppTheme.thaiGold
-                                          : Colors.white.withValues(alpha: 0.3),
-                                      width: _isSignedIn ? 1.5 : 1),
-                                ),
-                                child: Center(
-                                  child: _isSignedIn && _avatarEmoji.isNotEmpty
-                                      ? Text(_avatarEmoji,
-                                          style: const TextStyle(fontSize: 16))
-                                      : const Icon(Icons.person_rounded,
-                                          color: Colors.white, size: 16),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Text('Thailingo',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white)),
-                            const Spacer(),
-                            _HeaderIconBtn(
-                                icon: Icons.menu_rounded,
-                                onTap: _openMenu),
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Text('Bangkok Thai',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white60,
-                                letterSpacing: 0.8)),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          StatPill(
-                              emoji: '🔥',
-                              value: '$streak',
-                              color: const Color(0xFFFF9600)),
-                          const SizedBox(width: 8),
-                          StatPill(
-                              emoji: '⭐',
-                              value: '${_progress.totalXp}',
-                              color: AppTheme.thaiGold),
-                        ]),
-                        const SizedBox(height: 10),
-                        XpProgressBar(
-                            xp: _progress.totalXp,
-                            level: _progress.level,
-                            onDark: true),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  // ── Right: speech bubble + mascot ──────────────────
-                  Row(
+            child: Stack(
+              children: [
+                // ── Main content (left side, right-padded for menu button) ─
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 14),
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Speech bubble to the left of mascot
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 80),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: AppTheme.thaiGold, width: 1.5),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.1),
-                                blurRadius: 4,
-                                offset: const Offset(0, 2))
-                          ],
-                        ),
-                        child: Text(
-                          speechText,
-                          style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              color: AppTheme.textPrimary),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      // Title row — no hamburger here, padded right for circle btn
+                      const Padding(
+                        padding: EdgeInsets.only(right: 54),
+                        child: Text('Thailingo',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white)),
                       ),
-                      // Right-pointing tail toward mascot
-                      CustomPaint(
-                        size: const Size(6, 10),
-                        painter: _BubbleTailRightPainter(),
+                      const SizedBox(height: 2),
+                      const Text('Bangkok Thai',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white60,
+                              letterSpacing: 0.8)),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        StatPill(
+                            emoji: '🔥',
+                            value: '$streak',
+                            color: const Color(0xFFFF9600)),
+                        const SizedBox(width: 8),
+                        StatPill(
+                            emoji: '⭐',
+                            value: '${_progress.totalXp}',
+                            color: AppTheme.thaiGold),
+                      ]),
+                      const SizedBox(height: 10),
+                      // ── XP bar + mascot row — mascot aligns with bar ──
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // XP bar fills remaining space left of mascot
+                          Expanded(
+                            child: XpProgressBar(
+                                xp: _progress.totalXp,
+                                level: _progress.level,
+                                onDark: true),
+                          ),
+                          const SizedBox(width: 6),
+                          // Speech bubble + tail + mascot (right of XP bar)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              // Speech bubble at mascot head level
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    constraints: const BoxConstraints(maxWidth: 76),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 7, vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                          color: AppTheme.thaiGold, width: 1.5),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.black
+                                                .withValues(alpha: 0.1),
+                                            blurRadius: 4,
+                                            offset: const Offset(0, 2))
+                                      ],
+                                    ),
+                                    child: Text(
+                                      speechText,
+                                      style: const TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppTheme.textPrimary),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  // Padding so bubble aligns with mascot head
+                                  const SizedBox(height: 18),
+                                ],
+                              ),
+                              CustomPaint(
+                                size: const Size(6, 10),
+                                painter: _BubbleTailRightPainter(),
+                              ),
+                              const SizedBox(width: 2),
+                              // Mascot — 70px, feet at XP bar level
+                              // Right-padded to stay left of circle menu button
+                              Padding(
+                                padding: const EdgeInsets.only(right: 54),
+                                child: BobbingMascot(size: 70, mood: mood),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 2),
-                      // Mascot character — flush to right edge
-                      BobbingMascot(size: 64, mood: mood),
                     ],
                   ),
-                ],
-              ),
+                ),
+
+                // ── Circle menu button — top right, opens end drawer ──────
+                Positioned(
+                  top: 8,
+                  right: 12,
+                  child: GestureDetector(
+                    onTap: _openMenu,
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2D2A6E),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: _isSignedIn
+                                ? AppTheme.thaiGold
+                                : Colors.white.withValues(alpha: 0.4),
+                            width: 1.5),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.25),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2)),
+                        ],
+                      ),
+                      child: Center(
+                        child: _isSignedIn && _avatarEmoji.isNotEmpty
+                            ? Text(_avatarEmoji,
+                                style: const TextStyle(fontSize: 22))
+                            : const Icon(Icons.menu_rounded,
+                                color: Colors.white, size: 22),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -866,7 +888,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _openMenu() {
-    _scaffoldKey.currentState?.openDrawer();
+    _scaffoldKey.currentState?.openEndDrawer();
   }
 
   Future<void> _signOut() async {
@@ -979,7 +1001,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 }
 
-// ── Left-side App Drawer ───────────────────────────────────────────────
+// ── Right-side App Drawer ───────────────────────────────────────────────
 class _AppDrawer extends StatefulWidget {
   final bool isSignedIn;
   final String avatarEmoji;
@@ -1763,30 +1785,6 @@ class _TallyBadge extends StatelessWidget {
   }
 }
 
-// ── Header Icon Button ─────────────────────────────────────────────────
-class _HeaderIconBtn extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const _HeaderIconBtn({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 32,
-        height: 32,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.18),
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
-        ),
-        child: Icon(icon, color: Colors.white, size: 16),
-      ),
-    );
-  }
-}
 
 // ── Stage Banner ──────────────────────────────────────────────────────
 class _StageBanner extends StatelessWidget {

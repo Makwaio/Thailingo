@@ -17,6 +17,11 @@
     {"id":"num_09","thai":"เก้า","phonetic":"gao","english":"Nine (9)","image":"word_nine","audio":"num_09.mp3","example":"เก้าโมง — 9 o'clock"},
     {"id":"num_10","thai":"สิบ","phonetic":"sip","english":"Ten (10)","image":"word_ten","audio":"num_10.mp3","example":"สิบบาท — Ten baht"},
     {"id":"num_11","thai":"ยี่สิบ","phonetic":"yee-sip","english":"Twenty (20)","image":"word_twenty","audio":"num_11.mp3","example":"ยี่สิบบาท — Twenty baht"},
-    {"id":"num_12","thai":"ร้อย","phonetic":"roi","english":"Hundred (100)","image":"word_hundred","audio":"num_12.mp3","example":"ร้อยบาท — One hundred baht"}
+    {"id":"num_12","thai":"ร้อย","phonetic":"roi","english":"Hundred (100)","image":"word_hundred","audio":"num_12.mp3","example":"ร้อยบาท — One hundred baht"},
+    {"id":"num_13","thai":"ศูนย์","phonetic":"suun","english":"Zero","image":"","audio":"lesson02_word13.mp3","example":"โทรศัพท์เบอร์ศูนย์ — Phone number zero"},
+    {"id":"num_14","thai":"สิบเอ็ด","phonetic":"sib-et","english":"Eleven","image":"","audio":"lesson02_word14.mp3","example":"สิบเอ็ดโมงเช้า — 11 AM"},
+    {"id":"num_15","thai":"สิบสอง","phonetic":"sib-song","english":"Twelve","image":"","audio":"lesson02_word15.mp3","example":"สิบสองบาท — Twelve baht"},
+    {"id":"num_16","thai":"สิบห้า","phonetic":"sib-haa","english":"Fifteen","image":"","audio":"lesson02_word16.mp3","example":"สิบห้านาที — Fifteen minutes"},
+    {"id":"num_17","thai":"สามสิบ","phonetic":"saam-sib","english":"Thirty","image":"","audio":"lesson02_word17.mp3","example":"สามสิบนาที — Thirty minutes"}
   ]
 }

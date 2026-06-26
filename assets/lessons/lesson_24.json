@@ -15,6 +15,11 @@
     {"id":"bar_07","thai":"มีอันถูกกว่านี้ไหม","phonetic":"mee-an-thuuk-gwaa-nee-mai","english":"Do you have a cheaper one?","image":"word_cheaper","audio":"bar_07.mp3","example":"มีอันถูกกว่านี้ไหมครับ — Is there a cheaper option?"},
     {"id":"bar_08","thai":"แค่ดูครับ","phonetic":"khae-duu-khrap","english":"Just looking","image":"word_justlook","audio":"bar_08.mp3","example":"แค่ดูนะครับ ขอบคุณ — Just browsing, thanks"},
     {"id":"bar_09","thai":"คิดดูก่อนนะครับ","phonetic":"khit-duu-gorn-na-khrap","english":"Let me think about it","image":"word_thinkabout","audio":"bar_09.mp3","example":"คิดดูก่อนนะครับ — I'll think about it first"},
-    {"id":"bar_10","thai":"ห่อด้วยนะครับ","phonetic":"hor-duay-na-khrap","english":"Wrap it up please","image":"word_wrap2","audio":"bar_10.mp3","example":"ห่อด้วยนะครับ — Please wrap it up for me"}
+    {"id":"bar_10","thai":"ห่อด้วยนะครับ","phonetic":"hor-duay-na-khrap","english":"Wrap it up please","image":"word_wrap2","audio":"bar_10.mp3","example":"ห่อด้วยนะครับ — Please wrap it up for me"},
+    {"id":"bar_11","thai":"ลดหน่อยได้ไหม","phonetic":"lot-noi-dai-mai","english":"Can you reduce a bit?","image":"","audio":"lesson24_word11.mp3","example":"ลดหน่อยได้ไหมครับ — Can you lower the price a bit?"},
+    {"id":"bar_12","thai":"ซื้อหลายอัน","phonetic":"sue-laai-an","english":"Buying multiple / Bulk buy","image":"","audio":"lesson24_word12.mp3","example":"ซื้อหลายอันลดได้ไหม — If I buy more, can you discount?"},
+    {"id":"bar_13","thai":"ราคานี้โอเค","phonetic":"raa-khaa-nee-o-ke","english":"This price is OK","image":"","audio":"lesson24_word13.mp3","example":"ราคานี้โอเคครับ — This price is acceptable"},
+    {"id":"bar_14","thai":"ของแถม","phonetic":"khong-thaem","english":"Free gift / Freebie","image":"","audio":"lesson24_word14.mp3","example":"มีของแถมไหม — Is there a free gift?"},
+    {"id":"bar_15","thai":"ซื้อเลย","phonetic":"sue-loei","english":"Buy it now","image":"","audio":"lesson24_word15.mp3","example":"โอเค ซื้อเลยครับ — OK, I'll buy it now"}
   ]
 }

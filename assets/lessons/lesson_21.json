@@ -15,6 +15,13 @@
     {"id":"cls_07","thai":"เรียน","phonetic":"rian","english":"Study / Learn","image":"word_study","audio":"cls_07.mp3","example":"เรียนภาษาไทย — Study Thai"},
     {"id":"cls_08","thai":"ฝึก","phonetic":"fuek","english":"Practice","image":"word_practice","audio":"cls_08.mp3","example":"ฝึกพูดทุกวัน — Practice speaking every day"},
     {"id":"cls_09","thai":"ถูก","phonetic":"thuuk","english":"Correct / Right","image":"word_correct","audio":"cls_09.mp3","example":"ถูกต้อง — That's correct!"},
-    {"id":"cls_10","thai":"ผิด","phonetic":"phit","english":"Wrong / Incorrect","image":"word_wrong","audio":"cls_10.mp3","example":"ผิดนิดหน่อย — Slightly wrong"}
+    {"id":"cls_10","thai":"ผิด","phonetic":"phit","english":"Wrong / Incorrect","image":"word_wrong","audio":"cls_10.mp3","example":"ผิดนิดหน่อย — Slightly wrong"},
+    {"id":"cls_11","thai":"กระดาน","phonetic":"gra-daan","english":"Blackboard / Board","image":"","audio":"lesson21_word11.mp3","example":"เขียนบนกระดาน — Write on the board"},
+    {"id":"cls_12","thai":"ดินสอ","phonetic":"din-sor","english":"Pencil","image":"","audio":"lesson21_word12.mp3","example":"เขียนด้วยดินสอ — Write with a pencil"},
+    {"id":"cls_13","thai":"ปากกา","phonetic":"bpaak-gaa","english":"Pen","image":"","audio":"lesson21_word13.mp3","example":"ยืมปากกาได้ไหม — Can I borrow a pen?"},
+    {"id":"cls_14","thai":"หนังสือ","phonetic":"nang-sue","english":"Book","image":"","audio":"lesson21_word14.mp3","example":"อ่านหนังสือ — Read a book"},
+    {"id":"cls_15","thai":"สมุด","phonetic":"sa-moot","english":"Notebook","image":"","audio":"lesson21_word15.mp3","example":"เขียนในสมุด — Write in the notebook"},
+    {"id":"cls_16","thai":"คำถาม","phonetic":"kham-thaam","english":"Question","image":"","audio":"lesson21_word16.mp3","example":"มีคำถามไหม — Do you have any questions?"},
+    {"id":"cls_17","thai":"คำตอบ","phonetic":"kham-dtob","english":"Answer","image":"","audio":"lesson21_word17.mp3","example":"คำตอบถูก — Correct answer"}
   ]
 }

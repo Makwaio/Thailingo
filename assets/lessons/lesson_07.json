@@ -15,6 +15,11 @@
     {"id":"trans_07","thai":"สถานี","phonetic":"sa-thaa-nee","english":"Station","image":"word_station","audio":"trans_07.mp3","example":"สถานีรถไฟ — Train station"},
     {"id":"trans_08","thai":"ตั๋ว","phonetic":"tua","english":"Ticket","image":"word_ticket","audio":"trans_08.mp3","example":"ซื้อตั๋ว — Buy a ticket"},
     {"id":"trans_09","thai":"ถนน","phonetic":"tha-non","english":"Road / Street","image":"word_road","audio":"trans_09.mp3","example":"ถนนสุขุมวิท — Sukhumvit Road"},
-    {"id":"trans_10","thai":"จราจร","phonetic":"ja-raa-jorn","english":"Traffic","image":"word_traffic","audio":"trans_10.mp3","example":"จราจรติด — Traffic jam"}
+    {"id":"trans_10","thai":"จราจร","phonetic":"ja-raa-jorn","english":"Traffic","image":"word_traffic","audio":"trans_10.mp3","example":"จราจรติด — Traffic jam"},
+    {"id":"trans_11","thai":"รถไฟใต้ดิน","phonetic":"rot-fai-dtai-din","english":"Subway / MRT","image":"","audio":"lesson07_word11.mp3","example":"ขึ้นรถไฟใต้ดิน — Take the MRT"},
+    {"id":"trans_12","thai":"รถตุ๊กตุ๊ก","phonetic":"rot-dtook-dtook","english":"Tuk-tuk","image":"","audio":"lesson07_word12.mp3","example":"นั่งรถตุ๊กตุ๊ก — Ride a tuk-tuk"},
+    {"id":"trans_13","thai":"ไปส่ง","phonetic":"bpai-song","english":"Drop off / Take someone","image":"","audio":"lesson07_word13.mp3","example":"ไปส่งที่สนามบิน — Drop off at the airport"},
+    {"id":"trans_14","thai":"ขึ้น","phonetic":"khuern","english":"Get on / Board","image":"","audio":"lesson07_word14.mp3","example":"ขึ้นรถเลย — Get on the vehicle"},
+    {"id":"trans_15","thai":"ลง","phonetic":"long","english":"Get off / Disembark","image":"","audio":"lesson07_word15.mp3","example":"ลงที่นี่เลย — Get off here"}
   ]
 }

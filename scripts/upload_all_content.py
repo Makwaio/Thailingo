@@ -220,6 +220,42 @@ PATCH_NOTES = [
             "Keyboard no longer blocks typing challenge input field",
         ],
     },
+    {
+        "version": "1.0.6",
+        "title": "Stage 2 & Stage 3 Expansion 🏙️🗣️",
+        "date": datetime(2026, 6, 25, tzinfo=timezone.utc),
+        "type": "major",
+        "notes": [
+            "🔷 Stage 1 expanded: Shapes, Sizes & Quantities, Opposites, Clothing, Textures (lessons 29-33)",
+            "🏥 Stage 2 rebuilt — 16 lessons: Hospital, Celebrations, Plans, Talking About Yourself",
+            "⏰ Stage 2 continued: Tense Markers, Thai Classifiers, Getting Around Bangkok",
+            "📱 Stage 2 continued: Technology, Business Thai, Relationships & Social",
+            "💯 Stage 2 continued: Advanced Numbers, Survival Thai",
+            "💬 Stage 3 unlocked: Full Conversations, Thai Proverbs, Thai Script Basics",
+            "🎵 Stage 3 continued: Thai Tones Mastery, Bangkok Slang & Street Talk",
+            "🎨 Stage 2 color gradient now uses visual chain position (fixes color ordering bug)",
+            "🔓 Unlock All in settings now toggles — tap again to revert to previous state",
+            "🌟 New achievement: Thai Master — complete all 5 Stage 3 lessons with 3 stars",
+        ],
+    },
+    {
+        "version": "1.0.7",
+        "title": "Thai → English Mode & Content Expansion 🌏",
+        "date": datetime(2026, 6, 26, tzinfo=timezone.utc),
+        "type": "major",
+        "notes": [
+            "🔁 New Learning Direction setting — choose English→Thai, Thai→English, or Mixed",
+            "🇹🇭→🇬🇧 Thai to English mode: see Thai script, pick the English meaning",
+            "🇬🇧→🇹🇭 English to Thai mode: see English, choose or type Thai (default)",
+            "🔀 Mixed mode alternates both directions for full recall training",
+            "🔄 Direction badge in lesson screen — tap to switch mid-lesson",
+            "📚 All Stage 1 lessons (1-28) expanded to 15-18 words minimum",
+            "✅ Fixed: ช่วยหน่อยได้ไหม now correctly labeled as polite help request",
+            "✅ Fixed: ช่วยด้วย now correctly labeled as emergency cry for help",
+            "☰ Hamburger menu moved to top-right as a unified avatar/menu circle button",
+            "🥋 Mascot repositioned to align with XP bar at bottom of header",
+        ],
+    },
 ]
 
 if not args.lessons_only:

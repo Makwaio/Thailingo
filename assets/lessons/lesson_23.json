@@ -15,6 +15,11 @@
     {"id":"res_07","thai":"โต๊ะสำหรับสองคน","phonetic":"dtoh-sam-rap-song-kon","english":"Table for two","image":"word_tabletwo","audio":"res_07.mp3","example":"ขอโต๊ะสำหรับสองคน — A table for two please"},
     {"id":"res_08","thai":"นี่เป็นอาหารเจไหม","phonetic":"nee-pen-aa-haan-je-mai","english":"Is this vegetarian?","image":"word_veg","audio":"res_08.mp3","example":"นี่เป็นอาหารเจไหมครับ — Is this dish vegetarian?"},
     {"id":"res_09","thai":"ขอเผ็ดน้อยหน่อย","phonetic":"khor-phet-noi-noi","english":"Make it less spicy","image":"word_lessspicy","audio":"res_09.mp3","example":"ขอเผ็ดน้อยหน่อยได้ไหม — Can you make it less spicy?"},
-    {"id":"res_10","thai":"อร่อยมาก เลิศเลย","phonetic":"a-roi-mak-lert-loei","english":"Delicious! Best I've had","image":"word_delicious2","audio":"res_10.mp3","example":"อร่อยมาก เลิศเลย — Amazing! This is the best!"}
+    {"id":"res_10","thai":"อร่อยมาก เลิศเลย","phonetic":"a-roi-mak-lert-loei","english":"Delicious! Best I've had","image":"word_delicious2","audio":"res_10.mp3","example":"อร่อยมาก เลิศเลย — Amazing! This is the best!"},
+    {"id":"res_11","thai":"น้ำเปล่า","phonetic":"naam-bplao","english":"Plain water","image":"","audio":"lesson23_word11.mp3","example":"ขอน้ำเปล่าสักแก้ว — A glass of plain water please"},
+    {"id":"res_12","thai":"ช้อนส้อม","phonetic":"chon-som","english":"Spoon and fork","image":"","audio":"lesson23_word12.mp3","example":"ขอช้อนส้อมด้วย — May I have a spoon and fork?"},
+    {"id":"res_13","thai":"ตะเกียบ","phonetic":"dta-giap","english":"Chopsticks","image":"","audio":"lesson23_word13.mp3","example":"ขอตะเกียบด้วย — Chopsticks please"},
+    {"id":"res_14","thai":"เผ็ดมาก","phonetic":"phet-mak","english":"Very spicy","image":"","audio":"lesson23_word14.mp3","example":"เผ็ดมากเลย — This is really spicy!"},
+    {"id":"res_15","thai":"แยกจ่าย","phonetic":"yaek-jai","english":"Split the bill","image":"","audio":"lesson23_word15.mp3","example":"แยกจ่ายได้ไหมครับ — Can we split the bill?"}
   ]
 }

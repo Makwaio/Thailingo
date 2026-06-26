@@ -211,6 +211,47 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
+          // ── Learning Direction ─────────────────────────────────
+          const _SectionHeader('Learning Direction 🔁'),
+          _SettingsCard(
+            children: [
+              _DirectionTile(
+                emoji: '🇬🇧→🇹🇭',
+                label: 'English to Thai',
+                description: 'See English, learn to write Thai (default)',
+                selected: _settings.learningDirection == LearningDirection.englishToThai,
+                onTap: () async {
+                  await _settings.setLearningDirection(LearningDirection.englishToThai);
+                  if (mounted) setState(() {});
+                },
+              ),
+              const _Divider(),
+              _DirectionTile(
+                emoji: '🇹🇭→🇬🇧',
+                label: 'Thai to English',
+                description: 'See Thai script, recall the English meaning',
+                selected: _settings.learningDirection == LearningDirection.thaiToEnglish,
+                onTap: () async {
+                  await _settings.setLearningDirection(LearningDirection.thaiToEnglish);
+                  if (mounted) setState(() {});
+                },
+              ),
+              const _Divider(),
+              _DirectionTile(
+                emoji: '🔀',
+                label: 'Mixed',
+                description: 'Random mix of both directions',
+                selected: _settings.learningDirection == LearningDirection.mixed,
+                onTap: () async {
+                  await _settings.setLearningDirection(LearningDirection.mixed);
+                  if (mounted) setState(() {});
+                },
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 24),
+
           // ── Account ────────────────────────────────────────────
           const _SectionHeader('Account'),
           _SettingsCard(
@@ -574,6 +615,57 @@ class _ToggleTile extends StatelessWidget {
             onChanged: onChanged,
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _DirectionTile extends StatelessWidget {
+  final String emoji;
+  final String label;
+  final String description;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _DirectionTile({
+    required this.emoji,
+    required this.label,
+    required this.description,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Text(emoji, style: const TextStyle(fontSize: 20)),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
+                          color: selected ? AppTheme.primary : AppTheme.textPrimary)),
+                  Text(description,
+                      style: const TextStyle(
+                          fontSize: 12, color: AppTheme.textSecondary)),
+                ],
+              ),
+            ),
+            if (selected)
+              const Icon(Icons.check_circle_rounded,
+                  color: AppTheme.success, size: 22),
+          ],
+        ),
       ),
     );
   }

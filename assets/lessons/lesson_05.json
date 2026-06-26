@@ -15,6 +15,11 @@
     {"id":"fam_07","thai":"ย่า","phonetic":"yaa","english":"Grandmother (paternal)","image":"word_grandma","audio":"fam_07.mp3","example":"ย่าผม — My grandmother"},
     {"id":"fam_08","thai":"สามี","phonetic":"saa-mee","english":"Husband","image":"word_husband","audio":"fam_08.mp3","example":"สามีฉัน — My husband"},
     {"id":"fam_09","thai":"ภรรยา","phonetic":"pan-ra-yaa","english":"Wife","image":"word_wife","audio":"fam_09.mp3","example":"ภรรยาผม — My wife"},
-    {"id":"fam_10","thai":"เพื่อน","phonetic":"peuan","english":"Friend","image":"word_friend","audio":"fam_10.mp3","example":"เพื่อนสนิท — Close friend"}
+    {"id":"fam_10","thai":"เพื่อน","phonetic":"peuan","english":"Friend","image":"word_friend","audio":"fam_10.mp3","example":"เพื่อนสนิท — Close friend"},
+    {"id":"fam_13","thai":"ตา","phonetic":"dtaa","english":"Maternal grandfather","image":"","audio":"lesson05_word13.mp3","example":"ตาอยู่บ้าน — Grandfather is at home"},
+    {"id":"fam_14","thai":"ยาย","phonetic":"yaai","english":"Maternal grandmother","image":"","audio":"lesson05_word14.mp3","example":"ยายเล่าเรื่องดี — Grandmother tells good stories"},
+    {"id":"fam_15","thai":"ลุง","phonetic":"loong","english":"Uncle (older than parent)","image":"","audio":"lesson05_word15.mp3","example":"ลุงมาเยี่ยม — Uncle came to visit"},
+    {"id":"fam_16","thai":"ป้า","phonetic":"bpaa","english":"Aunt (older than parent)","image":"","audio":"lesson05_word16.mp3","example":"ป้าซื้อของฝากมา — Aunt brought gifts"},
+    {"id":"fam_17","thai":"หลาน","phonetic":"laan","english":"Grandchild / Niece / Nephew","image":"","audio":"lesson05_word17.mp3","example":"หลานน่ารักมาก — My grandchild is very cute"}
   ]
 }

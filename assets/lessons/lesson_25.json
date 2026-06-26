@@ -6,7 +6,8 @@
   "color": "#1565C0",
   "xpReward": 45,
   "words": [
-    {"id":"hlp_01","thai":"ช่วยด้วย","phonetic":"chuay-duay","english":"Help me!","image":"word_help","audio":"hlp_01.mp3","example":"ช่วยด้วยครับ — Help me please!"},
+    {"id":"hlp_01","thai":"ช่วยด้วย","phonetic":"chuay-duay","english":"Help! (emergency)","image":"word_help","audio":"hlp_01.mp3","example":"ช่วยด้วยครับ! — Help! (emergency cry)"},
+    {"id":"hlp_01b","thai":"ช่วยหน่อยได้ไหม","phonetic":"chuay-noi-dai-mai","english":"Could you help me? (polite)","image":"word_help","audio":"hlp_01b.mp3","example":"ช่วยหน่อยได้ไหมครับ — Could you help me, please?"},
     {"id":"hlp_02","thai":"ผมต้องการหมอ","phonetic":"pom-dtong-gaan-mor","english":"I need a doctor","image":"word_needdoc","audio":"hlp_02.mp3","example":"ผมต้องการหมอด่วน — I need a doctor urgently"},
     {"id":"hlp_03","thai":"โทรเรียกตำรวจ","phonetic":"tho-riak-dtam-ruat","english":"Call the police","image":"word_callpolice","audio":"hlp_03.mp3","example":"โทรเรียกตำรวจด่วน — Call the police now!"},
     {"id":"hlp_04","thai":"ผมหลงทาง","phonetic":"pom-long-taang","english":"I'm lost","image":"word_lost","audio":"hlp_04.mp3","example":"ผมหลงทางครับ — I'm lost (male)"},

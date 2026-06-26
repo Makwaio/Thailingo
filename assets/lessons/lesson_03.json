@@ -17,6 +17,9 @@
     {"id":"food_09","thai":"เผ็ด","phonetic":"phet","english":"Spicy","image":"word_spicy","audio":"food_09.mp3","example":"เผ็ดมาก — Very spicy"},
     {"id":"food_10","thai":"ไม่เผ็ด","phonetic":"mai-phet","english":"Not spicy","image":"word_notspicy","audio":"food_10.mp3","example":"ขอไม่เผ็ดนะครับ — Please not spicy"},
     {"id":"food_11","thai":"หวาน","phonetic":"waan","english":"Sweet","image":"word_sweet","audio":"food_11.mp3","example":"หวานมาก — Very sweet"},
-    {"id":"food_12","thai":"เค็ม","phonetic":"khem","english":"Salty","image":"word_salty","audio":"food_12.mp3","example":"เค็มไป — Too salty"}
+    {"id":"food_12","thai":"เค็ม","phonetic":"khem","english":"Salty","image":"word_salty","audio":"food_12.mp3","example":"เค็มไป — Too salty"},
+    {"id":"food_17","thai":"ก๋วยเตี๋ยว","phonetic":"guay-dtiao","english":"Noodle soup","image":"","audio":"lesson03_word17.mp3","example":"ก๋วยเตี๋ยวราดหน้า — Noodle soup with gravy"},
+    {"id":"food_18","thai":"ข้าวเหนียว","phonetic":"khao-niao","english":"Sticky rice","image":"","audio":"lesson03_word18.mp3","example":"ข้าวเหนียวมะม่วง — Mango sticky rice"},
+    {"id":"food_19","thai":"ลาบ","phonetic":"laap","english":"Minced meat salad","image":"","audio":"lesson03_word19.mp3","example":"ลาบหมู — Pork larb salad"}
   ]
 }

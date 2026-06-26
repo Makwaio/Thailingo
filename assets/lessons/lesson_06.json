@@ -15,6 +15,11 @@
     {"id":"col_07","thai":"ส้ม","phonetic":"som","english":"Orange","image":"word_orange","audio":"col_07.mp3","example":"ส้มสีส้ม — Orange orange (fruit)"},
     {"id":"col_08","thai":"ม่วง","phonetic":"muang","english":"Purple","image":"word_purple","audio":"col_08.mp3","example":"ดอกไม้สีม่วง — Purple flower"},
     {"id":"col_09","thai":"ชมพู","phonetic":"chom-puu","english":"Pink","image":"word_pink","audio":"col_09.mp3","example":"เสื้อสีชมพู — Pink shirt"},
-    {"id":"col_10","thai":"น้ำตาล","phonetic":"naam-taan","english":"Brown","image":"word_brown","audio":"col_10.mp3","example":"หมีสีน้ำตาล — Brown bear"}
+    {"id":"col_10","thai":"น้ำตาล","phonetic":"naam-taan","english":"Brown","image":"word_brown","audio":"col_10.mp3","example":"หมีสีน้ำตาล — Brown bear"},
+    {"id":"col_14","thai":"เทา","phonetic":"thao","english":"Grey","image":"","audio":"lesson06_word14.mp3","example":"ท้องฟ้าสีเทา — Grey sky"},
+    {"id":"col_15","thai":"ทอง","phonetic":"thong","english":"Gold","image":"","audio":"lesson06_word15.mp3","example":"วัดทองสวยมาก — The golden temple is beautiful"},
+    {"id":"col_16","thai":"เงิน","phonetic":"ngern","english":"Silver","image":"","audio":"lesson06_word16.mp3","example":"แหวนเงิน — Silver ring"},
+    {"id":"col_17","thai":"ครีม","phonetic":"kreem","english":"Cream / Beige","image":"","audio":"lesson06_word17.mp3","example":"กำแพงสีครีม — Cream-colored walls"},
+    {"id":"col_18","thai":"ฟ้า","phonetic":"faa","english":"Sky blue / Light blue","image":"","audio":"lesson06_word18.mp3","example":"ท้องฟ้าสีฟ้า — The sky is blue"}
   ]
 }

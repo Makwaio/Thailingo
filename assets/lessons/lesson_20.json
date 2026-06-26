@@ -17,6 +17,11 @@
     {"id":"house_09","thai":"หลังคา","phonetic":"lang-khaa","english":"Roof","image":"word_roof","audio":"house_09.mp3","example":"หลังคารั่ว — Leaking roof"},
     {"id":"house_10","thai":"สวน","phonetic":"suan","english":"Garden / Yard","image":"word_garden","audio":"house_10.mp3","example":"รดน้ำต้นไม้ในสวน — Water plants in the garden"},
     {"id":"house_11","thai":"รั้ว","phonetic":"rua","english":"Fence","image":"word_fence","audio":"house_11.mp3","example":"รั้วบ้าน — House fence"},
-    {"id":"house_12","thai":"กุญแจ","phonetic":"gun-jae","english":"Key","image":"word_key","audio":"house_12.mp3","example":"ลืมกุญแจ — Forgot the key"}
+    {"id":"house_12","thai":"กุญแจ","phonetic":"gun-jae","english":"Key","image":"word_key","audio":"house_12.mp3","example":"ลืมกุญแจ — Forgot the key"},
+    {"id":"house_13","thai":"โซฟา","phonetic":"so-faa","english":"Sofa","image":"","audio":"lesson20_word13.mp3","example":"นั่งบนโซฟา — Sit on the sofa"},
+    {"id":"house_14","thai":"โต๊ะ","phonetic":"dtoh","english":"Table","image":"","audio":"lesson20_word14.mp3","example":"วางบนโต๊ะ — Put it on the table"},
+    {"id":"house_15","thai":"เก้าอี้","phonetic":"gao-ee","english":"Chair","image":"","audio":"lesson20_word15.mp3","example":"นั่งเก้าอี้ — Sit on the chair"},
+    {"id":"house_16","thai":"ตู้เย็น","phonetic":"dtuu-yen","english":"Refrigerator","image":"","audio":"lesson20_word16.mp3","example":"เก็บในตู้เย็น — Keep it in the refrigerator"},
+    {"id":"house_17","thai":"แอร์","phonetic":"ae","english":"Air conditioner","image":"","audio":"lesson20_word17.mp3","example":"เปิดแอร์หน่อย — Please turn on the AC"}
   ]
 }

@@ -15,6 +15,11 @@
     {"id":"sen_07","thai":"เข้าใจ","phonetic":"khao-jai","english":"Understand","image":"word_understand2","audio":"sen_07.mp3","example":"เข้าใจแล้ว — I understand now"},
     {"id":"sen_08","thai":"ไม่เข้าใจ","phonetic":"mai-khao-jai","english":"Don't understand","image":"word_dontget2","audio":"sen_08.mp3","example":"ไม่เข้าใจครับ — I don't understand"},
     {"id":"sen_09","thai":"พูดภาษาไทยได้นิดหน่อย","phonetic":"phuut-phaa-saa-thai-dai-nit-noi","english":"I speak a little Thai","image":"word_littlethai","audio":"sen_09.mp3","example":"Thais love when you try to speak Thai!"},
-    {"id":"sen_10","thai":"ห้องน้ำอยู่ที่ไหน","phonetic":"hong-naam-yuu-thee-nai","english":"Where is the bathroom?","image":"word_bathroom","audio":"sen_10.mp3","example":"The most essential travel question!"}
+    {"id":"sen_10","thai":"ห้องน้ำอยู่ที่ไหน","phonetic":"hong-naam-yuu-thee-nai","english":"Where is the bathroom?","image":"word_bathroom","audio":"sen_10.mp3","example":"The most essential travel question!"},
+    {"id":"sen_11","thai":"ฉันชื่อ","phonetic":"chan-chue","english":"My name is (female)","image":"","audio":"lesson13_word11.mp3","example":"ฉันชื่อแอน — My name is Ann (female)"},
+    {"id":"sen_12","thai":"ผมชื่อ","phonetic":"pom-chue","english":"My name is (male)","image":"","audio":"lesson13_word12.mp3","example":"ผมชื่อจอห์น — My name is John (male)"},
+    {"id":"sen_13","thai":"คุณชื่ออะไร","phonetic":"khun-chue-arai","english":"What is your name?","image":"","audio":"lesson13_word13.mp3","example":"คุณชื่ออะไรครับ — What is your name?"},
+    {"id":"sen_14","thai":"ยินดีที่รู้จัก","phonetic":"yin-dee-tee-ruu-jak","english":"Nice to meet you","image":"","audio":"lesson13_word14.mp3","example":"ยินดีที่รู้จักครับ — Nice to meet you"},
+    {"id":"sen_15","thai":"ฉันมาจาก","phonetic":"chan-maa-jaak","english":"I come from","image":"","audio":"lesson13_word15.mp3","example":"ฉันมาจากอังกฤษ — I come from England"}
   ]
 }

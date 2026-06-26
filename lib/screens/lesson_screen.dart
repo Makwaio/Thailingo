@@ -20,6 +20,8 @@ import 'game_over_screen.dart';
 import '../services/review_service.dart';
 import '../services/missed_questions_service.dart';
 import 'bug_report_dialog.dart';
+import '../services/settings_service.dart';
+import '../services/localization_service.dart';
 
 class LessonScreen extends StatefulWidget {
   final Lesson lesson;
@@ -362,7 +364,9 @@ class _LessonScreenState extends State<LessonScreen>
               child: const Text('🐛', style: TextStyle(fontSize: 14)),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 6),
+          _DirectionBadge(onTap: _showDirectionPopup),
+          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -577,5 +581,73 @@ class _LessonScreenState extends State<LessonScreen>
       ),
     );
     if (exit == true && mounted) Navigator.pop(context);
+  }
+
+  void _showDirectionPopup() {
+    final settings = SettingsService();
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Learning Direction'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Change takes effect on next lesson.',
+                style: TextStyle(fontSize: 12, color: Colors.grey)),
+            const SizedBox(height: 12),
+            _DirOption('🇬🇧→🇹🇭 English to Thai',
+                settings.learningDirection == LearningDirection.englishToThai,
+                () { settings.setLearningDirection(LearningDirection.englishToThai); Navigator.pop(context); setState(() {}); }),
+            _DirOption('🇹🇭→🇬🇧 Thai to English',
+                settings.learningDirection == LearningDirection.thaiToEnglish,
+                () { settings.setLearningDirection(LearningDirection.thaiToEnglish); Navigator.pop(context); setState(() {}); }),
+            _DirOption('🔀 Mixed',
+                settings.learningDirection == LearningDirection.mixed,
+                () { settings.setLearningDirection(LearningDirection.mixed); Navigator.pop(context); setState(() {}); }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DirectionBadge extends StatelessWidget {
+  final VoidCallback onTap;
+  const _DirectionBadge({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+        decoration: BoxDecoration(
+          color: AppTheme.surface,
+          borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+          border: Border.all(color: AppTheme.border),
+        ),
+        child: Text(
+          LocalizationService().directionBadge(),
+          style: const TextStyle(fontSize: 12),
+        ),
+      ),
+    );
+  }
+}
+
+class _DirOption extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _DirOption(this.label, this.selected, this.onTap);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      title: Text(label, style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.normal)),
+      trailing: selected ? const Icon(Icons.check_circle, color: AppTheme.success) : null,
+      onTap: onTap,
+    );
   }
 }

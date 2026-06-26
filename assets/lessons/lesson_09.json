@@ -15,6 +15,11 @@
     {"id":"ani_07","thai":"งู","phonetic":"nguu","english":"Snake","image":"word_snake","audio":"ani_07.mp3","example":"ระวังงู — Beware of snakes"},
     {"id":"ani_08","thai":"จระเข้","phonetic":"jo-ra-khae","english":"Crocodile","image":"word_croc","audio":"ani_08.mp3","example":"ฟาร์มจระเข้ — Crocodile farm"},
     {"id":"ani_09","thai":"หมู","phonetic":"muu","english":"Pig / Pork","image":"word_pig","audio":"ani_09.mp3","example":"หมูปิ้ง — Grilled pork"},
-    {"id":"ani_10","thai":"ไก่","phonetic":"gai","english":"Chicken","image":"word_chicken","audio":"ani_10.mp3","example":"ไก่ทอด — Fried chicken"}
+    {"id":"ani_10","thai":"ไก่","phonetic":"gai","english":"Chicken","image":"word_chicken","audio":"ani_10.mp3","example":"ไก่ทอด — Fried chicken"},
+    {"id":"ani_11","thai":"กบ","phonetic":"gob","english":"Frog","image":"","audio":"lesson09_word11.mp3","example":"กบอยู่ในบึง — Frogs live in ponds"},
+    {"id":"ani_12","thai":"กระต่าย","phonetic":"gra-dtaai","english":"Rabbit","image":"","audio":"lesson09_word12.mp3","example":"กระต่ายสีขาว — White rabbit"},
+    {"id":"ani_13","thai":"วัว","phonetic":"wua","english":"Cow","image":"","audio":"lesson09_word13.mp3","example":"วัวในทุ่งนา — Cow in the rice fields"},
+    {"id":"ani_14","thai":"ม้า","phonetic":"maa","english":"Horse","image":"","audio":"lesson09_word14.mp3","example":"ขี่ม้า — Ride a horse"},
+    {"id":"ani_15","thai":"เต่า","phonetic":"dtao","english":"Turtle","image":"","audio":"lesson09_word15.mp3","example":"เต่าเดินช้า — Turtles walk slowly"}
   ]
 }

@@ -17,6 +17,11 @@
     {"id":"emo_09","thai":"กลัว","phonetic":"glua","english":"Scared / Afraid","image":"word_scared","audio":"emo_09.mp3","example":"กลัวงู — Afraid of snakes"},
     {"id":"emo_10","thai":"ตกใจ","phonetic":"tok-jai","english":"Surprised / Startled","image":"word_surprised","audio":"emo_10.mp3","example":"ตกใจมาก — Very surprised"},
     {"id":"emo_11","thai":"เบื่อ","phonetic":"buea","english":"Bored","image":"word_bored","audio":"emo_11.mp3","example":"เบื่อจัง — So bored"},
-    {"id":"emo_12","thai":"ตื่นเต้น","phonetic":"tuen-ten","english":"Excited","image":"word_excited","audio":"emo_12.mp3","example":"ตื่นเต้นมาก — So excited"}
+    {"id":"emo_12","thai":"ตื่นเต้น","phonetic":"tuen-ten","english":"Excited","image":"word_excited","audio":"emo_12.mp3","example":"ตื่นเต้นมาก — So excited"},
+    {"id":"emo_13","thai":"กังวล","phonetic":"gang-won","english":"Worried / Anxious","image":"","audio":"lesson15_word13.mp3","example":"กังวลเรื่องงาน — Worried about work"},
+    {"id":"emo_14","thai":"อาย","phonetic":"aai","english":"Embarrassed / Shy","image":"","audio":"lesson15_word14.mp3","example":"อายมากเลย — Very embarrassed"},
+    {"id":"emo_15","thai":"งง","phonetic":"ngong","english":"Confused","image":"","audio":"lesson15_word15.mp3","example":"งงมากเลย — Very confused"},
+    {"id":"emo_16","thai":"เซ็ง","phonetic":"seng","english":"Fed up / Bored stiff","image":"","audio":"lesson15_word16.mp3","example":"เซ็งจริงๆ — Really fed up"},
+    {"id":"emo_17","thai":"อิจฉา","phonetic":"it-chaa","english":"Jealous / Envious","image":"","audio":"lesson15_word17.mp3","example":"อิจฉาเพื่อน — Jealous of a friend"}
   ]
 }

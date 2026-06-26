@@ -17,6 +17,10 @@
     {"id":"time_09","thai":"วันเสาร์","phonetic":"wan-sao","english":"Saturday","image":"word_saturday","audio":"time_09.mp3","example":"วันเสาร์อาทิตย์ — Weekend"},
     {"id":"time_10","thai":"วันอาทิตย์","phonetic":"wan-aa-thit","english":"Sunday","image":"word_sunday","audio":"time_10.mp3","example":"วันอาทิตย์ไปไหน — Where are you going Sunday?"},
     {"id":"time_11","thai":"กี่โมง","phonetic":"gee-moong","english":"What time?","image":"word_whattime","audio":"time_11.mp3","example":"ตอนนี้กี่โมงแล้ว — What time is it now?"},
-    {"id":"time_12","thai":"ตอนนี้","phonetic":"ton-nee","english":"Now / Right now","image":"word_now","audio":"time_12.mp3","example":"ตอนนี้เลย — Right now!"}
+    {"id":"time_12","thai":"ตอนนี้","phonetic":"ton-nee","english":"Now / Right now","image":"word_now","audio":"time_12.mp3","example":"ตอนนี้เลย — Right now!"},
+    {"id":"time_13","thai":"เมื่อคืน","phonetic":"muea-kheun","english":"Last night","image":"","audio":"lesson14_word13.mp3","example":"เมื่อคืนฝนตก — It rained last night"},
+    {"id":"time_14","thai":"คืนนี้","phonetic":"kheun-nee","english":"Tonight","image":"","audio":"lesson14_word14.mp3","example":"คืนนี้ไปไหน — Where are you going tonight?"},
+    {"id":"time_15","thai":"ทุกวัน","phonetic":"thook-wan","english":"Every day","image":"","audio":"lesson14_word15.mp3","example":"ทุกวันไปออกกำลังกาย — Exercise every day"},
+    {"id":"time_16","thai":"สุดสัปดาห์","phonetic":"soot-sap-da","english":"Weekend","image":"","audio":"lesson14_word16.mp3","example":"สุดสัปดาห์ไม่ว่าง — I'm busy on the weekend"}
   ]
 }

@@ -188,11 +188,18 @@ class ExerciseService {
     final isStage1 = lesson.stage == 1;
     const target = 20;
 
-    // Ordered type cycle — MC always first, then enabled extras
-    final typeCycle = <ExerciseType>[
-      ExerciseType.multipleChoice,
-      ExerciseType.multipleChoiceTh,
-    ];
+    // Direction-aware MC type cycle
+    // multipleChoice    = show Thai → pick English (TH→EN)
+    // multipleChoiceTh  = show English → pick Thai (EN→TH)
+    final typeCycle = <ExerciseType>[];
+    switch (settings.learningDirection) {
+      case LearningDirection.englishToThai:
+        typeCycle.addAll([ExerciseType.multipleChoiceTh]);
+      case LearningDirection.thaiToEnglish:
+        typeCycle.addAll([ExerciseType.multipleChoice]);
+      case LearningDirection.mixed:
+        typeCycle.addAll([ExerciseType.multipleChoice, ExerciseType.multipleChoiceTh]);
+    }
     if (settings.gtListen) typeCycle.add(ExerciseType.listenAndChoose);
     if (settings.gtSpeedTap) typeCycle.add(ExerciseType.speedTap);
     if (settings.gtTyping) typeCycle.add(ExerciseType.typing);

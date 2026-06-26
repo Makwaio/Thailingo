@@ -17,6 +17,10 @@
     {"id":"weath_09","thai":"ชื้น","phonetic":"chuen","english":"Humid","image":"word_humid","audio":"weath_09.mp3","example":"อากาศชื้น — Humid weather"},
     {"id":"weath_10","thai":"อากาศ","phonetic":"aa-gaat","english":"Weather / Climate","image":"word_weather","audio":"weath_10.mp3","example":"อากาศดีไหม — Is the weather nice?"},
     {"id":"weath_11","thai":"ฤดู","phonetic":"reu-duu","english":"Season","image":"word_season","audio":"weath_11.mp3","example":"ฤดูฝน — Rainy season"},
-    {"id":"weath_12","thai":"ร่ม","phonetic":"rom","english":"Umbrella","image":"word_umbrella","audio":"weath_12.mp3","example":"เอาร่มไปด้วย — Take an umbrella with you"}
+    {"id":"weath_12","thai":"ร่ม","phonetic":"rom","english":"Umbrella","image":"word_umbrella","audio":"weath_12.mp3","example":"เอาร่มไปด้วย — Take an umbrella with you"},
+    {"id":"weath_13","thai":"อากาศดี","phonetic":"aa-gaat-dee","english":"Nice weather","image":"","audio":"lesson17_word13.mp3","example":"วันนี้อากาศดีมาก — The weather is very nice today"},
+    {"id":"weath_14","thai":"ฝนตก","phonetic":"fon-dtok","english":"It's raining","image":"","audio":"lesson17_word14.mp3","example":"ฝนตกหนัก — Heavy rain"},
+    {"id":"weath_15","thai":"แดดออก","phonetic":"daet-ok","english":"Sunny / Sun is out","image":"","audio":"lesson17_word15.mp3","example":"แดดออกจ้า — Very sunny"},
+    {"id":"weath_16","thai":"ลมแรง","phonetic":"lom-raeng","english":"Strong wind","image":"","audio":"lesson17_word16.mp3","example":"ลมแรงมากวันนี้ — Very strong wind today"}
   ]
 }

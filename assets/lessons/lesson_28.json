@@ -15,6 +15,11 @@
     {"id":"slf_07","thai":"ผมกำลังเรียนภาษาไทย","phonetic":"pom-gam-lang-rian-paa-saa-thai","english":"I am learning Thai","image":"word_learnthai","audio":"slf_07.mp3","example":"ผมกำลังเรียนภาษาไทยอยู่ — I'm currently studying Thai"},
     {"id":"slf_08","thai":"พูดภาษาไทยได้นิดหน่อย","phonetic":"phuut-paa-saa-thai-dai-nit-noi","english":"I speak a little Thai","image":"word_littlethai2","audio":"slf_08.mp3","example":"พูดภาษาไทยได้นิดหน่อยครับ — I speak just a little Thai"},
     {"id":"slf_09","thai":"ยินดีที่รู้จัก","phonetic":"yin-dee-tee-ruu-jak","english":"Nice to meet you","image":"word_nicetomeet","audio":"slf_09.mp3","example":"ยินดีที่รู้จักครับ — Pleased to meet you"},
-    {"id":"slf_10","thai":"ผมรักอาหารไทย","phonetic":"pom-rak-aa-haan-thai","english":"I love Thai food","image":"word_loveFood","audio":"slf_10.mp3","example":"ผมรักอาหารไทยมากครับ — I absolutely love Thai food!"}
+    {"id":"slf_10","thai":"ผมรักอาหารไทย","phonetic":"pom-rak-aa-haan-thai","english":"I love Thai food","image":"word_loveFood","audio":"slf_10.mp3","example":"ผมรักอาหารไทยมากครับ — I absolutely love Thai food!"},
+    {"id":"slf_11","thai":"ผมพักที่","phonetic":"pom-pak-tee","english":"I'm staying at","image":"","audio":"lesson28_word11.mp3","example":"ผมพักที่โรงแรม — I'm staying at a hotel"},
+    {"id":"slf_12","thai":"ผมมาคนเดียว","phonetic":"pom-maa-kon-diao","english":"I came alone","image":"","audio":"lesson28_word12.mp3","example":"ผมมาคนเดียวครับ — I came by myself"},
+    {"id":"slf_13","thai":"ผมอยู่ที่นี่","phonetic":"pom-yuu-tee-nee","english":"I am here","image":"","audio":"lesson28_word13.mp3","example":"ผมอยู่ที่นี่อาทิตย์หนึ่ง — I'm here for one week"},
+    {"id":"slf_14","thai":"ผมสนใจ","phonetic":"pom-son-jai","english":"I am interested in","image":"","audio":"lesson28_word14.mp3","example":"ผมสนใจวัฒนธรรมไทย — I'm interested in Thai culture"},
+    {"id":"slf_15","thai":"ชอบมากครับ","phonetic":"chob-mak-khrap","english":"I like it very much","image":"","audio":"lesson28_word15.mp3","example":"ชอบมากครับ ประเทศไทยดีมาก — I love it, Thailand is great"}
   ]
 }

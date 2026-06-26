@@ -95,6 +95,13 @@
       "image": "word_fine",
       "audio": "greet_10.mp3",
       "example": "สบายดีครับ — I'm doing well (male)"
-    }
+    },
+    {"id":"greet_11","thai":"ยินดีต้อนรับ","phonetic":"yin-dee-dton-rap","english":"Welcome","image":"","audio":"lesson01_word11.mp3","example":"ยินดีต้อนรับสู่ประเทศไทย — Welcome to Thailand"},
+    {"id":"greet_12","thai":"สวัสดีตอนเช้า","phonetic":"sa-wat-dee-dton-chao","english":"Good morning","image":"","audio":"lesson01_word12.mp3","example":"สวัสดีตอนเช้าครับ — Good morning (male)"},
+    {"id":"greet_13","thai":"สวัสดีตอนเย็น","phonetic":"sa-wat-dee-dton-yen","english":"Good evening","image":"","audio":"lesson01_word13.mp3","example":"สวัสดีตอนเย็นค่ะ — Good evening (female)"},
+    {"id":"greet_14","thai":"ราตรีสวัสดิ์","phonetic":"raa-dtree-sa-wat","english":"Good night","image":"","audio":"lesson01_word14.mp3","example":"ราตรีสวัสดิ์ครับ — Good night (male)"},
+    {"id":"greet_15","thai":"ฝันดีนะ","phonetic":"fan-dee-na","english":"Sweet dreams","image":"","audio":"lesson01_word15.mp3","example":"ฝันดีนะคะ — Sweet dreams (female)"},
+    {"id":"greet_16","thai":"แล้วเจอกัน","phonetic":"laeo-jer-gan","english":"See you later","image":"","audio":"lesson01_word16.mp3","example":"แล้วเจอกันนะครับ — See you later"},
+    {"id":"greet_17","thai":"เจอกันพรุ่งนี้","phonetic":"jer-gan-phroong-nee","english":"See you tomorrow","image":"","audio":"lesson01_word17.mp3","example":"เจอกันพรุ่งนี้นะ — See you tomorrow"}
   ]
 }

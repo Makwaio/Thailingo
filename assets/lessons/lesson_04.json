@@ -15,6 +15,12 @@
     {"id":"drink_07","thai":"ร้อน","phonetic":"ron","english":"Hot","image":"word_hot","audio":"drink_07.mp3","example":"ชาร้อน — Hot tea"},
     {"id":"drink_08","thai":"เย็น","phonetic":"yen","english":"Cold / Iced","image":"word_cold","audio":"drink_08.mp3","example":"กาแฟเย็น — Iced coffee"},
     {"id":"drink_09","thai":"หวานน้อย","phonetic":"waan-noi","english":"Less sweet","image":"word_lesssweet","audio":"drink_09.mp3","example":"ขอหวานน้อยครับ — Less sweet please"},
-    {"id":"drink_10","thai":"แก้วใหญ่","phonetic":"gaeo-yai","english":"Large cup","image":"word_largecup","audio":"drink_10.mp3","example":"ขอแก้วใหญ่ครับ — Large cup please"}
+    {"id":"drink_10","thai":"แก้วใหญ่","phonetic":"gaeo-yai","english":"Large cup","image":"word_largecup","audio":"drink_10.mp3","example":"ขอแก้วใหญ่ครับ — Large cup please"},
+    {"id":"drink_11","thai":"ชาเย็น","phonetic":"chaa-yen","english":"Thai iced tea","image":"","audio":"lesson04_word11.mp3","example":"ชาเย็นหวานน้อย — Iced tea, less sweet"},
+    {"id":"drink_12","thai":"กาแฟเย็น","phonetic":"gaa-fae-yen","english":"Iced coffee","image":"","audio":"lesson04_word12.mp3","example":"กาแฟเย็นไม่หวาน — Iced coffee, no sugar"},
+    {"id":"drink_13","thai":"น้ำมะพร้าว","phonetic":"naam-ma-phrao","english":"Coconut water","image":"","audio":"lesson04_word13.mp3","example":"น้ำมะพร้าวสดๆ — Fresh coconut water"},
+    {"id":"drink_14","thai":"น้ำแข็ง","phonetic":"naam-khaeng","english":"Ice","image":"","audio":"lesson04_word14.mp3","example":"ขอน้ำแข็งด้วย — Can I have ice?"},
+    {"id":"drink_15","thai":"หวาน","phonetic":"waan","english":"Sweet","image":"","audio":"lesson04_word15.mp3","example":"หวานเกินไป — Too sweet"},
+    {"id":"drink_16","thai":"ไม่หวาน","phonetic":"mai-waan","english":"Not sweet / No sugar","image":"","audio":"lesson04_word16.mp3","example":"กาแฟไม่หวาน — Coffee without sugar"}
   ]
 }

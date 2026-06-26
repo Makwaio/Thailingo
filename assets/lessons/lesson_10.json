@@ -17,6 +17,9 @@
     {"id":"shop_09","thai":"เล็ก","phonetic":"lek","english":"Small","image":"word_small","audio":"shop_09.mp3","example":"ไซส์เล็กเกินไป — Too small"},
     {"id":"shop_10","thai":"สวย","phonetic":"suai","english":"Beautiful / Pretty","image":"word_beautiful","audio":"shop_10.mp3","example":"สวยมาก — Very beautiful"},
     {"id":"shop_11","thai":"ไม่เอา","phonetic":"mai-ao","english":"Don't want it","image":"word_dontwant","audio":"shop_11.mp3","example":"ไม่เอาครับ — No thank you"},
-    {"id":"shop_12","thai":"เอา","phonetic":"ao","english":"Want / Take it","image":"word_want","audio":"shop_12.mp3","example":"เอาครับ — I'll take it"}
+    {"id":"shop_12","thai":"เอา","phonetic":"ao","english":"Want / Take it","image":"word_want","audio":"shop_12.mp3","example":"เอาครับ — I'll take it"},
+    {"id":"shop_13","thai":"ลองได้ไหม","phonetic":"long-dai-mai","english":"Can I try it on?","image":"","audio":"lesson10_word13.mp3","example":"ลองได้ไหมครับ — Can I try this on?"},
+    {"id":"shop_14","thai":"มีไซส์อื่นไหม","phonetic":"mee-sai-uen-mai","english":"Do you have other sizes?","image":"","audio":"lesson10_word14.mp3","example":"มีไซส์ใหญ่กว่านี้ไหม — Do you have a bigger size?"},
+    {"id":"shop_15","thai":"ชำระด้วยบัตรได้ไหม","phonetic":"cham-ra-duay-bat-dai-mai","english":"Can I pay by card?","image":"","audio":"lesson10_word15.mp3","example":"ชำระด้วยบัตรได้ไหมครับ — Can I pay by card?"}
   ]
 }

@@ -15,6 +15,11 @@
     {"id":"dir_07","thai":"ที่ไหน","phonetic":"tee-nai","english":"Where?","image":"word_where","audio":"dir_07.mp3","example":"ห้องน้ำอยู่ที่ไหน — Where is the bathroom?"},
     {"id":"dir_08","thai":"แผนที่","phonetic":"phaen-tee","english":"Map","image":"word_map","audio":"dir_08.mp3","example":"ขอดูแผนที่ได้ไหม — Can I see the map?"},
     {"id":"dir_09","thai":"เลี้ยว","phonetic":"liao","english":"Turn","image":"word_turn","audio":"dir_09.mp3","example":"เลี้ยวที่สี่แยก — Turn at the intersection"},
-    {"id":"dir_10","thai":"ข้าม","phonetic":"khaam","english":"Cross / Over","image":"word_cross","audio":"dir_10.mp3","example":"ข้ามถนน — Cross the road"}
+    {"id":"dir_10","thai":"ข้าม","phonetic":"khaam","english":"Cross / Over","image":"word_cross","audio":"dir_10.mp3","example":"ข้ามถนน — Cross the road"},
+    {"id":"dir_11","thai":"ข้างหน้า","phonetic":"khaang-naa","english":"In front","image":"","audio":"lesson08_word11.mp3","example":"อยู่ข้างหน้า — It's in front"},
+    {"id":"dir_12","thai":"ข้างหลัง","phonetic":"khaang-lang","english":"Behind","image":"","audio":"lesson08_word12.mp3","example":"อยู่ข้างหลังคุณ — It's behind you"},
+    {"id":"dir_13","thai":"ข้างๆ","phonetic":"khaang-khaang","english":"Beside / Next to","image":"","audio":"lesson08_word13.mp3","example":"อยู่ข้างๆ ธนาคาร — It's next to the bank"},
+    {"id":"dir_14","thai":"ตรงข้าม","phonetic":"trong-khaam","english":"Opposite / Across from","image":"","audio":"lesson08_word14.mp3","example":"อยู่ตรงข้ามโรงแรม — It's across from the hotel"},
+    {"id":"dir_15","thai":"ระหว่าง","phonetic":"ra-waang","english":"Between","image":"","audio":"lesson08_word15.mp3","example":"อยู่ระหว่างสองร้าน — It's between two shops"}
   ]
 }
