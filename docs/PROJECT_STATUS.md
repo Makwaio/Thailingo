@@ -1,8 +1,39 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-25 (v1.0.6 — Stage 2 rebuilt (16 lessons), Stage 3 added (5 lessons), 50 total lessons)  
+**Last updated:** 2026-06-26 (v1.0.7 — Thai→English mode, content expansion, hamburger menu to right)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.0.7 Changes — 2026-06-26
+
+### Thai → English Learning Direction
+- `LearningDirection` enum in `SettingsService`: `englishToThai` | `thaiToEnglish` | `mixed`
+- `LocalizationService` singleton: UI string map for EN/TH labels + `directionBadge()`
+- `ExerciseService.buildQueue`: direction-filtered MC type cycle (multipleChoice vs multipleChoiceTh)
+- Settings screen: "Learning Direction 🔁" section with 3 radio-style options
+- Lesson screen: tappable direction badge in top bar → quick-switch popup
+
+### Stage 1 Content Expansion
+All Stage 1 lessons 1-28 expanded to 15-18 words minimum (was 10-12).
+
+### Translation Fixes
+- `lesson_11.json`: phr_08 fixed to ช่วยหน่อยได้ไหม (polite help request, not generic "can you help")
+- `lesson_25.json`: ช่วยด้วย labeled as "Help! (emergency)"; polite form ช่วยหน่อยได้ไหม added as hlp_01b
+
+### UI Changes
+- Hamburger menu moved to right-side `endDrawer`; new 44×44px navy circle button at top-right
+  - Shows user avatar emoji when signed in, ☰ icon when guest
+- Mascot repositioned to align with XP bar (bottom of header), size 70px
+- Speech bubble floats at mascot head level via Column + SizedBox offset
+
+### Firestore Updates
+- All 50 lessons re-uploaded with expanded word counts
+- Patch notes v1.0.6 + v1.0.7 added
+
+### New Files
+- `lib/services/localization_service.dart`
 
 ---
 
