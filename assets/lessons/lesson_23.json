@@ -1,6 +1,7 @@
 {
   "id": 23,
   "title": "Restaurant Ordering",
+  "thaiTitle": "การสั่งอาหาร",
   "subtitle": "Order like a pro",
   "icon": "lesson_restaurant",
   "color": "#E64A19",

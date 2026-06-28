@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'audio_service.dart';
 
-enum LearningDirection { englishToThai, thaiToEnglish, mixed }
+enum AppLanguage { learningThai, learningEnglish }
 
 class SettingsService {
   static final SettingsService _instance = SettingsService._internal();
@@ -21,7 +21,7 @@ class SettingsService {
   static const _gtTypingKey = 'gt_typing_v1';
   static const _gtVisualSpotterKey = 'gt_visual_spotter_v1';
   static const _gtOppositesKey = 'gt_opposites_v1';
-  static const _learningDirectionKey = 'learning_direction_v1';
+  static const _appLanguageKey = 'app_language';
 
   bool _soundEnabled = true;
   bool _musicEnabled = true;
@@ -35,7 +35,7 @@ class SettingsService {
   bool _gtTyping = true;
   bool _gtVisualSpotter = true;
   bool _gtOpposites = true;
-  LearningDirection _learningDirection = LearningDirection.englishToThai;
+  AppLanguage _appLanguage = AppLanguage.learningThai;
 
   bool get soundEnabled => _soundEnabled;
   bool get musicEnabled => _musicEnabled;
@@ -49,7 +49,7 @@ class SettingsService {
   bool get gtTyping => _gtTyping;
   bool get gtVisualSpotter => _gtVisualSpotter;
   bool get gtOpposites => _gtOpposites;
-  LearningDirection get learningDirection => _learningDirection;
+  AppLanguage get appLanguage => _appLanguage;
 
   int get enabledGameTypeCount {
     int count = 1; // MC always on
@@ -75,8 +75,8 @@ class SettingsService {
     _gtTyping = prefs.getBool(_gtTypingKey) ?? true;
     _gtVisualSpotter = prefs.getBool(_gtVisualSpotterKey) ?? true;
     _gtOpposites = prefs.getBool(_gtOppositesKey) ?? true;
-    final dirIndex = prefs.getInt(_learningDirectionKey) ?? 0;
-    _learningDirection = LearningDirection.values[dirIndex.clamp(0, LearningDirection.values.length - 1)];
+    final langIndex = prefs.getInt(_appLanguageKey) ?? 0;
+    _appLanguage = AppLanguage.values[langIndex.clamp(0, AppLanguage.values.length - 1)];
     AudioService().setSoundEnabled(_soundEnabled);
   }
 
@@ -132,9 +132,9 @@ class SettingsService {
     return true;
   }
 
-  Future<void> setLearningDirection(LearningDirection dir) async {
-    _learningDirection = dir;
+  Future<void> setAppLanguage(AppLanguage lang) async {
+    _appLanguage = lang;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_learningDirectionKey, dir.index);
+    await prefs.setInt(_appLanguageKey, lang.index);
   }
 }

@@ -3,6 +3,7 @@ import 'word.dart';
 class Lesson {
   final int id;
   final String title;
+  final String thaiTitle;
   final String subtitle;
   final String icon;
   final String colorHex;
@@ -12,6 +13,7 @@ class Lesson {
   const Lesson({
     required this.id,
     required this.title,
+    this.thaiTitle = '',
     required this.subtitle,
     required this.icon,
     required this.colorHex,
@@ -22,6 +24,7 @@ class Lesson {
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
         id: json['id'] as int,
         title: json['title'] as String,
+        thaiTitle: json['thaiTitle'] as String? ?? '',
         subtitle: json['subtitle'] as String? ?? '',
         icon: json['icon'] as String? ?? '',
         colorHex: json['color'] as String? ?? '#1565C0',
@@ -40,6 +43,7 @@ class Lesson {
   Map<String, dynamic> toJson() => {
         'id': id,
         'title': title,
+        'thaiTitle': thaiTitle,
         'subtitle': subtitle,
         'icon': icon,
         'color': colorHex,

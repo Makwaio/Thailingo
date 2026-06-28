@@ -15,6 +15,8 @@ import '../ui/theme/app_theme.dart';
 import '../ui/widgets/common_widgets.dart';
 import '../ui/widgets/thai_mascot.dart';
 import '../services/patch_notes_service.dart';
+import '../services/settings_service.dart';
+import '../services/localization_service.dart';
 import 'lesson_screen.dart';
 import 'login_screen.dart';
 import 'review_screen.dart';
@@ -674,12 +676,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                 fontWeight: FontWeight.w900,
                                 color: Colors.white)),
                       ),
-                      const SizedBox(height: 2),
-                      const Text('Bangkok Thai',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white60,
-                              letterSpacing: 0.8)),
+                      const SizedBox(height: 3),
+                      _LanguageBadge(
+                        onTap: () {
+                          _openMenu();
+                        },
+                      ),
                       const SizedBox(height: 10),
                       Row(children: [
                         StatPill(
@@ -1609,7 +1611,7 @@ class _HexBubbleState extends State<_HexBubble>
               SizedBox(
                 width: textW,
                 child: Text(
-                  widget.lesson.title,
+                  _lessonDisplayTitle(widget.lesson),
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -1881,6 +1883,64 @@ class _StageBanner extends StatelessWidget {
                   color: AppTheme.thaiGold, size: 22),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Returns thaiTitle when in learningEnglish mode, falls back to English title
+String _lessonDisplayTitle(Lesson lesson) {
+  if (SettingsService().appLanguage == AppLanguage.learningEnglish &&
+      lesson.thaiTitle.isNotEmpty) {
+    return lesson.thaiTitle;
+  }
+  return lesson.title;
+}
+
+// ── Language Badge ──────────────────────────────────────────────────────
+class _LanguageBadge extends StatelessWidget {
+  final VoidCallback onTap;
+  const _LanguageBadge({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final isEnglishMode =
+        SettingsService().appLanguage == AppLanguage.learningEnglish;
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.25), width: 1),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  isEnglishMode ? '🇹🇭 → 🇬🇧' : '🇬🇧 → 🇹🇭',
+                  style: const TextStyle(fontSize: 11),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  isEnglishMode
+                      ? LocalizationService.t('learning_english')
+                      : LocalizationService.t('learning_thai'),
+                  style: const TextStyle(
+                      fontSize: 11,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

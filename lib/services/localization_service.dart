@@ -5,46 +5,139 @@ class LocalizationService {
   factory LocalizationService() => _instance;
   LocalizationService._internal();
 
-  static const _labels = <String, Map<String, String>>{
-    'continue':       {'en': 'Continue',         'th': 'ต่อไป'},
-    'correct':        {'en': 'Correct!',          'th': 'ถูกต้อง!'},
-    'wrong':          {'en': 'Wrong!',            'th': 'ผิด!'},
-    'lesson_complete':{'en': 'Lesson Complete!',  'th': 'เรียนจบแล้ว!'},
-    'review':         {'en': 'Review',            'th': 'ทบทวน'},
-    'settings':       {'en': 'Settings',          'th': 'การตั้งค่า'},
-    'home':           {'en': 'Home',              'th': 'หน้าหลัก'},
-    'streak':         {'en': 'Streak',            'th': 'ความต่อเนื่อง'},
-    'level':          {'en': 'Level',             'th': 'ระดับ'},
-    'score':          {'en': 'Score',             'th': 'คะแนน'},
-    'next':           {'en': 'Next',              'th': 'ถัดไป'},
-    'skip':           {'en': 'Skip',              'th': 'ข้าม'},
-    'hint':           {'en': 'Hint',              'th': 'คำใบ้'},
-    'choose_answer':  {'en': 'CHOOSE THE ANSWER', 'th': 'เลือกคำตอบ'},
-    'tap_thai':       {'en': 'TAP THE THAI WORD', 'th': 'แตะคำภาษาไทย'},
-    'tap_english':    {'en': 'TAP THE ENGLISH WORD', 'th': 'แตะคำภาษาอังกฤษ'},
-    'what_english':   {'en': 'What does this mean in English?', 'th': 'นี่แปลว่าอะไรในภาษาอังกฤษ?'},
-    'what_thai':      {'en': 'How do you say this in Thai?',    'th': 'พูดเป็นภาษาไทยว่าอย่างไร?'},
-    'type_answer':    {'en': 'Type the answer',  'th': 'พิมพ์คำตอบ'},
-    'listen_choose':  {'en': 'Listen and choose','th': 'ฟังแล้วเลือก'},
+  static bool get isThai =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
+  static String t(String key) {
+    if (!isThai) return _en[key] ?? key;
+    return _th[key] ?? _en[key] ?? key;
+  }
+
+  static const Map<String, String> _en = {
+    'continue': 'Continue',
+    'correct': 'Correct! ✅',
+    'wrong': 'Wrong! ❌',
+    'lesson_complete': 'Lesson Complete!',
+    'review': 'Review',
+    'settings': 'Settings',
+    'home': 'Home',
+    'streak': 'Day Streak',
+    'level': 'Level',
+    'score': 'Score',
+    'next': 'Next',
+    'skip': 'Skip',
+    'hint': 'Hint 💡',
+    'tap_to_hear': 'Tap to hear',
+    'your_answer': 'Your answer',
+    'correct_answer': 'Correct answer',
+    'well_done': 'Well done!',
+    'try_again': 'Try again!',
+    'lesson_failed': 'Lesson Failed',
+    'lesson_passed': 'Lesson Passed!',
+    'play_again': 'Play Again',
+    'back_to_map': 'Back to Map',
+    'locked': 'Locked',
+    'completed': 'Completed',
+    'stars': 'Stars',
+    'xp': 'XP',
+    'accuracy': 'Accuracy',
+    'questions': 'Questions',
+    'time': 'Time',
+    'combo': 'Combo',
+    'start': 'Start',
+    'quit': 'Quit Lesson',
+    'quit_confirm': 'Are you sure you want to quit?',
+    'yes': 'Yes',
+    'no': 'No',
+    'stage': 'Stage',
+    'lesson': 'Lesson',
+    'arcade': 'Arcade',
+    'speed_mode': 'Speed Mode',
+    'leaderboard': 'Leaderboard',
+    'profile': 'Profile',
+    'guide_book': 'Guide Book',
+    'report_bug': 'Report a Bug',
+    'whats_new': "What's New",
+    'sign_out': 'Sign Out',
+    'sign_in': 'Sign In',
+    'guest': 'Guest',
+    'words_learned': 'Words Learned',
+    'lessons_complete': 'Lessons Complete',
+    'best_streak': 'Best Streak',
+    'total_xp': 'Total XP',
+    'choose_answer': 'CHOOSE THE ANSWER',
+    'what_mean': 'What does this mean?',
+    'how_write_thai': 'How do you write this in Thai?',
+    'select_hear': 'Select what you hear',
+    'tap_correct': 'Tap the correct answer!',
+    'type_phonetic': 'Type the phonetic spelling',
+    'type_answer': 'Type the English meaning',
+    'learning_thai': 'Learning Thai',
+    'learning_english': 'Learning English',
+    'language': '🇬🇧 → 🇹🇭',
   };
 
-  bool get _isThai =>
-      SettingsService().learningDirection == LearningDirection.thaiToEnglish;
-
-  String get(String key) {
-    final map = _labels[key];
-    if (map == null) return key;
-    return _isThai ? (map['th'] ?? key) : (map['en'] ?? key);
-  }
-
-  String directionBadge() {
-    switch (SettingsService().learningDirection) {
-      case LearningDirection.englishToThai:
-        return '🇬🇧→🇹🇭';
-      case LearningDirection.thaiToEnglish:
-        return '🇹🇭→🇬🇧';
-      case LearningDirection.mixed:
-        return '🔀';
-    }
-  }
+  static const Map<String, String> _th = {
+    'continue': 'ต่อไป',
+    'correct': 'ถูกต้อง! ✅',
+    'wrong': 'ผิด! ❌',
+    'lesson_complete': 'เรียนจบแล้ว!',
+    'review': 'ทบทวน',
+    'settings': 'การตั้งค่า',
+    'home': 'หน้าหลัก',
+    'streak': 'วันต่อเนื่อง',
+    'level': 'ระดับ',
+    'score': 'คะแนน',
+    'next': 'ถัดไป',
+    'skip': 'ข้าม',
+    'hint': 'คำใบ้ 💡',
+    'tap_to_hear': 'แตะเพื่อฟัง',
+    'your_answer': 'คำตอบของคุณ',
+    'correct_answer': 'คำตอบที่ถูกต้อง',
+    'well_done': 'เก่งมาก!',
+    'try_again': 'ลองใหม่!',
+    'lesson_failed': 'ไม่ผ่านบทเรียน',
+    'lesson_passed': 'ผ่านบทเรียน!',
+    'play_again': 'เล่นอีกครั้ง',
+    'back_to_map': 'กลับไปแผนที่',
+    'locked': 'ล็อค',
+    'completed': 'เสร็จแล้ว',
+    'stars': 'ดาว',
+    'xp': 'แต้ม',
+    'accuracy': 'ความแม่นยำ',
+    'questions': 'คำถาม',
+    'time': 'เวลา',
+    'combo': 'คอมโบ',
+    'start': 'เริ่ม',
+    'quit': 'ออกจากบทเรียน',
+    'quit_confirm': 'คุณแน่ใจหรือไม่ว่าต้องการออก?',
+    'yes': 'ใช่',
+    'no': 'ไม่',
+    'stage': 'ด่าน',
+    'lesson': 'บทเรียน',
+    'arcade': 'อาร์เคด',
+    'speed_mode': 'โหมดเร็ว',
+    'leaderboard': 'อันดับ',
+    'profile': 'โปรไฟล์',
+    'guide_book': 'คู่มือ',
+    'report_bug': 'รายงานบัก',
+    'whats_new': 'มีอะไรใหม่',
+    'sign_out': 'ออกจากระบบ',
+    'sign_in': 'เข้าสู่ระบบ',
+    'guest': 'ผู้เยี่ยมชม',
+    'words_learned': 'คำศัพท์ที่เรียนแล้ว',
+    'lessons_complete': 'บทเรียนที่เสร็จแล้ว',
+    'best_streak': 'สถิติต่อเนื่องสูงสุด',
+    'total_xp': 'แต้มรวม',
+    'choose_answer': 'เลือกคำตอบ',
+    'what_mean': 'นี่แปลว่าอะไรในภาษาอังกฤษ?',
+    'how_write_thai': 'พูดเป็นภาษาอังกฤษว่าอย่างไร?',
+    'select_hear': 'เลือกสิ่งที่คุณได้ยิน',
+    'tap_correct': 'แตะคำตอบที่ถูกต้อง!',
+    'type_phonetic': 'พิมพ์การออกเสียง',
+    'type_answer': 'พิมพ์ความหมายในภาษาอังกฤษ',
+    'learning_thai': 'กำลังเรียนภาษาไทย',
+    'learning_english': 'กำลังเรียนภาษาอังกฤษ',
+    'language': '🇹🇭 → 🇬🇧',
+  };
 }

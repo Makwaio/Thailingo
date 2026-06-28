@@ -188,17 +188,15 @@ class ExerciseService {
     final isStage1 = lesson.stage == 1;
     const target = 20;
 
-    // Direction-aware MC type cycle
-    // multipleChoice    = show Thai → pick English (TH→EN)
-    // multipleChoiceTh  = show English → pick Thai (EN→TH)
+    // Language-aware MC type cycle
+    // multipleChoiceTh = show English → pick Thai  (learningThai default)
+    // multipleChoice   = show Thai → pick English  (learningEnglish mode)
     final typeCycle = <ExerciseType>[];
-    switch (settings.learningDirection) {
-      case LearningDirection.englishToThai:
+    switch (settings.appLanguage) {
+      case AppLanguage.learningThai:
         typeCycle.addAll([ExerciseType.multipleChoiceTh]);
-      case LearningDirection.thaiToEnglish:
+      case AppLanguage.learningEnglish:
         typeCycle.addAll([ExerciseType.multipleChoice]);
-      case LearningDirection.mixed:
-        typeCycle.addAll([ExerciseType.multipleChoice, ExerciseType.multipleChoiceTh]);
     }
     if (settings.gtListen) typeCycle.add(ExerciseType.listenAndChoose);
     if (settings.gtSpeedTap) typeCycle.add(ExerciseType.speedTap);

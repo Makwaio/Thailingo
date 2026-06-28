@@ -4,19 +4,39 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user_progress.dart';
 import 'firebase_service.dart';
 import 'user_service.dart';
+import 'settings_service.dart';
 
 class ProgressService {
   static final ProgressService _instance = ProgressService._internal();
   factory ProgressService() => _instance;
   ProgressService._internal();
 
-  static const String _key = 'thai_lab_progress_v1';
+  // Legacy key — used for migration only
+  static const String _legacyKey = 'thai_lab_progress_v1';
+
+  // Per-language keys
+  static const String _keyLearningThai = 'progress_en';
+  static const String _keyLearningEnglish = 'progress_th';
+
+  String get _currentKey =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish
+          ? _keyLearningEnglish
+          : _keyLearningThai;
+
   UserProgress? _progress;
 
   Future<UserProgress> load() async {
     if (_progress != null) return _progress!;
     final prefs = await SharedPreferences.getInstance();
-    final json = prefs.getString(_key);
+    // Try current language key first, fall back to legacy key for migration
+    var json = prefs.getString(_currentKey);
+    if (json == null) {
+      json = prefs.getString(_legacyKey);
+      if (json != null) {
+        // Migrate legacy data into the per-language key
+        await prefs.setString(_currentKey, json);
+      }
+    }
     if (json == null) {
       _progress = UserProgress();
     } else {
@@ -33,7 +53,14 @@ class ProgressService {
   Future<void> save() async {
     if (_progress == null) return;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, jsonEncode(_progress!.toJson()));
+    await prefs.setString(_currentKey, jsonEncode(_progress!.toJson()));
+  }
+
+  /// Call BEFORE switching language — saves current progress under old key,
+  /// invalidates cache so next load() reads from new key.
+  Future<void> switchLanguage() async {
+    await save();
+    _progress = null;
   }
 
   Future<void> addXp(int amount) async {
@@ -202,11 +229,11 @@ class ProgressService {
     _trySyncToFirestore(p);
   }
 
-  /// Clears all stored progress and resets in-memory cache.
+  /// Clears all stored progress (both language keys) and resets in-memory cache.
   Future<void> clearAll() async {
     _progress = UserProgress();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_key);
+    await prefs.remove(_currentKey);
   }
 
   /// Export current progress as a JSON string (for snapshot/backup).

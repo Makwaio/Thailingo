@@ -1,6 +1,7 @@
 {
   "id": 1,
   "title": "Greetings",
+  "thaiTitle": "การทักทาย",
   "subtitle": "Say hello in Bangkok",
   "icon": "lesson_greetings",
   "color": "#1565C0",

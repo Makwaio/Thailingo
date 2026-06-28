@@ -20,7 +20,8 @@
       "Bash(flutter build *)",
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\"; python scripts/upload_all_content.py --lessons-only 2>&1; Write-Host \"Exit: $LASTEXITCODE\")",
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\"; python scripts/upload_all_content.py --patch-only 2>&1; Write-Host \"Exit: $LASTEXITCODE\")",
-      "PowerShell(New-Item *)"
+      "PowerShell(New-Item *)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

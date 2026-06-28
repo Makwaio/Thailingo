@@ -1,6 +1,7 @@
 {
   "id": 3,
   "title": "Street Food",
+  "thaiTitle": "อาหารข้างทาง",
   "subtitle": "Order like a local",
   "icon": "lesson_food",
   "color": "#E65100",

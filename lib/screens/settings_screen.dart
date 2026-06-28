@@ -197,57 +197,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
-          // ── Language ───────────────────────────────────────────
-          const _SectionHeader('Language'),
-          const _SettingsCard(
-            children: [
-              _InfoTile(
-                icon: Icons.language_rounded,
-                label: 'Learning',
-                value: 'Bangkok Thai 🇹🇭',
-              ),
-            ],
+          // ── Learning Language ──────────────────────────────────
+          const _SectionHeader('Learning Language 🌏'),
+          const Padding(
+            padding: EdgeInsets.zero,
+            child: Text(
+              'Which language are you learning?',
+              style: TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+            ),
           ),
-
-          const SizedBox(height: 24),
-
-          // ── Learning Direction ─────────────────────────────────
-          const _SectionHeader('Learning Direction 🔁'),
-          _SettingsCard(
-            children: [
-              _DirectionTile(
-                emoji: '🇬🇧→🇹🇭',
-                label: 'English to Thai',
-                description: 'See English, learn to write Thai (default)',
-                selected: _settings.learningDirection == LearningDirection.englishToThai,
-                onTap: () async {
-                  await _settings.setLearningDirection(LearningDirection.englishToThai);
-                  if (mounted) setState(() {});
-                },
-              ),
-              const _Divider(),
-              _DirectionTile(
-                emoji: '🇹🇭→🇬🇧',
-                label: 'Thai to English',
-                description: 'See Thai script, recall the English meaning',
-                selected: _settings.learningDirection == LearningDirection.thaiToEnglish,
-                onTap: () async {
-                  await _settings.setLearningDirection(LearningDirection.thaiToEnglish);
-                  if (mounted) setState(() {});
-                },
-              ),
-              const _Divider(),
-              _DirectionTile(
-                emoji: '🔀',
-                label: 'Mixed',
-                description: 'Random mix of both directions',
-                selected: _settings.learningDirection == LearningDirection.mixed,
-                onTap: () async {
-                  await _settings.setLearningDirection(LearningDirection.mixed);
-                  if (mounted) setState(() {});
-                },
-              ),
-            ],
+          const SizedBox(height: 8),
+          _LanguageCard(
+            flag: '🇬🇧',
+            arrow: '→',
+            flagTo: '🇹🇭',
+            title: 'Learning Thai',
+            subtitle: 'I speak English',
+            selected: _settings.appLanguage == AppLanguage.learningThai,
+            onTap: () => _switchLanguage(AppLanguage.learningThai),
+          ),
+          const SizedBox(height: 10),
+          _LanguageCard(
+            flag: '🇹🇭',
+            arrow: '→',
+            flagTo: '🇬🇧',
+            title: 'เรียนภาษาอังกฤษ',
+            subtitle: 'ฉันพูดภาษาไทย',
+            selected: _settings.appLanguage == AppLanguage.learningEnglish,
+            onTap: () => _switchLanguage(AppLanguage.learningEnglish),
           ),
 
           const SizedBox(height: 24),
@@ -529,6 +506,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
     }
   }
+
+  Future<void> _switchLanguage(AppLanguage newLang) async {
+    if (_settings.appLanguage == newLang) return;
+
+    final isSwitchingToEnglish = newLang == AppLanguage.learningEnglish;
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(isSwitchingToEnglish
+            ? 'เปลี่ยนเป็นโหมดเรียนภาษาอังกฤษ?'
+            : 'Switch to Learning Thai mode?'),
+        content: Text(isSwitchingToEnglish
+            ? 'คำถามทั้งหมดจะแสดงเป็นภาษาไทย\nความคืบหน้าของคุณถูกบันทึกแยกต่างหาก'
+            : 'All exercise prompts will switch to English.\nYour progress is saved separately.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(isSwitchingToEnglish ? 'ยกเลิก' : 'Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: AppTheme.primary),
+            child: Text(isSwitchingToEnglish ? 'เปลี่ยน' : 'Switch',
+                style: const TextStyle(fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+    if (confirm != true || !mounted) return;
+
+    // Save progress under the old key before switching
+    await ProgressService().switchLanguage();
+    await _settings.setAppLanguage(newLang);
+
+    if (mounted) {
+      setState(() {});
+      // Pop back to home so it reloads with the new language
+      Navigator.popUntil(context, (route) => route.isFirst);
+    }
+  }
 }
 
 // ── Reusable widgets ─────────────────────────────────────────────────
@@ -620,17 +637,21 @@ class _ToggleTile extends StatelessWidget {
   }
 }
 
-class _DirectionTile extends StatelessWidget {
-  final String emoji;
-  final String label;
-  final String description;
+class _LanguageCard extends StatelessWidget {
+  final String flag;
+  final String arrow;
+  final String flagTo;
+  final String title;
+  final String subtitle;
   final bool selected;
   final VoidCallback onTap;
 
-  const _DirectionTile({
-    required this.emoji,
-    required this.label,
-    required this.description,
+  const _LanguageCard({
+    required this.flag,
+    required this.arrow,
+    required this.flagTo,
+    required this.title,
+    required this.subtitle,
     required this.selected,
     required this.onTap,
   });
@@ -639,23 +660,37 @@ class _DirectionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: selected
+              ? AppTheme.primary.withValues(alpha: 0.07)
+              : Colors.white,
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          border: Border.all(
+            color: selected ? AppTheme.primary : AppTheme.border,
+            width: selected ? 2 : 1,
+          ),
+          boxShadow: selected ? [] : AppTheme.shadowSm,
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           children: [
-            Text(emoji, style: const TextStyle(fontSize: 20)),
+            Text('$flag $arrow $flagTo',
+                style: const TextStyle(fontSize: 22)),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(label,
+                  Text(title,
                       style: TextStyle(
                           fontSize: 15,
-                          fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                          color: selected ? AppTheme.primary : AppTheme.textPrimary)),
-                  Text(description,
+                          fontWeight: FontWeight.w700,
+                          color: selected
+                              ? AppTheme.primary
+                              : AppTheme.textPrimary)),
+                  Text(subtitle,
                       style: const TextStyle(
                           fontSize: 12, color: AppTheme.textSecondary)),
                 ],
@@ -663,7 +698,11 @@ class _DirectionTile extends StatelessWidget {
             ),
             if (selected)
               const Icon(Icons.check_circle_rounded,
-                  color: AppTheme.success, size: 22),
+                  color: AppTheme.primary, size: 24)
+            else
+              Icon(Icons.circle_outlined,
+                  color: AppTheme.textSecondary.withValues(alpha: 0.4),
+                  size: 24),
           ],
         ),
       ),
@@ -671,39 +710,6 @@ class _DirectionTile extends StatelessWidget {
   }
 }
 
-class _InfoTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-
-  const _InfoTile({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      child: Row(
-        children: [
-          Icon(icon, color: AppTheme.primary, size: 22),
-          const SizedBox(width: 14),
-          Text(label,
-              style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textPrimary)),
-          const Spacer(),
-          Text(value,
-              style: const TextStyle(
-                  fontSize: 14, color: AppTheme.textSecondary)),
-        ],
-      ),
-    );
-  }
-}
 
 class _ActionTile extends StatelessWidget {
   final IconData icon;
