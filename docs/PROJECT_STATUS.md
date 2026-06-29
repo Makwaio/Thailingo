@@ -1,8 +1,37 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-26 (v1.0.7 — Thai→English mode, content expansion, hamburger menu to right)  
+**Last updated:** 2026-06-29 (v1.0.9 — Learning English mode exercise direction fix)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.0.9 Changes — 2026-06-29
+
+### Learning English Mode — Full Exercise Direction Fix
+All exercise screens now read `SettingsService().appLanguage` and swap prompt/answer direction.
+
+| Screen | learningThai (default) | learningEnglish |
+|---|---|---|
+| MC | English prompt → pick Thai | Thai prompt → pick English |
+| Listen | 🔊 icon → pick Thai word | Thai text+audio → pick English |
+| Speed Tap | English stimulus → tap Thai | Thai stimulus → tap English |
+| Pairs | Left=English, Right=Thai | Left=Thai, Right=English |
+| Typing | Thai word → type phonetic | Thai word+phonetic → type English |
+| Sentence Builder | English sentence → arrange Thai chips | Thai sentence → arrange English chips |
+
+### Model Changes
+- `SentenceBuilderExercise`: added `thaiSentence` (String) and `englishChips` (List<String>) fields
+- All 5 static sentence entries updated with Thai sentence + English chip data
+
+### Files Changed
+- `lib/models/exercise.dart` — `SentenceBuilderExercise` new fields
+- `lib/services/exercise_service.dart` — updated `_sentences` static data
+- `lib/screens/exercise_screens/listen_screen.dart`
+- `lib/screens/exercise_screens/speed_tap_screen.dart`
+- `lib/screens/exercise_screens/pairs_screen.dart`
+- `lib/screens/exercise_screens/typing_screen.dart`
+- `lib/screens/exercise_screens/sentence_builder_screen.dart`
 
 ---
 

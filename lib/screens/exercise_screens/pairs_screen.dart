@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
 import '../../models/word.dart';
 import '../../services/audio_service.dart';
+import '../../services/settings_service.dart';
 import '../../ui/theme/app_theme.dart';
 
 enum _CardSide { thai, english }
@@ -40,6 +41,9 @@ class _PairsScreenState extends State<PairsScreen> {
   int _mistakes = 0;
   bool _completed = false;
 
+  bool get _isLearningEnglish =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
   @override
   void initState() {
     super.initState();
@@ -61,8 +65,11 @@ class _PairsScreenState extends State<PairsScreen> {
                   fontSize: 11, fontWeight: FontWeight.w700,
                   letterSpacing: 1.2, color: AppTheme.textSecondary)),
           const SizedBox(height: 6),
-          const Text('Tap a Thai word, then its English meaning',
-              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+          Text(
+            _isLearningEnglish
+                ? 'Tap a Thai word, then its English meaning'
+                : 'Tap an English word, then its Thai word',
+            style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
           const SizedBox(height: 20),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,8 +141,12 @@ class _PairsScreenState extends State<PairsScreen> {
     }
 
     final isThai = card.side == _CardSide.thai;
-    final label = isThai ? card.word.thai : card.word.english;
-    final sublabel = isThai ? card.word.phonetic : null;
+    final isLearningEnglish = _isLearningEnglish;
+    // learningEnglish: left(thai)=Thai text, right(eng)=English text
+    // learningThai:    left(thai)=English text, right(eng)=Thai text
+    final showsThai = isLearningEnglish ? isThai : !isThai;
+    final label = showsThai ? card.word.thai : card.word.english;
+    final sublabel = showsThai ? card.word.phonetic : null;
 
     return GestureDetector(
       onTap: card.state == _CardState.matched ? null : () => _tap(card),
@@ -153,7 +164,7 @@ class _PairsScreenState extends State<PairsScreen> {
           children: [
             Text(label,
                 style: TextStyle(
-                    fontSize: isThai ? 22 : 15,
+                    fontSize: showsThai ? 22 : 15,
                     fontWeight: FontWeight.w700,
                     color: textColor)),
             if (sublabel != null)
@@ -171,7 +182,7 @@ class _PairsScreenState extends State<PairsScreen> {
         .slideX(
             begin: isThai ? -0.1 : 0.1,
             duration: 300.ms,
-            curve: Curves.easeOut);
+            curve: Curves.easeOut);  // isThai = left column
   }
 
   void _tap(_PairCard card) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/exercise.dart';
 import '../../services/audio_service.dart';
+import '../../services/settings_service.dart';
 import '../../ui/theme/app_theme.dart';
 
 class TypingScreen extends StatefulWidget {
@@ -45,6 +46,9 @@ class _TypingScreenState extends State<TypingScreen> {
     super.dispose();
   }
 
+  bool get _isLearningEnglish =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
   // If phonetic is very long, only require typing the first segment
   String get _targetPhonetic {
     final p = widget.exercise.targetWord.phonetic;
@@ -57,6 +61,24 @@ class _TypingScreenState extends State<TypingScreen> {
     }
     return built;
   }
+
+  // Canonical answer depending on mode
+  String get _targetAnswer {
+    if (_isLearningEnglish) {
+      return widget.exercise.targetWord.english
+          .split(' / ')
+          .first
+          .trim();
+    }
+    return _targetPhonetic;
+  }
+
+  // All accepted synonyms for English mode
+  List<String> get _acceptedEnglish => widget.exercise.targetWord.english
+      .split(RegExp(r'\s*/\s*'))
+      .map((s) => s.trim())
+      .where((s) => s.isNotEmpty)
+      .toList();
 
   String _normalize(String s) =>
       s.trim().toLowerCase().replaceAll(RegExp(r'[-\s]'), '');
@@ -77,6 +99,13 @@ class _TypingScreenState extends State<TypingScreen> {
     if (_phoneticsNormalize(t) == _phoneticsNormalize(g)) return true;
     final threshold = (g.length * 0.3).round().clamp(2, 8);
     return _levenshtein(t, g) <= threshold;
+  }
+
+  bool _isCorrectAnswer(String typed) {
+    if (_isLearningEnglish) {
+      return _acceptedEnglish.any((ans) => _isCloseEnough(typed, ans));
+    }
+    return _isCloseEnough(typed, _targetPhonetic);
   }
 
   int _levenshtein(String a, String b) {
@@ -103,6 +132,14 @@ class _TypingScreenState extends State<TypingScreen> {
   int _min(int a, int b) => a < b ? a : b;
 
   String _generateHint(int level) {
+    if (_isLearningEnglish) {
+      final answer = _targetAnswer;
+      if (answer.isEmpty) return '';
+      final visible = level == 1 ? 1 : (answer.length * 0.5).round().clamp(1, answer.length);
+      final show = answer.substring(0, visible);
+      final hide = '_' * (answer.length - visible);
+      return show + hide;
+    }
     final parts = _targetPhonetic.split('-');
     return parts.map((part) {
       if (part.isEmpty) return '';
@@ -123,7 +160,7 @@ class _TypingScreenState extends State<TypingScreen> {
 
   void _submit() {
     if (_submitted || widget.answered) return;
-    final correct = _isCloseEnough(_controller.text, _targetPhonetic);
+    final correct = _isCorrectAnswer(_controller.text);
     setState(() {
       _submitted = true;
       _wasCorrect = correct;
@@ -138,13 +175,14 @@ class _TypingScreenState extends State<TypingScreen> {
   @override
   Widget build(BuildContext context) {
     final word = widget.exercise.targetWord;
+    final isLearningEnglish = _isLearningEnglish;
 
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + bottomInset),
       child: Column(
         children: [
-          // Thai word display
+          // Prompt card
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
@@ -161,9 +199,11 @@ class _TypingScreenState extends State<TypingScreen> {
             ),
             child: Column(
               children: [
-                const Text(
-                  'Type the phonetic spelling',
-                  style: TextStyle(fontSize: 13, color: Colors.white70),
+                Text(
+                  isLearningEnglish
+                      ? 'Type the English meaning'
+                      : 'Type the phonetic spelling',
+                  style: const TextStyle(fontSize: 13, color: Colors.white70),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -174,6 +214,17 @@ class _TypingScreenState extends State<TypingScreen> {
                       color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
+                if (isLearningEnglish) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    word.phonetic,
+                    style: const TextStyle(
+                        fontSize: 15,
+                        color: Colors.white60,
+                        fontStyle: FontStyle.italic),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
                 const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () =>
@@ -218,7 +269,7 @@ class _TypingScreenState extends State<TypingScreen> {
                 fontWeight: FontWeight.w700,
                 color: AppTheme.textPrimary),
             decoration: InputDecoration(
-              hintText: 'e.g. sa-wat-dee',
+              hintText: isLearningEnglish ? 'e.g. hello' : 'e.g. sa-wat-dee',
               hintStyle: const TextStyle(
                   color: AppTheme.textSecondary, fontSize: 16),
               filled: true,
@@ -274,7 +325,7 @@ class _TypingScreenState extends State<TypingScreen> {
                   if (_wasCorrect != true) ...[
                     const SizedBox(height: 4),
                     Text(
-                      _targetPhonetic,
+                      _targetAnswer,
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -358,7 +409,9 @@ class _TypingScreenState extends State<TypingScreen> {
               )
             else
               Text(
-                'Accepted: $_targetPhonetic (close spellings OK)',
+                isLearningEnglish
+                    ? 'Accepted: $_targetAnswer (synonyms OK)'
+                    : 'Accepted: $_targetAnswer (close spellings OK)',
                 style: const TextStyle(
                     fontSize: 12, color: AppTheme.textSecondary),
                 textAlign: TextAlign.center,

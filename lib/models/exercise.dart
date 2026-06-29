@@ -36,11 +36,15 @@ class MatchPairExercise {
 class SentenceBuilderExercise {
   final String englishSentence;
   final List<String> thaiChips;
+  final String thaiSentence;
+  final List<String> englishChips;
   final String audioFile;
 
   const SentenceBuilderExercise({
     required this.englishSentence,
     required this.thaiChips,
+    required this.thaiSentence,
+    required this.englishChips,
     required this.audioFile,
   });
 }

@@ -1,4 +1,5 @@
 import '../../services/audio_service.dart';
+import '../../services/settings_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
@@ -47,6 +48,9 @@ class _ListenScreenState extends State<ListenScreen>
     });
   }
 
+  bool get _isLearningEnglish =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
   @override
   void dispose() { _pulseCtrl.dispose(); super.dispose(); }
 
@@ -59,6 +63,7 @@ class _ListenScreenState extends State<ListenScreen>
   @override
   Widget build(BuildContext context) {
     final ex = widget.exercise;
+    final isLearningEnglish = _isLearningEnglish;
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
       child: Column(
@@ -70,13 +75,12 @@ class _ListenScreenState extends State<ListenScreen>
                   letterSpacing: 1.2, color: AppTheme.textSecondary)),
           const SizedBox(height: 20),
 
-          // Word display (since we have no audio yet, show the Thai)
           Center(
             child: GestureDetector(
               onTap: () {
-  setState(() => _played = true);
-  AudioService().playWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
-},
+                setState(() => _played = true);
+                AudioService().playWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
+              },
               child: AnimatedBuilder(
                 animation: _pulseCtrl,
                 builder: (_, child) => Transform.scale(
@@ -101,25 +105,38 @@ class _ListenScreenState extends State<ListenScreen>
                       ),
                     ],
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(ex.targetWord.thai,
-                          style: const TextStyle(
-                              fontSize: 28, fontWeight: FontWeight.w800,
-                              color: Colors.white)),
-                      const SizedBox(height: 4),
-                      Text(ex.targetWord.phonetic,
-                          style: const TextStyle(
-                              fontSize: 12, color: Colors.white70,
-                              fontStyle: FontStyle.italic)),
-                      const SizedBox(height: 6),
-                      Text(_played ? 'Tap to replay' : 'Loading...',
-                          style: const TextStyle(
-                              fontSize: 10, color: Colors.white60,
-                              fontWeight: FontWeight.w600)),
-                    ],
-                  ),
+                  child: isLearningEnglish
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(ex.targetWord.thai,
+                                style: const TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.w800,
+                                    color: Colors.white)),
+                            const SizedBox(height: 4),
+                            Text(ex.targetWord.phonetic,
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white70,
+                                    fontStyle: FontStyle.italic)),
+                            const SizedBox(height: 6),
+                            Text(_played ? 'Tap to replay' : 'Loading...',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.white60,
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.volume_up_rounded,
+                                size: 48, color: Colors.white),
+                            const SizedBox(height: 8),
+                            Text(_played ? 'Tap to replay' : 'Loading...',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.white60,
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        ),
                 ),
               ),
             ).animate().scale(
@@ -148,10 +165,13 @@ class _ListenScreenState extends State<ListenScreen>
             } else if (_selected?.id == word.id) {
               state = ChoiceState.selected;
             }
+            final label = isLearningEnglish ? word.english : word.thai;
+            final sublabel = isLearningEnglish ? null : word.phonetic;
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ChoiceCard(
-                label: word.english,
+                label: label,
+                sublabel: sublabel,
                 state: state,
                 onTap: () => _select(word),
               ),

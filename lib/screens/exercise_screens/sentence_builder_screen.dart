@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
 import '../../services/audio_service.dart';
+import '../../services/settings_service.dart';
 import '../../ui/theme/app_theme.dart';
 
 class SentenceBuilderScreen extends StatefulWidget {
@@ -28,11 +29,18 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
   final List<String> _placed = [];
   bool _shakeWrong = false;
   late AnimationController _shakeCtrl;
+  late bool _isLearningEnglish;
+
+  List<String> get _activeChips => _isLearningEnglish
+      ? widget.exercise.englishChips
+      : widget.exercise.thaiChips;
 
   @override
   void initState() {
     super.initState();
-    _bank = List<String>.from(widget.exercise.thaiChips)..shuffle();
+    _isLearningEnglish =
+        SettingsService().appLanguage == AppLanguage.learningEnglish;
+    _bank = List<String>.from(_activeChips)..shuffle();
     _shakeCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
     _shakeCtrl.addStatusListener((s) {
@@ -40,7 +48,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
         _shakeCtrl.reset();
         setState(() {
           _shakeWrong = false;
-          _bank = List<String>.from(widget.exercise.thaiChips)..shuffle();
+          _bank = List<String>.from(_activeChips)..shuffle();
           _placed.clear();
         });
       }
@@ -60,7 +68,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
       _bank.remove(chip);
       _placed.add(chip);
     });
-    if (_placed.length == widget.exercise.thaiChips.length) {
+    if (_placed.length == _activeChips.length) {
       _checkAnswer();
     }
   }
@@ -75,7 +83,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
   }
 
   void _checkAnswer() {
-    final correct = _listEquals(_placed, widget.exercise.thaiChips);
+    final correct = _listEquals(_placed, _activeChips);
     if (correct) {
       AudioService().playCorrectThenWord(widget.exercise.audioFile, thaiText: widget.exercise.thaiChips.join(''));
     } else {
@@ -100,7 +108,7 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // English sentence prompt
+          // Prompt sentence
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -110,15 +118,20 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
             ),
             child: Column(
               children: [
-                const Text('Build the Thai sentence',
-                    style: TextStyle(
-                        fontSize: 13, color: Colors.white70)),
+                Text(
+                  _isLearningEnglish
+                      ? 'Build the English sentence'
+                      : 'Build the Thai sentence',
+                  style: const TextStyle(
+                      fontSize: 13, color: Colors.white70)),
                 const SizedBox(height: 8),
                 Text(
-                  widget.exercise.englishSentence,
+                  _isLearningEnglish
+                      ? widget.exercise.thaiSentence
+                      : widget.exercise.englishSentence,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 20,
+                  style: TextStyle(
+                      fontSize: _isLearningEnglish ? 28 : 20,
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),

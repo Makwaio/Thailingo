@@ -156,26 +156,36 @@ class ExerciseService {
     SentenceBuilderExercise(
       englishSentence: 'Hello, how are you?',
       thaiChips: ['สวัสดี', 'สบายดี', 'ไหม'],
+      thaiSentence: 'สวัสดี สบายดี ไหม',
+      englishChips: ['Hello', 'how', 'are', 'you'],
       audioFile: 'greet_09.mp3',
     ),
     SentenceBuilderExercise(
       englishSentence: 'How much is this?',
       thaiChips: ['นี่', 'ราคา', 'เท่าไหร่'],
+      thaiSentence: 'นี่ ราคา เท่าไหร่',
+      englishChips: ['How', 'much', 'is', 'this'],
       audioFile: 'shop_01.mp3',
     ),
     SentenceBuilderExercise(
       englishSentence: 'Where is the bathroom?',
       thaiChips: ['ห้องน้ำ', 'อยู่', 'ที่ไหน'],
+      thaiSentence: 'ห้องน้ำ อยู่ ที่ไหน',
+      englishChips: ['Where', 'is', 'the', 'bathroom'],
       audioFile: 'greet_09.mp3',
     ),
     SentenceBuilderExercise(
       englishSentence: 'I want fried rice',
       thaiChips: ['ผม', 'อยาก', 'กิน', 'ข้าวผัด'],
+      thaiSentence: 'ผม อยาก กิน ข้าวผัด',
+      englishChips: ['I', 'want', 'fried', 'rice'],
       audioFile: 'food_01.mp3',
     ),
     SentenceBuilderExercise(
       englishSentence: 'The weather is very hot',
       thaiChips: ['อากาศ', 'ร้อน', 'มาก'],
+      thaiSentence: 'อากาศ ร้อน มาก',
+      englishChips: ['The', 'weather', 'is', 'very', 'hot'],
       audioFile: 'greet_09.mp3',
     ),
   ];

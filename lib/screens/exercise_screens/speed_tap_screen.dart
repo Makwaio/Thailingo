@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
 import '../../services/audio_service.dart';
+import '../../services/settings_service.dart';
 import '../../ui/theme/app_theme.dart';
 
 class SpeedTapScreen extends StatefulWidget {
@@ -90,6 +91,9 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
     super.dispose();
   }
 
+  bool get _isLearningEnglish =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
   int _calcBonusXp(double timeUsed) {
     final ratio = 1.0 - (timeUsed / _totalSeconds);
     return (5 + (ratio * 15)).round().clamp(5, 20);
@@ -125,14 +129,14 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
   @override
   Widget build(BuildContext context) {
     final target = widget.exercise.targetWord;
-    // Key drives flutter_animate re-trigger on every new word
     final wordKey = ValueKey(target.id);
+    final isLearningEnglish = _isLearningEnglish;
 
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          // ── Timer bar — wipes in from left to signal reset ──────────────
+          // ── Timer bar ────────────────────────────────────────────────────
           ClipRRect(
             borderRadius: BorderRadius.circular(AppTheme.radiusFull),
             child: LinearProgressIndicator(
@@ -168,7 +172,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
           ),
           const SizedBox(height: 20),
 
-          // ── Stimulus — always Thai, slides in from right ─────────────────
+          // ── Stimulus ─────────────────────────────────────────────────────
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
@@ -185,9 +189,9 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
             ),
             child: Column(
               children: [
-                const Text(
-                  'WHAT DOES THIS MEAN?',
-                  style: TextStyle(
+                Text(
+                  isLearningEnglish ? 'WHAT DOES THIS MEAN?' : 'TAP THE THAI WORD',
+                  style: const TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.4,
@@ -196,22 +200,24 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  target.thai,
-                  style: const TextStyle(
-                    fontSize: 42,
+                  isLearningEnglish ? target.thai : target.english,
+                  style: TextStyle(
+                    fontSize: isLearningEnglish ? 42 : 32,
                     fontWeight: FontWeight.w900,
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  target.phonetic,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white.withValues(alpha: 0.6),
+                if (isLearningEnglish) ...[
+                  const SizedBox(height: 6),
+                  Text(
+                    target.phonetic,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white.withValues(alpha: 0.6),
+                    ),
                   ),
-                ),
+                ],
                 const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () => AudioService().playWord(target.audio, thaiText: target.thai),
@@ -267,7 +273,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
 
           const SizedBox(height: 8),
 
-          // ── Answer grid — always English, slides in slightly after stimulus ─
+          // ── Answer grid ──────────────────────────────────────────────────
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
@@ -293,6 +299,9 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                   border = AppTheme.border;
                 }
 
+                final optLabel = isLearningEnglish ? opt.english : opt.thai;
+                final optFontSize = isLearningEnglish ? 15.0 : 20.0;
+
                 return GestureDetector(
                   onTap: () => _onTap(opt.id),
                   child: AnimatedContainer(
@@ -306,10 +315,10 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                     padding: const EdgeInsets.all(12),
                     child: Center(
                       child: Text(
-                        opt.english,
+                        optLabel,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 15,
+                        style: TextStyle(
+                          fontSize: optFontSize,
                           fontWeight: FontWeight.w700,
                           color: AppTheme.textPrimary,
                         ),
