@@ -1,8 +1,46 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-29 (v1.0.9 — Learning English mode exercise direction fix)  
+**Last updated:** 2026-06-29 (v1.1.0 — Full Thai UI + Profile Menu)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.1.0 Changes — 2026-06-29
+
+### Full Thai UI Translation
+When `AppLanguage == learningEnglish`, the entire app UI switches to Thai via `LocalizationService.t(key)`.
+
+**Screens updated:**
+- `home_screen.dart` — Stage titles, row labels, drawer menu items, review section, entry cards, PRACTICE header, Stage 1 stars card
+- `result_screen.dart` — Perfect Score / Lesson Complete / Keep Practicing, XP Earned, Accuracy, Time, Correct, Incorrect, Words, Back to Lessons
+- `game_over_screen.dart` — Out of Hearts!, Try Again, Back to Lessons, Questions, Hearts
+- `lesson_screen.dart` — Exit dialog (Leave lesson? / Your progress will be lost / Keep going / Leave)
+- `guide_book_screen.dart` — Tab names (The Basics, Tones Guide, Phonetics, Alphabet, Survival, Culture)
+- `settings_screen.dart` — Section headers (Audio, Game Types, Learning Language, Account, Developer Mode), Sound Effects, Background Music, Reset Progress
+- `stats_screen.dart` — Title, OVERVIEW/ACHIEVEMENTS/PERSONAL BESTS sections, all stat card labels
+
+**LocalizationService additions:** ~60 new keys covering all screens above, plus Bronze/Silver/Gold medal labels and row label translations (25+ Thai row name translations).
+
+### Profile Icon
+`Icons.menu_rounded` → `Icons.person_rounded` for the circle menu button when no avatar is set.
+
+### XP Bar Position
+Removed 10px gap above XP bar/mascot row (header feels more compact).
+
+### Firestore Patch Note
+`patch_notes_service.dart` — added v1.1.0 "Full Thai UI + Profile Menu 🎉" (major) seeded via `seedInitialPatchNotes()`.
+
+### Files Changed
+- `lib/services/localization_service.dart` — ~60 new keys added to both `_en` and `_th` maps
+- `lib/screens/home_screen.dart` — profile icon, XP position, all UI strings translated
+- `lib/screens/result_screen.dart` — all UI strings translated
+- `lib/screens/game_over_screen.dart` — all UI strings translated
+- `lib/screens/lesson_screen.dart` — exit dialog translated
+- `lib/screens/guide_book_screen.dart` — tab names translated
+- `lib/screens/settings_screen.dart` — section headers and key labels translated
+- `lib/screens/stats_screen.dart` — title and section labels translated
+- `lib/services/patch_notes_service.dart` — v1.1.0 patch note added
 
 ---
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/localization_service.dart';
 import '../ui/theme/app_theme.dart';
 
 class GuideBookScreen extends StatefulWidget {
@@ -14,12 +15,12 @@ class _GuideBookScreenState extends State<GuideBookScreen>
   late TabController _tabCtrl;
 
   static const _tabs = [
-    ('The Basics', '🇹🇭'),
-    ('Tones Guide', '🎵'),
-    ('Phonetics', '🔤'),
-    ('Alphabet', '🔡'),
-    ('Survival', '🆘'),
-    ('Culture', '🙏'),
+    ('tab_basics', '🇹🇭'),
+    ('tab_tones', '🎵'),
+    ('tab_phonetics', '🔤'),
+    ('tab_alphabet', '🔡'),
+    ('tab_survival', '🆘'),
+    ('tab_culture', '🙏'),
   ];
 
   @override
@@ -64,7 +65,7 @@ class _GuideBookScreenState extends State<GuideBookScreen>
           labelStyle:
               const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
           tabs: _tabs
-              .map((t) => Tab(text: '${t.$2} ${t.$1}'))
+              .map((t) => Tab(text: '${t.$2} ${LocalizationService.t(t.$1)}'))
               .toList(),
         ),
       ),

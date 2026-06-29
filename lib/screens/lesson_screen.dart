@@ -5,6 +5,7 @@ import '../services/exercise_service.dart';
 import '../services/progress_service.dart';
 import '../services/settings_service.dart';
 import '../services/audio_service.dart';
+import '../services/localization_service.dart';
 import '../ui/theme/app_theme.dart';
 import '../ui/widgets/common_widgets.dart';
 import 'exercise_screens/mc_screen.dart';
@@ -586,16 +587,16 @@ class _LessonScreenState extends State<LessonScreen>
     final exit = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Leave lesson?'),
-        content: const Text('Your progress will be lost.'),
+        title: Text(LocalizationService.t('leave_lesson_title')),
+        content: Text(LocalizationService.t('progress_lost')),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Keep going')),
+              child: Text(LocalizationService.t('keep_going'))),
           TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Leave',
-                  style: TextStyle(color: AppTheme.danger))),
+              child: Text(LocalizationService.t('leave'),
+                  style: const TextStyle(color: AppTheme.danger))),
         ],
       ),
     );

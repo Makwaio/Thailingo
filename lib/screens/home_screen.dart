@@ -441,8 +441,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       bgColor: _s1Bg,
       accentColor: _s1Accent,
       stageNum: 1,
-      title: 'Foundations 🇹🇭',
-      subtitle: '27 lessons · Bangkok Thai basics',
+      title: LocalizationService.t('stage_1_title'),
+      subtitle: LocalizationService.t('stage_1_sub'),
       locked: false,
       allComplete: _progress.allStage1Complete,
       rows: _stage1Rows,
@@ -460,10 +460,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       bgColor: _s2Bg,
       accentColor: _s2Accent,
       stageNum: 2,
-      title: 'Survival Thai 🏙️',
+      title: LocalizationService.t('stage_2_title'),
       subtitle: stage2Unlocked
-          ? '16 lessons · Real-world Thai'
-          : 'Complete all Stage 1 lessons to unlock',
+          ? LocalizationService.t('stage_2_sub')
+          : LocalizationService.t('stage_2_locked'),
       locked: !stage2Unlocked,
       allComplete: _progress.allStage2Complete,
       rows: stage2Unlocked ? _stage2Rows : const [],
@@ -478,10 +478,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       bgColor: _s3Bg,
       accentColor: _s3Accent,
       stageNum: 3,
-      title: 'Conversational Thai 🗣️',
+      title: LocalizationService.t('stage_3_title'),
       subtitle: stage3Unlocked
-          ? '5 lessons · Fluency & mastery'
-          : 'Complete all Stage 2 lessons to unlock',
+          ? LocalizationService.t('stage_3_sub')
+          : LocalizationService.t('stage_3_locked'),
       locked: !stage3Unlocked,
       allComplete: _progress.allStage3Complete,
       rows: stage3Unlocked ? _stage3Rows : const [],
@@ -582,20 +582,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ],
                 ),
                 padding: const EdgeInsets.all(14),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('📚', style: TextStyle(fontSize: 22)),
-                    SizedBox(height: 4),
-                    Text('Alphabet',
-                        style: TextStyle(
+                    const Text('📚', style: TextStyle(fontSize: 22)),
+                    const SizedBox(height: 4),
+                    Text(LocalizationService.t('alphabet'),
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
                             color: Colors.white)),
-                    SizedBox(height: 2),
-                    Text('Stage 0 · Optional',
-                        style: TextStyle(
+                    const SizedBox(height: 2),
+                    Text(LocalizationService.t('stage_0_sub'),
+                        style: const TextStyle(
                             fontSize: 11,
                             color: Colors.white60)),
                   ],
@@ -626,20 +626,20 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ],
                 ),
                 padding: const EdgeInsets.all(14),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('🇹🇭', style: TextStyle(fontSize: 22)),
-                    SizedBox(height: 4),
-                    Text('Main Course',
-                        style: TextStyle(
+                    const Text('🇹🇭', style: TextStyle(fontSize: 22)),
+                    const SizedBox(height: 4),
+                    Text(LocalizationService.t('main_course'),
+                        style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
                             color: Colors.white)),
-                    SizedBox(height: 2),
-                    Text('Stages 1-3 · Start Here →',
-                        style: TextStyle(
+                    const SizedBox(height: 2),
+                    Text(LocalizationService.t('main_course_sub'),
+                        style: const TextStyle(
                             fontSize: 11,
                             color: Colors.white70)),
                   ],
@@ -717,7 +717,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             value: '${_progress.totalXp}',
                             color: AppTheme.thaiGold),
                       ]),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 0),
                       // ── XP bar + mascot row — mascot aligns with bar ──
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -818,7 +818,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         child: _isSignedIn && _avatarEmoji.isNotEmpty
                             ? Text(_avatarEmoji,
                                 style: const TextStyle(fontSize: 22))
-                            : const Icon(Icons.menu_rounded,
+                            : const Icon(Icons.person_rounded,
                                 color: Colors.white, size: 22),
                       ),
                     ),
@@ -1185,13 +1185,13 @@ class _AppDrawerState extends State<_AppDrawer> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 8),
       children: [
-        _DrawerItem(icon: '👤', label: 'Profile & Stats',    onTap: widget.onProfile),
-        _DrawerItem(icon: '🏆', label: 'Leaderboard',        onTap: widget.onLeaderboard),
-        _DrawerItem(icon: '🕹️', label: 'Arcade',            onTap: widget.onArcade),
-        _DrawerItem(icon: '📖', label: 'Guide Book',          onTap: widget.onGuideBook),
-        _DrawerItem(icon: '⚙️', label: 'Settings',           onTap: widget.onSettings),
-        _DrawerItem(icon: '🐛', label: 'Report a Bug',       onTap: widget.onBugReport),
-        _DrawerItem(icon: '📋', label: "What's New",         onTap: widget.onWhatsNew),
+        _DrawerItem(icon: '👤', label: LocalizationService.t('profile_stats'),    onTap: widget.onProfile),
+        _DrawerItem(icon: '🏆', label: LocalizationService.t('leaderboard'),      onTap: widget.onLeaderboard),
+        _DrawerItem(icon: '🕹️', label: LocalizationService.t('arcade'),          onTap: widget.onArcade),
+        _DrawerItem(icon: '📖', label: LocalizationService.t('guide_book'),        onTap: widget.onGuideBook),
+        _DrawerItem(icon: '⚙️', label: LocalizationService.t('settings'),         onTap: widget.onSettings),
+        _DrawerItem(icon: '🐛', label: LocalizationService.t('report_bug'),       onTap: widget.onBugReport),
+        _DrawerItem(icon: '📋', label: LocalizationService.t('whats_new'),        onTap: widget.onWhatsNew),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
           child: Divider(color: Colors.white.withValues(alpha: 0.12), height: 1),
@@ -1199,14 +1199,14 @@ class _AppDrawerState extends State<_AppDrawer> {
         if (widget.isSignedIn)
           _DrawerItem(
             icon: '🚪',
-            label: 'Sign Out',
+            label: LocalizationService.t('sign_out'),
             onTap: widget.onSignOut,
             labelColor: Colors.redAccent.shade100,
           )
         else
           _DrawerItem(
             icon: '🔑',
-            label: 'Sign In with Google',
+            label: LocalizationService.t('sign_in'),
             onTap: widget.onSignIn,
             labelColor: AppTheme.thaiGold,
           ),
@@ -1354,7 +1354,7 @@ class _LessonRow extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                label,
+                LocalizationService.t(label),
                 style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w800,
@@ -1757,8 +1757,8 @@ class _Stage1TallyCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Stage 1 Stars',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700,
+              Text(LocalizationService.t('stage_1_stars'),
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700,
                       color: AppTheme.textPrimary)),
               Text('$totalStars / $maxStars ⭐',
                   style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
@@ -1779,9 +1779,9 @@ class _Stage1TallyCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _TallyBadge('🥉', '$bronze/28', 'Bronze', const Color(0xFFCD7F32)),
-              _TallyBadge('🥈', '$silver/28', 'Silver', const Color(0xFF90A4AE)),
-              _TallyBadge('🥇', '$gold/28', 'Gold', const Color(0xFFD4A017)),
+              _TallyBadge('🥉', '$bronze/28', LocalizationService.t('Bronze'), const Color(0xFFCD7F32)),
+              _TallyBadge('🥈', '$silver/28', LocalizationService.t('Silver'), const Color(0xFF90A4AE)),
+              _TallyBadge('🥇', '$gold/28', LocalizationService.t('Gold'), const Color(0xFFD4A017)),
             ],
           ),
         ],
@@ -1879,7 +1879,7 @@ class _StageBanner extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('STAGE $stageNum',
+                  Text('${LocalizationService.t('stage').toUpperCase()} $stageNum',
                       style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.7),
                           fontSize: 10,
@@ -2235,7 +2235,7 @@ class _ReviewSectionState extends State<_ReviewSection>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Text(
-                'PRACTICE',
+                LocalizationService.t('practice_header'),
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w800,
@@ -2320,7 +2320,7 @@ class _ReviewSectionState extends State<_ReviewSection>
               ],
             ),
             const SizedBox(height: 6),
-            Text('Review Mode',
+            Text(LocalizationService.t('review_mode'),
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -2331,7 +2331,7 @@ class _ReviewSectionState extends State<_ReviewSection>
             Text(
               active
                   ? '${widget.count} ${widget.count == 1 ? 'word' : 'words'} to practise'
-                  : 'All caught up! ✓',
+                  : LocalizationService.t('all_clear_check'),
               style: TextStyle(
                   fontSize: 11,
                   color: active
@@ -2397,7 +2397,7 @@ class _ReviewSectionState extends State<_ReviewSection>
               ],
             ),
             const SizedBox(height: 6),
-            Text('Missed',
+            Text(LocalizationService.t('missed_label'),
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -2408,7 +2408,7 @@ class _ReviewSectionState extends State<_ReviewSection>
             Text(
               active
                   ? '${widget.missedCount} ${widget.missedCount == 1 ? 'word' : 'words'} to catch up'
-                  : 'All Clear ✅',
+                  : LocalizationService.t('all_clear_missed'),
               style: TextStyle(
                   fontSize: 11,
                   color: active

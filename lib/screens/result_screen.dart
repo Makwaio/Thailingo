@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/lesson.dart';
 import '../services/audio_service.dart';
+import '../services/localization_service.dart';
 import '../ui/theme/app_theme.dart';
 import '../ui/widgets/common_widgets.dart';
 
@@ -107,10 +108,10 @@ class _ResultScreenState extends State<ResultScreen>
                       const SizedBox(height: 16),
                       Text(
                         widget.score == 100
-                            ? 'Perfect Score!'
+                            ? LocalizationService.t('perfect_score')
                             : widget.newStars >= 2
-                                ? 'Lesson Complete!'
-                                : 'Keep Practicing!',
+                                ? LocalizationService.t('lesson_complete')
+                                : LocalizationService.t('keep_practicing'),
                         style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
@@ -189,7 +190,7 @@ class _ResultScreenState extends State<ResultScreen>
                               animation: _xpAnim,
                               builder: (_, __) => _StatBox(
                                 icon: '⭐',
-                                label: 'XP Earned',
+                                label: LocalizationService.t('xp_earned'),
                                 value: '+${_xpAnim.value.round()}',
                                 color: AppTheme.accent,
                               ),
@@ -199,7 +200,7 @@ class _ResultScreenState extends State<ResultScreen>
                           Expanded(
                             child: _StatBox(
                                 icon: '🎯',
-                                label: 'Accuracy',
+                                label: LocalizationService.t('accuracy'),
                                 value: '${widget.score}%',
                                 color: AppTheme.success),
                           ),
@@ -207,7 +208,7 @@ class _ResultScreenState extends State<ResultScreen>
                           Expanded(
                             child: _StatBox(
                                 icon: '⏱️',
-                                label: 'Time',
+                                label: LocalizationService.t('time_label'),
                                 value: _timeStr,
                                 color: AppTheme.primary),
                           ),
@@ -232,8 +233,8 @@ class _ResultScreenState extends State<ResultScreen>
                                         fontSize: 32,
                                         fontWeight: FontWeight.w900,
                                         color: AppTheme.success)),
-                                const Text('Correct',
-                                    style: TextStyle(
+                                Text(LocalizationService.t('correct_label'),
+                                    style: const TextStyle(
                                         fontSize: 13,
                                         color: AppTheme.textSecondary)),
                               ]),
@@ -247,8 +248,8 @@ class _ResultScreenState extends State<ResultScreen>
                                         fontSize: 32,
                                         fontWeight: FontWeight.w900,
                                         color: AppTheme.danger)),
-                                const Text('Incorrect',
-                                    style: TextStyle(
+                                Text(LocalizationService.t('incorrect_label'),
+                                    style: const TextStyle(
                                         fontSize: 13,
                                         color: AppTheme.textSecondary)),
                               ]),
@@ -262,8 +263,8 @@ class _ResultScreenState extends State<ResultScreen>
                                         fontSize: 32,
                                         fontWeight: FontWeight.w900,
                                         color: AppTheme.primary)),
-                                const Text('Words',
-                                    style: TextStyle(
+                                Text(LocalizationService.t('words_label'),
+                                    style: const TextStyle(
                                         fontSize: 13,
                                         color: AppTheme.textSecondary)),
                               ]),
@@ -279,7 +280,7 @@ class _ResultScreenState extends State<ResultScreen>
                 padding: EdgeInsets.fromLTRB(
                     24, 12, 24, MediaQuery.of(context).padding.bottom + 16),
                 child: PrimaryButton(
-                  label: '← Back to Lessons',
+                  label: LocalizationService.t('back_to_lessons'),
                   color: lessonColor,
                   onTap: () => Navigator.of(context).pop(true),
                 ),

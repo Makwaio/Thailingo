@@ -14,6 +14,7 @@ class LocalizationService {
   }
 
   static const Map<String, String> _en = {
+    // ── Core ──────────────────────────────────────────────────────────
     'continue': 'Continue',
     'correct': 'Correct! ✅',
     'wrong': 'Wrong! ❌',
@@ -75,9 +76,122 @@ class LocalizationService {
     'learning_thai': 'Learning Thai',
     'learning_english': 'Learning English',
     'language': '🇬🇧 → 🇹🇭',
+
+    // ── Home screen ───────────────────────────────────────────────────
+    'alphabet': 'Alphabet',
+    'stage_0_sub': 'Stage 0 · Optional',
+    'main_course': 'Main Course',
+    'main_course_sub': 'Stages 1-3 · Start Here →',
+    'stage_1_title': 'Foundations 🇹🇭',
+    'stage_1_sub': '27 lessons · Bangkok Thai basics',
+    'stage_2_title': 'Survival Thai 🏙️',
+    'stage_2_sub': '16 lessons · Real-world Thai',
+    'stage_2_locked': 'Complete all Stage 1 lessons to unlock',
+    'stage_3_title': 'Conversational Thai 🗣️',
+    'stage_3_sub': '5 lessons · Fluency & mastery',
+    'stage_3_locked': 'Complete all Stage 2 lessons to unlock',
+    'stage_1_stars': 'Stage 1 Stars',
+    'practice_header': 'PRACTICE',
+    'review_mode': 'Review Mode',
+    'all_clear_check': 'All caught up! ✓',
+    'missed_label': 'Missed',
+    'all_clear_missed': 'All Clear ✅',
+    'profile_stats': 'Profile & Stats',
+    'coming_soon': 'Coming soon',
+    'optional': 'Optional',
+
+    // ── Row labels (key = English label) ─────────────────────────────
+    'First Steps': 'First Steps',
+    'Numbers & Money': 'Numbers & Money',
+    'Food & Drinks': 'Food & Drinks',
+    'Language Basics': 'Language Basics',
+    'People & Feelings': 'People & Feelings',
+    'Getting Around': 'Getting Around',
+    'Home & Learning': 'Home & Learning',
+    'Real Bangkok Life': 'Real Bangkok Life',
+    'Describing the World': 'Describing the World',
+    'Things & How They Feel': 'Things & How They Feel',
+    'Food & Emergency': 'Food & Emergency',
+    'Culture & Social': 'Culture & Social',
+    'About You': 'About You',
+    'Getting Around & Tech': 'Getting Around & Tech',
+    'Numbers & Phrases': 'Numbers & Phrases',
+    'Language Skills': 'Language Skills',
+    'Mastery': 'Mastery',
+    'Finishing Stage 1': 'Finishing Stage 1',
+
+    // ── Result screen ─────────────────────────────────────────────────
+    'perfect_score': 'Perfect Score!',
+    'keep_practicing': 'Keep Practicing!',
+    'xp_earned': 'XP Earned',
+    'time_label': 'Time',
+    'correct_label': 'Correct',
+    'incorrect_label': 'Incorrect',
+    'words_label': 'Words',
+    'back_to_lessons': '← Back to Lessons',
+
+    // ── Game over ─────────────────────────────────────────────────────
+    'out_of_hearts': 'Out of Hearts!',
+    'try_again_btn': '🔄  Try Again',
+    'hearts_label': 'Hearts',
+
+    // ── Lesson exit dialog ────────────────────────────────────────────
+    'leave_lesson_title': 'Leave lesson?',
+    'progress_lost': 'Your progress will be lost.',
+    'keep_going': 'Keep going',
+    'leave': 'Leave',
+
+    // ── Settings ──────────────────────────────────────────────────────
+    'audio_label': 'Audio',
+    'sound_effects': 'Sound Effects',
+    'bg_music': 'Background Music',
+    'game_types_label': 'Game Types 🎮',
+    'always_enabled': 'Always enabled',
+    'reset_progress': 'Reset Progress',
+    'account_label': 'Account',
+    'learning_language_label': 'Learning Language 🌏',
+    'dev_mode': 'Developer Mode',
+
+    // ── Stats ─────────────────────────────────────────────────────────
+    'stats_trophies': 'Stats & Trophies',
+    'overview_label': 'OVERVIEW',
+    'achievements_label': 'ACHIEVEMENTS',
+    'personal_bests_label': 'PERSONAL BESTS',
+    'words_learned_label': 'words learned',
+    'lessons_done': 'Lessons Done',
+    'avg_accuracy': 'Avg Accuracy',
+    'best_combo': 'Best Combo',
+    'words_reviewed': 'Words Reviewed',
+
+    // ── Leaderboard ───────────────────────────────────────────────────
+    'leaderboard_title': '🏆 Leaderboard',
+    'global_label': 'Global',
+    'weekly_label': 'Weekly',
+    'friends_label': 'Friends',
+    'sign_in_to_rank': 'Sign in to rank',
+
+    // ── Arcade ────────────────────────────────────────────────────────
+    'high_score': 'High Score',
+    'play_btn': 'Play',
+    'words_pool': 'word pool',
+    'need_words': 'Complete at least one lesson to unlock arcade!',
+
+    // ── Medal labels ──────────────────────────────────────────────────
+    'Bronze': 'Bronze',
+    'Silver': 'Silver',
+    'Gold': 'Gold',
+
+    // ── Guide book tabs ───────────────────────────────────────────────
+    'tab_basics': 'The Basics',
+    'tab_tones': 'Tones Guide',
+    'tab_phonetics': 'Phonetics',
+    'tab_alphabet': 'Alphabet',
+    'tab_survival': 'Survival',
+    'tab_culture': 'Culture',
   };
 
   static const Map<String, String> _th = {
+    // ── Core ──────────────────────────────────────────────────────────
     'continue': 'ต่อไป',
     'correct': 'ถูกต้อง! ✅',
     'wrong': 'ผิด! ❌',
@@ -139,5 +253,117 @@ class LocalizationService {
     'learning_thai': 'กำลังเรียนภาษาไทย',
     'learning_english': 'กำลังเรียนภาษาอังกฤษ',
     'language': '🇹🇭 → 🇬🇧',
+
+    // ── Home screen ───────────────────────────────────────────────────
+    'alphabet': 'ตัวอักษร',
+    'stage_0_sub': 'ด่าน 0 · ไม่บังคับ',
+    'main_course': 'หลักสูตรหลัก',
+    'main_course_sub': 'ด่าน 1-3 · เริ่มที่นี่ →',
+    'stage_1_title': 'รากฐาน 🇹🇭',
+    'stage_1_sub': '27 บทเรียน · พื้นฐานภาษาไทยกรุงเทพ',
+    'stage_2_title': 'ภาษาไทยเพื่อการอยู่รอด 🏙️',
+    'stage_2_sub': '16 บทเรียน · ภาษาไทยในชีวิตจริง',
+    'stage_2_locked': 'เรียนจบทุกบทเรียนในด่านที่ 1 เพื่อปลดล็อค',
+    'stage_3_title': 'ภาษาไทยในการสนทนา 🗣️',
+    'stage_3_sub': '5 บทเรียน · ความคล่องและความเชี่ยวชาญ',
+    'stage_3_locked': 'เรียนจบทุกบทเรียนในด่านที่ 2 เพื่อปลดล็อค',
+    'stage_1_stars': 'ดาวด่านที่ 1',
+    'practice_header': 'ฝึกทบทวน',
+    'review_mode': 'โหมดทบทวน',
+    'all_clear_check': 'ผ่านทั้งหมด! ✓',
+    'missed_label': 'พลาด',
+    'all_clear_missed': 'ผ่านทั้งหมด ✅',
+    'profile_stats': 'โปรไฟล์และสถิติ',
+    'coming_soon': 'เร็วๆ นี้',
+    'optional': 'ไม่บังคับ',
+
+    // ── Row labels (key = English label) ─────────────────────────────
+    'First Steps': 'ก้าวแรก',
+    'Numbers & Money': 'ตัวเลขและเงิน',
+    'Food & Drinks': 'อาหารและเครื่องดื่ม',
+    'Language Basics': 'พื้นฐานภาษา',
+    'People & Feelings': 'ผู้คนและความรู้สึก',
+    'Getting Around': 'การเดินทาง',
+    'Home & Learning': 'บ้านและการเรียน',
+    'Real Bangkok Life': 'ชีวิตจริงในกรุงเทพ',
+    'Describing the World': 'การบรรยายโลก',
+    'Things & How They Feel': 'สิ่งของและความรู้สึก',
+    'Food & Emergency': 'อาหารและเหตุฉุกเฉิน',
+    'Culture & Social': 'วัฒนธรรมและสังคม',
+    'About You': 'เกี่ยวกับคุณ',
+    'Getting Around & Tech': 'การเดินทางและเทคโนโลยี',
+    'Numbers & Phrases': 'ตัวเลขและวลี',
+    'Language Skills': 'ทักษะภาษา',
+    'Mastery': 'ความเชี่ยวชาญ',
+    'Finishing Stage 1': 'จบด่านที่ 1',
+
+    // ── Result screen ─────────────────────────────────────────────────
+    'perfect_score': 'คะแนนเต็ม!',
+    'keep_practicing': 'ฝึกต่อไปเลย!',
+    'xp_earned': 'แต้มที่ได้รับ',
+    'time_label': 'เวลา',
+    'correct_label': 'ถูก',
+    'incorrect_label': 'ผิด',
+    'words_label': 'คำ',
+    'back_to_lessons': '← กลับบทเรียน',
+
+    // ── Game over ─────────────────────────────────────────────────────
+    'out_of_hearts': 'หมดชีวิตแล้ว!',
+    'try_again_btn': '🔄  ลองใหม่',
+    'hearts_label': 'ชีวิต',
+
+    // ── Lesson exit dialog ────────────────────────────────────────────
+    'leave_lesson_title': 'ออกจากบทเรียน?',
+    'progress_lost': 'ความคืบหน้าของคุณจะหายไป',
+    'keep_going': 'เรียนต่อ',
+    'leave': 'ออก',
+
+    // ── Settings ──────────────────────────────────────────────────────
+    'audio_label': 'เสียง',
+    'sound_effects': 'เอฟเฟกต์เสียง',
+    'bg_music': 'เพลงประกอบ',
+    'game_types_label': 'ประเภทเกม 🎮',
+    'always_enabled': 'เปิดเสมอ',
+    'reset_progress': 'รีเซ็ตความคืบหน้า',
+    'account_label': 'บัญชี',
+    'learning_language_label': 'ภาษาที่กำลังเรียน 🌏',
+    'dev_mode': 'โหมดนักพัฒนา',
+
+    // ── Stats ─────────────────────────────────────────────────────────
+    'stats_trophies': 'สถิติและรางวัล',
+    'overview_label': 'ภาพรวม',
+    'achievements_label': 'ความสำเร็จ',
+    'personal_bests_label': 'สถิติส่วนตัว',
+    'words_learned_label': 'คำศัพท์ที่เรียนแล้ว',
+    'lessons_done': 'บทเรียนที่เสร็จ',
+    'avg_accuracy': 'ความแม่นยำเฉลี่ย',
+    'best_combo': 'คอมโบสูงสุด',
+    'words_reviewed': 'คำที่ทบทวน',
+
+    // ── Leaderboard ───────────────────────────────────────────────────
+    'leaderboard_title': '🏆 อันดับ',
+    'global_label': 'ทั่วโลก',
+    'weekly_label': 'รายสัปดาห์',
+    'friends_label': 'เพื่อน',
+    'sign_in_to_rank': 'เข้าสู่ระบบเพื่อจัดอันดับ',
+
+    // ── Arcade ────────────────────────────────────────────────────────
+    'high_score': 'คะแนนสูงสุด',
+    'play_btn': 'เล่น',
+    'words_pool': 'คำศัพท์',
+    'need_words': 'เรียนอย่างน้อยหนึ่งบทเพื่อเล่นอาร์เคด!',
+
+    // ── Medal labels ──────────────────────────────────────────────────
+    'Bronze': 'บรอนซ์',
+    'Silver': 'เงิน',
+    'Gold': 'ทอง',
+
+    // ── Guide book tabs ───────────────────────────────────────────────
+    'tab_basics': 'พื้นฐาน',
+    'tab_tones': 'เสียงวรรณยุกต์',
+    'tab_phonetics': 'การออกเสียง',
+    'tab_alphabet': 'ตัวอักษร',
+    'tab_survival': 'เอาตัวรอด',
+    'tab_culture': 'วัฒนธรรม',
   };
 }

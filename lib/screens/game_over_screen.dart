@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../models/lesson.dart';
+import '../services/localization_service.dart';
 import '../ui/theme/app_theme.dart';
 import 'lesson_screen.dart';
 
@@ -112,9 +113,9 @@ class _GameOverScreenState extends State<GameOverScreen>
 
                         const SizedBox(height: 24),
 
-                        const Text(
-                          'Out of Hearts!',
-                          style: TextStyle(
+                        Text(
+                          LocalizationService.t('out_of_hearts'),
+                          style: const TextStyle(
                             fontSize: 34,
                             fontWeight: FontWeight.w900,
                             color: AppTheme.danger,
@@ -151,7 +152,7 @@ class _GameOverScreenState extends State<GameOverScreen>
                             children: [
                               _StatItem(
                                 emoji: '📝',
-                                label: 'Questions',
+                                label: LocalizationService.t('questions'),
                                 value: '${widget.questionsAnswered}',
                               ),
                               Container(
@@ -161,9 +162,9 @@ class _GameOverScreenState extends State<GameOverScreen>
                                 margin: const EdgeInsets.symmetric(
                                     horizontal: 24),
                               ),
-                              const _StatItem(
+                              _StatItem(
                                 emoji: '💔',
-                                label: 'Hearts',
+                                label: LocalizationService.t('hearts_label'),
                                 value: '0 / 3',
                               ),
                             ],
@@ -193,13 +194,13 @@ class _GameOverScreenState extends State<GameOverScreen>
                 child: Column(
                   children: [
                     _GameOverButton(
-                      label: '🔄  Try Again',
+                      label: LocalizationService.t('try_again_btn'),
                       color: AppTheme.danger,
                       onTap: _tryAgain,
                     ).animate(delay: 700.ms).fadeIn().slideY(begin: 0.4),
                     const SizedBox(height: 12),
                     _GameOverButton(
-                      label: '← Back to Lessons',
+                      label: LocalizationService.t('back_to_lessons'),
                       color: Colors.white.withValues(alpha: 0.12),
                       textColor: Colors.white70,
                       onTap: _backToLessons,

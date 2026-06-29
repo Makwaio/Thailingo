@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../models/lesson.dart';
 import '../models/user_progress.dart';
 import '../services/lesson_service.dart';
+import '../services/localization_service.dart';
 import '../services/progress_service.dart';
 import '../ui/theme/app_theme.dart';
 
@@ -74,9 +75,9 @@ class _StatsScreenState extends State<StatsScreen> {
                 icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
-        title: const Text(
-          'Stats & Trophies',
-          style: TextStyle(
+        title: Text(
+          LocalizationService.t('stats_trophies'),
+          style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppTheme.textPrimary),
@@ -109,7 +110,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SectionLabel('OVERVIEW'),
+        _SectionLabel(LocalizationService.t('overview_label')),
         const SizedBox(height: 10),
         Container(
           width: double.infinity,
@@ -145,9 +146,9 @@ class _StatsScreenState extends State<StatsScreen> {
                         color: Colors.white,
                         height: 1.0),
                   ),
-                  const Text(
-                    'words learned',
-                    style: TextStyle(fontSize: 13, color: Colors.white70),
+                  Text(
+                    LocalizationService.t('words_learned_label'),
+                    style: const TextStyle(fontSize: 13, color: Colors.white70),
                   ),
                 ],
               ),
@@ -163,14 +164,14 @@ class _StatsScreenState extends State<StatsScreen> {
           crossAxisSpacing: 10,
           childAspectRatio: 1.0,
           children: [
-            _StatCard('⭐', 'Total XP', '${_progress.totalXp}', AppTheme.accent),
-            _StatCard('📊', 'Level', '${_progress.level}', AppTheme.primary),
-            _StatCard('🔥', 'Best Streak', '${_progress.longestStreak}d', const Color(0xFFFF9600)),
-            _StatCard('✅', 'Lessons Done', '$_totalCompleted / ${_lessons.length}', AppTheme.success),
+            _StatCard('⭐', LocalizationService.t('total_xp'), '${_progress.totalXp}', AppTheme.accent),
+            _StatCard('📊', LocalizationService.t('level'), '${_progress.level}', AppTheme.primary),
+            _StatCard('🔥', LocalizationService.t('best_streak'), '${_progress.longestStreak}d', const Color(0xFFFF9600)),
+            _StatCard('✅', LocalizationService.t('lessons_done'), '$_totalCompleted / ${_lessons.length}', AppTheme.success),
             _StatCard('💯', 'Perfect', '$_perfectLessons', AppTheme.success),
-            _StatCard('🎯', 'Avg Accuracy', '${_avgAccuracy.round()}%', AppTheme.primary),
-            _StatCard('⚡', 'Best Combo', '${_progress.maxCombo}×', const Color(0xFFFF9600)),
-            _StatCard('📝', 'Words Reviewed', '${_progress.totalWordsReviewed}', const Color(0xFF7C3AED)),
+            _StatCard('🎯', LocalizationService.t('avg_accuracy'), '${_avgAccuracy.round()}%', AppTheme.primary),
+            _StatCard('⚡', LocalizationService.t('best_combo'), '${_progress.maxCombo}×', const Color(0xFFFF9600)),
+            _StatCard('📝', LocalizationService.t('words_reviewed'), '${_progress.totalWordsReviewed}', const Color(0xFF7C3AED)),
           ],
         ),
 
@@ -231,7 +232,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SectionLabel('ACHIEVEMENTS'),
+        _SectionLabel(LocalizationService.t('achievements_label')),
         const SizedBox(height: 10),
         ...kAchievements.asMap().entries.map((e) {
           final i = e.key;
@@ -260,12 +261,12 @@ class _StatsScreenState extends State<StatsScreen> {
         .toList();
 
     if (completed.isEmpty) {
-      return const Column(
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SectionLabel('PERSONAL BESTS'),
-          SizedBox(height: 12),
-          Center(
+          _SectionLabel(LocalizationService.t('personal_bests_label')),
+          const SizedBox(height: 12),
+          const Center(
             child: Text(
               'Complete a lesson to see your bests here!',
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
@@ -278,7 +279,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SectionLabel('PERSONAL BESTS'),
+        _SectionLabel(LocalizationService.t('personal_bests_label')),
         const SizedBox(height: 10),
         ...completed.asMap().entries.map((e) {
           final i = e.key;

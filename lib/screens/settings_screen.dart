@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../services/localization_service.dart';
 import '../services/settings_service.dart';
 import '../services/progress_service.dart';
 import '../services/review_service.dart';
@@ -73,9 +74,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Settings',
-          style: TextStyle(
+        title: Text(
+          LocalizationService.t('settings'),
+          style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppTheme.textPrimary),
@@ -91,12 +92,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             20, 20, 20, MediaQuery.of(context).padding.bottom + 32),
         children: [
           // ── Audio ──────────────────────────────────────────────
-          const _SectionHeader('Audio'),
+          _SectionHeader(LocalizationService.t('audio_label')),
           _SettingsCard(
             children: [
               _ToggleTile(
                 icon: Icons.volume_up_rounded,
-                label: 'Sound Effects',
+                label: LocalizationService.t('sound_effects'),
                 value: _sound,
                 onChanged: (v) async {
                   await _settings.setSoundEnabled(v);
@@ -106,8 +107,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const _Divider(),
               _ToggleTile(
                 icon: Icons.music_note_rounded,
-                label: 'Background Music',
-                subtitle: 'Coming soon',
+                label: LocalizationService.t('bg_music'),
+                subtitle: LocalizationService.t('coming_soon'),
                 value: _music,
                 onChanged: (v) async {
                   await _settings.setMusicEnabled(v);
@@ -120,13 +121,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Game Types ─────────────────────────────────────────
-          const _SectionHeader('Game Types 🎮'),
+          _SectionHeader(LocalizationService.t('game_types_label')),
           _SettingsCard(
             children: [
               _ToggleTile(
                 icon: Icons.shuffle_rounded,
                 label: 'Multiple Choice',
-                subtitle: 'Always enabled',
+                subtitle: LocalizationService.t('always_enabled'),
                 value: true,
                 onChanged: (_) {}, // always on
               ),
@@ -198,7 +199,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Learning Language ──────────────────────────────────
-          const _SectionHeader('Learning Language 🌏'),
+          _SectionHeader(LocalizationService.t('learning_language_label')),
           const Padding(
             padding: EdgeInsets.zero,
             child: Text(
@@ -230,7 +231,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           const SizedBox(height: 24),
 
           // ── Account ────────────────────────────────────────────
-          const _SectionHeader('Account'),
+          _SectionHeader(LocalizationService.t('account_label')),
           _SettingsCard(
             children: [
               _ActionTile(
@@ -252,7 +253,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const _Divider(),
               _ActionTile(
                 icon: Icons.refresh_rounded,
-                label: 'Reset Progress',
+                label: LocalizationService.t('reset_progress'),
                 color: AppTheme.danger,
                 onTap: _confirmReset,
               ),
@@ -300,9 +301,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const Text('🛠️',
                         style: TextStyle(fontSize: 18)),
                     const SizedBox(width: 10),
-                    const Text(
-                      'Developer Mode',
-                      style: TextStyle(
+                    Text(
+                      LocalizationService.t('dev_mode'),
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF58A6FF),

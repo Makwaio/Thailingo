@@ -243,6 +243,25 @@ class PatchNotesService {
           'If you see this note the patch worked!',
         ],
       });
+      final v11doc = await _db.collection('patch_notes').doc('1.1.0').get();
+      if (!v11doc.exists) {
+        await _db.collection('patch_notes').doc('1.1.0').set({
+          'version': '1.1.0',
+          'title': 'Full Thai UI + Profile Menu 🎉',
+          'date': Timestamp.now(),
+          'type': 'major',
+          'notes': [
+            'Complete Thai UI — when in Learning English mode, the entire app switches to Thai',
+            'Stage names, row labels, drawer menus and settings all translated to Thai',
+            'Profile icon replaces hamburger menu button for non-signed-in users',
+            'XP bar and mascot moved up for a cleaner header layout',
+            'Result screen stats (XP, Accuracy, Time) now show in Thai',
+            'Game Over screen fully translated',
+            'Guide Book tabs translated to Thai in Learning English mode',
+            'Stats & Trophies section labels translated',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }
