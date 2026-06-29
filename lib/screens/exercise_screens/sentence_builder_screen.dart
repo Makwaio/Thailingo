@@ -29,7 +29,9 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
   final List<String> _placed = [];
   bool _shakeWrong = false;
   late AnimationController _shakeCtrl;
-  late bool _isLearningEnglish;
+
+  bool get _isLearningEnglish =>
+      SettingsService.appLanguageNotifier.value == AppLanguage.learningEnglish;
 
   List<String> get _activeChips => _isLearningEnglish
       ? widget.exercise.englishChips
@@ -38,8 +40,6 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
   @override
   void initState() {
     super.initState();
-    _isLearningEnglish =
-        SettingsService().appLanguage == AppLanguage.learningEnglish;
     _bank = List<String>.from(_activeChips)..shuffle();
     _shakeCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));

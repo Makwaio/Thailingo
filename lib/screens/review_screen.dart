@@ -252,6 +252,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
       exercise = McScreen(
         exercise: q,
+        isLearningEnglish: q.type == ExerciseType.multipleChoice,
         onAnswer: onMcAnswer,
         answered: _showFeedback,
         lastCorrect: _lastCorrect,

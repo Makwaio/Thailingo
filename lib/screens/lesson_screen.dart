@@ -63,12 +63,13 @@ class _LessonScreenState extends State<LessonScreen>
 
   int _breakingHeartIdx = -1;
   late AnimationController _heartBreakCtrl;
-  late bool _isLearningEnglish;
+
+  bool get _isLearningEnglish =>
+      SettingsService.appLanguageNotifier.value == AppLanguage.learningEnglish;
 
   @override
   void initState() {
     super.initState();
-    _isLearningEnglish = SettingsService().appLanguage == AppLanguage.learningEnglish;
     _queue = _exerciseService.buildQueue(widget.lesson);
     _timer.start();
 
@@ -306,6 +307,16 @@ class _LessonScreenState extends State<LessonScreen>
           children: [
             Column(
               children: [
+                Container(
+                  color: Colors.yellow,
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(4),
+                  child: Text(
+                    'Mode: ${SettingsService.appLanguageNotifier.value}',
+                    style: const TextStyle(fontSize: 10),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 _buildTopBar(),
                 Expanded(child: _buildContent()),
                 if (_showFeedback)
@@ -522,6 +533,7 @@ class _LessonScreenState extends State<LessonScreen>
         default:
           exercise = McScreen(
             exercise: q,
+            isLearningEnglish: _isLearningEnglish,
             onAnswer: (correct) => _onAnswer(correct,
                 correctAns: _isLearningEnglish
                     ? q.targetWord.english

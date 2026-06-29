@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'audio_service.dart';
 
@@ -22,6 +23,9 @@ class SettingsService {
   static const _gtVisualSpotterKey = 'gt_visual_spotter_v1';
   static const _gtOppositesKey = 'gt_opposites_v1';
   static const _appLanguageKey = 'app_language';
+
+  static final ValueNotifier<AppLanguage> appLanguageNotifier =
+      ValueNotifier(AppLanguage.learningThai);
 
   bool _soundEnabled = true;
   bool _musicEnabled = true;
@@ -77,6 +81,7 @@ class SettingsService {
     _gtOpposites = prefs.getBool(_gtOppositesKey) ?? true;
     final langIndex = prefs.getInt(_appLanguageKey) ?? 0;
     _appLanguage = AppLanguage.values[langIndex.clamp(0, AppLanguage.values.length - 1)];
+    appLanguageNotifier.value = _appLanguage;
     AudioService().setSoundEnabled(_soundEnabled);
   }
 
@@ -134,6 +139,7 @@ class SettingsService {
 
   Future<void> setAppLanguage(AppLanguage lang) async {
     _appLanguage = lang;
+    appLanguageNotifier.value = lang;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_appLanguageKey, lang.index);
   }

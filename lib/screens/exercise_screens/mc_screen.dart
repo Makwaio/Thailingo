@@ -11,6 +11,7 @@ class McScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  final bool isLearningEnglish;
 
   const McScreen({
     super.key,
@@ -18,6 +19,7 @@ class McScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    required this.isLearningEnglish,
   });
 
   @override
@@ -58,9 +60,7 @@ class _McScreenState extends State<McScreen> {
     }
   }
 
-  bool get _isTh2En =>
-      widget.exercise.type == ExerciseType.multipleChoice ||
-      widget.exercise.type == ExerciseType.fillInBlank;
+  bool get _isTh2En => widget.isLearningEnglish;
 
   @override
   Widget build(BuildContext context) {
