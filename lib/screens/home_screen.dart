@@ -194,6 +194,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static const _weeklyRankPrefKey = 'weekly_rank_last';
 
   bool _whatsNewChecked = false;
+  bool _patchBannerVisible = false;
+  static const _patchBannerDismissedKey = 'patch_banner_109_dismissed';
 
   @override
   void initState() {
@@ -277,6 +279,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       }
     }
 
+    // Patch test banner — show until tapped, once per install
+    bool showPatchBanner = false;
+    const int patchNum = 9; // version 1.0.9
+    if (patchNum >= 9) {
+      final prefs = await SharedPreferences.getInstance();
+      showPatchBanner = !(prefs.getBool(_patchBannerDismissedKey) ?? false);
+    }
+
     if (mounted) {
       _bannerTimer?.cancel();
       _weeklyBannerTimer?.cancel();
@@ -292,6 +302,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         _username    = username;
         _email       = email;
         _isSignedIn = isSignedIn;
+        _patchBannerVisible = showPatchBanner;
         if (weeklyRank != null) {
           _weeklyRank = weeklyRank;
           _weeklyXp = weeklyXp;
@@ -307,6 +318,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             () { if (mounted) setState(() => _weeklyBannerVisible = false); });
       }
     }
+  }
+
+  Future<void> _dismissPatchBanner() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_patchBannerDismissedKey, true);
+    if (mounted) setState(() => _patchBannerVisible = false);
   }
 
   Future<void> _checkForWhatsNew() async {
@@ -371,6 +388,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         controller: _scrollCtrl,
         slivers: [
           _buildHeader(),
+          if (_patchBannerVisible)
+            SliverToBoxAdapter(
+              child: _PatchTestBanner(
+                onDismiss: _dismissPatchBanner,
+              ),
+            ),
           if (_bannerVisible)
             SliverToBoxAdapter(
               child: _StreakBanner(
@@ -2393,6 +2416,49 @@ class _ReviewSectionState extends State<_ReviewSection>
                       : const Color(0xFF2E7D32),
                   fontWeight: FontWeight.w600),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Patch Test Banner ─────────────────────────────────────────────────────────
+class _PatchTestBanner extends StatelessWidget {
+  final VoidCallback onDismiss;
+  const _PatchTestBanner({required this.onDismiss});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onDismiss,
+      child: Container(
+        width: double.infinity,
+        color: const Color(0xFFFFF176), // yellow
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: const Row(
+          children: [
+            Text('🔧', style: TextStyle(fontSize: 16)),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'v1.0.9 patch applied ✅',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF5D4037),
+                ),
+              ),
+            ),
+            Text(
+              'Tap to dismiss',
+              style: TextStyle(
+                fontSize: 11,
+                color: Color(0xFF795548),
+              ),
+            ),
+            SizedBox(width: 4),
+            Icon(Icons.close, size: 16, color: Color(0xFF795548)),
           ],
         ),
       ),

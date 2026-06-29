@@ -230,6 +230,21 @@ class PatchNotesService {
           ],
         });
       }
+      final v9doc = await _db.collection('patch_notes').doc('1.0.9').get();
+      if (!v9doc.exists) {
+        await _db.collection('patch_notes').doc('1.0.9').set({
+          'version': '1.0.9',
+          'title': 'Learning English Fix + Update Test 🔧',
+          'date': Timestamp.now(),
+          'type': 'patch',
+          'notes': [
+            'Fixed Learning English mode exercise swap',
+            'Thai speakers now see Thai prompts with English answers',
+            'All exercise types updated for both directions',
+            'If you see this note the update worked! ✅',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }
