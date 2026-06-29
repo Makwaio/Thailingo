@@ -3,6 +3,7 @@ import '../models/lesson.dart';
 import '../models/exercise.dart';
 import '../services/exercise_service.dart';
 import '../services/progress_service.dart';
+import '../services/settings_service.dart';
 import '../services/audio_service.dart';
 import '../ui/theme/app_theme.dart';
 import '../ui/widgets/common_widgets.dart';
@@ -62,10 +63,12 @@ class _LessonScreenState extends State<LessonScreen>
 
   int _breakingHeartIdx = -1;
   late AnimationController _heartBreakCtrl;
+  late bool _isLearningEnglish;
 
   @override
   void initState() {
     super.initState();
+    _isLearningEnglish = SettingsService().appLanguage == AppLanguage.learningEnglish;
     _queue = _exerciseService.buildQueue(widget.lesson);
     _timer.start();
 
@@ -456,7 +459,9 @@ class _LessonScreenState extends State<LessonScreen>
       exercise = SentenceBuilderScreen(
         exercise: q,
         onAnswer: (correct) => _onAnswer(correct,
-            correctAns: q.thaiChips.join(' ')),
+            correctAns: _isLearningEnglish
+                ? q.englishChips.join(' ')
+                : q.thaiChips.join(' ')),
         answered: _showFeedback,
         lastCorrect: _lastCorrect,
       );
@@ -473,7 +478,9 @@ class _LessonScreenState extends State<LessonScreen>
           exercise = ListenScreen(
             exercise: q,
             onAnswer: (correct) => _onAnswer(correct,
-                correctAns: q.targetWord.english,
+                correctAns: _isLearningEnglish
+                    ? q.targetWord.english
+                    : q.targetWord.thai,
                 hint: q.targetWord.example.isNotEmpty
                     ? q.targetWord.example
                     : null),
@@ -484,7 +491,9 @@ class _LessonScreenState extends State<LessonScreen>
           exercise = SpeedTapScreen(
             exercise: q,
             onAnswer: (correct, {int bonusXp = 0}) => _onAnswer(correct,
-                correctAns: q.targetWord.english,
+                correctAns: _isLearningEnglish
+                    ? q.targetWord.english
+                    : q.targetWord.thai,
                 bonusXp: bonusXp),
             answered: _showFeedback,
             lastCorrect: _lastCorrect,
@@ -494,7 +503,9 @@ class _LessonScreenState extends State<LessonScreen>
             exercise: q,
             onAnswer: (correct, {bool hintUsed = false}) => _onAnswer(
               correct,
-              correctAns: q.targetWord.phonetic,
+              correctAns: _isLearningEnglish
+                  ? q.targetWord.english
+                  : q.targetWord.phonetic,
               bonusXp: hintUsed ? -5 : 0,
             ),
             answered: _showFeedback,
@@ -512,9 +523,9 @@ class _LessonScreenState extends State<LessonScreen>
           exercise = McScreen(
             exercise: q,
             onAnswer: (correct) => _onAnswer(correct,
-                correctAns: q.type == ExerciseType.multipleChoiceTh
-                    ? '${q.targetWord.thai} (${q.targetWord.phonetic})'
-                    : q.targetWord.english,
+                correctAns: _isLearningEnglish
+                    ? q.targetWord.english
+                    : '${q.targetWord.thai} (${q.targetWord.phonetic})',
                 hint: q.targetWord.example.isNotEmpty
                     ? q.targetWord.example
                     : null),

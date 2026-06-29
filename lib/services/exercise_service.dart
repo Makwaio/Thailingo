@@ -350,6 +350,14 @@ class ExerciseService {
     if (words.isEmpty) return [];
     final shuffled = List<Word>.from(words)..shuffle(_rng);
     final queue = <dynamic>[];
+    final isLearningEnglish =
+        SettingsService().appLanguage == AppLanguage.learningEnglish;
+    final reviewType = isLearningEnglish
+        ? ExerciseType.multipleChoice
+        : ExerciseType.multipleChoiceTh;
+    final reviewPrompt = isLearningEnglish
+        ? '📝 What does this mean?'
+        : '📝 How do you write this in Thai?';
 
     for (int i = 0; i < shuffled.length; i++) {
       final word = shuffled[i];
@@ -358,16 +366,11 @@ class ExerciseService {
       final distractors = others.take(3).toList();
       final options = _shuffle([word, ...distractors]);
 
-      final type = i.isEven
-          ? ExerciseType.multipleChoice
-          : ExerciseType.multipleChoiceTh;
       queue.add(Exercise(
-        type: type,
+        type: reviewType,
         targetWord: word,
         options: options,
-        promptText: type == ExerciseType.multipleChoice
-            ? '📝 What does this mean?'
-            : '📝 How do you write this in Thai?',
+        promptText: reviewPrompt,
       ));
 
       if ((i + 1) % 4 == 0 && shuffled.length >= 4) {
