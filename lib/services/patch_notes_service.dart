@@ -262,6 +262,21 @@ class PatchNotesService {
           ],
         });
       }
+      final v111doc = await _db.collection('patch_notes').doc('1.1.1').get();
+      if (!v111doc.exists) {
+        await _db.collection('patch_notes').doc('1.1.1').set({
+          'version': '1.1.1',
+          'title': 'Thai Lesson Names + English Alphabet 🔤',
+          'date': Timestamp.now(),
+          'type': 'minor',
+          'notes': [
+            'Lesson names now show in Thai when in Learning English mode',
+            'Stage 0 switches to English Alphabet (A-Z) mode for Thai speakers',
+            '5 new English Alphabet lessons: Consonants 1 & 2, Vowels, Pronunciation Rules, Common Words',
+            'Complete UI shown in Thai throughout Learning English mode',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }

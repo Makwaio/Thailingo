@@ -1,0 +1,21 @@
+{
+  "id": 204,
+  "title": "English Pronunciation Rules",
+  "thaiTitle": "กฎการออกเสียงอังกฤษ",
+  "subtitle": "กฎที่ต้องรู้สำหรับการอ่านภาษาอังกฤษ",
+  "icon": "lesson_alpha4",
+  "color": "#E65100",
+  "xpReward": 20,
+  "words": [
+    {"id":"e4_01","thai":"Silent E","phonetic":"ไซเลนท์-อี","english":"E ท้ายคำทำให้สระก่อนหน้าเสียงยาว — make, cake, hope","image":"","audio":"e4_01.mp3","example":"mat → mate, bit → bite"},
+    {"id":"e4_02","thai":"-tion","phonetic":"ชั่น","english":"ลงท้ายด้วย -tion ออกเสียง 'ชั่น' — station, action, nation","image":"","audio":"e4_02.mp3","example":"station — สเตชั่น"},
+    {"id":"e4_03","thai":"-ed","phonetic":"ด/ต/เอด","english":"กริยาช่องที่ 2 ออกเสียง 'd', 't' หรือ 'id' — walked, played, wanted","image":"","audio":"e4_03.mp3","example":"walked — วอคท์, played — เพลด์"},
+    {"id":"e4_04","thai":"-ing","phonetic":"อิง","english":"ลงท้าย -ing ออกเสียง 'อิง' — talking, eating, going","image":"","audio":"e4_04.mp3","example":"talking — ทอค-กิง"},
+    {"id":"e4_05","thai":"Double Letters","phonetic":"ดับเบิล","english":"พยัญชนะซ้ำ = สระก่อนหน้าเสียงสั้น — happy, butter, sitting","image":"","audio":"e4_05.mp3","example":"happy — แฮพ-พี"},
+    {"id":"e4_06","thai":"-ly","phonetic":"ลี","english":"คำวิเศษณ์ลงท้ายด้วย -ly ออกเสียง 'ลี' — slowly, quickly, really","image":"","audio":"e4_06.mp3","example":"slowly — สโลว์-ลี"},
+    {"id":"e4_07","thai":"Silent K","phonetic":"ไม่ออกเสียง K","english":"K หน้า N ไม่ออกเสียง — know, knife, knee","image":"","audio":"e4_07.mp3","example":"know — โน (ไม่ออกเสียง K)"},
+    {"id":"e4_08","thai":"-er / -or","phonetic":"เออร์","english":"ลงท้าย -er หรือ -or ออกเสียง 'เออร์' — teacher, doctor, water","image":"","audio":"e4_08.mp3","example":"teacher — ที-เชอร์"},
+    {"id":"e4_09","thai":"-ous","phonetic":"อัส","english":"ลงท้าย -ous ออกเสียง 'อัส' — famous, nervous, serious","image":"","audio":"e4_09.mp3","example":"famous — เฟ-มัส"},
+    {"id":"e4_10","thai":"PH","phonetic":"เอฟ","english":"PH ออกเสียงเหมือน F — phone, photo, alphabet","image":"","audio":"e4_10.mp3","example":"phone — โฟน (PH = F)"}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": 201,
+  "title": "English Consonants Part 1",
+  "thaiTitle": "พยัญชนะอังกฤษ ตอนที่ 1",
+  "subtitle": "พยัญชนะ B ถึง Q",
+  "icon": "lesson_alpha1",
+  "color": "#1565C0",
+  "xpReward": 20,
+  "words": [
+    {"id":"e1_01","thai":"Bb","phonetic":"บี","english":"ออกเสียง 'บ' — ball, book, bag","image":"","audio":"e1_01.mp3","example":"B สำหรับ Ball — B for Ball"},
+    {"id":"e1_02","thai":"Cc","phonetic":"ซี","english":"ออกเสียง 'ค' — cat, car, cup","image":"","audio":"e1_02.mp3","example":"C สำหรับ Cat — C for Cat"},
+    {"id":"e1_03","thai":"Dd","phonetic":"ดี","english":"ออกเสียง 'ด' — dog, door, day","image":"","audio":"e1_03.mp3","example":"D สำหรับ Dog — D for Dog"},
+    {"id":"e1_04","thai":"Ff","phonetic":"เอฟ","english":"ออกเสียง 'ฟ' — fish, fun, food","image":"","audio":"e1_04.mp3","example":"F สำหรับ Fish — F for Fish"},
+    {"id":"e1_05","thai":"Gg","phonetic":"จี","english":"ออกเสียง 'ก' — go, good, girl","image":"","audio":"e1_05.mp3","example":"G สำหรับ Go — G for Go"},
+    {"id":"e1_06","thai":"Hh","phonetic":"เอช","english":"ออกเสียง 'ฮ' — hello, hat, house","image":"","audio":"e1_06.mp3","example":"H สำหรับ Hello — H for Hello"},
+    {"id":"e1_07","thai":"Jj","phonetic":"เจ","english":"ออกเสียง 'จ' — jump, job, joy","image":"","audio":"e1_07.mp3","example":"J สำหรับ Jump — J for Jump"},
+    {"id":"e1_08","thai":"Kk","phonetic":"เค","english":"ออกเสียง 'ค' (เหมือน C) — key, king, kick","image":"","audio":"e1_08.mp3","example":"K สำหรับ King — K for King"},
+    {"id":"e1_09","thai":"Ll","phonetic":"เอล","english":"ออกเสียง 'ล' — love, look, light","image":"","audio":"e1_09.mp3","example":"L สำหรับ Love — L for Love"},
+    {"id":"e1_10","thai":"Mm","phonetic":"เอ็ม","english":"ออกเสียง 'ม' — mom, man, money","image":"","audio":"e1_10.mp3","example":"M สำหรับ Mom — M for Mom"},
+    {"id":"e1_11","thai":"Nn","phonetic":"เอ็น","english":"ออกเสียง 'น' — no, now, name","image":"","audio":"e1_11.mp3","example":"N สำหรับ No — N for No"},
+    {"id":"e1_12","thai":"Pp","phonetic":"พี","english":"ออกเสียง 'พ' — pay, play, pen","image":"","audio":"e1_12.mp3","example":"P สำหรับ Play — P for Play"},
+    {"id":"e1_13","thai":"Qq","phonetic":"คิว","english":"ออกเสียง 'คว' — queen, quiet, quick","image":"","audio":"e1_13.mp3","example":"Q มักตามด้วย U เสมอ — Q is always followed by U"}
+  ]
+}

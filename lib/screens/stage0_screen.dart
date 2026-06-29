@@ -3,15 +3,24 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../models/lesson.dart';
 import '../services/lesson_service.dart';
 import '../services/progress_service.dart';
+import '../services/settings_service.dart';
 import '../ui/theme/app_theme.dart';
 import 'lesson_screen.dart';
 
 const _alphabetMeta = [
-  (id: 'A1', emoji: '🅰️', title: 'Consonants 1', sub: '15 consonants'),
-  (id: 'A2', emoji: '🔡', title: 'Consonants 2', sub: '15 consonants'),
-  (id: 'A3', emoji: '🔤', title: 'Vowels', sub: '15 vowel forms'),
-  (id: 'A4', emoji: '🎵', title: 'Tone Marks', sub: '4 tone marks'),
-  (id: 'A5', emoji: '📖', title: 'Reading Practice', sub: 'Put it together'),
+  (id: 'A1', emoji: '🅰️', title: 'พยัญชนะ ตอนที่ 1', sub: '15 consonants'),
+  (id: 'A2', emoji: '🔡', title: 'พยัญชนะ ตอนที่ 2', sub: '15 consonants'),
+  (id: 'A3', emoji: '🔤', title: 'สระ', sub: '15 vowel forms'),
+  (id: 'A4', emoji: '🎵', title: 'วรรณยุกต์', sub: '4 tone marks'),
+  (id: 'A5', emoji: '📖', title: 'ฝึกอ่าน', sub: 'Put it together'),
+];
+
+const _englishAlphabetMeta = [
+  (id: 'E1', emoji: '🔤', title: 'พยัญชนะอังกฤษ ตอนที่ 1', sub: 'B ถึง Q'),
+  (id: 'E2', emoji: '🔡', title: 'พยัญชนะอังกฤษ ตอนที่ 2', sub: 'R ถึง Z + คู่'),
+  (id: 'E3', emoji: '🔊', title: 'สระอังกฤษ', sub: 'เสียงสระยาว-สั้น'),
+  (id: 'E4', emoji: '📢', title: 'กฎการออกเสียง', sub: 'กฎที่ต้องรู้'),
+  (id: 'E5', emoji: '📝', title: 'คำอังกฤษที่ใช้บ่อย', sub: '15 คำสำคัญ'),
 ];
 
 class Stage0Screen extends StatefulWidget {
@@ -28,6 +37,15 @@ class _Stage0ScreenState extends State<Stage0Screen> {
   List<Lesson?> _lessons = [];
   bool _loading = true;
 
+  bool get _isLearningEnglish =>
+      SettingsService().appLanguage == AppLanguage.learningEnglish;
+
+  List<({String id, String emoji, String title, String sub})> get _activeMeta =>
+      _isLearningEnglish ? _englishAlphabetMeta : _alphabetMeta;
+
+  int _dbId(int index1Based) =>
+      _isLearningEnglish ? 200 + index1Based : 100 + index1Based;
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +54,7 @@ class _Stage0ScreenState extends State<Stage0Screen> {
 
   Future<void> _load() async {
     final lessons = <Lesson?>[];
-    for (final meta in _alphabetMeta) {
+    for (final meta in _activeMeta) {
       try {
         final l = await _lessonService.loadAlphabetLesson(meta.id);
         lessons.add(l);
@@ -100,17 +118,25 @@ class _Stage0ScreenState extends State<Stage0Screen> {
             ),
           ),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Stage 0 — Alphabet',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white)),
-                Text('Optional · Learn to read Thai script',
-                    style: TextStyle(fontSize: 12, color: Colors.white70)),
+                Text(
+                  _isLearningEnglish
+                      ? 'ตัวอักษรอังกฤษ'
+                      : 'Stage 0 — Alphabet',
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white),
+                ),
+                Text(
+                  _isLearningEnglish
+                      ? 'ไม่บังคับ · เรียนรู้ A-Z'
+                      : 'Optional · Learn to read Thai script',
+                  style: const TextStyle(fontSize: 12, color: Colors.white70),
+                ),
               ],
             ),
           ),
@@ -135,29 +161,31 @@ class _Stage0ScreenState extends State<Stage0Screen> {
               borderRadius: BorderRadius.circular(AppTheme.radiusLg),
               border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
-            child: const Text(
-              '📚 These 5 lessons teach you Thai consonants, vowels, tone marks and basic reading. They\'re optional — you can start the main course at any time!',
-              style: TextStyle(
+            child: Text(
+              _isLearningEnglish
+                  ? '🔤 5 บทเรียนนี้สอนพยัญชนะ สระ กฎการออกเสียง และคำศัพท์อังกฤษที่ใช้บ่อย ไม่บังคับ — เริ่มหลักสูตรหลักได้ทุกเมื่อ!'
+                  : '📚 These 5 lessons teach you Thai consonants, vowels, tone marks and basic reading. They\'re optional — you can start the main course at any time!',
+              style: const TextStyle(
                   fontSize: 13, color: Colors.white, height: 1.5),
               textAlign: TextAlign.center,
             ),
           ),
 
           // Lesson bubbles (vertical linear path)
-          ..._alphabetMeta.asMap().entries.map((e) {
+          ..._activeMeta.asMap().entries.map((e) {
             final i = e.key;
             final meta = e.value;
             final lesson = i < _lessons.length ? _lessons[i] : null;
 
-            // Unlock rule: A1 always unlocked; An requires A(n-1) completed
+            // Unlock rule: first lesson always unlocked; each requires previous completed
             final bool unlocked;
             if (i == 0) {
               unlocked = true;
             } else {
-              final prevId = _alphabetLessonDbId(i);
+              final prevId = _dbId(i);
               unlocked = progress.isLessonCompleted(prevId);
             }
-            final dbId = _alphabetLessonDbId(i + 1);
+            final dbId = _dbId(i + 1);
             final completed = progress.isLessonCompleted(dbId);
             final stars = progress.lessonStars(dbId);
 
@@ -182,9 +210,6 @@ class _Stage0ScreenState extends State<Stage0Screen> {
       ),
     );
   }
-
-  // Alphabet lessons use DB IDs 101-105
-  int _alphabetLessonDbId(int index1Based) => 100 + index1Based;
 
   Future<void> _startLesson(Lesson lesson) async {
     await Navigator.push(

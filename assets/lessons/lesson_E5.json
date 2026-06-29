@@ -1,0 +1,26 @@
+{
+  "id": 205,
+  "title": "Common English Words",
+  "thaiTitle": "คำอังกฤษที่ใช้บ่อย",
+  "subtitle": "คำภาษาอังกฤษที่ต้องรู้",
+  "icon": "lesson_alpha5",
+  "color": "#880E4F",
+  "xpReward": 20,
+  "words": [
+    {"id":"e5_01","thai":"Hello","phonetic":"เฮล-โล","english":"สวัสดี","image":"","audio":"e5_01.mp3","example":"Hello! — สวัสดี!"},
+    {"id":"e5_02","thai":"Thank you","phonetic":"แธงค์-ยู","english":"ขอบคุณ","image":"","audio":"e5_02.mp3","example":"Thank you very much! — ขอบคุณมาก!"},
+    {"id":"e5_03","thai":"Sorry","phonetic":"ซอร์-รี","english":"ขอโทษ","image":"","audio":"e5_03.mp3","example":"I'm sorry — ขอโทษด้วย"},
+    {"id":"e5_04","thai":"Yes","phonetic":"เยส","english":"ใช่ / ตกลง","image":"","audio":"e5_04.mp3","example":"Yes, please! — ใช่ ได้เลย!"},
+    {"id":"e5_05","thai":"No","phonetic":"โน","english":"ไม่ / ไม่ใช่","image":"","audio":"e5_05.mp3","example":"No, thank you — ไม่ ขอบคุณ"},
+    {"id":"e5_06","thai":"Please","phonetic":"พลีซ","english":"ได้โปรด / กรุณา","image":"","audio":"e5_06.mp3","example":"Please help me — ได้โปรดช่วยฉันด้วย"},
+    {"id":"e5_07","thai":"Help!","phonetic":"เฮลพ์","english":"ช่วยด้วย!","image":"","audio":"e5_07.mp3","example":"Help! — ช่วยด้วย!"},
+    {"id":"e5_08","thai":"Stop","phonetic":"สต็อพ","english":"หยุด","image":"","audio":"e5_08.mp3","example":"Stop here — หยุดที่นี่"},
+    {"id":"e5_09","thai":"How much?","phonetic":"เฮา-มัช","english":"เท่าไหร่?","image":"","audio":"e5_09.mp3","example":"How much is this? — อันนี้เท่าไหร่?"},
+    {"id":"e5_10","thai":"Excuse me","phonetic":"เอ็กซ์-คิวซ์-มี","english":"ขอโทษนะ (ขอทาง)","image":"","audio":"e5_10.mp3","example":"Excuse me, where is...? — ขอโทษ ...อยู่ที่ไหน?"},
+    {"id":"e5_11","thai":"I don't understand","phonetic":"ไอ-ดอนท์-อันเดอสแตนด์","english":"ฉันไม่เข้าใจ","image":"","audio":"e5_11.mp3","example":"I don't understand — ฉันไม่เข้าใจ"},
+    {"id":"e5_12","thai":"Where is...?","phonetic":"แวร์-อิส","english":"...อยู่ที่ไหน?","image":"","audio":"e5_12.mp3","example":"Where is the toilet? — ห้องน้ำอยู่ที่ไหน?"},
+    {"id":"e5_13","thai":"How are you?","phonetic":"เฮา-อาร์-ยู","english":"สบายดีไหม?","image":"","audio":"e5_13.mp3","example":"How are you? I'm fine — สบายดีไหม? ฉันสบายดี"},
+    {"id":"e5_14","thai":"Good","phonetic":"กุด","english":"ดี / ดีมาก","image":"","audio":"e5_14.mp3","example":"Very good! — ดีมาก!"},
+    {"id":"e5_15","thai":"Wait","phonetic":"เวท","english":"รอก่อน / รอสักครู่","image":"","audio":"e5_15.mp3","example":"Wait a moment — รอสักครู่"}
+  ]
+}

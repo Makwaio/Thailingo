@@ -1,8 +1,41 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-29 (v1.1.0 — Full Thai UI + Profile Menu)  
+**Last updated:** 2026-06-29 (v1.1.1 — Thai Lesson Names + English Alphabet)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.1.1 Changes — 2026-06-29
+
+### Thai Lesson Names
+All 50 main lessons (01-50) and 5 alphabet lessons (A1-A5) now have `thaiTitle` set. When in Learning English mode, the lesson map shows Thai lesson names via the existing `_lessonDisplayTitle()` function in `home_screen.dart`.
+
+### English Alphabet Mode (Stage 0)
+Stage 0 now switches based on `AppLanguage`:
+- **learningThai** (default): Thai Alphabet (A1-A5) — consonants, vowels, tone marks, reading practice
+- **learningEnglish**: English Alphabet (E1-E5) — English consonants, vowels, pronunciation rules, common words for Thai speakers
+
+The Stage 0 entry card on the home screen updates its icon (📚 → 🔤), title ("Alphabet" → "ตัวอักษรอังกฤษ"), and subtitle accordingly.
+
+### New Lesson JSON Files (E1-E5)
+| File | ID | Title | Thai Title | Words |
+|------|-----|-------|------------|-------|
+| lesson_E1.json | 201 | English Consonants Part 1 | พยัญชนะอังกฤษ ตอนที่ 1 | 13 |
+| lesson_E2.json | 202 | English Consonants Part 2 | พยัญชนะอังกฤษ ตอนที่ 2 | 13 |
+| lesson_E3.json | 203 | English Vowels | สระอังกฤษ | 10 |
+| lesson_E4.json | 204 | English Pronunciation Rules | กฎการออกเสียงอังกฤษ | 10 |
+| lesson_E5.json | 205 | Common English Words | คำอังกฤษที่ใช้บ่อย | 15 |
+
+E-series use DB IDs 201-205 for progress tracking.
+
+### Files Changed
+- `assets/lessons/lesson_29.json` through `lesson_50.json` — `thaiTitle` added
+- `assets/lessons/lesson_A1.json` through `lesson_A5.json` — `thaiTitle` added
+- `assets/lessons/lesson_E1.json` through `lesson_E5.json` — new English Alphabet lessons
+- `lib/screens/stage0_screen.dart` — `_englishAlphabetMeta` added; mode switching via `_activeMeta`/`_dbId()`; top bar and info box text now mode-aware
+- `lib/screens/home_screen.dart` — Stage 0 entry card switches icon, title, subtitle per `AppLanguage`
+- `lib/services/patch_notes_service.dart` — v1.1.1 patch note added
 
 ---
 

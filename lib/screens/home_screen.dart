@@ -582,24 +582,37 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   ],
                 ),
                 padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text('📚', style: TextStyle(fontSize: 22)),
-                    const SizedBox(height: 4),
-                    Text(LocalizationService.t('alphabet'),
+                child: Builder(builder: (context) {
+                  final leMode = SettingsService().appLanguage ==
+                      AppLanguage.learningEnglish;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(leMode ? '🔤' : '📚',
+                          style: const TextStyle(fontSize: 22)),
+                      const SizedBox(height: 4),
+                      Text(
+                        leMode
+                            ? 'ตัวอักษรอังกฤษ'
+                            : LocalizationService.t('alphabet'),
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white)),
-                    const SizedBox(height: 2),
-                    Text(LocalizationService.t('stage_0_sub'),
+                            color: Colors.white),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        leMode
+                            ? 'เรียนรู้ A-Z (ไม่บังคับ)'
+                            : LocalizationService.t('stage_0_sub'),
                         style: const TextStyle(
                             fontSize: 11,
-                            color: Colors.white60)),
-                  ],
-                ),
+                            color: Colors.white60),
+                      ),
+                    ],
+                  );
+                }),
               ),
             ),
           ),

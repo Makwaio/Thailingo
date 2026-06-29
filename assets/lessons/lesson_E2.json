@@ -1,0 +1,24 @@
+{
+  "id": 202,
+  "title": "English Consonants Part 2",
+  "thaiTitle": "พยัญชนะอังกฤษ ตอนที่ 2",
+  "subtitle": "พยัญชนะ R ถึง Z และพยัญชนะคู่",
+  "icon": "lesson_alpha2",
+  "color": "#0D47A1",
+  "xpReward": 20,
+  "words": [
+    {"id":"e2_01","thai":"Rr","phonetic":"อาร์","english":"ออกเสียง 'ร' — run, red, right","image":"","audio":"e2_01.mp3","example":"R สำหรับ Run — R for Run"},
+    {"id":"e2_02","thai":"Ss","phonetic":"เอส","english":"ออกเสียง 'ส' — sun, stop, small","image":"","audio":"e2_02.mp3","example":"S สำหรับ Sun — S for Sun"},
+    {"id":"e2_03","thai":"Tt","phonetic":"ที","english":"ออกเสียง 'ต' — time, top, talk","image":"","audio":"e2_03.mp3","example":"T สำหรับ Time — T for Time"},
+    {"id":"e2_04","thai":"Vv","phonetic":"วี","english":"ออกเสียง 'ว' (ฟันกัดริมฝีปาก) — van, very, visit","image":"","audio":"e2_04.mp3","example":"V สำหรับ Van — V for Van"},
+    {"id":"e2_05","thai":"Ww","phonetic":"ดับเบิลยู","english":"ออกเสียง 'ว' — way, walk, water","image":"","audio":"e2_05.mp3","example":"W สำหรับ Water — W for Water"},
+    {"id":"e2_06","thai":"Xx","phonetic":"เอ็กซ์","english":"ออกเสียง 'คส' — box, six, fox","image":"","audio":"e2_06.mp3","example":"X สำหรับ Box — X in boX"},
+    {"id":"e2_07","thai":"Yy","phonetic":"วาย","english":"ออกเสียง 'ย' — yes, you, year","image":"","audio":"e2_07.mp3","example":"Y สำหรับ Yes — Y for Yes"},
+    {"id":"e2_08","thai":"Zz","phonetic":"แซด","english":"ออกเสียง 'ซ' — zoo, zero, zip","image":"","audio":"e2_08.mp3","example":"Z สำหรับ Zoo — Z for Zoo"},
+    {"id":"e2_09","thai":"CH","phonetic":"ซี-เอช","english":"ออกเสียง 'ช' — chair, cheese, child","image":"","audio":"e2_09.mp3","example":"CH สำหรับ Chair — CH for Chair"},
+    {"id":"e2_10","thai":"SH","phonetic":"เอส-เอช","english":"ออกเสียง 'ซ' (ปากห่อ) — shop, show, she","image":"","audio":"e2_10.mp3","example":"SH สำหรับ Shop — SH for Shop"},
+    {"id":"e2_11","thai":"TH","phonetic":"ที-เอช","english":"ออกเสียง 'ธ/ด' (ลิ้นแตะฟัน) — the, think, this","image":"","audio":"e2_11.mp3","example":"TH สำหรับ The — TH for The"},
+    {"id":"e2_12","thai":"CK","phonetic":"ซี-เค","english":"ออกเสียง 'ค' — back, kick, lock","image":"","audio":"e2_12.mp3","example":"CK สำหรับ Back — CK for baCK"},
+    {"id":"e2_13","thai":"NG","phonetic":"เอ็น-จี","english":"ออกเสียง 'ง' — ring, sing, long","image":"","audio":"e2_13.mp3","example":"NG สำหรับ Ring — NG for riNG"}
+  ]
+}

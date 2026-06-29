@@ -87,7 +87,9 @@ total_skipped = 0
 # ── Upload lessons ────────────────────────────────────────────────────────
 
 if not args.patch_only:
-    lesson_files = sorted(glob.glob("assets/lessons/lesson_[0-9]*.json"))
+    numeric_files = sorted(glob.glob("assets/lessons/lesson_[0-9]*.json"))
+    alpha_files = sorted(glob.glob("assets/lessons/lesson_[A-Z]*.json"))
+    lesson_files = numeric_files + alpha_files
 
     if not lesson_files:
         print("WARNING: No lesson JSON files found in assets/lessons/")
@@ -106,7 +108,15 @@ if not args.patch_only:
                 total_skipped += 1
                 continue
 
-            doc_id = f"lesson_{str(lesson_id).zfill(2)}"
+            # Derive doc ID: numeric lessons use zero-padded number,
+            # alphabet/english lessons (A1-A5, E1-E5) use filename stem suffix
+            basename = os.path.basename(filepath)  # e.g. lesson_E1.json
+            stem = os.path.splitext(basename)[0]    # e.g. lesson_E1
+            suffix = stem[len("lesson_"):]          # e.g. E1, A1, 01
+            if suffix and not suffix[0].isdigit():
+                doc_id = f"lesson_{suffix}"          # lesson_E1, lesson_A1
+            else:
+                doc_id = f"lesson_{str(lesson_id).zfill(2)}"
             data["lastUpdated"] = datetime.now(timezone.utc).isoformat()
 
             word_count = len(data.get("words", []))

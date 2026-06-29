@@ -1,0 +1,21 @@
+{
+  "id": 203,
+  "title": "English Vowels",
+  "thaiTitle": "สระอังกฤษ",
+  "subtitle": "เสียงสระยาวและสระสั้น",
+  "icon": "lesson_alpha3",
+  "color": "#1B5E20",
+  "xpReward": 20,
+  "words": [
+    {"id":"e3_01","thai":"A (สั้น)","phonetic":"แอะ","english":"เสียง 'แ' — cat, bag, man","image":"","audio":"e3_01.mp3","example":"cat — แค็ท (A สั้น)"},
+    {"id":"e3_02","thai":"A (ยาว)","phonetic":"เอ","english":"เสียง 'เอ' — cake, name, lake","image":"","audio":"e3_02.mp3","example":"cake — เคค (A ยาว)"},
+    {"id":"e3_03","thai":"E (สั้น)","phonetic":"เอะ","english":"เสียง 'เอะ' — bed, red, ten","image":"","audio":"e3_03.mp3","example":"bed — เบ็ด (E สั้น)"},
+    {"id":"e3_04","thai":"E (ยาว)","phonetic":"อี","english":"เสียง 'อี' — see, tree, feet","image":"","audio":"e3_04.mp3","example":"see — ซี (E ยาว)"},
+    {"id":"e3_05","thai":"I (สั้น)","phonetic":"อิ","english":"เสียง 'อิ' — sit, big, fish","image":"","audio":"e3_05.mp3","example":"sit — ซิท (I สั้น)"},
+    {"id":"e3_06","thai":"I (ยาว)","phonetic":"ไอ","english":"เสียง 'ไอ' — like, time, ride","image":"","audio":"e3_06.mp3","example":"like — ไลค์ (I ยาว)"},
+    {"id":"e3_07","thai":"O (สั้น)","phonetic":"ออ","english":"เสียง 'ออ' — hot, dog, top","image":"","audio":"e3_07.mp3","example":"hot — ฮ็อท (O สั้น)"},
+    {"id":"e3_08","thai":"O (ยาว)","phonetic":"โอ","english":"เสียง 'โอ' — home, rose, phone","image":"","audio":"e3_08.mp3","example":"home — โฮม (O ยาว)"},
+    {"id":"e3_09","thai":"U (สั้น)","phonetic":"อา/อะ","english":"เสียง 'อา' — cup, but, fun","image":"","audio":"e3_09.mp3","example":"cup — คัพ (U สั้น)"},
+    {"id":"e3_10","thai":"U (ยาว)","phonetic":"ยู","english":"เสียง 'ยู' — tune, cute, blue","image":"","audio":"e3_10.mp3","example":"cute — คิวท์ (U ยาว)"}
+  ]
+}
