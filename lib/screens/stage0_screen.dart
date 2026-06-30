@@ -53,12 +53,15 @@ class _Stage0ScreenState extends State<Stage0Screen> {
   }
 
   Future<void> _load() async {
+    final isEnglish = _isLearningEnglish;
+    debugPrint('Stage 0 mode: ${isEnglish ? 'English Alphabet (E1-E5)' : 'Thai Alphabet (A1-A5)'}');
     final lessons = <Lesson?>[];
     for (final meta in _activeMeta) {
       try {
         final l = await _lessonService.loadAlphabetLesson(meta.id);
         lessons.add(l);
-      } catch (_) {
+      } catch (e) {
+        debugPrint('Stage 0: failed to load lesson ${meta.id}: $e');
         lessons.add(null);
       }
     }

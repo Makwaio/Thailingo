@@ -12,6 +12,8 @@ class ListenScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  // Stage 0 (alphabet) lessons hide phonetic so player must listen, not read
+  final bool isAlphabetLesson;
 
   const ListenScreen({
     super.key,
@@ -19,6 +21,7 @@ class ListenScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    this.isAlphabetLesson = false,
   });
 
   @override
@@ -105,7 +108,7 @@ class _ListenScreenState extends State<ListenScreen>
                       ),
                     ],
                   ),
-                  child: isLearningEnglish
+                  child: (isLearningEnglish && !widget.isAlphabetLesson)
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -166,7 +169,10 @@ class _ListenScreenState extends State<ListenScreen>
               state = ChoiceState.selected;
             }
             final label = isLearningEnglish ? word.english : word.thai;
-            final sublabel = isLearningEnglish ? null : word.phonetic;
+            // Hide phonetic during alphabet lessons so player must listen
+            final sublabel = (isLearningEnglish || widget.isAlphabetLesson)
+                ? null
+                : word.phonetic;
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ChoiceCard(

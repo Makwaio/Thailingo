@@ -1,0 +1,29 @@
+{
+  "id": 51,
+  "title": "Real Life Conversations",
+  "thaiTitle": "การสนทนาในชีวิตจริง",
+  "subtitle": "Practice real Bangkok situations",
+  "icon": "lesson_6",
+  "color": "#6A1B9A",
+  "xpReward": 40,
+  "words": [
+    {"id":"l51_01","thai":"ยาแก้ปวดหัว","phonetic":"ya-gae-puat-hua","english":"headache medicine","image":"","audio":"l51_01.mp3","example":"มียาแก้ปวดหัวไหม — Do you have headache medicine?"},
+    {"id":"l51_02","thai":"ยาเม็ด","phonetic":"ya-met","english":"tablet / pill","image":"","audio":"l51_02.mp3","example":"ขอยาเม็ดครับ — Tablets please"},
+    {"id":"l51_03","thai":"วันละ 3 ครั้ง","phonetic":"wan-la-sam-krang","english":"3 times a day","image":"","audio":"l51_03.mp3","example":"กินวันละ 3 ครั้ง — Take 3 times a day"},
+    {"id":"l51_04","thai":"บัตรสมาชิก","phonetic":"bat-sa-ma-chik","english":"member card","image":"","audio":"l51_04.mp3","example":"มีบัตรสมาชิกไหม — Do you have a member card?"},
+    {"id":"l51_05","thai":"ถุง","phonetic":"tung","english":"bag","image":"","audio":"l51_05.mp3","example":"รับถุงไหม — Do you want a bag?"},
+    {"id":"l51_06","thai":"ทั้งหมด","phonetic":"tang-mot","english":"total / all","image":"","audio":"l51_06.mp3","example":"ทั้งหมด 89 บาท — Total is 89 baht"},
+    {"id":"l51_07","thai":"ใช่","phonetic":"chai","english":"yes / correct / that's right","image":"","audio":"l51_07.mp3","example":"ใช่ครับ — Yes, that's right"},
+    {"id":"l51_08","thai":"ประมาณ","phonetic":"pra-maan","english":"approximately / about","image":"","audio":"l51_08.mp3","example":"ประมาณ 20 นาที — About 20 minutes"},
+    {"id":"l51_09","thai":"นาที","phonetic":"na-tee","english":"minute","image":"","audio":"l51_09.mp3","example":"20 นาที — 20 minutes"},
+    {"id":"l51_10","thai":"ตัดผม","phonetic":"tat-pom","english":"to cut hair / haircut","image":"","audio":"l51_10.mp3","example":"ต้องการตัดผมแบบไหน — What haircut would you like?"},
+    {"id":"l51_11","thai":"สั้น","phonetic":"san","english":"short","image":"","audio":"l51_11.mp3","example":"ตัดสั้นหน่อย — Cut it a bit shorter"},
+    {"id":"l51_12","thai":"จอง","phonetic":"jong","english":"to book / to reserve","image":"","audio":"l51_12.mp3","example":"จองห้องไว้ — I have a reservation"},
+    {"id":"l51_13","thai":"ห้อง","phonetic":"hong","english":"room","image":"","audio":"l51_13.mp3","example":"ห้อง 305 — Room 305"},
+    {"id":"l51_14","thai":"เช็คเอาท์","phonetic":"chek-out","english":"checkout","image":"","audio":"l51_14.mp3","example":"เช็คเอาท์กี่โมง — What time is checkout?"},
+    {"id":"l51_15","thai":"เที่ยง","phonetic":"thiang","english":"noon / midday","image":"","audio":"l51_15.mp3","example":"เที่ยงค่ะ — Noon"},
+    {"id":"l51_16","thai":"รหัสไวไฟ","phonetic":"ra-hat-wai-fai","english":"wifi password","image":"","audio":"l51_16.mp3","example":"รหัสไวไฟอะไร — What's the wifi password?"},
+    {"id":"l51_17","thai":"ใบเสร็จ","phonetic":"bai-set","english":"receipt","image":"","audio":"l51_17.mp3","example":"ดูที่ใบเสร็จ — Check on the receipt"},
+    {"id":"l51_18","thai":"ยินดีค่ะ","phonetic":"yin-dee-kha","english":"you're welcome (female)","image":"","audio":"l51_18.mp3","example":"ยินดีค่ะ — You're welcome"}
+  ]
+}

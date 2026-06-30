@@ -10,6 +10,7 @@ import '../services/firebase_service.dart';
 import '../ui/theme/app_theme.dart';
 import '../ui/widgets/thai_mascot.dart';
 import 'arcade/speed_mode_screen.dart';
+import 'arcade/skeet_shooter_screen.dart';
 
 // ── Stage constants matching home_screen ──────────────────────────────
 const _kStage1Ids = {
@@ -124,6 +125,27 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
     ).then((_) => _load());
   }
 
+  void _startSkeetShooter() {
+    final pool = _buildWordPool();
+    if (pool.length < 10) return;
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => SkeetShooterScreen(
+          wordPool: pool,
+          onGoHome: widget.onGoHome,
+        ),
+        transitionsBuilder: (_, anim, __, child) => SlideTransition(
+          position: Tween<Offset>(
+                  begin: const Offset(1, 0), end: Offset.zero)
+              .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
+          child: child,
+        ),
+        transitionDuration: const Duration(milliseconds: 350),
+      ),
+    ).then((_) => _load());
+  }
+
   // ── Build ─────────────────────────────────────────────────────────────
 
   @override
@@ -143,6 +165,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                     delegate: SliverChildListDelegate([
                       _buildSpeedModeCard(),
                       const SizedBox(height: 12),
+                      _buildSkeetShooterCard(),
+                      const SizedBox(height: 8),
                       _buildLockedCard('Survival Mode', '💀',
                           'How long can you last with only 1 heart?'),
                       const SizedBox(height: 8),
@@ -323,6 +347,80 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
             ),
           ),
         ],
+      ),
+    ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1);
+  }
+
+  Widget _buildSkeetShooterCard() {
+    final canPlay = _wordCount >= 10;
+    return GestureDetector(
+      onTap: canPlay ? _startSkeetShooter : null,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF8B2500), Color(0xFFD4481F)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFD4481F).withValues(alpha: 0.4),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            const Text('🎯', style: TextStyle(fontSize: 30)),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Skeet Shooter',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white)),
+                  const SizedBox(height: 3),
+                  Text(
+                    canPlay
+                        ? 'Shoot the right words before they fly by!'
+                        : 'Complete at least one lesson to unlock',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.75)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: canPlay
+                    ? Colors.white
+                    : Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+              ),
+              child: Text(
+                canPlay ? 'PLAY' : '🔒',
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: canPlay
+                        ? const Color(0xFF8B2500)
+                        : Colors.white60),
+              ),
+            ),
+          ],
+        ),
       ),
     ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1);
   }

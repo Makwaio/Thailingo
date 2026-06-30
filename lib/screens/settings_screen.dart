@@ -136,14 +136,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: Icons.grid_view_rounded,
                 label: 'Match Pairs',
                 value: _gtMatchPairs,
-                onChanged: (v) => _setGameType('gt_match_pairs_v1', v),
+                onChanged: (v) => _setGameType('matchPairs', v),
               ),
               const _Divider(),
               _ToggleTile(
                 icon: Icons.volume_up_rounded,
                 label: 'Listen & Choose',
                 value: _gtListen,
-                onChanged: (v) => _setGameType('gt_listen_v1', v),
+                onChanged: (v) => _setGameType('listen', v),
               ),
               const _Divider(),
               _ToggleTile(
@@ -151,7 +151,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: 'Speed Tap',
                 subtitle: 'Race against the clock',
                 value: _gtSpeedTap,
-                onChanged: (v) => _setGameType('gt_speed_tap_v1', v),
+                onChanged: (v) => _setGameType('speedTap', v),
               ),
               const _Divider(),
               _ToggleTile(
@@ -159,7 +159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: 'Sentence Builder',
                 subtitle: 'Arrange word chips',
                 value: _gtSentence,
-                onChanged: (v) => _setGameType('gt_sentence_builder_v1', v),
+                onChanged: (v) => _setGameType('sentenceBuilder', v),
               ),
               const _Divider(),
               _ToggleTile(
@@ -167,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: 'Conversation Mode',
                 subtitle: 'Real Thai dialogue',
                 value: _gtConversation,
-                onChanged: (v) => _setGameType('gt_conversation_v1', v),
+                onChanged: (v) => _setGameType('conversation', v),
               ),
               const _Divider(),
               _ToggleTile(
@@ -175,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: 'Typing Challenge',
                 subtitle: 'Type the phonetic spelling',
                 value: _gtTyping,
-                onChanged: (v) => _setGameType('gt_typing_v1', v),
+                onChanged: (v) => _setGameType('typing', v),
               ),
               const _Divider(),
               _ToggleTile(

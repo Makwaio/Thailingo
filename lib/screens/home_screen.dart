@@ -58,13 +58,13 @@ const _stage2Rows = [
 
 const _stage3Rows = [
   _RowConfig('Language Skills', [46, 47, 48]),
-  _RowConfig('Mastery', [49, 50]),
+  _RowConfig('Mastery', [49, 50, 51]),
 ];
 
 // ── Visual position chains (used for color gradient) ─────────────────
 const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
 const _stage2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
-const _stage3Chain = [46, 47, 48, 49, 50];
+const _stage3Chain = [46, 47, 48, 49, 50, 51];
 
 // ── Stage color anchors — positions are VISUAL ORDER in chain, not lesson IDs
 const _s1ColorAnchors = <(int, Color)>[
@@ -151,7 +151,7 @@ String _lessonEmoji(int id) {
     37: '👤', 38: '⏰', 39: '🔢', 40: '🗺️',
     41: '📱', 42: '💼', 43: '❤️', 44: '💯',
     45: '🆘', 46: '💬', 47: '📜', 48: '📝',
-    49: '🎵', 50: '😎',
+    49: '🎵', 50: '😎', 51: '🗣️',
   };
   return map[id] ?? '📚';
 }

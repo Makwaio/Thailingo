@@ -21,7 +21,9 @@
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\"; python scripts/upload_all_content.py --lessons-only 2>&1; Write-Host \"Exit: $LASTEXITCODE\")",
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\"; python scripts/upload_all_content.py --patch-only 2>&1; Write-Host \"Exit: $LASTEXITCODE\")",
       "PowerShell(New-Item *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "PowerShell(python \"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Admin-Documents-thai-app-v2\\\\d74e1313-4847-47d2-9535-8aa597548468\\\\scratchpad\\\\add_thai_titles.py\")",
+      "PowerShell(python \"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Admin-Documents-thai-app-v2\\\\d74e1313-4847-47d2-9535-8aa597548468\\\\scratchpad\\\\add_thai_titles.py\" 2>&1 | Out-String)"
     ]
   }
 }

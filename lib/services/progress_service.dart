@@ -70,8 +70,11 @@ class ProgressService {
   }
 
   static int _computeStars(int timesCompleted, int bestAccuracy) {
+    // 3 stars: 3 completions OR a perfect score
     if (timesCompleted >= 3 || bestAccuracy >= 100) return 3;
-    if (timesCompleted >= 2 || bestAccuracy >= 80) return 2;
+    // 2 stars: 2 completions (score alone doesn't bump past 1 star on first attempt)
+    if (timesCompleted >= 2) return 2;
+    // 1 star: completed at least once (any score)
     return 1;
   }
 

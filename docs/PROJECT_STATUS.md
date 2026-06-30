@@ -1,8 +1,32 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-29 (v1.1.1 — Thai Lesson Names + English Alphabet)  
+**Last updated:** 2026-06-30 (v1.1.2 — Major Bug Fixes + Skeet Shooter)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.1.2 Changes — 2026-06-30
+
+### Bug Fixes
+- **Stage 0 language mode** — Stage 0 now correctly shows E1-E5 (English alphabet) vs A1-A5 (Thai alphabet) based on `AppLanguage`. Added `debugPrint` to confirm mode at load time.
+- **Game type toggles** — Settings screen was passing wrong keys (`'gt_match_pairs_v1'` etc.) to `SettingsService.setGameType()`. Fixed all 6 wrong keys to match switch cases (`'matchPairs'`, `'listen'`, `'speedTap'`, `'sentenceBuilder'`, `'conversation'`, `'typing'`).
+- **Exercise variety in later lessons** — `buildQueue()` while loop exited after one round when pool reached 20 from a large word list, resulting in only one exercise type. Fixed with `while (pool.length < target || round < minRounds)` and raised safety break to `max(20, minRounds + 4)`. Added `debugPrint` logging to trace exercise types per queue.
+- **Star calculation** — First completion with 85%+ was incorrectly awarding 2 stars. Rule: 1 star = first completion (any score), 2 stars = 2nd completion, 3 stars = 3rd completion OR 100% on first attempt.
+- **Stage 0 listen phonetic leak** — `ListenScreen` showed Thai text + phonetic in the button for alphabet lessons, giving away the answer. Added `isAlphabetLesson` flag: alphabet lessons show only 🔊 icon; phonetic sublabels also hidden in answer choices.
+
+### New Feature — Skeet Shooter Arcade Game
+- `lib/screens/arcade/skeet_shooter_screen.dart` — horizontal shooting gallery
+- 20 rounds, 3 lives, combo streak bonus scoring
+- Thai gold (#D4A017) bubbles arc across a sunset gradient background
+- High score persisted to SharedPreferences (`skeet_shooter_hs_v1`)
+- Card added to `arcade_screen.dart` between Speed Mode and Survival Mode
+
+### New Stage 3 Lesson — Real Life Conversations (lesson 51)
+- `assets/lessons/lesson_51.json` — 18 words, color #6A1B9A, xpReward=40
+- Topics: pharmacy, 7-Eleven, Grab, hair salon, hotel check-in, café wifi
+- Added to `home_screen.dart` Stage 3 rows/chain and `user_progress.dart` completion/mastery checks
+- Conversation injection frequency boosted for lesson 51
 
 ---
 

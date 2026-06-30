@@ -66,7 +66,7 @@ class UserProgress {
   }
 
   bool get allStage3Complete {
-    const stage3Ids = [46, 47, 48, 49, 50];
+    const stage3Ids = [46, 47, 48, 49, 50, 51];
     return stage3Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 1);
   }
 
@@ -82,7 +82,7 @@ class UserProgress {
   }
 
   bool get allStage3Mastered {
-    const stage3Ids = [46, 47, 48, 49, 50];
+    const stage3Ids = [46, 47, 48, 49, 50, 51];
     return stage3Ids.every((id) => (lessonProgress[id]?.stars ?? 0) >= 3);
   }
 

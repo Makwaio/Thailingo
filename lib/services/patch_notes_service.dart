@@ -277,6 +277,24 @@ class PatchNotesService {
           ],
         });
       }
+      final v112doc = await _db.collection('patch_notes').doc('1.1.2').get();
+      if (!v112doc.exists) {
+        await _db.collection('patch_notes').doc('1.1.2').set({
+          'version': '1.1.2',
+          'title': 'Major Bug Fixes + Skeet Shooter 🎯',
+          'date': Timestamp.fromDate(DateTime(2026, 6, 30)),
+          'type': 'major',
+          'notes': [
+            'Fixed Stage 0 not switching content for English learning mode',
+            'New arcade game: Skeet Shooter 🎯 — shoot the right words before they fly by',
+            'New Stage 3 lesson: Real Life Conversations 🗣️ (pharmacy, 7-Eleven, Grab, salon, hotel, café)',
+            'Fixed game type toggles (Match Pairs, Listen, Speed Tap etc.) not actually saving',
+            'Fixed later lessons showing only one exercise type — all types now cycle correctly',
+            'Fixed star count: first completion now always gives exactly 1 star',
+            'Fixed Stage 0 Listen exercise showing the answer before you listen',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }

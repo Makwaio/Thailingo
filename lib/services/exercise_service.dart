@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import '../models/exercise.dart';
 import '../models/lesson.dart';
 import '../models/word.dart';
@@ -12,6 +13,95 @@ class ExerciseService {
   final Random _rng = Random();
 
   static const _conversations = [
+    // ── Real-life Bangkok scenarios (lesson 51) ──────────────────────────
+    ConversationExercise(
+      scenarioTitle: '💊 At the Pharmacy',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'สวัสดีครับ มียาแก้ปวดหัวไหมครับ', phonetic: 'sa-wat-dee-khrap mee-ya-gae-puat-hua-mai-khrap', english: 'Hello, do you have headache medicine?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '💊 Pharmacist', thai: 'มีครับ เป็นยาเม็ดหรือยาน้ำครับ', phonetic: 'mee-khrap pen-ya-met-rue-ya-nam-khrap', english: 'Yes, tablets or liquid?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ยาเม็ดครับ', phonetic: 'ya-met-khrap', english: 'Tablets please', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '💊 Pharmacist', thai: 'กินครั้งละ 1 เม็ด วันละ 3 ครั้งนะครับ', phonetic: 'gin-krang-la-neung-met wan-la-sam-krang-na-khrap', english: 'Take 1 tablet, 3 times a day', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ขอบคุณครับ เท่าไหร่ครับ', phonetic: 'khob-khun-khrap thao-rai-khrap', english: 'Thank you, how much?', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '💊 Pharmacist', thai: '60 บาทครับ', phonetic: 'hok-sip-baat-khrap', english: '60 baht', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'How often should you take the medicine?', options: ['Once a day', '2 times a day', '3 times a day', '4 times a day'], correctIndex: 2),
+        ConversationQuestion(question: 'How much did the medicine cost?', options: ['40 baht', '50 baht', '60 baht', '80 baht'], correctIndex: 2),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🏪 At 7-Eleven',
+      lines: [
+        ConversationLine(speaker: '🏪 Cashier', thai: 'สวัสดีค่ะ มีบัตรสมาชิกไหมคะ', phonetic: 'sa-wat-dee-kha mee-bat-sa-ma-chik-mai-kha', english: 'Hello, do you have a member card?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ไม่มีครับ', phonetic: 'mai-mee-khrap', english: 'No I don\'t', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🏪 Cashier', thai: 'รับถุงไหมคะ มี 2 บาทค่ะ', phonetic: 'rap-tung-mai-kha mee-song-baat-kha', english: 'Do you want a bag? It\'s 2 baht', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ไม่เอาครับ ขอบคุณ', phonetic: 'mai-ao-khrap khob-khun', english: 'No thanks', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '🏪 Cashier', thai: 'ทั้งหมด 89 บาทค่ะ', phonetic: 'tang-mot-paet-sip-gao-baat-kha', english: 'Total is 89 baht', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'How much does a bag cost?', options: ['1 baht', '2 baht', '5 baht', '10 baht'], correctIndex: 1),
+        ConversationQuestion(question: 'What was the total cost?', options: ['69 baht', '79 baht', '89 baht', '99 baht'], correctIndex: 2),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🚗 Grab Driver Pickup',
+      lines: [
+        ConversationLine(speaker: '🚗 Driver', thai: 'สวัสดีครับ คุณ Max ใช่ไหมครับ', phonetic: 'sa-wat-dee-khrap khun-Max-chai-mai-khrap', english: 'Hello, are you Max?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ใช่ครับ', phonetic: 'chai-khrap', english: 'Yes that\'s me', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🚗 Driver', thai: 'ไปสยามใช่ไหมครับ', phonetic: 'bpai-siam-chai-mai-khrap', english: 'Going to Siam right?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ใช่ครับ ขอบคุณครับ', phonetic: 'chai-khrap khob-khun-khrap', english: 'Yes, thank you', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '🚗 Driver', thai: 'ประมาณ 20 นาทีถึงครับ', phonetic: 'pra-maan-yee-sip-na-tee-teung-khrap', english: 'About 20 minutes to arrive', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'โอเคครับ ไม่ต้องรีบนะครับ', phonetic: 'oh-kay-khrap mai-tong-reep-na-khrap', english: 'OK no need to rush', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'How long until arrival?', options: ['10 minutes', '15 minutes', '20 minutes', '30 minutes'], correctIndex: 2),
+        ConversationQuestion(question: 'Where are they going?', options: ['Airport', 'Siam', 'Sukhumvit', 'On Nut'], correctIndex: 1),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '💇 At the Hair Salon',
+      lines: [
+        ConversationLine(speaker: '✂️ Stylist', thai: 'สวัสดีค่ะ ต้องการตัดผมแบบไหนคะ', phonetic: 'sa-wat-dee-kha tong-gaan-tat-pom-baep-nai-kha', english: 'Hello, what hairstyle would you like?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ตัดสั้นหน่อยครับ ไม่ต้องสั้นมาก', phonetic: 'tat-san-noi-khrap mai-tong-san-mak', english: 'A bit shorter please, not too short', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '✂️ Stylist', thai: 'ด้านข้างด้วยไหมคะ', phonetic: 'dan-kang-duay-mai-kha', english: 'The sides too?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ใช่ครับ เท่ากันทั้งหมด', phonetic: 'chai-khrap thao-gan-tang-mot', english: 'Yes, even all around', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '✂️ Stylist', thai: 'เสร็จแล้วค่ะ ชอบไหมคะ', phonetic: 'set-laeo-kha chob-mai-kha', english: 'All done, do you like it?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ชอบมากครับ ขอบคุณครับ', phonetic: 'chob-mak-khrap khob-khun-khrap', english: 'I love it, thank you', audioFile: 'greet_02.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What did the customer ask for?', options: ['Very short cut', 'A bit shorter, not too short', 'Long layers', 'Just a trim'], correctIndex: 1),
+        ConversationQuestion(question: 'Did they want the sides cut too?', options: ['No', 'Only the back', 'Yes', 'Not sure'], correctIndex: 2),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '🏨 Hotel Check-In',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'สวัสดีครับ ผมจองห้องไว้ชื่อ Max ครับ', phonetic: 'sa-wat-dee-khrap pom-jong-hong-wai-chue-Max-khrap', english: 'Hello, I have a reservation under Max', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🏨 Receptionist', thai: 'รอสักครู่นะคะ ขอดูพาสปอร์ตด้วยค่ะ', phonetic: 'ror-sak-kruu-na-kha khor-duu-passport-duay-kha', english: 'One moment, may I see your passport?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'ได้ครับ นี่ครับ', phonetic: 'dai-khrap nee-khrap', english: 'Sure, here you go', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🏨 Receptionist', thai: 'ห้อง 305 ค่ะ ชั้น 3', phonetic: 'hong-sam-zero-ha-kha chan-sam', english: 'Room 305, third floor', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'เช็คเอาท์กี่โมงครับ', phonetic: 'chek-out-gee-mong-khrap', english: 'What time is checkout?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🏨 Receptionist', thai: 'เที่ยงค่ะ', phonetic: 'thiang-kha', english: 'Noon', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'What room number?', options: ['Room 203', 'Room 305', 'Room 350', 'Room 503'], correctIndex: 1),
+        ConversationQuestion(question: 'What time is checkout?', options: ['10am', '11am', 'Noon (12pm)', '2pm'], correctIndex: 2),
+      ],
+    ),
+    ConversationExercise(
+      scenarioTitle: '☕ Wifi Password at Café',
+      lines: [
+        ConversationLine(speaker: '🙋 You', thai: 'ขอโทษครับ รหัสไวไฟอะไรครับ', phonetic: 'khor-thot-khrap ra-hat-wai-fai-a-rai-khrap', english: 'Excuse me, what\'s the wifi password?', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '☕ Staff', thai: 'ดูที่ใบเสร็จได้เลยค่ะ', phonetic: 'duu-tee-bai-set-dai-loei-kha', english: 'You can check on the receipt', audioFile: 'greet_01.mp3'),
+        ConversationLine(speaker: '🙋 You', thai: 'อ๋อ ขอบคุณครับ', phonetic: 'or-khob-khun-khrap', english: 'Oh, thank you', audioFile: 'greet_02.mp3'),
+        ConversationLine(speaker: '☕ Staff', thai: 'ยินดีค่ะ', phonetic: 'yin-dee-kha', english: 'You\'re welcome', audioFile: 'greet_01.mp3'),
+      ],
+      questions: [
+        ConversationQuestion(question: 'Where can you find the wifi password?', options: ['Ask the manager', 'On the wall', 'On the receipt', 'On your phone'], correctIndex: 2),
+        ConversationQuestion(question: 'What does ยินดีค่ะ mean?', options: ['Thank you', 'You\'re welcome', 'Excuse me', 'Good luck'], correctIndex: 1),
+      ],
+    ),
+    // ── Original scenarios ────────────────────────────────────────────────
     ConversationExercise(
       scenarioTitle: 'At a Street Food Stall',
       lines: [
@@ -212,10 +302,15 @@ class ExerciseService {
     if (settings.gtSpeedTap) typeCycle.add(ExerciseType.speedTap);
     if (settings.gtTyping) typeCycle.add(ExerciseType.typing);
 
+    debugPrint('[ExerciseService] lesson ${lesson.id}: ${words.length} words, '
+        'enabled types: ${typeCycle.map((t) => t.toString().split('.').last).join(', ')}');
+
     final pool = <dynamic>[];
     int round = 0;
+    // Run at least one round per exercise type so large lessons still get variety
+    final minRounds = typeCycle.length;
 
-    while (pool.length < target) {
+    while (pool.length < target || round < minRounds) {
       final type = typeCycle[round % typeCycle.length];
       final shuffledWords = List<Word>.from(words)..shuffle(_rng);
 
@@ -258,7 +353,11 @@ class ExerciseService {
       }
 
       // Conversation after every 4th word-round (Stage 2+ only)
-      if (!isStage1 && settings.gtConversation && round % 4 == 3) {
+      // Lesson 51 is conversation-focused so inject more frequently
+      final conversationTrigger = lesson.id == 51
+          ? (round >= 1)
+          : (!isStage1 && round % 4 == 3);
+      if (conversationTrigger && settings.gtConversation) {
         pool.add(_conversations[_rng.nextInt(_conversations.length)]);
       }
 
@@ -287,11 +386,19 @@ class ExerciseService {
       }
 
       round++;
-      if (round > 20) break;
+      if (round > max(20, minRounds + 4)) break;
     }
 
     pool.shuffle(_rng);
-    return pool.take(target).toList();
+    final finalPool = pool.take(target).toList();
+    for (int i = 0; i < finalPool.length; i++) {
+      final item = finalPool[i];
+      final typeStr = item is Exercise
+          ? item.type.toString().split('.').last
+          : item.runtimeType.toString();
+      debugPrint('[ExerciseService] Exercise ${i + 1}: $typeStr');
+    }
+    return finalPool;
   }
 
   OppositesChallengeExercise? _buildOpposites(List<Word> shuffled, List<Word> allWords) {

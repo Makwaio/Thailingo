@@ -68,6 +68,9 @@ class _LessonScreenState extends State<LessonScreen>
   bool get _isLearningEnglish =>
       SettingsService.appLanguageNotifier.value == AppLanguage.learningEnglish;
 
+  // Alphabet lessons (A1-A5 = ids 101-105, E1-E5 = ids 201-205)
+  bool get _isAlphabetLesson => widget.lesson.id >= 100;
+
   @override
   void initState() {
     super.initState();
@@ -489,6 +492,7 @@ class _LessonScreenState extends State<LessonScreen>
         case ExerciseType.listenAndChoose:
           exercise = ListenScreen(
             exercise: q,
+            isAlphabetLesson: _isAlphabetLesson,
             onAnswer: (correct) => _onAnswer(correct,
                 correctAns: _isLearningEnglish
                     ? q.targetWord.english
