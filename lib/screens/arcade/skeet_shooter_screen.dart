@@ -108,7 +108,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   static const _hsKeyEng  = 'skeet_shooter_hs_eng_v1';
   static const _baseSpeed = 120.0;
   static const _topBarH   = 40.0;
-  static const _bottomBarH = 58.0;
+  static const _bottomBarH = 52.0;
 
   final _rng = Random();
 
@@ -168,9 +168,9 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   double _screenH = 400;
 
   // ── Play area (between top bar and bottom bar) ─────────────────────────
-  double get _playH => _screenH - _topBarH - _bottomBarH;
-  double get _playTop => _topBarH;
-  double get _playBottom => _screenH - _bottomBarH;
+  double get _playH => _screenH - 50.0 - 70.0;
+  double get _playTop => 50.0;
+  double get _playBottom => _screenH - 70.0;
 
   // ── Level helpers ──────────────────────────────────────────────────────
 
@@ -616,61 +616,40 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                 ),
               )),
 
-          // TOP BAR — hearts | level | score
+          // TOP BAR — score | level | hearts
           Positioned(
             top: 0, left: 0, right: 0,
-            child: SafeArea(
-              bottom: false,
-              child: SizedBox(
-                height: _topBarH,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      // Back button
-                      GestureDetector(
-                        onTap: () => Navigator.pop(context),
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.35),
-                            shape: BoxShape.circle,
-                          ),
-                          child: const Icon(Icons.arrow_back_rounded,
-                              color: Colors.white, size: 18),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Hearts
-                      Row(
-                        children: List.generate(_maxLives, (i) => Padding(
-                          padding: const EdgeInsets.only(right: 2),
-                          child: Text(i < _lives ? '❤️' : '🖤',
-                              style: const TextStyle(fontSize: 16)),
-                        )),
-                      ).animate(key: ValueKey(_lives)).shake(duration: 350.ms),
-                      const Spacer(),
-                      // Level
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.40),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text('Lv $_displayLevel',
-                            style: const TextStyle(
-                                color: Colors.white70, fontSize: 11, fontWeight: FontWeight.w700)),
-                      ),
-                      const SizedBox(width: 10),
-                      // Score
-                      Text('$_score',
-                          style: const TextStyle(
-                              color: AppTheme.thaiGold, fontSize: 20, fontWeight: FontWeight.w900)),
-                      const Text(' pts',
-                          style: TextStyle(color: Colors.white60, fontSize: 11)),
-                    ],
+            child: Container(
+              height: _topBarH,
+              color: const Color(0xAA000000),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  // Back button
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(Icons.arrow_back_rounded,
+                        color: Colors.white, size: 20),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  // Score
+                  Text('⚡ $_score pts',
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                  const Spacer(),
+                  // Level
+                  Text('Lv $_displayLevel',
+                      style: const TextStyle(
+                          color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w700)),
+                  const Spacer(),
+                  // Hearts — horizontal
+                  Row(
+                    children: List.generate(_maxLives, (i) => Text(
+                      i < _lives ? '❤️' : '🖤',
+                      style: const TextStyle(fontSize: 14),
+                    )),
+                  ).animate(key: ValueKey(_lives)).shake(duration: 350.ms),
+                ],
               ),
             ),
           ),
@@ -781,28 +760,30 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   // ── Bottom target bar ─────────────────────────────────────────────────
 
   Widget _buildBottomBar(Word target) {
-    final findLabel = _isLearningEnglish ? '🎯 หา:' : '🎯 Find:';
-    final mainText  = _isLearningEnglish ? target.thai    : target.english;
-    final subText   = _isLearningEnglish
-        ? '${target.phonetic} • ${target.english}'
+    // Learning Thai: bar shows English prompt, skeets show Thai
+    // Learning English: bar shows Thai prompt, skeets show English
+    final mainText = _isLearningEnglish ? target.thai : target.english;
+    final subText  = _isLearningEnglish
+        ? '${target.phonetic}  •  ${target.english}'
         : target.phonetic;
 
     return Positioned(
       bottom: 0, left: 0, right: 0,
       child: Container(
         height: _bottomBarH,
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.78),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+        decoration: const BoxDecoration(
+          color: Color(0xCC000000),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12),
+            topRight: Radius.circular(12),
+          ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(findLabel,
-                style: const TextStyle(
-                    color: AppTheme.thaiGold, fontSize: 12, fontWeight: FontWeight.w800)),
-            const SizedBox(width: 8),
-            Expanded(
+            const Text('🎯 ', style: TextStyle(fontSize: 16)),
+            Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -812,10 +793,10 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      color: Colors.white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      shadows: [Shadow(color: Colors.black87, blurRadius: 6)],
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      shadows: [Shadow(color: Colors.white54, blurRadius: 8)],
                     ),
                   ),
                   if (subText.isNotEmpty)
@@ -823,16 +804,13 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                       subText,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.white.withValues(alpha: 0.60),
-                        fontSize: 11,
-                      ),
+                      style: const TextStyle(fontSize: 12, color: Colors.white60),
                     ),
                 ],
               ),
             ),
-            // Streak indicator
-            if (_streak >= 2)
+            if (_streak >= 2) ...[
+              const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
@@ -844,6 +822,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                     style: const TextStyle(
                         color: AppTheme.thaiGold, fontSize: 12, fontWeight: FontWeight.w800)),
               ),
+            ],
           ],
         ),
       ),
