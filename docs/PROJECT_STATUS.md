@@ -1,8 +1,58 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-07-01 (v1.2.3 — Skeet Shooter Overhaul)  
+**Last updated:** 2026-07-02 (v1.2.5 — Patch Notes Fix + Skeet Word Mode)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.2.5 Changes — 2026-07-02
+
+### Patch Notes & What's New Screen
+
+**`PatchNotesService` sort fix:**
+- `getLatestPatchNotes()` now does client-side semantic version sort after Firestore fetch
+- `_compareVersions()` parses "1.2.5" as [1,2,5] integers for reliable descending order
+- Default limit raised to 20 (was 10) to show full version history
+
+**`WhatsNewScreen` redesign:**
+- Type badges with emoji: 🟢 Major | 🔵 Minor | ⚪ Patch
+- "CURRENT" gold badge on the active app version (v1.2.5)
+- Gold border on current version card
+- Colored bullet points matching type color
+- Date displayed as "Jul 2, 2026"
+
+**Firestore patch_notes seeded (`scripts/upload_patch_notes.py`):**
+- 20 versions from 1.0.0 → 1.2.5 uploaded with correct staggered dates
+- All dates are distinct (1 day apart) so Firestore orderBy('date') sorts correctly
+- Script uses `python -X utf8` flag for emoji-safe Windows output
+
+### Skeet Shooter — Language Mode + Bottom Bar
+
+**Language-aware display (`skeet_shooter_screen.dart`):**
+- Reads `SettingsService().appLanguage` at game start (snapshotted, not live)
+- **Learning Thai (English speaker):** bottom bar shows English word to find; skeets show Thai
+- **Learning English (Thai speaker):** bottom bar shows Thai + phonetic; skeets show English
+- Separate high score key per mode: `skeet_shooter_hs_v2` (Thai) / `skeet_shooter_hs_eng_v1` (English)
+- Start screen instruction changes based on mode
+- Correct shot shows brief translation pill: "สวัสดี = Hello ✅" or "Hello = สวัสดี ✅"
+
+**Bottom target bar:**
+- Removed floating center word card entirely
+- Fixed `Positioned(bottom: 0)` bar, 58px tall, rounded top corners (12px), no bottom radius
+- Layout: `🎯 Find:` label | main word (bold white with shadow) | phonetic • English (grey)
+- Streak counter `🔥 xN` badge appears in bar when streak ≥ 2
+- Background: `rgba(0,0,0,0.78)` for high contrast on all backgrounds
+
+**Play area clamping:**
+- `_playTop = _topBarH (40px)`, `_playBottom = screenH - _bottomBarH (58px)`
+- Skeet Y position clamped to `[_playTop, _playBottom - skeetSize]`
+- Top-falling skeets stay within the play area, never behind bottom bar
+
+**Skeet text sizing:**
+- Thai text: always 11px bold
+- English text: 10px (≤8 chars), 9px (≤12 chars), 8px (>12 chars)
+- Long English phrases truncated: take first 2 words if ≤12 chars, else first word
 
 ---
 

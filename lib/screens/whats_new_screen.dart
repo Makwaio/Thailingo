@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../services/patch_notes_service.dart';
 import '../ui/theme/app_theme.dart';
 
+const _kCurrentVersion = '1.2.5';
+
 // ── Full screen ────────────────────────────────────────────────────────
 
 class WhatsNewScreen extends StatefulWidget {
@@ -22,7 +24,7 @@ class _WhatsNewScreenState extends State<WhatsNewScreen> {
   }
 
   Future<void> _load() async {
-    final notes = await PatchNotesService().getLatestPatchNotes();
+    final notes = await PatchNotesService().getLatestPatchNotes(limit: 25);
     if (mounted) setState(() { _notes = notes; _loading = false; });
   }
 
@@ -34,16 +36,12 @@ class _WhatsNewScreenState extends State<WhatsNewScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_rounded,
-              color: AppTheme.textPrimary),
+          icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           "What's New 📋",
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: AppTheme.textPrimary),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: AppTheme.textPrimary),
         ),
         centerTitle: true,
         bottom: PreferredSize(
@@ -59,7 +57,7 @@ class _WhatsNewScreenState extends State<WhatsNewScreen> {
                       style: TextStyle(color: AppTheme.textSecondary)),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                   itemCount: _notes.length,
                   itemBuilder: (_, i) => _PatchNoteCard(note: _notes[i]),
                 ),
@@ -108,8 +106,7 @@ class WhatsNewDialog extends StatelessWidget {
                     notes.length == 1
                         ? 'v${notes.first.version}'
                         : '${notes.length} new updates',
-                    style: const TextStyle(
-                        fontSize: 13, color: Colors.white60),
+                    style: const TextStyle(fontSize: 13, color: Colors.white60),
                   ),
                 ],
               ),
@@ -141,8 +138,7 @@ class WhatsNewDialog extends StatelessWidget {
                   ),
                   child: const Text(
                     "Got it! Let's play 🇹🇭",
-                    style: TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w800),
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                   ),
                 ),
               ),
@@ -162,18 +158,34 @@ class _PatchNoteCard extends StatelessWidget {
 
   const _PatchNoteCard({required this.note, this.compact = false});
 
+  Color get _typeColor {
+    switch (note.type) {
+      case 'major': return const Color(0xFF2E7D32); // green
+      case 'minor': return const Color(0xFF1565C0); // blue
+      default:      return const Color(0xFF757575); // grey
+    }
+  }
+
+  String get _typeEmoji {
+    switch (note.type) {
+      case 'major': return '🟢';
+      case 'minor': return '🔵';
+      default:      return '⚪';
+    }
+  }
+
+  String get _typeLabel {
+    switch (note.type) {
+      case 'major': return 'Major';
+      case 'minor': return 'Minor';
+      default:      return 'Patch';
+    }
+  }
+
+  bool get _isCurrent => note.version == _kCurrentVersion;
+
   @override
   Widget build(BuildContext context) {
-    Color typeColor;
-    switch (note.type) {
-      case 'major':
-        typeColor = AppTheme.thaiNavy;
-      case 'minor':
-        typeColor = AppTheme.primary;
-      default:
-        typeColor = AppTheme.textSecondary;
-    }
-
     final dateStr = _formatDate(note.date);
 
     return Container(
@@ -181,7 +193,12 @@ class _PatchNoteCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-        border: Border.all(color: AppTheme.border),
+        border: Border.all(
+          color: _isCurrent
+              ? AppTheme.thaiGold.withValues(alpha: 0.6)
+              : AppTheme.border,
+          width: _isCurrent ? 2 : 1,
+        ),
         boxShadow: compact ? [] : AppTheme.shadowSm,
       ),
       child: Padding(
@@ -189,60 +206,93 @@ class _PatchNoteCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Version row
             Row(
               children: [
+                // Version pill
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: typeColor.withValues(alpha: 0.12),
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusFull),
+                    color: _isCurrent
+                        ? AppTheme.thaiGold.withValues(alpha: 0.15)
+                        : _typeColor.withValues(alpha: 0.10),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    border: Border.all(
+                      color: _isCurrent
+                          ? AppTheme.thaiGold.withValues(alpha: 0.5)
+                          : _typeColor.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Text(
                     'v${note.version}',
                     style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        color: typeColor),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      color: _isCurrent ? AppTheme.thaiGold : _typeColor,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 8),
-                Expanded(
+                const SizedBox(width: 6),
+                // Type badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: _typeColor.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                  ),
                   child: Text(
-                    note.title,
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: AppTheme.textPrimary),
+                    '$_typeEmoji $_typeLabel',
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: _typeColor),
                   ),
                 ),
+                if (_isCurrent) ...[
+                  const SizedBox(width: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: AppTheme.thaiGold,
+                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                    ),
+                    child: const Text(
+                      'CURRENT',
+                      style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.white),
+                    ),
+                  ),
+                ],
+                const Spacer(),
                 Text(
                   dateStr,
-                  style: const TextStyle(
-                      fontSize: 11, color: AppTheme.textSecondary),
+                  style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
+            // Title
+            Text(
+              note.title,
+              style: TextStyle(
+                fontSize: compact ? 14 : 15,
+                fontWeight: FontWeight.w800,
+                color: AppTheme.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            // Bullet notes
             ...note.notes.map(
               (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 5),
+                padding: const EdgeInsets.only(bottom: 4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('• ',
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: AppTheme.textSecondary,
-                            height: 1.5)),
+                    Text('• ', style: TextStyle(
+                        fontSize: 13,
+                        color: _typeColor.withValues(alpha: 0.7),
+                        height: 1.5)),
                     Expanded(
                       child: Text(
                         item,
                         style: const TextStyle(
-                            fontSize: 13,
-                            color: AppTheme.textPrimary,
-                            height: 1.5),
+                            fontSize: 13, color: AppTheme.textPrimary, height: 1.5),
                       ),
                     ),
                   ],
@@ -258,7 +308,7 @@ class _PatchNoteCard extends StatelessWidget {
   String _formatDate(DateTime dt) {
     const months = [
       '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
     ];
     return '${months[dt.month]} ${dt.day}, ${dt.year}';
   }
@@ -285,7 +335,7 @@ Future<void> showAddPatchNoteDialog(BuildContext context) async {
               TextField(
                 controller: versionCtrl,
                 decoration: const InputDecoration(
-                    labelText: 'Version (e.g. 1.0.2)',
+                    labelText: 'Version (e.g. 1.2.5)',
                     border: OutlineInputBorder()),
               ),
               const SizedBox(height: 12),
@@ -304,9 +354,9 @@ Future<void> showAddPatchNoteDialog(BuildContext context) async {
                     value: selectedType,
                     isExpanded: true,
                     items: const [
-                      DropdownMenuItem(value: 'major', child: Text('Major')),
-                      DropdownMenuItem(value: 'minor', child: Text('Minor')),
-                      DropdownMenuItem(value: 'patch', child: Text('Patch')),
+                      DropdownMenuItem(value: 'major', child: Text('🟢 Major')),
+                      DropdownMenuItem(value: 'minor', child: Text('🔵 Minor')),
+                      DropdownMenuItem(value: 'patch', child: Text('⚪ Patch')),
                     ],
                     onChanged: (v) => setSt(() => selectedType = v ?? 'patch'),
                   ),
@@ -349,8 +399,7 @@ Future<void> showAddPatchNoteDialog(BuildContext context) async {
               if (ctx.mounted) {
                 Navigator.pop(ctx);
                 ScaffoldMessenger.of(ctx).showSnackBar(
-                  SnackBar(
-                      content: Text('Patch note v$version added!')),
+                  SnackBar(content: Text('Patch note v$version added!')),
                 );
               }
             },

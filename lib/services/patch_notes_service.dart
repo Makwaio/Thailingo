@@ -49,7 +49,7 @@ class PatchNotesService {
 
   FirebaseFirestore get _db => FirebaseFirestore.instance;
 
-  Future<List<PatchNote>> getLatestPatchNotes({int limit = 10}) async {
+  Future<List<PatchNote>> getLatestPatchNotes({int limit = 20}) async {
     if (kIsWeb) return [];
     try {
       final snap = await _db
@@ -57,10 +57,26 @@ class PatchNotesService {
           .orderBy('date', descending: true)
           .limit(limit)
           .get();
-      return snap.docs.map(PatchNote.fromFirestore).toList();
+      final notes = snap.docs.map(PatchNote.fromFirestore).toList();
+      // Secondary sort by semantic version to handle equal/missing dates
+      notes.sort((a, b) => _compareVersions(b.version, a.version));
+      return notes;
     } catch (_) {
       return [];
     }
+  }
+
+  /// Compares semantic versions: "1.2.5" > "1.2.1" > "1.1.0"
+  int _compareVersions(String a, String b) {
+    final ap = a.split('.').map((s) => int.tryParse(s) ?? 0).toList();
+    final bp = b.split('.').map((s) => int.tryParse(s) ?? 0).toList();
+    while (ap.length < 3) { ap.add(0); }
+    while (bp.length < 3) { bp.add(0); }
+    for (int i = 0; i < 3; i++) {
+      final c = ap[i].compareTo(bp[i]);
+      if (c != 0) return c;
+    }
+    return 0;
   }
 
   Future<bool> hasUnreadNotes() async {
