@@ -1,0 +1,29 @@
+{
+  "id": 66,
+  "title": "Talking About Food You Like",
+  "thaiTitle": "พูดถึงอาหารที่คุณชอบ",
+  "subtitle": "Discuss Thai food you love",
+  "icon": "lesson_3",
+  "color": "#E65100",
+  "xpReward": 40,
+  "words": [
+    {"id":"l66_01","thai":"ชอบกิน","phonetic":"chop-gin","english":"like to eat","image":"","audio":"l66_01.mp3","example":"ชอบกินอาหารไทยมาก — I love eating Thai food"},
+    {"id":"l66_02","thai":"ไม่ชอบ","phonetic":"mai-chop","english":"don't like","image":"","audio":"l66_02.mp3","example":"ไม่ชอบกินเผ็ด — I don't like spicy food"},
+    {"id":"l66_03","thai":"อาหารโปรด","phonetic":"a-han-prot","english":"favorite food","image":"","audio":"l66_03.mp3","example":"อาหารโปรดของคุณคืออะไร — What is your favorite food?"},
+    {"id":"l66_04","thai":"รสชาติ","phonetic":"rot-chat","english":"taste / flavor","image":"","audio":"l66_04.mp3","example":"รสชาติดีมาก — The taste is very good"},
+    {"id":"l66_05","thai":"หวาน","phonetic":"wan","english":"sweet","image":"","audio":"l66_05.mp3","example":"ชอบรสหวาน — I like sweet flavors"},
+    {"id":"l66_06","thai":"เปรี้ยว","phonetic":"priao","english":"sour","image":"","audio":"l66_06.mp3","example":"รสเปรี้ยวนิดหน่อย — Slightly sour"},
+    {"id":"l66_07","thai":"เค็ม","phonetic":"khem","english":"salty","image":"","audio":"l66_07.mp3","example":"เค็มพอดี — Just the right saltiness"},
+    {"id":"l66_08","thai":"ขม","phonetic":"khom","english":"bitter","image":"","audio":"l66_08.mp3","example":"กาแฟขมนิดหน่อย — Coffee is a bit bitter"},
+    {"id":"l66_09","thai":"มัน","phonetic":"man","english":"rich / oily / creamy","image":"","audio":"l66_09.mp3","example":"แกงมันมากเกินไป — The curry is too rich"},
+    {"id":"l66_10","thai":"อาหารไทย","phonetic":"a-han-thai","english":"Thai food","image":"","audio":"l66_10.mp3","example":"อาหารไทยอร่อยที่สุด — Thai food is the most delicious"},
+    {"id":"l66_11","thai":"อาหารฝรั่ง","phonetic":"a-han-fa-rang","english":"Western food","image":"","audio":"l66_11.mp3","example":"บางทีก็อยากกินอาหารฝรั่ง — Sometimes I want to eat Western food"},
+    {"id":"l66_12","thai":"อาหารญี่ปุ่น","phonetic":"a-han-yi-pun","english":"Japanese food","image":"","audio":"l66_12.mp3","example":"ชอบอาหารญี่ปุ่นมาก — I love Japanese food a lot"},
+    {"id":"l66_13","thai":"กินเจ","phonetic":"gin-je","english":"vegetarian (Buddhist style)","image":"","audio":"l66_13.mp3","example":"กินเจทุกปีช่วงเทศกาล — I eat vegetarian every year during the festival"},
+    {"id":"l66_14","thai":"แพ้อาหาร","phonetic":"phae-a-han","english":"food allergy","image":"","audio":"l66_14.mp3","example":"แพ้อาหารทะเล — I'm allergic to seafood"},
+    {"id":"l66_15","thai":"ลอง","phonetic":"long","english":"try (food)","image":"","audio":"l66_15.mp3","example":"ลองกินส้มตำดูไหม — Want to try papaya salad?"},
+    {"id":"l66_16","thai":"เคย","phonetic":"koei","english":"have tried / ever","image":"","audio":"l66_16.mp3","example":"เคยกินหมูกระทะไหม — Have you ever had moo kata (Thai BBQ)?"},
+    {"id":"l66_17","thai":"อร่อยมาก","phonetic":"a-roi-mak","english":"very delicious","image":"","audio":"l66_17.mp3","example":"ร้านนี้อร่อยมากเลย — This restaurant is very delicious"},
+    {"id":"l66_18","thai":"ทานมังสวิรัติ","phonetic":"tan-mang-sa-wi-rat","english":"eat vegetarian","image":"","audio":"l66_18.mp3","example":"ฉันทานมังสวิรัติ — I eat vegetarian"}
+  ]
+}

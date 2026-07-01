@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,6 +63,10 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     _pool = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _loadHighScore();
     _startRound();
@@ -70,6 +75,12 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   @override
   void dispose() {
     _gameLoop?.cancel();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     super.dispose();
   }
 

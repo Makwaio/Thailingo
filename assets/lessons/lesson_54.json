@@ -1,0 +1,31 @@
+{
+  "id": 54,
+  "title": "At the Restaurant",
+  "thaiTitle": "ที่ร้านอาหาร",
+  "subtitle": "Order food like a local",
+  "icon": "lesson_3",
+  "color": "#880E4F",
+  "xpReward": 35,
+  "words": [
+    {"id":"l54_01","thai":"โต๊ะ","phonetic":"to","english":"table","image":"","audio":"l54_01.mp3","example":"ขอโต๊ะสำหรับ 2 คนได้ไหม — Can I have a table for 2?"},
+    {"id":"l54_02","thai":"เมนู","phonetic":"menu","english":"menu","image":"","audio":"l54_02.mp3","example":"ขอดูเมนูได้ไหมคะ — Can I see the menu?"},
+    {"id":"l54_03","thai":"สั่ง","phonetic":"sang","english":"to order","image":"","audio":"l54_03.mp3","example":"พร้อมสั่งหรือยัง — Are you ready to order?"},
+    {"id":"l54_04","thai":"อาหาร","phonetic":"a-han","english":"food / dish","image":"","audio":"l54_04.mp3","example":"อาหารนี้อร่อยมาก — This food is very delicious"},
+    {"id":"l54_05","thai":"อร่อย","phonetic":"a-roi","english":"delicious","image":"","audio":"l54_05.mp3","example":"อร่อยมากเลย — It's very delicious"},
+    {"id":"l54_06","thai":"เผ็ด","phonetic":"pet","english":"spicy","image":"","audio":"l54_06.mp3","example":"เผ็ดมากเกินไป — It's too spicy"},
+    {"id":"l54_07","thai":"ไม่เผ็ด","phonetic":"mai-pet","english":"not spicy","image":"","audio":"l54_07.mp3","example":"ขอไม่เผ็ดนะคะ — Not spicy please"},
+    {"id":"l54_08","thai":"หวาน","phonetic":"wan","english":"sweet","image":"","audio":"l54_08.mp3","example":"หวานพอดี — Just the right sweetness"},
+    {"id":"l54_09","thai":"เค็ม","phonetic":"khem","english":"salty","image":"","audio":"l54_09.mp3","example":"เค็มนิดหน่อย — A little salty"},
+    {"id":"l54_10","thai":"น้ำ","phonetic":"nam","english":"water / drink","image":"","audio":"l54_10.mp3","example":"ขอน้ำเปล่าด้วย — Water please"},
+    {"id":"l54_11","thai":"แนะนำ","phonetic":"nae-nam","english":"recommend","image":"","audio":"l54_11.mp3","example":"แนะนำเมนูอะไรดี — What do you recommend?"},
+    {"id":"l54_12","thai":"เก็บเงิน","phonetic":"gep-ngoen","english":"bill please / check","image":"","audio":"l54_12.mp3","example":"เก็บเงินด้วยครับ — Bill please"},
+    {"id":"l54_13","thai":"จาน","phonetic":"jan","english":"plate / dish","image":"","audio":"l54_13.mp3","example":"ขอจานเพิ่มได้ไหม — Can I have another plate?"},
+    {"id":"l54_14","thai":"ช้อน","phonetic":"chon","english":"spoon","image":"","audio":"l54_14.mp3","example":"ขอช้อนด้วยค่ะ — A spoon please"},
+    {"id":"l54_15","thai":"ส้อม","phonetic":"som","english":"fork","image":"","audio":"l54_15.mp3","example":"ขอส้อมได้ไหม — Can I have a fork?"},
+    {"id":"l54_16","thai":"ตะเกียบ","phonetic":"ta-giap","english":"chopsticks","image":"","audio":"l54_16.mp3","example":"ขอตะเกียบด้วยนะ — Chopsticks please"},
+    {"id":"l54_17","thai":"มังสวิรัติ","phonetic":"mang-sa-wi-rat","english":"vegetarian","image":"","audio":"l54_17.mp3","example":"มีเมนูมังสวิรัติไหม — Do you have vegetarian options?"},
+    {"id":"l54_18","thai":"อาหารทะเล","phonetic":"a-han-ta-le","english":"seafood","image":"","audio":"l54_18.mp3","example":"อาหารทะเลสดมาก — The seafood is very fresh"},
+    {"id":"l54_19","thai":"รอสักครู่","phonetic":"ro-sak-kru","english":"wait a moment","image":"","audio":"l54_19.mp3","example":"รอสักครู่นะคะ อาหารกำลังทำ — Wait a moment, the food is being prepared"},
+    {"id":"l54_20","thai":"แบ่งจ่าย","phonetic":"baeng-jai","english":"split the bill","image":"","audio":"l54_20.mp3","example":"แบ่งจ่ายกันได้ไหม — Can we split the bill?"}
+  ]
+}

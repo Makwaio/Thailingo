@@ -66,7 +66,14 @@ class _McScreenState extends State<McScreen> {
   Widget build(BuildContext context) {
     final ex = widget.exercise;
     final target = ex.targetWord;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
+    if (isLandscape) return _buildLandscape(context, ex, target);
+    return _buildPortrait(ex, target);
+  }
+
+  Widget _buildPortrait(Exercise ex, Word target) {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
       child: Column(
@@ -86,39 +93,122 @@ class _McScreenState extends State<McScreen> {
                   fontSize: 11, fontWeight: FontWeight.w700,
                   letterSpacing: 1.2, color: AppTheme.textSecondary)),
           const SizedBox(height: 10),
-          ...ex.options.asMap().entries.map((entry) {
-            final i = entry.key;
-            final word = entry.value;
-            final label = _isTh2En ? word.english : word.thai;
-            final sublabel = _isTh2En ? null : word.phonetic;
-
-            ChoiceState state = ChoiceState.idle;
-            if (widget.answered) {
-              if (word.id == target.id) {
-                state = ChoiceState.correct;
-              } else if (_selected?.id == word.id) {
-                state = ChoiceState.wrong;
-              }
-            } else if (_selected?.id == word.id) {
-              state = ChoiceState.selected;
-            }
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: ChoiceCard(
-                label: label,
-                sublabel: sublabel,
-                state: state,
-                onTap: () => _select(word),
-              ),
-            )
-                .animate(delay: (i * 60).ms)
-                .fadeIn(duration: 300.ms)
-                .slideX(begin: 0.1, duration: 300.ms, curve: Curves.easeOut);
-          }),
+          ..._buildChoiceList(ex, target),
         ],
       ),
     );
+  }
+
+  Widget _buildLandscape(BuildContext context, Exercise ex, Word target) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Left: stimulus
+        Expanded(
+          flex: 4,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  (ex.promptText ?? '').toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 10, fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2, color: AppTheme.textSecondary),
+                ),
+                const SizedBox(height: 8),
+                _buildStimulus(target),
+              ],
+            ),
+          ),
+        ),
+        // Divider
+        Container(width: 1, color: AppTheme.border),
+        // Right: choices
+        Expanded(
+          flex: 6,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(12, 12, 16, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('CHOOSE THE ANSWER',
+                    style: TextStyle(
+                        fontSize: 10, fontWeight: FontWeight.w700,
+                        letterSpacing: 1.2, color: AppTheme.textSecondary)),
+                const SizedBox(height: 8),
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 2.2,
+                  children: ex.options.asMap().entries.map((entry) {
+                    final i = entry.key;
+                    final word = entry.value;
+                    final label = _isTh2En ? word.english : word.thai;
+                    final sublabel = _isTh2En ? null : word.phonetic;
+                    ChoiceState state = ChoiceState.idle;
+                    if (widget.answered) {
+                      if (word.id == target.id) {
+                        state = ChoiceState.correct;
+                      } else if (_selected?.id == word.id) {
+                        state = ChoiceState.wrong;
+                      }
+                    } else if (_selected?.id == word.id) {
+                      state = ChoiceState.selected;
+                    }
+                    return ChoiceCard(
+                      label: label,
+                      sublabel: sublabel,
+                      state: state,
+                      onTap: () => _select(word),
+                    )
+                        .animate(delay: (i * 60).ms)
+                        .fadeIn(duration: 300.ms);
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildChoiceList(Exercise ex, Word target) {
+    return ex.options.asMap().entries.map((entry) {
+      final i = entry.key;
+      final word = entry.value;
+      final label = _isTh2En ? word.english : word.thai;
+      final sublabel = _isTh2En ? null : word.phonetic;
+
+      ChoiceState state = ChoiceState.idle;
+      if (widget.answered) {
+        if (word.id == target.id) {
+          state = ChoiceState.correct;
+        } else if (_selected?.id == word.id) {
+          state = ChoiceState.wrong;
+        }
+      } else if (_selected?.id == word.id) {
+        state = ChoiceState.selected;
+      }
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: ChoiceCard(
+          label: label,
+          sublabel: sublabel,
+          state: state,
+          onTap: () => _select(word),
+        ),
+      )
+          .animate(delay: (i * 60).ms)
+          .fadeIn(duration: 300.ms)
+          .slideX(begin: 0.1, duration: 300.ms, curve: Curves.easeOut);
+    }).toList();
   }
 
   Widget _buildStimulus(Word target) {

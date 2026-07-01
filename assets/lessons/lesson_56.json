@@ -1,0 +1,29 @@
+{
+  "id": 56,
+  "title": "Money & Payments",
+  "thaiTitle": "เงินและการชำระเงิน",
+  "subtitle": "Pay and transfer like a pro",
+  "icon": "lesson_5",
+  "color": "#1565C0",
+  "xpReward": 35,
+  "words": [
+    {"id":"l56_01","thai":"บาท","phonetic":"baht","english":"baht (Thai currency)","image":"","audio":"l56_01.mp3","example":"ทั้งหมด 200 บาท — Total is 200 baht"},
+    {"id":"l56_02","thai":"สตางค์","phonetic":"sa-tang","english":"satang (cents)","image":"","audio":"l56_02.mp3","example":"50 สตางค์ — 50 satang"},
+    {"id":"l56_03","thai":"จ่าย","phonetic":"jai","english":"pay","image":"","audio":"l56_03.mp3","example":"จ่ายได้เลยครับ — You can pay now"},
+    {"id":"l56_04","thai":"โอน","phonetic":"on","english":"transfer (money)","image":"","audio":"l56_04.mp3","example":"โอนเงินให้ได้เลย — I can transfer the money"},
+    {"id":"l56_05","thai":"พร้อมเพย์","phonetic":"phrom-phei","english":"PromptPay (Thai mobile payment)","image":"","audio":"l56_05.mp3","example":"รับพร้อมเพย์ไหม — Do you accept PromptPay?"},
+    {"id":"l56_06","thai":"QR โค้ด","phonetic":"QR-code","english":"QR code payment","image":"","audio":"l56_06.mp3","example":"สแกน QR โค้ดได้เลย — Just scan the QR code"},
+    {"id":"l56_07","thai":"บัตรเครดิต","phonetic":"bat-credit","english":"credit card","image":"","audio":"l56_07.mp3","example":"รับบัตรเครดิตไหม — Do you accept credit cards?"},
+    {"id":"l56_08","thai":"บัตรเดบิต","phonetic":"bat-debit","english":"debit card","image":"","audio":"l56_08.mp3","example":"จ่ายบัตรเดบิตได้ไหม — Can I pay by debit card?"},
+    {"id":"l56_09","thai":"ใบเสร็จ","phonetic":"bai-set","english":"receipt","image":"","audio":"l56_09.mp3","example":"ขอใบเสร็จด้วยนะคะ — Can I have a receipt?"},
+    {"id":"l56_10","thai":"ธนบัตร","phonetic":"tha-na-bat","english":"banknote","image":"","audio":"l56_10.mp3","example":"มีธนบัตร 1000 บาทไหม — Do you have a 1000 baht note?"},
+    {"id":"l56_11","thai":"เหรียญ","phonetic":"rian","english":"coin","image":"","audio":"l56_11.mp3","example":"มีเหรียญ 10 บาทไหม — Do you have a 10 baht coin?"},
+    {"id":"l56_12","thai":"ราคารวม","phonetic":"ra-kha-ruam","english":"total price","image":"","audio":"l56_12.mp3","example":"ราคารวมเท่าไร — What is the total price?"},
+    {"id":"l56_13","thai":"คืนเงิน","phonetic":"keun-ngoen","english":"refund","image":"","audio":"l56_13.mp3","example":"ขอคืนเงินได้ไหม — Can I get a refund?"},
+    {"id":"l56_14","thai":"เกินมา","phonetic":"goen-ma","english":"overcharged","image":"","audio":"l56_14.mp3","example":"เงินเกินมา 50 บาท — I was overcharged 50 baht"},
+    {"id":"l56_15","thai":"แตกย่อย","phonetic":"taek-yoi","english":"break a large bill","image":"","audio":"l56_15.mp3","example":"แตกย่อยพันบาทให้หน่อยได้ไหม — Can you break a 1000 baht note?"},
+    {"id":"l56_16","thai":"ชำระ","phonetic":"cham-ra","english":"payment / to settle","image":"","audio":"l56_16.mp3","example":"ชำระเงินที่แคชเชียร์ — Pay at the cashier"},
+    {"id":"l56_17","thai":"โปรโมชั่น","phonetic":"pro-mo-chan","english":"promotion / deal","image":"","audio":"l56_17.mp3","example":"มีโปรโมชั่นไหมคะ — Are there any promotions?"},
+    {"id":"l56_18","thai":"แอปธนาคาร","phonetic":"app-tha-na-kan","english":"banking app","image":"","audio":"l56_18.mp3","example":"โอนผ่านแอปธนาคารได้เลย — You can transfer via banking app"}
+  ]
+}

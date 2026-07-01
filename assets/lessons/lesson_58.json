@@ -1,0 +1,29 @@
+{
+  "id": 58,
+  "title": "At the Hotel",
+  "thaiTitle": "ที่โรงแรม",
+  "subtitle": "Check in and feel at home",
+  "icon": "lesson_1",
+  "color": "#4527A0",
+  "xpReward": 35,
+  "words": [
+    {"id":"l58_01","thai":"โรงแรม","phonetic":"rong-raem","english":"hotel","image":"","audio":"l58_01.mp3","example":"โรงแรมอยู่ใกล้ BTS — The hotel is near the BTS"},
+    {"id":"l58_02","thai":"เช็คอิน","phonetic":"chek-in","english":"check in","image":"","audio":"l58_02.mp3","example":"เช็คอินได้กี่โมง — What time can I check in?"},
+    {"id":"l58_03","thai":"เช็คเอาท์","phonetic":"chek-out","english":"check out","image":"","audio":"l58_03.mp3","example":"เช็คเอาท์กี่โมงคะ — What time is checkout?"},
+    {"id":"l58_04","thai":"ห้องพัก","phonetic":"hong-phak","english":"room","image":"","audio":"l58_04.mp3","example":"จองห้องพักไว้แล้ว — I have a room reservation"},
+    {"id":"l58_05","thai":"กุญแจ","phonetic":"gun-jae","english":"key (room key)","image":"","audio":"l58_05.mp3","example":"กุญแจห้องอยู่ที่ไหน — Where is the room key?"},
+    {"id":"l58_06","thai":"ลิฟต์","phonetic":"lift","english":"elevator","image":"","audio":"l58_06.mp3","example":"ลิฟต์อยู่ทางนี้ — The elevator is this way"},
+    {"id":"l58_07","thai":"ชั้น","phonetic":"chan","english":"floor","image":"","audio":"l58_07.mp3","example":"ห้องอยู่ชั้น 7 — The room is on the 7th floor"},
+    {"id":"l58_08","thai":"หมอน","phonetic":"mon","english":"pillow","image":"","audio":"l58_08.mp3","example":"ขอหมอนเพิ่มได้ไหม — Can I have an extra pillow?"},
+    {"id":"l58_09","thai":"ผ้าห่ม","phonetic":"pha-hom","english":"blanket","image":"","audio":"l58_09.mp3","example":"ผ้าห่มบางไป ขอเพิ่มได้ไหม — The blanket is thin, can I have more?"},
+    {"id":"l58_10","thai":"ห้องน้ำ","phonetic":"hong-nam","english":"bathroom","image":"","audio":"l58_10.mp3","example":"ห้องน้ำอยู่ที่ไหนคะ — Where is the bathroom?"},
+    {"id":"l58_11","thai":"ทำความสะอาด","phonetic":"tham-kwaam-sa-at","english":"housekeeping / clean the room","image":"","audio":"l58_11.mp3","example":"ช่วยทำความสะอาดห้องด้วยได้ไหม — Can you clean the room?"},
+    {"id":"l58_12","thai":"สระว่ายน้ำ","phonetic":"sa-wai-nam","english":"swimming pool","image":"","audio":"l58_12.mp3","example":"สระว่ายน้ำอยู่ชั้นไหน — Which floor is the pool on?"},
+    {"id":"l58_13","thai":"อาหารเช้า","phonetic":"a-han-chao","english":"breakfast","image":"","audio":"l58_13.mp3","example":"อาหารเช้ารวมด้วยไหม — Is breakfast included?"},
+    {"id":"l58_14","thai":"บริการ","phonetic":"bo-ri-gan","english":"service","image":"","audio":"l58_14.mp3","example":"มีบริการรูมเซอร์วิสไหม — Is there room service?"},
+    {"id":"l58_15","thai":"ฝากกระเป๋า","phonetic":"fak-gra-pao","english":"store luggage","image":"","audio":"l58_15.mp3","example":"ฝากกระเป๋าไว้ก่อนได้ไหม — Can I store my luggage first?"},
+    {"id":"l58_16","thai":"เสียง","phonetic":"siang","english":"noise / sound","image":"","audio":"l58_16.mp3","example":"เสียงดังมากจากห้องข้าง — The noise from the next room is loud"},
+    {"id":"l58_17","thai":"เปลี่ยนห้อง","phonetic":"plian-hong","english":"change room","image":"","audio":"l58_17.mp3","example":"ขอเปลี่ยนห้องได้ไหม — Can I change rooms?"},
+    {"id":"l58_18","thai":"รหัสไวไฟ","phonetic":"ra-hat-wai-fai","english":"wifi password","image":"","audio":"l58_18.mp3","example":"รหัสไวไฟคืออะไรคะ — What is the wifi password?"}
+  ]
+}

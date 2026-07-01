@@ -1,0 +1,29 @@
+{
+  "id": 52,
+  "title": "Taxis & Ride-Hailing",
+  "thaiTitle": "แท็กซี่และการเรียกรถ",
+  "subtitle": "Get anywhere in Bangkok",
+  "icon": "lesson_1",
+  "color": "#E64A19",
+  "xpReward": 35,
+  "words": [
+    {"id":"l52_01","thai":"แท็กซี่","phonetic":"taek-see","english":"taxi","image":"","audio":"l52_01.mp3","example":"เรียกแท็กซี่ดีกว่า — Let's call a taxi"},
+    {"id":"l52_02","thai":"แกร็บ","phonetic":"graeb","english":"Grab (ride-hailing app)","image":"","audio":"l52_02.mp3","example":"ใช้แกร็บได้เลย — Just use Grab"},
+    {"id":"l52_03","thai":"คนขับ","phonetic":"kon-kap","english":"driver","image":"","audio":"l52_03.mp3","example":"คนขับมาแล้ว — The driver is here"},
+    {"id":"l52_04","thai":"ที่หมาย","phonetic":"tee-mai","english":"destination","image":"","audio":"l52_04.mp3","example":"ที่หมายคือที่ไหน — What is your destination?"},
+    {"id":"l52_05","thai":"มิเตอร์","phonetic":"mi-toer","english":"meter (taxi meter)","image":"","audio":"l52_05.mp3","example":"เปิดมิเตอร์ด้วย — Please turn on the meter"},
+    {"id":"l52_06","thai":"ราคาเท่าไร","phonetic":"ra-kha-thao-rai","english":"how much is the fare?","image":"","audio":"l52_06.mp3","example":"ไปสยามราคาเท่าไร — How much to Siam?"},
+    {"id":"l52_07","thai":"ไปที่","phonetic":"pai-tee","english":"go to","image":"","audio":"l52_07.mp3","example":"ไปที่สนามบินครับ — Go to the airport please"},
+    {"id":"l52_08","thai":"จอดที่นี่","phonetic":"jot-tee-nee","english":"stop here","image":"","audio":"l52_08.mp3","example":"จอดที่นี่เลยครับ — Stop here please"},
+    {"id":"l52_09","thai":"เลี้ยวซ้าย","phonetic":"lieo-sai","english":"turn left","image":"","audio":"l52_09.mp3","example":"เลี้ยวซ้ายที่สี่แยก — Turn left at the intersection"},
+    {"id":"l52_10","thai":"เลี้ยวขวา","phonetic":"lieo-kwa","english":"turn right","image":"","audio":"l52_10.mp3","example":"เลี้ยวขวาก็ถึงแล้ว — Turn right and you're there"},
+    {"id":"l52_11","thai":"ตรงไป","phonetic":"trong-pai","english":"go straight","image":"","audio":"l52_11.mp3","example":"ตรงไปอีกนิดหน่อย — Go straight a little further"},
+    {"id":"l52_12","thai":"ทางด่วน","phonetic":"thang-duan","english":"expressway","image":"","audio":"l52_12.mp3","example":"ขึ้นทางด่วนได้เลย — You can take the expressway"},
+    {"id":"l52_13","thai":"รถติด","phonetic":"rot-tit","english":"traffic jam","image":"","audio":"l52_13.mp3","example":"รถติดมากเลย — There's a lot of traffic"},
+    {"id":"l52_14","thai":"เปิดแอร์","phonetic":"poet-ae","english":"turn on the AC","image":"","audio":"l52_14.mp3","example":"ช่วยเปิดแอร์หน่อยได้ไหม — Can you turn on the AC?"},
+    {"id":"l52_15","thai":"ส่งที่","phonetic":"song-tee","english":"drop me at","image":"","audio":"l52_15.mp3","example":"ส่งที่ปากซอยได้เลย — Drop me at the entrance of the alley"},
+    {"id":"l52_16","thai":"เร็วขึ้น","phonetic":"reo-keun","english":"faster / speed up","image":"","audio":"l52_16.mp3","example":"รีบหน่อยได้ไหม เร็วขึ้นนะ — Can you hurry? Go faster"},
+    {"id":"l52_17","thai":"ช้าลง","phonetic":"cha-long","english":"slow down","image":"","audio":"l52_17.mp3","example":"ช้าลงหน่อยนะคะ — Please slow down"},
+    {"id":"l52_18","thai":"ถึงแล้ว","phonetic":"theung-laeo","english":"we're here / arrived","image":"","audio":"l52_18.mp3","example":"ถึงแล้วครับ — We're here"}
+  ]
+}

@@ -178,14 +178,17 @@ class _TypingScreenState extends State<TypingScreen> {
     final isLearningEnglish = _isLearningEnglish;
 
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final promptPaddingV = isLandscape ? 12.0 : 32.0;
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + bottomInset),
+      padding: EdgeInsets.fromLTRB(20, isLandscape ? 8 : 20, 20, 20 + bottomInset),
       child: Column(
         children: [
           // Prompt card
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: promptPaddingV, horizontal: 20),
             decoration: BoxDecoration(
               color: AppTheme.thaiNavy,
               borderRadius: BorderRadius.circular(AppTheme.radiusXl),
@@ -208,8 +211,8 @@ class _TypingScreenState extends State<TypingScreen> {
                 const SizedBox(height: 12),
                 Text(
                   word.thai,
-                  style: const TextStyle(
-                      fontSize: 48,
+                  style: TextStyle(
+                      fontSize: isLandscape ? 32 : 48,
                       fontWeight: FontWeight.w900,
                       color: Colors.white),
                   textAlign: TextAlign.center,

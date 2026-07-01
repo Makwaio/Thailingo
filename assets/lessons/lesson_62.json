@@ -1,0 +1,31 @@
+{
+  "id": 62,
+  "title": "Talking About Feelings",
+  "thaiTitle": "พูดถึงความรู้สึก",
+  "subtitle": "Express your emotions in Thai",
+  "icon": "lesson_5",
+  "color": "#880E4F",
+  "xpReward": 40,
+  "words": [
+    {"id":"l62_01","thai":"รู้สึก","phonetic":"ru-seuk","english":"feel / feeling","image":"","audio":"l62_01.mp3","example":"รู้สึกอย่างไรบ้าง — How do you feel?"},
+    {"id":"l62_02","thai":"มีความสุข","phonetic":"mee-kwaam-suk","english":"happy","image":"","audio":"l62_02.mp3","example":"วันนี้มีความสุขมาก — I'm very happy today"},
+    {"id":"l62_03","thai":"เศร้า","phonetic":"sao","english":"sad","image":"","audio":"l62_03.mp3","example":"ทำไมถึงเศร้า — Why are you sad?"},
+    {"id":"l62_04","thai":"โกรธ","phonetic":"grot","english":"angry","image":"","audio":"l62_04.mp3","example":"อย่าโกรธกันนะ — Don't be angry at each other"},
+    {"id":"l62_05","thai":"กลัว","phonetic":"glua","english":"scared / afraid","image":"","audio":"l62_05.mp3","example":"กลัวแมงมุมมาก — I'm very scared of spiders"},
+    {"id":"l62_06","thai":"ตื่นเต้น","phonetic":"teun-ten","english":"excited","image":"","audio":"l62_06.mp3","example":"ตื่นเต้นมากเลยที่ได้ไปเที่ยว — I'm so excited to go on the trip"},
+    {"id":"l62_07","thai":"เครียด","phonetic":"khriat","english":"stressed","image":"","audio":"l62_07.mp3","example":"เครียดเรื่องงานมาก — I'm very stressed about work"},
+    {"id":"l62_08","thai":"เหนื่อย","phonetic":"nueai","english":"tired","image":"","audio":"l62_08.mp3","example":"เหนื่อยมากวันนี้ — I'm very tired today"},
+    {"id":"l62_09","thai":"เบื่อ","phonetic":"buea","english":"bored","image":"","audio":"l62_09.mp3","example":"เบื่อจังเลย — I'm so bored"},
+    {"id":"l62_10","thai":"ประหลาดใจ","phonetic":"pra-lat-jai","english":"surprised","image":"","audio":"l62_10.mp3","example":"ประหลาดใจมากเลย — I'm very surprised"},
+    {"id":"l62_11","thai":"กังวล","phonetic":"gang-won","english":"worried","image":"","audio":"l62_11.mp3","example":"กังวลเรื่องสุขภาพ — I'm worried about my health"},
+    {"id":"l62_12","thai":"อาย","phonetic":"ai","english":"embarrassed / shy","image":"","audio":"l62_12.mp3","example":"อายจัง — I'm so embarrassed"},
+    {"id":"l62_13","thai":"ดีใจ","phonetic":"dee-jai","english":"glad / pleased","image":"","audio":"l62_13.mp3","example":"ดีใจที่ได้เจอกัน — I'm glad to meet you"},
+    {"id":"l62_14","thai":"เสียใจ","phonetic":"sia-jai","english":"sorry / regretful","image":"","audio":"l62_14.mp3","example":"เสียใจมากเลย — I'm very sorry"},
+    {"id":"l62_15","thai":"ภูมิใจ","phonetic":"phum-jai","english":"proud","image":"","audio":"l62_15.mp3","example":"ภูมิใจในตัวเองมาก — I'm very proud of myself"},
+    {"id":"l62_16","thai":"สับสน","phonetic":"sap-son","english":"confused","image":"","audio":"l62_16.mp3","example":"สับสนมากเลยตอนนี้ — I'm very confused right now"},
+    {"id":"l62_17","thai":"สบายใจ","phonetic":"sa-bai-jai","english":"at ease / comfortable","image":"","audio":"l62_17.mp3","example":"รู้สึกสบายใจมากขึ้น — I feel much more at ease"},
+    {"id":"l62_18","thai":"รัก","phonetic":"rak","english":"love","image":"","audio":"l62_18.mp3","example":"รักประเทศไทยมาก — I love Thailand a lot"},
+    {"id":"l62_19","thai":"ห่วงใย","phonetic":"huang-yai","english":"concerned / caring","image":"","audio":"l62_19.mp3","example":"ขอบคุณที่ห่วงใย — Thank you for your concern"},
+    {"id":"l62_20","thai":"อยากรู้","phonetic":"yak-ru","english":"curious","image":"","audio":"l62_20.mp3","example":"อยากรู้เรื่องวัฒนธรรมไทย — I'm curious about Thai culture"}
+  ]
+}

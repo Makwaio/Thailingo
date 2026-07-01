@@ -409,6 +409,232 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
   }
 
   Widget _buildMainContent() {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    return isLandscape ? _buildMainContentLandscape() : _buildMainContentPortrait();
+  }
+
+  Widget _buildWordPanel({bool compact = false}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          _word.thai,
+          style: TextStyle(
+            fontSize: compact ? 36 : 52,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            fontFamily: 'Sarabun',
+            height: 1.1,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: compact ? 4 : 6),
+        Text(
+          _word.phonetic,
+          style: TextStyle(
+            fontSize: compact ? 14 : 18,
+            color: Colors.white.withValues(alpha: 0.55),
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(height: compact ? 6 : 10),
+        GestureDetector(
+          onTap: () => AudioService().playWord(_word.audio, thaiText: _word.thai),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.volume_up_rounded, color: Colors.white70, size: 16),
+                SizedBox(width: 4),
+                Text('Replay', style: TextStyle(fontSize: 12, color: Colors.white70)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnswerButtons({double aspectRatio = 2.6}) {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      childAspectRatio: aspectRatio,
+      physics: const NeverScrollableScrollPhysics(),
+      children: List.generate(_choices.length, (i) {
+        final bg = _btnBg(i);
+        final txt = _btnText(i);
+        final isCorrectAnswer = _answered && i == _correctIdx;
+        return GestureDetector(
+          onTap: () => _onAnswer(i),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+              border: Border.all(
+                color: isCorrectAnswer
+                    ? const Color(0xFF4CAF50)
+                    : (!_answered
+                        ? AppTheme.thaiNavy.withValues(alpha: 0.15)
+                        : Colors.transparent),
+                width: isCorrectAnswer ? 2.0 : 1.0,
+              ),
+              boxShadow: !_answered
+                  ? [
+                      BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2))
+                    ]
+                  : null,
+            ),
+            child: Center(
+              child: Text(
+                _choices[i],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: txt,
+                ),
+              ),
+            ),
+          ),
+        ).animate(target: _answered ? 0.0 : 1.0).scale(
+              begin: const Offset(0.95, 0.95),
+              end: const Offset(1.0, 1.0),
+              duration: 100.ms,
+            );
+      }),
+    );
+  }
+
+  Widget _buildMainContentLandscape() {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 4,
+                child: _buildWordPanel(compact: true),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                flex: 6,
+                child: _buildAnswerButtons(aspectRatio: 2.4),
+              ),
+            ],
+          ),
+        ),
+        ..._buildOverlays(),
+      ],
+    );
+  }
+
+  List<Widget> _buildOverlays() {
+    return [
+      if (_showEarned)
+        Positioned(
+          top: 20,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Text('+$_lastEarned pts',
+                style: const TextStyle(
+                    fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.thaiGold))
+                .animate()
+                .fadeIn(duration: 150.ms)
+                .moveY(begin: 0, end: -24, duration: 500.ms, curve: Curves.easeOut)
+                .fadeOut(delay: 300.ms, duration: 200.ms),
+          ),
+        ),
+      if (_showComboAnim)
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
+              decoration: BoxDecoration(
+                color: _comboColor().withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                border: Border.all(color: _comboColor().withValues(alpha: 0.5)),
+              ),
+              child: Text('COMBO x$_combo! 🔥',
+                  style: TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w900, color: _comboColor())),
+            )
+                .animate()
+                .scale(begin: const Offset(0.6, 0.6), duration: 200.ms, curve: Curves.elasticOut)
+                .fadeIn(duration: 150.ms),
+          ),
+        ),
+      if (_showComboReset)
+        Positioned(
+          bottom: 16,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Text('COMBO RESET 💔',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.red.shade300))
+                .animate()
+                .fadeIn(duration: 200.ms),
+          ),
+        ),
+      if (_showOnFire)
+        Positioned.fill(
+          child: IgnorePointer(
+            child: Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.only(top: 8),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                      colors: [Color(0xFFFF6B00), Color(0xFFD4A017)]),
+                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.orange.withValues(alpha: 0.6),
+                        blurRadius: 16,
+                        spreadRadius: 2)
+                  ],
+                ),
+                child: const Text('ON FIRE! 🔥🔥🔥',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        letterSpacing: 1)),
+              )
+                  .animate()
+                  .scale(begin: const Offset(0.5, 0.5), duration: 300.ms, curve: Curves.elasticOut)
+                  .fadeIn(duration: 200.ms),
+            ),
+          ),
+        ),
+    ];
+  }
+
+  Widget _buildMainContentPortrait() {
     return Stack(
       children: [
         Padding(
@@ -416,211 +642,13 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Thai word
-              Text(
-                _word.thai,
-                style: const TextStyle(
-                  fontSize: 52,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                  fontFamily: 'Sarabun',
-                  height: 1.1,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                _word.phonetic,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.white.withValues(alpha: 0.55),
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 10),
-              // Replay button
-              GestureDetector(
-                onTap: () => AudioService().playWord(_word.audio, thaiText: _word.thai),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                    border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.volume_up_rounded, color: Colors.white70, size: 18),
-                      SizedBox(width: 6),
-                      Text('Replay', style: TextStyle(fontSize: 13, color: Colors.white70)),
-                    ],
-                  ),
-                ),
-              ),
+              _buildWordPanel(),
               const SizedBox(height: 28),
-              // Answer buttons 2×2
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 2.6,
-                physics: const NeverScrollableScrollPhysics(),
-                children: List.generate(_choices.length, (i) {
-                  final bg   = _btnBg(i);
-                  final txt  = _btnText(i);
-                  final isCorrectAnswer = _answered && i == _correctIdx;
-                  return GestureDetector(
-                    onTap: () => _onAnswer(i),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      decoration: BoxDecoration(
-                        color: bg,
-                        borderRadius: BorderRadius.circular(AppTheme.radiusMd),
-                        border: Border.all(
-                          color: isCorrectAnswer
-                              ? const Color(0xFF4CAF50)
-                              : (!_answered ? AppTheme.thaiNavy.withValues(alpha: 0.15) : Colors.transparent),
-                          width: isCorrectAnswer ? 2.0 : 1.0,
-                        ),
-                        boxShadow: !_answered
-                            ? [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2))]
-                            : null,
-                      ),
-                      child: Center(
-                        child: Text(
-                          _choices[i],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: txt,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ).animate(target: _answered ? 0.0 : 1.0).scale(
-                    begin: const Offset(0.95, 0.95),
-                    end: const Offset(1.0, 1.0),
-                    duration: 100.ms,
-                  );
-                }),
-              ),
+              _buildAnswerButtons(),
             ],
           ),
         ),
-
-        // Floating "+X pts" text
-        if (_showEarned)
-          Positioned(
-            top: 20,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Text(
-                '+$_lastEarned pts',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                  color: AppTheme.thaiGold,
-                ),
-              )
-                  .animate()
-                  .fadeIn(duration: 150.ms)
-                  .moveY(begin: 0, end: -24, duration: 500.ms, curve: Curves.easeOut)
-                  .fadeOut(delay: 300.ms, duration: 200.ms),
-            ),
-          ),
-
-        // Combo text "COMBO x3! 🔥"
-        if (_showComboAnim)
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
-                decoration: BoxDecoration(
-                  color: _comboColor().withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                  border: Border.all(color: _comboColor().withValues(alpha: 0.5)),
-                ),
-                child: Text(
-                  'COMBO x$_combo! 🔥',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900,
-                    color: _comboColor(),
-                  ),
-                ),
-              )
-                  .animate()
-                  .scale(begin: const Offset(0.6, 0.6), duration: 200.ms, curve: Curves.elasticOut)
-                  .fadeIn(duration: 150.ms),
-            ),
-          ),
-
-        // Combo reset text
-        if (_showComboReset)
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Text(
-                'COMBO RESET 💔',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.red.shade300,
-                ),
-              )
-                  .animate()
-                  .fadeIn(duration: 200.ms),
-            ),
-          ),
-
-        // ON FIRE banner (combo 5)
-        if (_showOnFire)
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Container(
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.only(top: 8),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFFF6B00), Color(0xFFD4A017)],
-                    ),
-                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.orange.withValues(alpha: 0.6),
-                        blurRadius: 16,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: const Text(
-                    'ON FIRE! 🔥🔥🔥',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                )
-                    .animate()
-                    .scale(begin: const Offset(0.5, 0.5), duration: 300.ms, curve: Curves.elasticOut)
-                    .fadeIn(duration: 200.ms),
-              ),
-            ),
-          ),
+        ..._buildOverlays(),
       ],
     );
   }

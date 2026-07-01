@@ -1,0 +1,26 @@
+{
+  "id": 59,
+  "title": "At the Bank",
+  "thaiTitle": "ที่ธนาคาร",
+  "subtitle": "Handle your finances in Thai",
+  "icon": "lesson_2",
+  "color": "#1B5E20",
+  "xpReward": 35,
+  "words": [
+    {"id":"l59_01","thai":"ธนาคาร","phonetic":"tha-na-kan","english":"bank","image":"","audio":"l59_01.mp3","example":"ธนาคารเปิดกี่โมง — What time does the bank open?"},
+    {"id":"l59_02","thai":"บัญชี","phonetic":"ban-chee","english":"account","image":"","audio":"l59_02.mp3","example":"อยากเปิดบัญชีใหม่ — I want to open a new account"},
+    {"id":"l59_03","thai":"เงินฝาก","phonetic":"ngoen-fak","english":"deposit","image":"","audio":"l59_03.mp3","example":"ฝากเงิน 5000 บาท — Deposit 5000 baht"},
+    {"id":"l59_04","thai":"ถอนเงิน","phonetic":"thon-ngoen","english":"withdraw cash","image":"","audio":"l59_04.mp3","example":"ถอนเงินที่ ATM ได้ — Withdraw cash at the ATM"},
+    {"id":"l59_05","thai":"โอนเงิน","phonetic":"on-ngoen","english":"transfer money","image":"","audio":"l59_05.mp3","example":"โอนเงินให้เพื่อน — Transfer money to a friend"},
+    {"id":"l59_06","thai":"ATM","phonetic":"ATM","english":"ATM machine","image":"","audio":"l59_06.mp3","example":"ATM อยู่ตรงไหน — Where is the ATM?"},
+    {"id":"l59_07","thai":"รหัส","phonetic":"ra-hat","english":"PIN / password","image":"","audio":"l59_07.mp3","example":"กรอกรหัส 6 หลัก — Enter your 6-digit PIN"},
+    {"id":"l59_08","thai":"แบบฟอร์ม","phonetic":"baep-fom","english":"form","image":"","audio":"l59_08.mp3","example":"กรอกแบบฟอร์มนี้ — Fill in this form"},
+    {"id":"l59_09","thai":"บัตรประชาชน","phonetic":"bat-pra-cha-chon","english":"ID card","image":"","audio":"l59_09.mp3","example":"ขอบัตรประชาชนด้วยค่ะ — ID card please"},
+    {"id":"l59_10","thai":"พาสปอร์ต","phonetic":"pas-pot","english":"passport","image":"","audio":"l59_10.mp3","example":"ใช้พาสปอร์ตแทนได้ไหม — Can I use my passport instead?"},
+    {"id":"l59_11","thai":"อัตราแลกเปลี่ยน","phonetic":"at-tra-laek-plian","english":"exchange rate","image":"","audio":"l59_11.mp3","example":"อัตราแลกเปลี่ยนวันนี้เท่าไร — What is today's exchange rate?"},
+    {"id":"l59_12","thai":"แลกเงิน","phonetic":"laek-ngoen","english":"exchange money","image":"","audio":"l59_12.mp3","example":"อยากแลกเงินดอลลาร์ — I want to exchange dollars"},
+    {"id":"l59_13","thai":"คิวเบอร์","phonetic":"kiu-boe","english":"queue number","image":"","audio":"l59_13.mp3","example":"รับคิวเบอร์ก่อนนะ — Take a queue number first"},
+    {"id":"l59_14","thai":"ดอกเบี้ย","phonetic":"dok-bia","english":"interest rate","image":"","audio":"l59_14.mp3","example":"ดอกเบี้ยเงินฝากเท่าไร — What is the deposit interest rate?"},
+    {"id":"l59_15","thai":"สมุดบัญชี","phonetic":"sa-mut-ban-chee","english":"bank book / passbook","image":"","audio":"l59_15.mp3","example":"อัปเดตสมุดบัญชีด้วย — Please update my bank book"}
+  ]
+}

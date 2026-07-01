@@ -1,8 +1,72 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-06-30 (v1.1.2 — Major Bug Fixes + Skeet Shooter)  
+**Last updated:** 2026-07-01 (v1.2.1 — 15 New Focused Lessons)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.2.1 Changes — 2026-07-01
+
+### 15 New Thematically Focused Lessons (IDs 52–66)
+
+**New Stage 2 lessons (Transport, Dining, Money, Health, Services rows):**
+
+| ID | Title | Words |
+|----|-------|-------|
+| 52 | Taxis & Ride-Hailing 🚕 | 18 |
+| 53 | BTS & MRT Subway 🚆 | 18 |
+| 54 | At the Restaurant 🍽️ | 20 |
+| 55 | At the Market & Shopping 🛍️ | 20 |
+| 56 | Money & Payments 💰 | 18 |
+| 57 | At the Hospital & Pharmacy 🏥 | 20 |
+| 58 | At the Hotel 🏨 | 18 |
+| 59 | At the Bank 🏦 | 15 |
+| 60 | Thai Social Etiquette 🙏 | 18 |
+| 64 | At the Office & Workplace 💼 | 18 |
+
+**New Stage 3 lessons (About You, Daily Topics rows):**
+
+| ID | Title | Words |
+|----|-------|-------|
+| 61 | Talking About Your Life 👤 | 20 |
+| 62 | Talking About Feelings ❤️ | 20 |
+| 63 | Talking About the Weather ⛅ | 18 |
+| 65 | Making & Keeping Friends 👫 | 18 |
+| 66 | Talking About Food You Like 😋 | 18 |
+
+**Code changes:**
+- `assets/lessons/lesson_52.json` through `lesson_66.json` — 15 new lesson JSON files
+- `lib/services/lesson_service.dart` — `totalLessons` updated from 50 → 66
+- `lib/models/user_progress.dart` — `s3Chain` extended to include 51 & 61-66; new `s2NewChain` [52-60, 64] unlocks after `allStage2Complete`
+- `lib/screens/home_screen.dart` — new rows in `_stage2Rows` and `_stage3Rows`; extended `_stage2Chain` and `_stage3Chain`; emoji map for 52-66; extended color anchors
+- `lib/services/patch_notes_service.dart` — patch note v1.2.1 seeded
+- Total lesson count: 66 standard lessons + 10 alphabet/script bonus lessons
+
+---
+
+## v1.1.3 Changes — 2026-07-01
+
+### Full Rotation Support
+- `main.dart` unlocked all four orientations (was portrait-only)
+- `AndroidManifest.xml` had no `screenOrientation` lock — no change needed
+- `lib/utils/responsive_layout.dart` — new `ResponsiveLayout` utility (isLandscape, pagePadding, titleSize, octagonSize)
+
+### Screen-by-Screen Landscape Layouts
+
+| Screen | Landscape behaviour |
+|--------|-------------------|
+| `mc_screen.dart` | Left 40%: stimulus card — Right 60%: 2×2 choice grid |
+| `speed_tap_screen.dart` | Timer bar full width — Left: word prompt — Right: 2×2 grid |
+| `typing_screen.dart` | Compact prompt card (reduced padding/font), ScrollView adapts to keyboard |
+| `sentence_builder_screen.dart` | Extra horizontal padding, compact sentence prompt |
+| `conversation_screen.dart` | Questions phase: question card left, options right |
+| `pairs_screen.dart` | Two-column layout already landscape-ready; no changes needed |
+| `speed_mode_screen.dart` | Left: Thai word + phonetic + replay — Right: 2×2 answer grid |
+| `skeet_shooter_screen.dart` | Forces landscape on enter; restores all orientations on exit |
+| `home_screen.dart` | Lesson octagons use compact mode in landscape; wider horizontal padding |
+| `result_screen.dart` | Already scrollable — no structural changes needed |
+| `game_over_screen.dart` | Already scrollable — no structural changes needed |
 
 ---
 

@@ -36,11 +36,17 @@ class UserProgress {
       if (s2Idx == 0) return allStage1Complete;
       return (lessonProgress[s2Chain[s2Idx - 1]]?.stars ?? 0) >= 1;
     }
-    const s3Chain = [46, 47, 48, 49, 50];
+    const s3Chain = [46, 47, 48, 49, 50, 51, 61, 62, 63, 65, 66];
     final s3Idx = s3Chain.indexOf(lessonId);
     if (s3Idx >= 0) {
       if (s3Idx == 0) return allStage2Complete;
       return (lessonProgress[s3Chain[s3Idx - 1]]?.stars ?? 0) >= 1;
+    }
+    const s2NewChain = [52, 53, 54, 55, 56, 57, 58, 59, 60, 64];
+    final s2NewIdx = s2NewChain.indexOf(lessonId);
+    if (s2NewIdx >= 0) {
+      if (s2NewIdx == 0) return allStage2Complete;
+      return (lessonProgress[s2NewChain[s2NewIdx - 1]]?.stars ?? 0) >= 1;
     }
     if (lessonId >= 101 && lessonId <= 105) {
       if (lessonId == 101) return true;

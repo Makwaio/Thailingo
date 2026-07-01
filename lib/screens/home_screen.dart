@@ -54,17 +54,23 @@ const _stage2Rows = [
   _RowConfig('About You', [37, 38, 39]),
   _RowConfig('Getting Around & Tech', [40, 41, 42, 24]),
   _RowConfig('Numbers & Phrases', [44, 25, 26]),
+  _RowConfig('Transport', [52, 53]),
+  _RowConfig('Dining & Market', [54, 55]),
+  _RowConfig('Money & Health', [56, 57, 58]),
+  _RowConfig('Services & Culture', [59, 60, 64]),
 ];
 
 const _stage3Rows = [
   _RowConfig('Language Skills', [46, 47, 48]),
   _RowConfig('Mastery', [49, 50, 51]),
+  _RowConfig('About You & Feelings', [61, 62, 65]),
+  _RowConfig('Daily Life Topics', [63, 66]),
 ];
 
 // ── Visual position chains (used for color gradient) ─────────────────
 const _stage1Chain = [1, 22, 11, 2, 10, 12, 3, 4, 9, 13, 14, 6, 5, 15, 19, 7, 8, 17, 18, 16, 20, 21, 29, 30, 31, 32, 33];
-const _stage2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26];
-const _stage3Chain = [46, 47, 48, 49, 50, 51];
+const _stage2Chain = [23, 34, 45, 35, 43, 36, 37, 38, 39, 40, 41, 42, 24, 44, 25, 26, 52, 53, 54, 55, 56, 57, 58, 59, 60, 64];
+const _stage3Chain = [46, 47, 48, 49, 50, 51, 61, 62, 63, 65, 66];
 
 // ── Stage color anchors — positions are VISUAL ORDER in chain, not lesson IDs
 const _s1ColorAnchors = <(int, Color)>[
@@ -95,14 +101,23 @@ const _s2ColorAnchors = <(int, Color)>[
   (14, Color(0xFFBF360C)),
   (15, Color(0xFFD84315)),
   (16, Color(0xFFE64A19)),
+  (18, Color(0xFFF4511E)),
+  (20, Color(0xFFF57C00)),
+  (22, Color(0xFFFF8F00)),
+  (24, Color(0xFFFF6F00)),
+  (26, Color(0xFFE65100)),
 ];
 
 const _s3ColorAnchors = <(int, Color)>[
-  (1, Color(0xFF4A148C)),
-  (2, Color(0xFF6A1B9A)),
-  (3, Color(0xFFE65100)),
-  (4, Color(0xFFF57F17)),
-  (5, Color(0xFFFF8F00)),
+  (1,  Color(0xFF4A148C)),
+  (2,  Color(0xFF6A1B9A)),
+  (3,  Color(0xFFE65100)),
+  (4,  Color(0xFFF57F17)),
+  (5,  Color(0xFFFF8F00)),
+  (6,  Color(0xFFFF6F00)),
+  (8,  Color(0xFFE64A19)),
+  (9,  Color(0xFFBF360C)),
+  (11, Color(0xFF880E4F)),
 ];
 
 Color _lerpAnchors(int pos, List<(int, Color)> anchors) {
@@ -152,6 +167,9 @@ String _lessonEmoji(int id) {
     41: '📱', 42: '💼', 43: '❤️', 44: '💯',
     45: '🆘', 46: '💬', 47: '📜', 48: '📝',
     49: '🎵', 50: '😎', 51: '🗣️',
+    52: '🚕', 53: '🚆', 54: '🍽️', 55: '🛍️', 56: '💰',
+    57: '🏥', 58: '🏨', 59: '🏦', 60: '🙏', 61: '👤',
+    62: '❤️', 63: '⛅', 64: '💼', 65: '👫', 66: '😋',
   };
   return map[id] ?? '📚';
 }
@@ -417,7 +435,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
+            padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).orientation == Orientation.landscape ? 32 : 16,
+              8,
+              MediaQuery.of(context).orientation == Orientation.landscape ? 32 : 16,
+              100,
+            ),
             sliver: SliverList(
               delegate: SliverChildListDelegate(_buildItems()),
             ),
@@ -1358,6 +1381,9 @@ class _LessonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final useCompact = compact || isLandscape;
     return Column(
       children: [
         // Divider with label
@@ -1382,7 +1408,7 @@ class _LessonRow extends StatelessWidget {
         // Hex bubbles
         Wrap(
           alignment: WrapAlignment.center,
-          spacing: compact ? 2 : 4,
+          spacing: useCompact ? 2 : 4,
           runSpacing: 12,
           children: lessons.asMap().entries.map((e) {
             final i = e.key;
@@ -1395,7 +1421,7 @@ class _LessonRow extends StatelessWidget {
               children: [
                 if (i > 0) _DottedLine(
                     color: completed ? AppTheme.success : labelColor.withValues(alpha: 0.3),
-                    width: compact ? 12.0 : 20.0),
+                    width: useCompact ? 12.0 : 20.0),
                 _HexBubble(
                   lesson: lesson,
                   unlocked: unlocked,
@@ -1403,7 +1429,7 @@ class _LessonRow extends StatelessWidget {
                   stars: stars,
                   emoji: emojiFor(lesson.id),
                   onTap: () => onTap(lesson),
-                  compact: compact,
+                  compact: useCompact,
                 ),
               ],
             );

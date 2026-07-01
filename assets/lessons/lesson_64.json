@@ -1,0 +1,29 @@
+{
+  "id": 64,
+  "title": "At the Office & Workplace",
+  "thaiTitle": "ที่สำนักงานและที่ทำงาน",
+  "subtitle": "Speak professionally in Thai",
+  "icon": "lesson_1",
+  "color": "#37474F",
+  "xpReward": 35,
+  "words": [
+    {"id":"l64_01","thai":"สำนักงาน","phonetic":"sam-nak-ngan","english":"office","image":"","audio":"l64_01.mp3","example":"สำนักงานอยู่ชั้น 10 — The office is on the 10th floor"},
+    {"id":"l64_02","thai":"ประชุม","phonetic":"pra-chum","english":"meeting","image":"","audio":"l64_02.mp3","example":"ประชุมกี่โมง — What time is the meeting?"},
+    {"id":"l64_03","thai":"เอกสาร","phonetic":"ek-ka-san","english":"document / paperwork","image":"","audio":"l64_03.mp3","example":"ส่งเอกสารให้ด้วยนะ — Please send the documents"},
+    {"id":"l64_04","thai":"อีเมล","phonetic":"ee-mel","english":"email","image":"","audio":"l64_04.mp3","example":"ส่งอีเมลให้ก่อนได้ไหม — Can you send an email first?"},
+    {"id":"l64_05","thai":"โทรศัพท์","phonetic":"tho-ra-sap","english":"telephone","image":"","audio":"l64_05.mp3","example":"โทรศัพท์ติดต่อได้เลย — You can contact by phone"},
+    {"id":"l64_06","thai":"คอมพิวเตอร์","phonetic":"khom-phiu-toe","english":"computer","image":"","audio":"l64_06.mp3","example":"คอมพิวเตอร์มีปัญหา — The computer has a problem"},
+    {"id":"l64_07","thai":"รายงาน","phonetic":"rai-ngan","english":"report","image":"","audio":"l64_07.mp3","example":"ส่งรายงานภายในวันศุกร์ — Submit the report by Friday"},
+    {"id":"l64_08","thai":"โปรเจกต์","phonetic":"pro-jek","english":"project","image":"","audio":"l64_08.mp3","example":"โปรเจกต์นี้ใหญ่มาก — This project is very big"},
+    {"id":"l64_09","thai":"เดดไลน์","phonetic":"ded-lai","english":"deadline","image":"","audio":"l64_09.mp3","example":"เดดไลน์คือเมื่อไหร่ — When is the deadline?"},
+    {"id":"l64_10","thai":"เพื่อนร่วมงาน","phonetic":"pheuan-ruam-ngan","english":"colleague","image":"","audio":"l64_10.mp3","example":"เพื่อนร่วมงานใจดีมาก — My colleagues are very kind"},
+    {"id":"l64_11","thai":"ผู้จัดการ","phonetic":"phu-jat-kan","english":"manager","image":"","audio":"l64_11.mp3","example":"ต้องรายงานให้ผู้จัดการทราบ — Need to report to the manager"},
+    {"id":"l64_12","thai":"ลูกค้า","phonetic":"luk-kha","english":"customer / client","image":"","audio":"l64_12.mp3","example":"ลูกค้ามาถึงแล้ว — The client has arrived"},
+    {"id":"l64_13","thai":"ลางาน","phonetic":"la-ngan","english":"take leave / day off","image":"","audio":"l64_13.mp3","example":"ขอลางานพรุ่งนี้ได้ไหม — Can I take tomorrow off?"},
+    {"id":"l64_14","thai":"ล่วงเวลา","phonetic":"luang-we-la","english":"overtime","image":"","audio":"l64_14.mp3","example":"ต้องทำล่วงเวลาคืนนี้ — Need to work overtime tonight"},
+    {"id":"l64_15","thai":"เงินเดือน","phonetic":"ngoen-deuan","english":"salary / monthly wage","image":"","audio":"l64_15.mp3","example":"เงินเดือนออกสิ้นเดือน — Salary is paid at the end of the month"},
+    {"id":"l64_16","thai":"สัญญา","phonetic":"san-ya","english":"contract","image":"","audio":"l64_16.mp3","example":"เซ็นสัญญาแล้วยัง — Have you signed the contract?"},
+    {"id":"l64_17","thai":"ทำงานที่บ้าน","phonetic":"tham-ngan-tee-ban","english":"work from home","image":"","audio":"l64_17.mp3","example":"ทำงานที่บ้านได้วันจันทร์ — I can work from home on Monday"},
+    {"id":"l64_18","thai":"ลาออก","phonetic":"la-ok","english":"resign / quit","image":"","audio":"l64_18.mp3","example":"คิดอยากลาออกไหม — Are you thinking of resigning?"}
+  ]
+}

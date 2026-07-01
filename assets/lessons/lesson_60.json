@@ -1,0 +1,29 @@
+{
+  "id": 60,
+  "title": "Thai Social Etiquette",
+  "thaiTitle": "มารยาทสังคมไทย",
+  "subtitle": "Show respect the Thai way",
+  "icon": "lesson_3",
+  "color": "#BF360C",
+  "xpReward": 35,
+  "words": [
+    {"id":"l60_01","thai":"ไหว้","phonetic":"wai","english":"Thai greeting (hands pressed together)","image":"","audio":"l60_01.mp3","example":"ไหว้ผู้ใหญ่ก่อนเสมอ — Always wai elders first"},
+    {"id":"l60_02","thai":"เกรงใจ","phonetic":"greng-jai","english":"considerate / not wanting to impose","image":"","audio":"l60_02.mp3","example":"คนไทยมักจะเกรงใจกัน — Thai people tend to be considerate of others"},
+    {"id":"l60_03","thai":"ใจดี","phonetic":"jai-dee","english":"kind-hearted","image":"","audio":"l60_03.mp3","example":"คนนี้ใจดีมาก — This person is very kind"},
+    {"id":"l60_04","thai":"สนุก","phonetic":"sa-nuk","english":"fun / sanuk (Thai concept of fun)","image":"","audio":"l60_04.mp3","example":"ต้องสนุกในทุกอย่าง — Everything must be fun (sanuk)"},
+    {"id":"l60_05","thai":"พี่","phonetic":"phi","english":"older sibling / respectful address (older)","image":"","audio":"l60_05.mp3","example":"พี่ช่วยหน่อยได้ไหม — Can you help me? (addressing an older person)"},
+    {"id":"l60_06","thai":"น้อง","phonetic":"nong","english":"younger sibling / younger person","image":"","audio":"l60_06.mp3","example":"น้องช่วยอธิบายหน่อย — Can you explain? (addressing younger person)"},
+    {"id":"l60_07","thai":"ครับ","phonetic":"krap","english":"polite particle (male speaker)","image":"","audio":"l60_07.mp3","example":"ขอบคุณครับ — Thank you (male)"},
+    {"id":"l60_08","thai":"ค่ะ","phonetic":"kha","english":"polite particle (female speaker)","image":"","audio":"l60_08.mp3","example":"ยินดีค่ะ — You're welcome (female)"},
+    {"id":"l60_09","thai":"หัวใจ","phonetic":"hua-jai","english":"heart / feelings","image":"","audio":"l60_09.mp3","example":"พูดจากหัวใจ — Speak from the heart"},
+    {"id":"l60_10","thai":"ให้เกียรติ","phonetic":"hai-giat","english":"to show respect / honor","image":"","audio":"l60_10.mp3","example":"ต้องให้เกียรติผู้ใหญ่ — You must show respect to elders"},
+    {"id":"l60_11","thai":"รอยยิ้ม","phonetic":"roi-yim","english":"smile","image":"","audio":"l60_11.mp3","example":"คนไทยยิ้มเสมอ — Thai people always smile"},
+    {"id":"l60_12","thai":"ยินดีด้วย","phonetic":"yin-dee-duay","english":"congratulations","image":"","audio":"l60_12.mp3","example":"ยินดีด้วยนะที่สอบผ่าน — Congratulations on passing the exam"},
+    {"id":"l60_13","thai":"ป้า","phonetic":"pa","english":"auntie (older woman)","image":"","audio":"l60_13.mp3","example":"ป้าช่วยได้ไหม — Can you help me? (to older woman)"},
+    {"id":"l60_14","thai":"ลุง","phonetic":"lung","english":"uncle (older man)","image":"","audio":"l60_14.mp3","example":"ลุงทำงานอะไร — What do you do? (to older man)"},
+    {"id":"l60_15","thai":"หน้าตาดี","phonetic":"na-ta-dee","english":"good-looking / presentable","image":"","audio":"l60_15.mp3","example":"แต่งตัวหน้าตาดีไปเลย — Look presentable when you go"},
+    {"id":"l60_16","thai":"ห้ามชี้","phonetic":"ham-chee","english":"don't point (at people)","image":"","audio":"l60_16.mp3","example":"ห้ามชี้นิ้วใส่คน — Don't point your finger at people"},
+    {"id":"l60_17","thai":"ถอดรองเท้า","phonetic":"thot-rong-thao","english":"take off shoes","image":"","audio":"l60_17.mp3","example":"เข้าบ้านต้องถอดรองเท้าก่อน — Remove shoes before entering the house"},
+    {"id":"l60_18","thai":"วัด","phonetic":"wat","english":"temple","image":"","audio":"l60_18.mp3","example":"ไปวัดต้องแต่งตัวสุภาพ — Dress modestly when visiting a temple"}
+  ]
+}

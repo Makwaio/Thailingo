@@ -1,0 +1,29 @@
+{
+  "id": 65,
+  "title": "Making & Keeping Friends",
+  "thaiTitle": "การสร้างและรักษามิตรภาพ",
+  "subtitle": "Build real connections in Thai",
+  "icon": "lesson_2",
+  "color": "#4A148C",
+  "xpReward": 40,
+  "words": [
+    {"id":"l65_01","thai":"เพื่อน","phonetic":"pheuan","english":"friend","image":"","audio":"l65_01.mp3","example":"คุณมีเพื่อนคนไทยไหม — Do you have any Thai friends?"},
+    {"id":"l65_02","thai":"รู้จัก","phonetic":"ru-jak","english":"know (someone) / acquainted","image":"","audio":"l65_02.mp3","example":"รู้จักกันนานแค่ไหน — How long have you known each other?"},
+    {"id":"l65_03","thai":"แนะนำตัว","phonetic":"nae-nam-tua","english":"introduce yourself","image":"","audio":"l65_03.mp3","example":"แนะนำตัวหน่อยได้ไหม — Can you introduce yourself?"},
+    {"id":"l65_04","thai":"ชวน","phonetic":"chuan","english":"invite / ask to join","image":"","audio":"l65_04.mp3","example":"ชวนไปเที่ยวด้วยกัน — I'm inviting you to come hang out"},
+    {"id":"l65_05","thai":"ออกไป","phonetic":"ok-pai","english":"go out","image":"","audio":"l65_05.mp3","example":"ออกไปกินข้าวด้วยกันไหม — Want to go out to eat together?"},
+    {"id":"l65_06","thai":"กินข้าว","phonetic":"gin-khao","english":"eat together (literally 'eat rice')","image":"","audio":"l65_06.mp3","example":"ไปกินข้าวด้วยกันไหม — Want to eat together?"},
+    {"id":"l65_07","thai":"คุย","phonetic":"khui","english":"chat / talk","image":"","audio":"l65_07.mp3","example":"อยากคุยเรื่องนี้ — I want to talk about this"},
+    {"id":"l65_08","thai":"ส่งข้อความ","phonetic":"song-kho-kwaam","english":"send a message","image":"","audio":"l65_08.mp3","example":"ส่งข้อความมาได้เลย — You can send me a message anytime"},
+    {"id":"l65_09","thai":"โทรหา","phonetic":"tho-ha","english":"call someone","image":"","audio":"l65_09.mp3","example":"โทรหาถ้าต้องการอะไร — Call me if you need anything"},
+    {"id":"l65_10","thai":"แอด","phonetic":"aed","english":"add (on social media)","image":"","audio":"l65_10.mp3","example":"แอดไลน์ได้เลยนะ — You can add me on LINE"},
+    {"id":"l65_11","thai":"นัดพบ","phonetic":"nat-phop","english":"meet up / arrange to meet","image":"","audio":"l65_11.mp3","example":"นัดพบกันวันเสาร์ได้ไหม — Can we meet up on Saturday?"},
+    {"id":"l65_12","thai":"ปาร์ตี้","phonetic":"pa-tee","english":"party","image":"","audio":"l65_12.mp3","example":"มาปาร์ตี้ที่บ้านได้เลย — Come to the party at my house"},
+    {"id":"l65_13","thai":"สนิท","phonetic":"sa-nit","english":"close / intimate (friendship)","image":"","audio":"l65_13.mp3","example":"เราสนิทกันมาก — We are very close friends"},
+    {"id":"l65_14","thai":"ซื่อสัตย์","phonetic":"sue-sat","english":"honest / loyal","image":"","audio":"l65_14.mp3","example":"เพื่อนที่ดีต้องซื่อสัตย์ — A good friend must be honest"},
+    {"id":"l65_15","thai":"เชื่อใจ","phonetic":"cheua-jai","english":"trust","image":"","audio":"l65_15.mp3","example":"เชื่อใจเพื่อนได้ — You can trust your friend"},
+    {"id":"l65_16","thai":"ตลก","phonetic":"ta-lok","english":"funny","image":"","audio":"l65_16.mp3","example":"เพื่อนคนนี้ตลกมาก — This friend is very funny"},
+    {"id":"l65_17","thai":"ขาดไม่ได้","phonetic":"khat-mai-dai","english":"indispensable / can't be without","image":"","audio":"l65_17.mp3","example":"เพื่อนขาดไม่ได้ในชีวิต — Friends are indispensable in life"},
+    {"id":"l65_18","thai":"ห่วงใย","phonetic":"huang-yai","english":"care for / look out for","image":"","audio":"l65_18.mp3","example":"ห่วงใยเพื่อนเสมอ — Always look out for your friends"}
+  ]
+}

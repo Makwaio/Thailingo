@@ -15,7 +15,7 @@ class LessonService {
   List<Lesson>? _allLessons;
 
   // Retained for backward-compat (unlockAllLessons in settings uses this)
-  static const int totalLessons = 50;
+  static const int totalLessons = 66;
   static const int stage1Count = 27;
   static const int stage2Start = 23;
 

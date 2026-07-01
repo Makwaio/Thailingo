@@ -1,0 +1,29 @@
+{
+  "id": 63,
+  "title": "Talking About the Weather",
+  "thaiTitle": "พูดถึงอากาศ",
+  "subtitle": "Chat about Thailand's climate",
+  "icon": "lesson_6",
+  "color": "#01579B",
+  "xpReward": 40,
+  "words": [
+    {"id":"l63_01","thai":"อากาศ","phonetic":"a-gat","english":"weather / air","image":"","audio":"l63_01.mp3","example":"อากาศวันนี้เป็นอย่างไร — How's the weather today?"},
+    {"id":"l63_02","thai":"ร้อน","phonetic":"ron","english":"hot","image":"","audio":"l63_02.mp3","example":"ร้อนมากเลยวันนี้ — It's very hot today"},
+    {"id":"l63_03","thai":"หนาว","phonetic":"nao","english":"cold","image":"","audio":"l63_03.mp3","example":"หนาวจังเลยวันนี้ — It's so cold today"},
+    {"id":"l63_04","thai":"เย็น","phonetic":"yen","english":"cool / cold (mild)","image":"","audio":"l63_04.mp3","example":"อากาศเย็นสบาย — The weather is pleasantly cool"},
+    {"id":"l63_05","thai":"ฝน","phonetic":"fon","english":"rain","image":"","audio":"l63_05.mp3","example":"ฝนจะตกพรุ่งนี้ — It will rain tomorrow"},
+    {"id":"l63_06","thai":"ฝนตก","phonetic":"fon-tok","english":"raining","image":"","audio":"l63_06.mp3","example":"ฝนตกตลอดวัน — It's been raining all day"},
+    {"id":"l63_07","thai":"แดด","phonetic":"daet","english":"sunshine / sun","image":"","audio":"l63_07.mp3","example":"แดดแรงมากวันนี้ — The sun is very strong today"},
+    {"id":"l63_08","thai":"ลม","phonetic":"lom","english":"wind","image":"","audio":"l63_08.mp3","example":"ลมแรงมาก — The wind is very strong"},
+    {"id":"l63_09","thai":"เมฆ","phonetic":"mek","english":"cloud","image":"","audio":"l63_09.mp3","example":"มีเมฆมากวันนี้ — It's very cloudy today"},
+    {"id":"l63_10","thai":"ฟ้าร้อง","phonetic":"fa-rong","english":"thunder","image":"","audio":"l63_10.mp3","example":"ฟ้าร้องดังมาก — The thunder is very loud"},
+    {"id":"l63_11","thai":"ฟ้าผ่า","phonetic":"fa-pha","english":"lightning","image":"","audio":"l63_11.mp3","example":"ระวังฟ้าผ่านะ — Be careful of lightning"},
+    {"id":"l63_12","thai":"น้ำท่วม","phonetic":"nam-thuam","english":"flood","image":"","audio":"l63_12.mp3","example":"น้ำท่วมถนน — The road is flooded"},
+    {"id":"l63_13","thai":"ชื้น","phonetic":"cheun","english":"humid","image":"","audio":"l63_13.mp3","example":"อากาศชื้นมากช่วงนี้ — The weather is very humid this period"},
+    {"id":"l63_14","thai":"ฤดูฝน","phonetic":"rue-du-fon","english":"rainy season","image":"","audio":"l63_14.mp3","example":"ฤดูฝนเริ่มเดือนพฤษภาคม — The rainy season starts in May"},
+    {"id":"l63_15","thai":"ฤดูหนาว","phonetic":"rue-du-nao","english":"cool/cold season","image":"","audio":"l63_15.mp3","example":"ฤดูหนาวอากาศดีมาก — The weather is great in the cool season"},
+    {"id":"l63_16","thai":"ฤดูร้อน","phonetic":"rue-du-ron","english":"hot season","image":"","audio":"l63_16.mp3","example":"ฤดูร้อนอากาศร้อนมาก — The hot season is very hot"},
+    {"id":"l63_17","thai":"พยากรณ์อากาศ","phonetic":"pha-ya-gon-a-gat","english":"weather forecast","image":"","audio":"l63_17.mp3","example":"ดูพยากรณ์อากาศก่อนออกไป — Check the weather forecast before going out"},
+    {"id":"l63_18","thai":"ร่ม","phonetic":"rom","english":"umbrella","image":"","audio":"l63_18.mp3","example":"เอาร่มไปด้วยนะ ฝนจะตก — Bring an umbrella, it's going to rain"}
+  ]
+}

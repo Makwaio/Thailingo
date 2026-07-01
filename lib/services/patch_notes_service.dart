@@ -295,6 +295,22 @@ class PatchNotesService {
           ],
         });
       }
+      final v121doc = await _db.collection('patch_notes').doc('1.2.1').get();
+      if (!v121doc.exists) {
+        await _db.collection('patch_notes').doc('1.2.1').set({
+          'version': '1.2.1',
+          'title': '15 New Focused Lessons 🎯',
+          'date': Timestamp.fromDate(DateTime(2026, 7, 1)),
+          'type': 'major',
+          'notes': [
+            '9 new Stage 2 lessons: Taxis 🚕, BTS/MRT 🚆, Restaurant 🍽️, Market 🛍️, Money 💰, Hospital 🏥, Hotel 🏨, Bank 🏦, Etiquette 🙏',
+            '1 new Stage 2 lesson: Office & Workplace 💼',
+            '5 new Stage 3 lessons: Your Life 👤, Feelings ❤️, Weather ⛅, Friends 👫, Food You Like 😋',
+            'All new lessons feature full audio, phonetics, and native Thai example sentences',
+            'Rotate your phone into landscape mode for a split-screen exercise layout',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }

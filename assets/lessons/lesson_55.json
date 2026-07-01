@@ -1,0 +1,31 @@
+{
+  "id": 55,
+  "title": "At the Market & Shopping",
+  "thaiTitle": "ตลาดและการช้อปปิ้ง",
+  "subtitle": "Shop smart in Thai markets",
+  "icon": "lesson_4",
+  "color": "#2E7D32",
+  "xpReward": 35,
+  "words": [
+    {"id":"l55_01","thai":"ตลาด","phonetic":"ta-lat","english":"market","image":"","audio":"l55_01.mp3","example":"ไปตลาดนัดไหม — Want to go to the weekend market?"},
+    {"id":"l55_02","thai":"ราคา","phonetic":"ra-kha","english":"price","image":"","audio":"l55_02.mp3","example":"ราคาเท่าไร — What is the price?"},
+    {"id":"l55_03","thai":"แพง","phonetic":"phaeng","english":"expensive","image":"","audio":"l55_03.mp3","example":"แพงไปหน่อยนะ — It's a bit too expensive"},
+    {"id":"l55_04","thai":"ถูก","phonetic":"thuk","english":"cheap","image":"","audio":"l55_04.mp3","example":"ราคาถูกมาก — Very cheap price"},
+    {"id":"l55_05","thai":"ต่อรอง","phonetic":"to-rong","english":"bargain / negotiate","image":"","audio":"l55_05.mp3","example":"ต่อรองราคาได้ไหม — Can I bargain?"},
+    {"id":"l55_06","thai":"ลด","phonetic":"lot","english":"discount / reduce price","image":"","audio":"l55_06.mp3","example":"ลดราคาได้ไหม — Can you give a discount?"},
+    {"id":"l55_07","thai":"ซื้อ","phonetic":"sue","english":"buy","image":"","audio":"l55_07.mp3","example":"อยากซื้ออันนี้ — I want to buy this one"},
+    {"id":"l55_08","thai":"ขาย","phonetic":"khai","english":"sell","image":"","audio":"l55_08.mp3","example":"ขายอะไร — What are you selling?"},
+    {"id":"l55_09","thai":"ของฝาก","phonetic":"kong-fak","english":"souvenir / gift to bring back","image":"","audio":"l55_09.mp3","example":"ซื้อของฝากให้เพื่อน — Buying souvenirs for friends"},
+    {"id":"l55_10","thai":"ขนาด","phonetic":"ka-nat","english":"size","image":"","audio":"l55_10.mp3","example":"มีขนาดใหญ่กว่านี้ไหม — Do you have a bigger size?"},
+    {"id":"l55_11","thai":"สี","phonetic":"see","english":"color","image":"","audio":"l55_11.mp3","example":"มีสีอื่นไหม — Do you have other colors?"},
+    {"id":"l55_12","thai":"เสื้อ","phonetic":"seua","english":"shirt / top","image":"","audio":"l55_12.mp3","example":"เสื้อตัวนี้สวยมาก — This shirt is very nice"},
+    {"id":"l55_13","thai":"กางเกง","phonetic":"gang-geng","english":"pants / trousers","image":"","audio":"l55_13.mp3","example":"กางเกงนี้พอดีไหม — Do these pants fit?"},
+    {"id":"l55_14","thai":"รองเท้า","phonetic":"rong-thao","english":"shoes","image":"","audio":"l55_14.mp3","example":"รองเท้าเบอร์ 42 มีไหม — Do you have shoes in size 42?"},
+    {"id":"l55_15","thai":"กระเป๋า","phonetic":"gra-pao","english":"bag","image":"","audio":"l55_15.mp3","example":"กระเป๋าใบนี้เท่าไร — How much is this bag?"},
+    {"id":"l55_16","thai":"ลองใส่","phonetic":"long-sai","english":"try on","image":"","audio":"l55_16.mp3","example":"ลองใส่ได้ไหม — Can I try it on?"},
+    {"id":"l55_17","thai":"เงินสด","phonetic":"ngoen-sot","english":"cash","image":"","audio":"l55_17.mp3","example":"จ่ายเงินสดได้เลย — Can pay with cash"},
+    {"id":"l55_18","thai":"ทอนเงิน","phonetic":"thon-ngoen","english":"change (money)","image":"","audio":"l55_18.mp3","example":"ทอนเงินด้วยนะ — Give me the change"},
+    {"id":"l55_19","thai":"ถุง","phonetic":"tung","english":"bag (shopping bag)","image":"","audio":"l55_19.mp3","example":"ใส่ถุงด้วยได้ไหม — Can you put it in a bag?"},
+    {"id":"l55_20","thai":"เปิดกี่โมง","phonetic":"poet-gee-mong","english":"what time does it open?","image":"","audio":"l55_20.mp3","example":"ตลาดเปิดกี่โมง — What time does the market open?"}
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": 53,
+  "title": "BTS & MRT Subway",
+  "thaiTitle": "รถไฟฟ้า BTS และ MRT",
+  "subtitle": "Navigate Bangkok's train network",
+  "icon": "lesson_2",
+  "color": "#0277BD",
+  "xpReward": 35,
+  "words": [
+    {"id":"l53_01","thai":"รถไฟฟ้า","phonetic":"rot-fai-fa","english":"sky train / BTS","image":"","audio":"l53_01.mp3","example":"ขึ้นรถไฟฟ้าที่สยาม — Take the BTS at Siam"},
+    {"id":"l53_02","thai":"รถไฟใต้ดิน","phonetic":"rot-fai-tai-din","english":"subway / MRT","image":"","audio":"l53_02.mp3","example":"ต่อรถไฟใต้ดินที่อโศก — Transfer to MRT at Asok"},
+    {"id":"l53_03","thai":"สถานี","phonetic":"sa-tha-nee","english":"station","image":"","audio":"l53_03.mp3","example":"สถานีนี้ชื่ออะไร — What is this station called?"},
+    {"id":"l53_04","thai":"ทางออก","phonetic":"thang-ok","english":"exit","image":"","audio":"l53_04.mp3","example":"ออกทางออก 3 ครับ — Exit through exit 3"},
+    {"id":"l53_05","thai":"บัตร","phonetic":"bat","english":"card / ticket","image":"","audio":"l53_05.mp3","example":"ซื้อบัตรได้ที่เครื่อง — Buy a card at the machine"},
+    {"id":"l53_06","thai":"ชาร์จบัตร","phonetic":"chat-bat","english":"top up card","image":"","audio":"l53_06.mp3","example":"ต้องชาร์จบัตรก่อน — Need to top up the card first"},
+    {"id":"l53_07","thai":"ค่าโดยสาร","phonetic":"ka-doi-san","english":"fare","image":"","audio":"l53_07.mp3","example":"ค่าโดยสาร 42 บาท — The fare is 42 baht"},
+    {"id":"l53_08","thai":"ต่อรถ","phonetic":"to-rot","english":"transfer / change train","image":"","audio":"l53_08.mp3","example":"ต้องต่อรถที่อโศก — Need to transfer at Asok"},
+    {"id":"l53_09","thai":"ขึ้น","phonetic":"keun","english":"get on / board","image":"","audio":"l53_09.mp3","example":"ขึ้นรถได้เลย — You can board now"},
+    {"id":"l53_10","thai":"ลง","phonetic":"long","english":"get off / alight","image":"","audio":"l53_10.mp3","example":"ลงที่ไหนดี — Where should I get off?"},
+    {"id":"l53_11","thai":"สาย","phonetic":"sai","english":"line (train line)","image":"","audio":"l53_11.mp3","example":"สายสีเขียวไปหมอชิต — The green line goes to Mo Chit"},
+    {"id":"l53_12","thai":"ทิศทาง","phonetic":"tit-thang","english":"direction","image":"","audio":"l53_12.mp3","example":"ไปทิศทางไหน — Which direction are you going?"},
+    {"id":"l53_13","thai":"ถัดไป","phonetic":"that-pai","english":"next (station)","image":"","audio":"l53_13.mp3","example":"สถานีถัดไปคือสยาม — Next station is Siam"},
+    {"id":"l53_14","thai":"ปลายทาง","phonetic":"plai-thang","english":"final destination / terminus","image":"","audio":"l53_14.mp3","example":"ปลายทางคือหมอชิต — The terminus is Mo Chit"},
+    {"id":"l53_15","thai":"ชั้น","phonetic":"chan","english":"floor / level","image":"","audio":"l53_15.mp3","example":"ชั้น 2 ค่ะ — It's on the 2nd floor"},
+    {"id":"l53_16","thai":"รอ","phonetic":"ro","english":"wait","image":"","audio":"l53_16.mp3","example":"รอประมาณ 5 นาที — Wait about 5 minutes"},
+    {"id":"l53_17","thai":"ใกล้ที่สุด","phonetic":"glai-tee-sut","english":"nearest","image":"","audio":"l53_17.mp3","example":"สถานีใกล้ที่สุดคือที่ไหน — Where is the nearest station?"},
+    {"id":"l53_18","thai":"ออกที่สถานีไหน","phonetic":"ok-tee-sa-tha-nee-nai","english":"which station to get off?","image":"","audio":"l53_18.mp3","example":"ออกที่สถานีไหนดี — Which station should I get off at?"}
+  ]
+}

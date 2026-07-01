@@ -154,79 +154,109 @@ class _ConversationScreenState extends State<ConversationScreen> {
       return const Center(child: CircularProgressIndicator());
     }
     final q = widget.exercise.questions[_questionIdx];
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final questionCard = Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppTheme.thaiNavy,
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            q.question,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: isLandscape ? 15 : 18,
+                fontWeight: FontWeight.w800,
+                color: Colors.white),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Question ${_questionIdx + 1} of ${widget.exercise.questions.length}',
+            style: const TextStyle(fontSize: 12, color: Colors.white60),
+          ),
+        ],
+      ),
+    ).animate().fadeIn(duration: 300.ms);
+
+    final optionList = q.options.asMap().entries.map((e) {
+      final i = e.key;
+      final opt = e.value;
+      Color bg = Colors.white;
+      Color border = AppTheme.border;
+
+      if (_selectedOption != null) {
+        if (i == q.correctIndex) {
+          bg = AppTheme.success.withValues(alpha: 0.1);
+          border = AppTheme.success;
+        } else if (i == _selectedOption) {
+          bg = AppTheme.thaiRed.withValues(alpha: 0.1);
+          border = AppTheme.thaiRed;
+        }
+      }
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: GestureDetector(
+          onTap: () => _selectOption(i),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+              border: Border.all(color: border, width: 2),
+              boxShadow: AppTheme.shadowSm,
+            ),
+            child: Text(
+              opt,
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.textPrimary),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+
+    if (isLandscape) {
+      return Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              flex: 4,
+              child: questionCard,
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              flex: 6,
+              child: SingleChildScrollView(
+                child: Column(children: optionList),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppTheme.thaiNavy,
-              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
-            ),
-            child: Text(
-              q.question,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white),
-            ),
-          ).animate().fadeIn(duration: 300.ms),
-
+          questionCard,
           const SizedBox(height: 24),
-
           Text(
             'Question ${_questionIdx + 1} of ${widget.exercise.questions.length}',
-            style: const TextStyle(
-                fontSize: 13, color: AppTheme.textSecondary),
+            style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary),
           ),
-
           const SizedBox(height: 16),
-
-          ...q.options.asMap().entries.map((e) {
-            final i = e.key;
-            final opt = e.value;
-            Color bg = Colors.white;
-            Color border = AppTheme.border;
-
-            if (_selectedOption != null) {
-              if (i == q.correctIndex) {
-                bg = AppTheme.success.withValues(alpha: 0.1);
-                border = AppTheme.success;
-              } else if (i == _selectedOption) {
-                bg = AppTheme.thaiRed.withValues(alpha: 0.1);
-                border = AppTheme.thaiRed;
-              }
-            }
-
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: GestureDetector(
-                onTap: () => _selectOption(i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: bg,
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusLg),
-                    border: Border.all(color: border, width: 2),
-                    boxShadow: AppTheme.shadowSm,
-                  ),
-                  child: Text(
-                    opt,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.textPrimary),
-                  ),
-                ),
-              ),
-            );
-          }),
+          ...optionList,
         ],
       ),
     );

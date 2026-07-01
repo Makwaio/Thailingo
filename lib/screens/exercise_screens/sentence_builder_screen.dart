@@ -103,8 +103,12 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final hPad = isLandscape ? 32.0 : 20.0;
+    final vPad = isLandscape ? 8.0 : 20.0;
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(horizontal: hPad, vertical: vPad),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -131,7 +135,9 @@ class _SentenceBuilderScreenState extends State<SentenceBuilderScreen>
                       : widget.exercise.englishSentence,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: _isLearningEnglish ? 28 : 20,
+                      fontSize: _isLearningEnglish
+                          ? (isLandscape ? 20 : 28)
+                          : (isLandscape ? 16 : 20),
                       fontWeight: FontWeight.w800,
                       color: Colors.white),
                 ),

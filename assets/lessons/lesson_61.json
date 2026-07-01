@@ -1,0 +1,31 @@
+{
+  "id": 61,
+  "title": "Talking About Your Life",
+  "thaiTitle": "พูดถึงชีวิตของคุณ",
+  "subtitle": "Share your story in Thai",
+  "icon": "lesson_4",
+  "color": "#1A237E",
+  "xpReward": 40,
+  "words": [
+    {"id":"l61_01","thai":"อาชีพ","phonetic":"a-chip","english":"occupation / profession","image":"","audio":"l61_01.mp3","example":"อาชีพของคุณคืออะไร — What is your occupation?"},
+    {"id":"l61_02","thai":"ทำงาน","phonetic":"tham-ngan","english":"work / to work","image":"","audio":"l61_02.mp3","example":"ทำงานที่ไหน — Where do you work?"},
+    {"id":"l61_03","thai":"เรียน","phonetic":"rian","english":"study / to learn","image":"","audio":"l61_03.mp3","example":"กำลังเรียนภาษาไทย — I'm studying Thai"},
+    {"id":"l61_04","thai":"จบ","phonetic":"jop","english":"graduate / finish","image":"","audio":"l61_04.mp3","example":"จบจากมหาวิทยาลัยไหน — Which university did you graduate from?"},
+    {"id":"l61_05","thai":"สมรส","phonetic":"som-rot","english":"married","image":"","audio":"l61_05.mp3","example":"แต่งงานแล้วหรือยัง — Are you married yet?"},
+    {"id":"l61_06","thai":"โสด","phonetic":"sot","english":"single","image":"","audio":"l61_06.mp3","example":"ยังโสดอยู่ — I'm still single"},
+    {"id":"l61_07","thai":"ครอบครัว","phonetic":"khrop-khrua","english":"family","image":"","audio":"l61_07.mp3","example":"ครอบครัวของคุณมีกี่คน — How many people are in your family?"},
+    {"id":"l61_08","thai":"ลูก","phonetic":"luk","english":"child / children","image":"","audio":"l61_08.mp3","example":"มีลูกกี่คน — How many children do you have?"},
+    {"id":"l61_09","thai":"อยู่ที่","phonetic":"yu-tee","english":"live at / stay at","image":"","audio":"l61_09.mp3","example":"อยู่ที่กรุงเทพมานานแค่ไหน — How long have you lived in Bangkok?"},
+    {"id":"l61_10","thai":"ย้ายมา","phonetic":"yai-ma","english":"move here / relocated","image":"","audio":"l61_10.mp3","example":"ย้ายมาจากอังกฤษ — I moved here from England"},
+    {"id":"l61_11","thai":"นานแค่ไหน","phonetic":"nan-khae-nai","english":"how long?","image":"","audio":"l61_11.mp3","example":"อยู่ที่นี่นานแค่ไหนแล้ว — How long have you been here?"},
+    {"id":"l61_12","thai":"ต่างชาติ","phonetic":"tang-chat","english":"foreigner","image":"","audio":"l61_12.mp3","example":"เป็นต่างชาติแต่พูดไทยได้ดี — A foreigner who speaks Thai well"},
+    {"id":"l61_13","thai":"ชอบ","phonetic":"chop","english":"like","image":"","audio":"l61_13.mp3","example":"ชอบอยู่ที่ประเทศไทยมาก — I really like living in Thailand"},
+    {"id":"l61_14","thai":"ฝัน","phonetic":"fan","english":"dream / ambition","image":"","audio":"l61_14.mp3","example":"ฝันอยากเป็นหมอ — My dream is to be a doctor"},
+    {"id":"l61_15","thai":"แผน","phonetic":"phaen","english":"plan","image":"","audio":"l61_15.mp3","example":"แผนในอนาคตของคุณคืออะไร — What are your future plans?"},
+    {"id":"l61_16","thai":"อนาคต","phonetic":"a-na-khot","english":"future","image":"","audio":"l61_16.mp3","example":"อนาคตอยากทำอะไร — What do you want to do in the future?"},
+    {"id":"l61_17","thai":"ประสบการณ์","phonetic":"pra-sop-ga-ran","english":"experience","image":"","audio":"l61_17.mp3","example":"มีประสบการณ์ทำงานไหม — Do you have work experience?"},
+    {"id":"l61_18","thai":"ตั้งใจ","phonetic":"tang-jai","english":"intend / be determined","image":"","audio":"l61_18.mp3","example":"ตั้งใจเรียนภาษาไทยทุกวัน — I'm determined to study Thai every day"},
+    {"id":"l61_19","thai":"ภูมิใจ","phonetic":"phum-jai","english":"proud","image":"","audio":"l61_19.mp3","example":"ภูมิใจที่ได้เรียนภาษาใหม่ — Proud to be learning a new language"},
+    {"id":"l61_20","thai":"บ้าน","phonetic":"ban","english":"home / house","image":"","audio":"l61_20.mp3","example":"บ้านอยู่แถวไหน — Whereabouts is your home?"}
+  ]
+}

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
+import '../../models/word.dart';
 import '../../services/audio_service.dart';
 import '../../services/settings_service.dart';
 import '../../ui/theme/app_theme.dart';
@@ -131,36 +132,252 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
     final target = widget.exercise.targetWord;
     final wordKey = ValueKey(target.id);
     final isLearningEnglish = _isLearningEnglish;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
+    if (isLandscape) {
+      return _buildLandscape(context, target, wordKey, isLearningEnglish);
+    }
+    return _buildPortrait(target, wordKey, isLearningEnglish);
+  }
+
+  Widget _buildTimerBar(ValueKey wordKey) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+      child: LinearProgressIndicator(
+        value: _timeLeft / _totalSeconds,
+        minHeight: 8,
+        backgroundColor: AppTheme.border,
+        valueColor: AlwaysStoppedAnimation<Color>(
+          _timeLeft > 2
+              ? AppTheme.success
+              : _timeLeft > 1
+                  ? AppTheme.thaiGold
+                  : AppTheme.thaiRed,
+        ),
+      ),
+    )
+        .animate(key: wordKey)
+        .scaleX(
+          begin: 0.0,
+          end: 1.0,
+          alignment: Alignment.centerLeft,
+          duration: 300.ms,
+          curve: Curves.easeOut,
+        );
+  }
+
+  Widget _buildStimulusCard(Word target, ValueKey wordKey, bool isLearningEnglish, {bool compact = false}) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+          horizontal: 20, vertical: compact ? 14 : 26),
+      decoration: BoxDecoration(
+        color: AppTheme.thaiNavy,
+        borderRadius: BorderRadius.circular(AppTheme.radiusXl),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.thaiNavy.withValues(alpha: 0.4),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Text(
+            isLearningEnglish ? 'WHAT DOES THIS MEAN?' : 'TAP THE THAI WORD',
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.4,
+              color: Colors.white38,
+            ),
+          ),
+          SizedBox(height: compact ? 6 : 10),
+          Text(
+            isLearningEnglish ? target.thai : target.english,
+            style: TextStyle(
+              fontSize: isLearningEnglish ? (compact ? 32 : 42) : (compact ? 22 : 32),
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          if (isLearningEnglish) ...[
+            const SizedBox(height: 4),
+            Text(
+              target.phonetic,
+              style: TextStyle(
+                fontSize: compact ? 12 : 14,
+                color: Colors.white.withValues(alpha: 0.6),
+              ),
+            ),
+          ],
+          SizedBox(height: compact ? 6 : 10),
+          GestureDetector(
+            onTap: () => AudioService().playWord(target.audio, thaiText: target.thai),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+              ),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.volume_up_rounded, size: 14, color: Colors.white70),
+                  SizedBox(width: 4),
+                  Text('🔊', style: TextStyle(fontSize: 12)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    )
+        .animate(key: wordKey)
+        .slideX(
+          begin: 0.45,
+          end: 0.0,
+          duration: 280.ms,
+          curve: Curves.easeOut,
+        )
+        .fadeIn(duration: 200.ms);
+  }
+
+  Widget _buildAnswerGrid(ValueKey wordKey, {int crossAxisCount = 2, double aspectRatio = 2.0}) {
+    final isLearningEnglish = _isLearningEnglish;
+    return GridView.count(
+      crossAxisCount: crossAxisCount,
+      crossAxisSpacing: 12,
+      mainAxisSpacing: 12,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      childAspectRatio: aspectRatio,
+      children: widget.exercise.options.map((opt) {
+        final isTarget = opt.id == widget.exercise.targetWord.id;
+        Color bg;
+        Color border;
+        if (!_answered && !widget.answered) {
+          bg = Colors.white;
+          border = AppTheme.border;
+        } else if (isTarget) {
+          bg = AppTheme.success.withValues(alpha: 0.1);
+          border = AppTheme.success;
+        } else if (opt.id == _selectedId) {
+          bg = AppTheme.thaiRed.withValues(alpha: 0.1);
+          border = AppTheme.thaiRed;
+        } else {
+          bg = Colors.white;
+          border = AppTheme.border;
+        }
+
+        final optLabel = isLearningEnglish ? opt.english : opt.thai;
+        final optFontSize = isLearningEnglish ? 13.0 : 18.0;
+
+        return GestureDetector(
+          onTap: () => _onTap(opt.id),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            decoration: BoxDecoration(
+              color: bg,
+              borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+              border: Border.all(color: border, width: 2),
+              boxShadow: AppTheme.shadowSm,
+            ),
+            padding: const EdgeInsets.all(8),
+            child: Center(
+              child: Text(
+                optLabel,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: optFontSize,
+                  fontWeight: FontWeight.w700,
+                  color: AppTheme.textPrimary,
+                ),
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    )
+        .animate(key: wordKey)
+        .slideX(
+          begin: 0.3,
+          end: 0.0,
+          delay: 60.ms,
+          duration: 300.ms,
+          curve: Curves.easeOut,
+        )
+        .fadeIn(delay: 60.ms, duration: 220.ms);
+  }
+
+  Widget _buildLandscape(BuildContext context, Word target, ValueKey wordKey, bool isLearningEnglish) {
+    return Column(
+      children: [
+        // Timer bar full width
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+          child: _buildTimerBar(wordKey),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Left: stimulus
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _buildStimulusCard(target, wordKey, isLearningEnglish, compact: true),
+                      SizedBox(
+                        height: 36,
+                        child: _flashLabel != null
+                            ? Center(
+                                child: Text(
+                                  _flashLabel!,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppTheme.thaiGold,
+                                  ),
+                                ).animate(key: ValueKey(_flashLabel)).scale(
+                                      begin: const Offset(0.5, 0.5),
+                                      duration: 300.ms,
+                                      curve: Curves.elasticOut,
+                                    ),
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                // Right: 2x2 answer grid
+                Expanded(
+                  flex: 6,
+                  child: Center(
+                    child: _buildAnswerGrid(wordKey, crossAxisCount: 2, aspectRatio: 2.5),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPortrait(Word target, ValueKey wordKey, bool isLearningEnglish) {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          // ── Timer bar ────────────────────────────────────────────────────
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-            child: LinearProgressIndicator(
-              value: _timeLeft / _totalSeconds,
-              minHeight: 8,
-              backgroundColor: AppTheme.border,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                _timeLeft > 2
-                    ? AppTheme.success
-                    : _timeLeft > 1
-                        ? AppTheme.thaiGold
-                        : AppTheme.thaiRed,
-              ),
-            ),
-          )
-              .animate(key: wordKey)
-              .scaleX(
-                begin: 0.0,
-                end: 1.0,
-                alignment: Alignment.centerLeft,
-                duration: 300.ms,
-                curve: Curves.easeOut,
-              ),
-
+          _buildTimerBar(wordKey),
           const SizedBox(height: 8),
           Text(
             '${_timeLeft.toStringAsFixed(1)}s',
@@ -171,85 +388,7 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
             ),
           ),
           const SizedBox(height: 20),
-
-          // ── Stimulus ─────────────────────────────────────────────────────
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
-            decoration: BoxDecoration(
-              color: AppTheme.thaiNavy,
-              borderRadius: BorderRadius.circular(AppTheme.radiusXl),
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.thaiNavy.withValues(alpha: 0.4),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text(
-                  isLearningEnglish ? 'WHAT DOES THIS MEAN?' : 'TAP THE THAI WORD',
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.4,
-                    color: Colors.white38,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  isLearningEnglish ? target.thai : target.english,
-                  style: TextStyle(
-                    fontSize: isLearningEnglish ? 42 : 32,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                if (isLearningEnglish) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    target.phonetic,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white.withValues(alpha: 0.6),
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () => AudioService().playWord(target.audio, thaiText: target.thai),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(AppTheme.radiusFull),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.volume_up_rounded, size: 14, color: Colors.white70),
-                        SizedBox(width: 4),
-                        Text('🔊', style: TextStyle(fontSize: 12)),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-              .animate(key: wordKey)
-              .slideX(
-                begin: 0.45,
-                end: 0.0,
-                duration: 280.ms,
-                curve: Curves.easeOut,
-              )
-              .fadeIn(duration: 200.ms),
-
-          // Speed-bonus label
+          _buildStimulusCard(target, wordKey, isLearningEnglish),
           SizedBox(
             height: 44,
             child: _flashLabel != null
@@ -270,73 +409,9 @@ class _SpeedTapScreenState extends State<SpeedTapScreen> {
                     .fadeIn(duration: 180.ms)
                 : const SizedBox.shrink(),
           ),
-
           const SizedBox(height: 8),
-
-          // ── Answer grid ──────────────────────────────────────────────────
           Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: widget.exercise.options.map((opt) {
-                final isTarget = opt.id == widget.exercise.targetWord.id;
-                Color bg;
-                Color border;
-                if (!_answered && !widget.answered) {
-                  bg = Colors.white;
-                  border = AppTheme.border;
-                } else if (isTarget) {
-                  bg = AppTheme.success.withValues(alpha: 0.1);
-                  border = AppTheme.success;
-                } else if (opt.id == _selectedId) {
-                  bg = AppTheme.thaiRed.withValues(alpha: 0.1);
-                  border = AppTheme.thaiRed;
-                } else {
-                  bg = Colors.white;
-                  border = AppTheme.border;
-                }
-
-                final optLabel = isLearningEnglish ? opt.english : opt.thai;
-                final optFontSize = isLearningEnglish ? 15.0 : 20.0;
-
-                return GestureDetector(
-                  onTap: () => _onTap(opt.id),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    decoration: BoxDecoration(
-                      color: bg,
-                      borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                      border: Border.all(color: border, width: 2),
-                      boxShadow: AppTheme.shadowSm,
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Center(
-                      child: Text(
-                        optLabel,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: optFontSize,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            )
-                .animate(key: wordKey)
-                .slideX(
-                  begin: 0.3,
-                  end: 0.0,
-                  delay: 60.ms,
-                  duration: 300.ms,
-                  curve: Curves.easeOut,
-                )
-                .fadeIn(delay: 60.ms, duration: 220.ms),
+            child: _buildAnswerGrid(wordKey),
           ),
         ],
       ),

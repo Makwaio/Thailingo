@@ -1,0 +1,31 @@
+{
+  "id": 57,
+  "title": "At the Hospital & Pharmacy",
+  "thaiTitle": "โรงพยาบาลและร้านขายยา",
+  "subtitle": "Stay healthy in Thailand",
+  "icon": "lesson_6",
+  "color": "#AD1457",
+  "xpReward": 35,
+  "words": [
+    {"id":"l57_01","thai":"โรงพยาบาล","phonetic":"rong-pha-ya-ban","english":"hospital","image":"","audio":"l57_01.mp3","example":"ต้องไปโรงพยาบาล — I need to go to the hospital"},
+    {"id":"l57_02","thai":"หมอ","phonetic":"mo","english":"doctor","image":"","audio":"l57_02.mp3","example":"อยากพบหมอ — I want to see a doctor"},
+    {"id":"l57_03","thai":"พยาบาล","phonetic":"pha-ya-ban","english":"nurse","image":"","audio":"l57_03.mp3","example":"พยาบาลช่วยได้ไหม — Can the nurse help?"},
+    {"id":"l57_04","thai":"ร้านขายยา","phonetic":"ran-khai-ya","english":"pharmacy","image":"","audio":"l57_04.mp3","example":"ร้านขายยาอยู่ที่ไหน — Where is the pharmacy?"},
+    {"id":"l57_05","thai":"ยา","phonetic":"ya","english":"medicine","image":"","audio":"l57_05.mp3","example":"กินยาตามที่หมอสั่ง — Take medicine as the doctor prescribed"},
+    {"id":"l57_06","thai":"เจ็บ","phonetic":"jep","english":"pain / it hurts","image":"","audio":"l57_06.mp3","example":"เจ็บที่นี่ครับ — It hurts here"},
+    {"id":"l57_07","thai":"ไข้","phonetic":"khai","english":"fever","image":"","audio":"l57_07.mp3","example":"มีไข้สูง — I have a high fever"},
+    {"id":"l57_08","thai":"ไอ","phonetic":"ai","english":"cough","image":"","audio":"l57_08.mp3","example":"ไอมาหลายวันแล้ว — I've been coughing for several days"},
+    {"id":"l57_09","thai":"น้ำมูก","phonetic":"nam-muk","english":"runny nose","image":"","audio":"l57_09.mp3","example":"น้ำมูกไหลตลอด — My nose keeps running"},
+    {"id":"l57_10","thai":"ปวดหัว","phonetic":"puat-hua","english":"headache","image":"","audio":"l57_10.mp3","example":"ปวดหัวมากเลย — I have a bad headache"},
+    {"id":"l57_11","thai":"ท้องเสีย","phonetic":"thong-sia","english":"diarrhea / upset stomach","image":"","audio":"l57_11.mp3","example":"ท้องเสียมาตั้งแต่เมื่อคืน — I've had diarrhea since last night"},
+    {"id":"l57_12","thai":"คลื่นไส้","phonetic":"kleun-sai","english":"nausea / feel sick","image":"","audio":"l57_12.mp3","example":"รู้สึกคลื่นไส้มาก — I feel very nauseous"},
+    {"id":"l57_13","thai":"แพ้","phonetic":"phae","english":"allergy / allergic to","image":"","audio":"l57_13.mp3","example":"แพ้ยาเพนิซิลิน — I'm allergic to penicillin"},
+    {"id":"l57_14","thai":"ใบสั่งยา","phonetic":"bai-sang-ya","english":"prescription","image":"","audio":"l57_14.mp3","example":"ต้องมีใบสั่งยา — A prescription is required"},
+    {"id":"l57_15","thai":"ห้องฉุกเฉิน","phonetic":"hong-chuk-choen","english":"emergency room","image":"","audio":"l57_15.mp3","example":"ไปห้องฉุกเฉินเร็ว — Go to the emergency room quickly"},
+    {"id":"l57_16","thai":"ประกันสุขภาพ","phonetic":"pra-gan-suk-ka-phap","english":"health insurance","image":"","audio":"l57_16.mp3","example":"มีประกันสุขภาพไหม — Do you have health insurance?"},
+    {"id":"l57_17","thai":"นัด","phonetic":"nat","english":"appointment","image":"","audio":"l57_17.mp3","example":"ขอนัดพบหมอได้ไหม — Can I make an appointment with the doctor?"},
+    {"id":"l57_18","thai":"พักผ่อน","phonetic":"phak-phon","english":"rest / recuperate","image":"","audio":"l57_18.mp3","example":"หมอบอกให้พักผ่อน — The doctor said to rest"},
+    {"id":"l57_19","thai":"ฉีดยา","phonetic":"cheet-ya","english":"injection / shot","image":"","audio":"l57_19.mp3","example":"ต้องฉีดยาไหม — Do I need an injection?"},
+    {"id":"l57_20","thai":"อาเจียน","phonetic":"a-jian","english":"vomit","image":"","audio":"l57_20.mp3","example":"อาเจียนมาทั้งคืน — I vomited all night"}
+  ]
+}
