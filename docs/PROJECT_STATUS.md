@@ -1,8 +1,52 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-07-01 (v1.2.2 — Arcade Countdown + Skeet Shooter Improvements)  
+**Last updated:** 2026-07-01 (v1.2.3 — Skeet Shooter Overhaul)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.2.3 Changes — 2026-07-01
+
+### Skeet Shooter — Full Overhaul
+
+**New: `lib/widgets/skeet_background.dart`** — 20 dynamic background themes:
+- Themes unlock every 5 levels: Morning Bangkok → Midday Heat → Bangkok Streets → Afternoon Storm → Sunset Orange → Purple Dusk → City Night → Neon Bangkok → Rainy Season → Temple Grounds → Mountain View → Beach Thailand → Forest Path → Desert Heat → Snowy Mountain → Space Station → Aurora → Volcanic → Lightning Storm → Golden Temple
+- 1-second `AnimatedSwitcher` fade transition between themes
+- Custom painters: `_MountainPainter`, `_RainPainter`, `_AuroraPainter`, `_HeatPainter`, `_LightningPainter`
+- "✨ NEW AREA!" gold banner appears on background change
+
+**Skeet Shooter (`skeet_shooter_screen.dart`) — complete rewrite:**
+- **Continuous spawning**: no more round limit — endless until 0 hearts or Level 100
+- **Decoy count by level**: Lv 1–4: 2–3; Lv 5–9: 3–4; Lv 10–14: 4–5; Lv 15–19: 5–6; Lv 20–29: 5–7; Lv 30–49: 6–8; Lv 50–74: 7–9; Lv 75–100: 7–10
+- **Decoys respawn** 1–2 seconds after flying off or being popped
+- **5 hearts** (`_maxLives = 5`): ❤️❤️❤️❤️❤️ with shake animation on loss, red edge flash
+- **Spawn direction by level**: Lv 1–19: left or right only; Lv 20+: left, right, or top (falls downward)
+- **Skeet size**: 65px → 55px; white glow text with double shadow for readability
+- **Brighter correct skeet**: enhanced gold radial gradient + stronger glow
+- **Level formula**: `(_correctHits ~/ 3 + 1).clamp(1, 100)` — levels up every 3 correct hits
+- **Speed formula**: `baseSpeed × min(1 + level × 0.05, 6.0)` px/s (capped at 6× base)
+- **Level 100 Victory**: "LEGENDARY! 🏆" screen instead of game over
+- **Improved Game Over**: shows level reached, accuracy %, longest combo, total rounds, final score
+- **Stats tracked**: `_totalShots`, `_totalHits`, `_correctHits`, `_totalRoundsPlayed`
+- High score key changed to `'skeet_shooter_hs_v2'`
+
+**Speed Mode (`speed_mode_screen.dart`):**
+- Added **5 lives**: wrong answer or timeout costs 1 life
+- Hearts row (❤️❤️❤️❤️❤️ / 🖤) in top-right with shake animation on life loss
+- Red screen-edge pulse on life loss (`AnimatedOpacity` border overlay)
+- Game ends early if all 5 lives are lost (goes to results screen)
+
+**Arcade Screen (`arcade_screen.dart`) — word pool fix:**
+- Stage ID constants corrected to match actual lesson chain assignments
+- Stage 3 toggle added (`_kStage3Ids`: lessons 46–51, 61–63, 65, 66)
+- Stage toggles now show word count per stage: "Stage 1 (X)"
+- `_canPlay` check extended to include Stage 3 selection
+- `_buildWordPool()` now includes Stage 3 words
+
+**Lesson model (`lesson.dart`) — stage getter fix:**
+- Replaced range-based logic with explicit ID sets matching game chain data
+- Stage 1: IDs 1–22, 29–33; Stage 2: IDs 23–26, 34–45, 52–60, 64; Stage 3: IDs 46–51, 61–63, 65, 66
 
 ---
 

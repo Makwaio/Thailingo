@@ -34,6 +34,7 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
   int  _bestCombo    = 1;
   int  _correctCount = 0;
   int? _fastestMs;
+  int  _lives        = 5;
 
   bool _answered   = false;
   bool _timedOut   = false;
@@ -48,6 +49,7 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
   bool _showComboReset  = false;
   bool _showOnFire      = false;
   bool _showComboAnim   = false;
+  double _flashOpacity  = 0.0;
 
   // ── Animation Controllers ─────────────────────────────────────────────
   late final AnimationController _timerCtrl;
@@ -134,6 +136,7 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
     _timedOut = true;
     AudioService().playWrong();
     _shakeCtrl.forward(from: 0);
+    _loseLife();
     setState(() {
       _combo       = 1;
       _showComboReset = true;
@@ -143,7 +146,18 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
     Future.delayed(const Duration(milliseconds: 1200), () {
       if (!mounted) return;
       setState(() => _showComboReset = false);
+      if (_lives <= 0) { _goToResults(); return; }
       _advance();
+    });
+  }
+
+  void _loseLife() {
+    _lives--;
+    setState(() {
+      _flashOpacity = 1.0;
+    });
+    Future.delayed(const Duration(milliseconds: 120), () {
+      if (mounted) setState(() => _flashOpacity = 0.0);
     });
   }
 
@@ -190,6 +204,7 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
     } else {
       AudioService().playWrong();
       _shakeCtrl.forward(from: 0);
+      _loseLife();
       setState(() {
         _combo        = 1;
         _showComboReset = true;
@@ -200,6 +215,7 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
       Future.delayed(const Duration(milliseconds: 1200), () {
         if (!mounted) return;
         setState(() => _showComboReset = false);
+        if (_lives <= 0) { _goToResults(); return; }
         _advance();
       });
     }
@@ -285,15 +301,33 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
       },
       child: Scaffold(
         backgroundColor: const Color(0xFF1A1F3A),
-        body: SafeArea(
-          child: Column(
-            children: [
-              _buildTopBar(),
-              _buildTimerBar(),
-              Expanded(child: _buildMainContent()),
-              _buildBottomBar(),
-            ],
-          ),
+        body: Stack(
+          children: [
+            SafeArea(
+              child: Column(
+                children: [
+                  _buildTopBar(),
+                  _buildTimerBar(),
+                  Expanded(child: _buildMainContent()),
+                  _buildBottomBar(),
+                ],
+              ),
+            ),
+            // Red edge flash on life loss
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 280),
+                  opacity: _flashOpacity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red.withValues(alpha: 0.75), width: 12),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -366,19 +400,22 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
             },
           ),
           const Spacer(),
-          // Question counter
+          // Hearts + question counter
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Q',
-                  style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 1,
-                      color: Colors.white.withValues(alpha: 0.5))),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(5, (i) => Padding(
+                  padding: const EdgeInsets.only(left: 2),
+                  child: Text(i < _lives ? '❤️' : '🖤',
+                      style: const TextStyle(fontSize: 14)),
+                )),
+              ).animate(key: ValueKey(_lives)).shake(duration: 350.ms),
+              const SizedBox(height: 2),
               Text('${_qIdx + 1}/20',
                   style: const TextStyle(
-                      fontSize: 22,
+                      fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: Colors.white)),
             ],

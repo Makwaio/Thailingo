@@ -12,13 +12,17 @@ import '../ui/widgets/thai_mascot.dart';
 import 'arcade/speed_mode_screen.dart';
 import 'arcade/skeet_shooter_screen.dart';
 
-// ── Stage constants matching home_screen ──────────────────────────────
+// ── Stage constants ───────────────────────────────────────────────────
 const _kStage1Ids = {
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-  15, 16, 17, 18, 19, 20, 21, 22, 38, 39, 40, 41, 42, 43
+  15, 16, 17, 18, 19, 20, 21, 22, 29, 30, 31, 32, 33,
 };
 const _kStage2Ids = {
-  23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
+  23, 24, 25, 26, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+  44, 45, 52, 53, 54, 55, 56, 57, 58, 59, 60, 64,
+};
+const _kStage3Ids = {
+  46, 47, 48, 49, 50, 51, 61, 62, 63, 65, 66,
 };
 
 class ArcadeScreen extends StatefulWidget {
@@ -43,8 +47,10 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   // Stage selector state
   bool _stage1Available = false;
   bool _stage2Available = false;
+  bool _stage3Available = false;
   bool _stage1Selected  = true;
   bool _stage2Selected  = true;
+  bool _stage3Selected  = true;
 
   @override
   void initState() {
@@ -63,6 +69,9 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
     final s2Avail = lessons.any((l) =>
         _kStage2Ids.contains(l.id) &&
         (progress.lessonProgress[l.id]?.timesCompleted ?? 0) >= 1);
+    final s3Avail = lessons.any((l) =>
+        _kStage3Ids.contains(l.id) &&
+        (progress.lessonProgress[l.id]?.timesCompleted ?? 0) >= 1);
 
     if (mounted) {
       setState(() {
@@ -71,8 +80,10 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
         _highScore        = hs;
         _stage1Available  = s1Avail;
         _stage2Available  = s2Avail;
+        _stage3Available  = s3Avail;
         _stage1Selected   = s1Avail;
         _stage2Selected   = s2Avail;
+        _stage3Selected   = s3Avail;
         _loading          = false;
       });
     }
@@ -88,7 +99,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
 
       final inS1 = _kStage1Ids.contains(lesson.id) && _stage1Selected;
       final inS2 = _kStage2Ids.contains(lesson.id) && _stage2Selected;
-      if (!inS1 && !inS2) continue;
+      final inS3 = _kStage3Ids.contains(lesson.id) && _stage3Selected;
+      if (!inS1 && !inS2 && !inS3) continue;
 
       for (final w in lesson.words) { wordMap[w.id] = w; }
     }
@@ -98,8 +110,18 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   int get _wordCount => _buildWordPool().length;
 
   bool get _canPlay {
-    if (!_stage1Selected && !_stage2Selected) return false;
+    if (!_stage1Selected && !_stage2Selected && !_stage3Selected) return false;
     return _wordCount >= 20;
+  }
+
+  int _stageWordCount(Set<int> ids) {
+    final wordMap = <String, Word>{};
+    for (final lesson in _lessons) {
+      final tc = _progress.lessonProgress[lesson.id]?.timesCompleted ?? 0;
+      if (tc < 1 || !ids.contains(lesson.id)) continue;
+      for (final w in lesson.words) { wordMap[w.id] = w; }
+    }
+    return wordMap.length;
   }
 
   // ── Navigation ────────────────────────────────────────────────────────
@@ -480,7 +502,8 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   // ── Stage Selector ────────────────────────────────────────────────────
 
   Widget _buildStageSelector() {
-    if (!_stage1Available && !_stage2Available) {
+    final anyAvailable = _stage1Available || _stage2Available || _stage3Available;
+    if (!anyAvailable) {
       return Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -493,21 +516,21 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
             Text('🔒', style: TextStyle(fontSize: 32)),
             SizedBox(height: 12),
             Text(
-              'Complete more lessons to unlock Speed Mode!\nYou need at least 20 words.',
+              'Complete more lessons to unlock Arcade Mode!\nYou need at least 20 words.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.white70,
-                height: 1.5,
-              ),
+              style: TextStyle(fontSize: 14, color: Colors.white70, height: 1.5),
             ),
           ],
         ),
       );
     }
 
-    final atLeastOneSelected = _stage1Selected || _stage2Selected;
+    final atLeastOneSelected = _stage1Selected || _stage2Selected || _stage3Selected;
     final count = _wordCount;
+    final s1Count = _stageWordCount(_kStage1Ids);
+    final s2Count = _stageWordCount(_kStage2Ids);
+    final s3Count = _stageWordCount(_kStage3Ids);
+    final allSelected = _stage1Selected && _stage2Selected && _stage3Selected;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -534,33 +557,48 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
             children: [
               if (_stage1Available)
                 _StageToggle(
-                  label: 'Stage 1',
+                  label: 'Stage 1 ($s1Count)',
                   selected: _stage1Selected,
                   onTap: () {
                     final next = !_stage1Selected;
-                    if (!next && !_stage2Selected) return;
+                    if (!next && !_stage2Selected && !_stage3Selected) return;
                     setState(() => _stage1Selected = next);
                   },
                 ),
               if (_stage2Available)
                 _StageToggle(
-                  label: 'Stage 2',
+                  label: 'Stage 2 ($s2Count)',
                   selected: _stage2Selected,
                   onTap: () {
                     final next = !_stage2Selected;
-                    if (!next && !_stage1Selected) return;
+                    if (!next && !_stage1Selected && !_stage3Selected) return;
                     setState(() => _stage2Selected = next);
                   },
                 ),
-              if (_stage1Available && _stage2Available)
+              if (_stage3Available)
+                _StageToggle(
+                  label: 'Stage 3 ($s3Count)',
+                  selected: _stage3Selected,
+                  onTap: () {
+                    final next = !_stage3Selected;
+                    if (!next && !_stage1Selected && !_stage2Selected) return;
+                    setState(() => _stage3Selected = next);
+                  },
+                ),
+              if (((_stage1Available ? 1 : 0) + (_stage2Available ? 1 : 0) + (_stage3Available ? 1 : 0)) > 1)
                 _StageToggle(
                   label: 'All Stages',
-                  selected: _stage1Selected && _stage2Selected,
+                  selected: allSelected,
                   onTap: () {
-                    final allSelected = _stage1Selected && _stage2Selected;
                     setState(() {
-                      _stage1Selected = !allSelected;
-                      _stage2Selected = !allSelected;
+                      _stage1Selected = !allSelected && _stage1Available;
+                      _stage2Selected = !allSelected && _stage2Available;
+                      _stage3Selected = !allSelected && _stage3Available;
+                      if (!_stage1Selected && !_stage2Selected && !_stage3Selected) {
+                        _stage1Selected = _stage1Available;
+                        _stage2Selected = _stage2Available;
+                        _stage3Selected = _stage3Available;
+                      }
                     });
                   },
                 ),
@@ -574,17 +612,13 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: count >= 20
-                      ? const Color(0xFF4CAF50)
-                      : Colors.orange,
+                  color: count >= 20 ? const Color(0xFF4CAF50) : Colors.orange,
                 ),
               ),
               const SizedBox(width: 6),
               if (count < 20)
-                Text(
-                  '(need ${20 - count} more)',
-                  style: const TextStyle(fontSize: 11, color: Colors.orange),
-                ),
+                Text('(need ${20 - count} more)',
+                    style: const TextStyle(fontSize: 11, color: Colors.orange)),
             ],
           ),
           if (!atLeastOneSelected)
@@ -592,22 +626,16 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
               padding: const EdgeInsets.only(top: 8),
               child: Text(
                 'Select at least one stage',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.orange.withValues(alpha: 0.8),
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.orange.withValues(alpha: 0.8)),
               ),
             ),
           if (count > 0 && count < 20)
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                'Complete more lessons to unlock Speed Mode!\nYou need at least 20 words.',
+                'Complete more lessons to unlock Arcade Mode.\nYou need at least 20 words.',
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.white.withValues(alpha: 0.5),
-                  height: 1.4,
-                ),
+                  fontSize: 12, color: Colors.white.withValues(alpha: 0.5), height: 1.4),
               ),
             ),
         ],
