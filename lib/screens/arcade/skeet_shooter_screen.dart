@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/word.dart';
 import '../../services/audio_service.dart';
 import '../../ui/theme/app_theme.dart';
+import '../../widgets/arcade_countdown_widget.dart';
 
 class SkeetShooterScreen extends StatefulWidget {
   final List<Word> wordPool;
@@ -28,14 +29,21 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     with TickerProviderStateMixin {
   static const _totalRounds = 20;
   static const _maxLives = 3;
-  static const _skeetsPerRound = 5;
   static const _hsKey = 'skeet_shooter_hs_v1';
+  static const _baseSpeed = 120.0; // px/s at level 1
 
   final _rng = Random();
+
+  // ── Phase ─────────────────────────────────────────────────────────────
+  bool _gameStarted = false;
 
   // ── Game state ────────────────────────────────────────────────────────
   Word? _targetWord;
   final List<_SkeetBubble> _skeets = [];
+  List<_SkeetBubble> _pendingSkeets = [];
+  int _launchGapMs = 0;
+  int _msSinceLaunch = 0;
+
   int _score = 0;
   int _lives = _maxLives;
   int _round = 0;
@@ -44,10 +52,13 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   int _highScore = 0;
   bool _gameOver = false;
   bool _transitioning = false;
+  int _currentLevel = 1;
 
-  // ── Effect overlay ────────────────────────────────────────────────────
-  String _effectText = '';
-  bool _showEffect = false;
+  // ── Visual feedback ───────────────────────────────────────────────────
+  bool _showLevelUp = false;
+  double _flashOpacity = 0.0;
+  Color _flashColor = Colors.transparent;
+  final List<_TapEffect> _tapEffects = [];
 
   // ── Word pool ─────────────────────────────────────────────────────────
   late List<Word> _pool;
@@ -56,9 +67,8 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   // ── Game loop ─────────────────────────────────────────────────────────
   Timer? _gameLoop;
 
-  // Screen size set on first build
-  double _screenW = 400;
-  double _screenH = 700;
+  double _screenW = 800;
+  double _screenH = 400;
 
   @override
   void initState() {
@@ -69,7 +79,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     ]);
     _pool = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _loadHighScore();
-    _startRound();
   }
 
   @override
@@ -83,6 +92,26 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     ]);
     super.dispose();
   }
+
+  // ── Level helpers ──────────────────────────────────────────────────────
+
+  int get _level => (_round ~/ 3) + 1;
+
+  int _skeetsForLevel(int lv) {
+    if (lv >= 15) return 1 + _rng.nextInt(4);
+    if (lv >= 10) return 1 + _rng.nextInt(3);
+    if (lv >= 5) return 1 + _rng.nextInt(2);
+    return 1;
+  }
+
+  int _launchGapMsForLevel(int lv) {
+    if (lv >= 15) return 500;
+    if (lv >= 10) return 600;
+    if (lv >= 5) return 800;
+    return 0;
+  }
+
+  double _speedFrac(double px) => px / _screenW;
 
   // ── Loading ───────────────────────────────────────────────────────────
 
@@ -105,45 +134,60 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     if (!mounted) return;
     _gameLoop?.cancel();
 
+    final lv = _level;
+    final speedMult = 1.0 + (lv * 0.08);
+    final baseFrac = _speedFrac(_baseSpeed * speedMult);
+
+    // Level-up banner
+    if (lv > _currentLevel) {
+      _currentLevel = lv;
+      setState(() => _showLevelUp = true);
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) setState(() => _showLevelUp = false);
+      });
+    } else {
+      _currentLevel = lv;
+    }
+
     final target = _pool[_poolIdx % _pool.length];
     _poolIdx++;
 
-    final newSkeets = <_SkeetBubble>[];
+    final count = _skeetsForLevel(lv);
+    final gapMs = _launchGapMsForLevel(lv);
 
-    // One correct skeet
-    newSkeets.add(_SkeetBubble(
-      word: target,
-      isCorrect: true,
-      id: 'correct_$_round',
-      startFromLeft: _rng.nextBool(),
-      yFraction: 0.25 + _rng.nextDouble() * 0.45,
-      speed: 0.55 + _round * 0.018 + _rng.nextDouble() * 0.2,
-      arcHeight: 0.08 + _rng.nextDouble() * 0.14,
-    ));
+    // Staggered arc heights/y-fractions to prevent visual overlap
+    const arcH = [0.14, 0.26, 0.08, 0.32];
+    const yFrac = [0.38, 0.20, 0.58, 0.16];
 
-    // Decoy skeets
     final decoys = _pool.where((w) => w.id != target.id).toList()..shuffle(_rng);
-    for (int i = 0; i < (_skeetsPerRound - 1) && i < decoys.length; i++) {
-      newSkeets.add(_SkeetBubble(
-        word: decoys[i],
-        isCorrect: false,
-        id: 'decoy_${_round}_$i',
+    final correctSlot = _rng.nextInt(count);
+    final allSkeets = <_SkeetBubble>[];
+    int decoyIdx = 0;
+
+    for (int i = 0; i < count; i++) {
+      final isCorrect = i == correctSlot;
+      final word = isCorrect ? target : decoys[decoyIdx++ % decoys.length];
+      allSkeets.add(_SkeetBubble(
+        word: word,
+        isCorrect: isCorrect,
+        id: isCorrect ? 'correct_$_round' : 'decoy_${_round}_$i',
         startFromLeft: _rng.nextBool(),
-        yFraction: 0.18 + _rng.nextDouble() * 0.55,
-        speed: 0.5 + _round * 0.015 + _rng.nextDouble() * 0.25,
-        arcHeight: 0.05 + _rng.nextDouble() * 0.18,
+        yFraction: yFrac[i % yFrac.length],
+        speed: baseFrac + _rng.nextDouble() * baseFrac * 0.15,
+        arcHeight: arcH[i % arcH.length],
       ));
     }
-    newSkeets.shuffle(_rng);
 
     setState(() {
       _targetWord = target;
       _skeets.clear();
-      _skeets.addAll(newSkeets);
+      _pendingSkeets = count > 1 ? allSkeets.sublist(1) : [];
+      _skeets.add(allSkeets[0]);
+      _launchGapMs = gapMs;
+      _msSinceLaunch = 0;
       _transitioning = false;
     });
 
-    // Game loop: tick every 50ms
     _gameLoop = Timer.periodic(const Duration(milliseconds: 50), (_) {
       if (!mounted) return;
       _tick();
@@ -153,6 +197,16 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   void _tick() {
     if (_gameOver || _transitioning) return;
 
+    // Sequential launch of pending skeets
+    if (_pendingSkeets.isNotEmpty && _launchGapMs > 0) {
+      _msSinceLaunch += 50;
+      if (_msSinceLaunch >= _launchGapMs) {
+        _msSinceLaunch = 0;
+        setState(() => _skeets.add(_pendingSkeets.removeAt(0)));
+        return;
+      }
+    }
+
     bool correctMissed = false;
 
     for (final s in _skeets) {
@@ -161,17 +215,23 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       if (s.t >= 1.0) {
         s.t = 1.0;
         s.missed = true;
-        if (s.isCorrect) correctMissed = true;
+        if (s.isCorrect) {
+          correctMissed = true;
+          final edgeX = s.startFromLeft ? _screenW - 90.0 : 20.0;
+          final edgeY = s.yFraction * (_screenH * 0.55) + 60;
+          _addTapEffect('Miss! 💨', Colors.white70, edgeX, edgeY);
+        }
       }
     }
 
     if (correctMissed) {
-      _loseLife(showEffect: true, missedSkeet: true);
+      _triggerFlash(Colors.red.withValues(alpha: 0.55));
+      _loseLife();
       if (_gameOver) return;
     }
 
-    final allDone = _skeets.every((s) => s.popped || s.missed);
-    if (allDone && !_transitioning) {
+    final allActiveHandled = _skeets.every((s) => s.popped || s.missed);
+    if (allActiveHandled && _pendingSkeets.isEmpty && !_transitioning) {
       _onRoundEnd();
     } else {
       setState(() {});
@@ -185,7 +245,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     if (_round >= _totalRounds) {
       Future.delayed(const Duration(milliseconds: 600), _triggerGameOver);
     } else {
-      Future.delayed(const Duration(milliseconds: 700), _startRound);
+      Future.delayed(const Duration(milliseconds: 300), _startRound);
     }
   }
 
@@ -193,7 +253,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
 
   void _onSkeetTap(_SkeetBubble skeet) {
     if (skeet.popped || skeet.missed || _transitioning || _gameOver) return;
-
     skeet.popped = true;
 
     if (skeet.isCorrect) {
@@ -203,32 +262,36 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       final points = 10 + bonus;
       _score += points;
 
-      final msg = _streak >= 5
-          ? 'AMAZING! 🔥 x$_streak'
-          : _streak >= 3
-              ? 'COMBO! 🎯 x$_streak'
-              : 'NICE! 🎯 +$points';
-
       AudioService().playCombo();
-      _showEffectMsg(msg);
+      _triggerFlash(Colors.green.withValues(alpha: 0.45));
+      _addTapEffect('+$points 🎯', Colors.greenAccent, skeet.screenX, skeet.screenY - 30);
 
-      // Pop remaining decoys so round ends cleanly
+      if (_streak >= 3) {
+        _addTapEffect(
+          _streak >= 5 ? 'AMAZING! 🔥 x$_streak' : 'COMBO! x$_streak',
+          AppTheme.thaiGold,
+          _screenW / 2 - 50,
+          _screenH * 0.32,
+        );
+      }
+
       for (final s in _skeets) {
         if (!s.isCorrect) s.popped = true;
       }
+      _pendingSkeets.clear();
     } else {
-      _loseLife(showEffect: true, missedSkeet: false);
+      _streak = 0;
+      _triggerFlash(Colors.red.withValues(alpha: 0.5));
+      _addTapEffect('-1 ❤️', Colors.redAccent, skeet.screenX, skeet.screenY - 30);
+      _loseLife();
     }
 
     setState(() {});
   }
 
-  void _loseLife({required bool showEffect, required bool missedSkeet}) {
+  void _loseLife() {
     _streak = 0;
     _lives--;
-    if (showEffect) {
-      _showEffectMsg(missedSkeet ? 'MISSED! 💨' : 'WRONG! ❌');
-    }
     AudioService().playWrong();
     if (_lives <= 0) {
       Future.delayed(const Duration(milliseconds: 400), _triggerGameOver);
@@ -238,13 +301,21 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     }
   }
 
-  void _showEffectMsg(String msg) {
+  void _triggerFlash(Color color) {
     setState(() {
-      _effectText = msg;
-      _showEffect = true;
+      _flashColor = color;
+      _flashOpacity = 1.0;
     });
-    Future.delayed(const Duration(milliseconds: 900), () {
-      if (mounted) setState(() => _showEffect = false);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) setState(() => _flashOpacity = 0.0);
+    });
+  }
+
+  void _addTapEffect(String text, Color color, double x, double y) {
+    final effect = _TapEffect(text: text, color: color, x: x, y: y);
+    setState(() => _tapEffects.add(effect));
+    Future.delayed(const Duration(milliseconds: 750), () {
+      if (mounted) setState(() => _tapEffects.remove(effect));
     });
   }
 
@@ -253,8 +324,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     _saveHighScore();
     if (mounted) setState(() => _gameOver = true);
   }
-
-  // ── Reset ─────────────────────────────────────────────────────────────
 
   void _restartGame() {
     _gameLoop?.cancel();
@@ -267,8 +336,13 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       _gameOver = false;
       _transitioning = false;
       _skeets.clear();
+      _pendingSkeets.clear();
       _pool.shuffle(_rng);
       _poolIdx = 0;
+      _currentLevel = 1;
+      _showLevelUp = false;
+      _flashOpacity = 0.0;
+      _tapEffects.clear();
     });
     _startRound();
   }
@@ -280,6 +354,19 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     final size = MediaQuery.of(context).size;
     _screenW = size.width;
     _screenH = size.height;
+
+    if (!_gameStarted) {
+      return ArcadeCountdownWidget(
+        gameEmoji: '🎯',
+        gameTitle: 'Skeet Shooter',
+        instruction: 'Tap the correct Thai word before it flies off screen!',
+        bestScore: _highScore > 0 ? _highScore : null,
+        onStart: () => setState(() {
+          _gameStarted = true;
+          _startRound();
+        }),
+      );
+    }
 
     return Scaffold(
       body: Stack(
@@ -319,90 +406,171 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
             ),
           ),
 
+          // Screen edge flash
+          Positioned.fill(
+            child: IgnorePointer(
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 280),
+                opacity: _flashOpacity,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: _flashColor, width: 10),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           // Flying skeet bubbles
           if (!_gameOver)
             ..._skeets.map((s) => _buildSkeet(s)),
 
+          // Floating tap effects
+          ..._tapEffects.map((e) => Positioned(
+                key: e.key,
+                left: e.x - 30,
+                top: e.y,
+                child: IgnorePointer(
+                  child: Text(
+                    e.text,
+                    style: TextStyle(
+                      color: e.color,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w900,
+                      shadows: const [
+                        Shadow(color: Colors.black54, blurRadius: 8),
+                      ],
+                    ),
+                  )
+                      .animate()
+                      .moveY(
+                          begin: 0,
+                          end: -52,
+                          duration: 700.ms,
+                          curve: Curves.easeOut)
+                      .fadeOut(delay: 400.ms, duration: 300.ms),
+                ),
+              )),
+
           // HUD
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Top bar: lives / round / score
-                  Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+                  child: Column(
                     children: [
-                      // Lives
                       Row(
-                        children: List.generate(
-                          _maxLives,
-                          (i) => Padding(
-                            padding: const EdgeInsets.only(right: 2),
-                            child: Text(
-                              i < _lives ? '❤️' : '🖤',
-                              style: const TextStyle(fontSize: 22),
+                        children: [
+                          // Lives
+                          Row(
+                            children: List.generate(
+                              _maxLives,
+                              (i) => Padding(
+                                padding: const EdgeInsets.only(right: 2),
+                                child: Text(
+                                  i < _lives ? '❤️' : '🖤',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ),
                             ),
                           ),
+                          const Spacer(),
+                          // Level + Round
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.4),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              'Lv$_currentLevel · Round ${(_round + 1).clamp(1, _totalRounds)}/$_totalRounds',
+                              style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          const Spacer(),
+                          // Score
+                          Text(
+                            '$_score',
+                            style: const TextStyle(
+                                color: AppTheme.thaiGold,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900),
+                          ),
+                          const Text(' pts',
+                              style: TextStyle(
+                                  color: Colors.white60, fontSize: 12)),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      // Round progress bar
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: LinearProgressIndicator(
+                          value: _round / _totalRounds,
+                          minHeight: 3,
+                          backgroundColor:
+                              Colors.white.withValues(alpha: 0.15),
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                              AppTheme.thaiGold),
                         ),
                       ),
-                      const Spacer(),
-                      // Round
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.4),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          'Round ${(_round + 1).clamp(1, _totalRounds)}/$_totalRounds',
-                          style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const Spacer(),
-                      // Score
-                      Text(
-                        '$_score',
-                        style: const TextStyle(
-                            color: AppTheme.thaiGold,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900),
-                      ),
-                      const Text(' pts',
-                          style: TextStyle(color: Colors.white60, fontSize: 13)),
                     ],
                   ),
-
-                  const SizedBox(height: 10),
-
-                  // Target card
-                  if (_targetWord != null && !_gameOver)
-                    _buildTargetCard(_targetWord!),
-
-                  // Effect flash
-                  if (_showEffect)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        _effectText,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          shadows: [
-                            Shadow(color: Colors.black87, blurRadius: 12),
-                          ],
-                        ),
-                      ),
-                    ).animate().scale(begin: const Offset(0.6, 0.6)).fadeIn(),
-                ],
-              ),
+                ),
+                const SizedBox(height: 4),
+                // Target card
+                if (_targetWord != null && !_gameOver)
+                  _buildTargetCard(_targetWord!),
+              ],
             ),
           ),
+
+          // Level-up banner
+          if (_showLevelUp)
+            Positioned(
+              top: _screenH * 0.40,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 28, vertical: 10),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFFF6B00), Color(0xFFD4A017)],
+                    ),
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.orange.withValues(alpha: 0.6),
+                        blurRadius: 16,
+                      ),
+                    ],
+                  ),
+                  child: Text(
+                    'LEVEL $_currentLevel! 🚀',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                )
+                    .animate()
+                    .scale(
+                        begin: const Offset(0.5, 0.5),
+                        duration: 300.ms,
+                        curve: Curves.elasticOut)
+                    .fadeIn(duration: 200.ms),
+              ),
+            ),
 
           // Back button
           SafeArea(
@@ -436,7 +604,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   Widget _buildTargetCard(Word target) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(16),
@@ -458,20 +626,22 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 1.5)),
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
           Text(target.thai,
               style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: 28,
                   fontWeight: FontWeight.w900)),
           Text(target.phonetic,
               style: const TextStyle(
                   color: Colors.white60,
-                  fontSize: 13,
+                  fontSize: 12,
                   fontStyle: FontStyle.italic)),
           Text(target.english,
               style: const TextStyle(
-                  color: AppTheme.thaiGold, fontSize: 13, fontWeight: FontWeight.w600)),
+                  color: AppTheme.thaiGold,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600)),
         ],
       ),
     );
@@ -480,11 +650,15 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   Widget _buildSkeet(_SkeetBubble s) {
     if (s.missed || s.popped) return const SizedBox.shrink();
 
+    const skeetSize = 65.0;
     final progress = s.t.clamp(0.0, 1.0);
     final baseX = s.startFromLeft ? progress : (1.0 - progress);
     final arcY = s.arcHeight * _screenH * sin(pi * progress);
-    final px = baseX * _screenW - 40;
+    final px = baseX * _screenW - skeetSize / 2;
     final py = s.yFraction * (_screenH - 120) - arcY;
+
+    s.screenX = px + skeetSize / 2;
+    s.screenY = py + skeetSize / 2;
 
     return Positioned(
       left: px,
@@ -492,8 +666,8 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       child: GestureDetector(
         onTap: () => _onSkeetTap(s),
         child: Container(
-          width: 80,
-          height: 80,
+          width: skeetSize,
+          height: skeetSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             gradient: const RadialGradient(
@@ -507,8 +681,8 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFFD4A017).withValues(alpha: 0.5),
-                blurRadius: 14,
-                spreadRadius: 2,
+                blurRadius: 12,
+                spreadRadius: 1,
               ),
             ],
             border: Border.all(
@@ -516,7 +690,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
           ),
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(6),
+              padding: const EdgeInsets.all(5),
               child: Text(
                 s.word.thai,
                 textAlign: TextAlign.center,
@@ -524,7 +698,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.black87,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
                   height: 1.2,
                 ),
@@ -615,16 +789,29 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
               style: const TextStyle(color: Colors.white54, fontSize: 14)),
           Text(value,
               style: TextStyle(
-                  color: color,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800)),
+                  color: color, fontSize: 16, fontWeight: FontWeight.w800)),
         ],
       ),
     );
   }
 }
 
-// ── Skeet data model ──────────────────────────────────────────────────────
+// ── Tap effect ────────────────────────────────────────────────────────────────
+
+class _TapEffect {
+  final UniqueKey key = UniqueKey();
+  final String text;
+  final Color color;
+  final double x, y;
+
+  _TapEffect(
+      {required this.text,
+      required this.color,
+      required this.x,
+      required this.y});
+}
+
+// ── Skeet data model ──────────────────────────────────────────────────────────
 
 class _SkeetBubble {
   final Word word;
@@ -635,11 +822,12 @@ class _SkeetBubble {
   final double arcHeight;
   final double speed; // fraction of screen per second
 
-  double t = 0.0; // 0 = start, 1 = off-screen
+  double t = 0.0;
   bool popped = false;
   bool missed = false;
+  double screenX = 0;
+  double screenY = 0;
 
-  // 50ms tick → advance t by speed * 0.05
   double get dtPerTick => speed * 0.05;
 
   _SkeetBubble({
@@ -653,7 +841,7 @@ class _SkeetBubble {
   });
 }
 
-// ── Button widget ─────────────────────────────────────────────────────────
+// ── Button widget ─────────────────────────────────────────────────────────────
 
 class _GameButton extends StatelessWidget {
   final String label;
@@ -672,8 +860,8 @@ class _GameButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-              color: Colors.white.withValues(alpha: 0.15), width: 1),
+          border:
+              Border.all(color: Colors.white.withValues(alpha: 0.15), width: 1),
         ),
         child: Center(
           child: Text(

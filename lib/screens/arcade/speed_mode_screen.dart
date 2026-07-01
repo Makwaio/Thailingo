@@ -6,6 +6,7 @@ import '../../services/audio_service.dart';
 import '../../services/arcade_service.dart';
 import '../../ui/theme/app_theme.dart';
 import '../../ui/widgets/thai_mascot.dart';
+import '../../widgets/arcade_countdown_widget.dart';
 import 'speed_mode_results_screen.dart';
 
 class SpeedModeScreen extends StatefulWidget {
@@ -20,6 +21,10 @@ class SpeedModeScreen extends StatefulWidget {
 
 class _SpeedModeScreenState extends State<SpeedModeScreen>
     with TickerProviderStateMixin {
+
+  // ── Start screen ─────────────────────────────────────────────────────
+  bool _showStart = true;
+  int  _highScore = 0;
 
   // ── Game State ────────────────────────────────────────────────────────
   late final List<Word> _questions;   // 20 shuffled picks
@@ -73,6 +78,13 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
     final pool = List<Word>.from(widget.wordPool)..shuffle();
     _questions  = pool.take(20).toList();
 
+    ArcadeService().getHighScore().then((v) {
+      if (mounted) setState(() => _highScore = v);
+    });
+  }
+
+  void _onGameStart() {
+    setState(() => _showStart = false);
     _loadQuestion();
   }
 
@@ -255,6 +267,16 @@ class _SpeedModeScreenState extends State<SpeedModeScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (_showStart) {
+      return ArcadeCountdownWidget(
+        gameEmoji: '⚡',
+        gameTitle: 'Speed Mode',
+        instruction: 'Tap the correct English translation as fast as you can!',
+        bestScore: _highScore > 0 ? _highScore : null,
+        onStart: _onGameStart,
+      );
+    }
+
     return AnimatedBuilder(
       animation: _shakeCtrl,
       builder: (ctx, child) {

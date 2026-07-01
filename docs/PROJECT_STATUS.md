@@ -1,8 +1,36 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-07-01 (v1.2.1 — 15 New Focused Lessons)  
+**Last updated:** 2026-07-01 (v1.2.2 — Arcade Countdown + Skeet Shooter Improvements)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## v1.2.2 Changes — 2026-07-01
+
+### Arcade Game Improvements
+
+**New: `lib/widgets/arcade_countdown_widget.dart`** — Reusable pre-game widget:
+- Start screen: mascot, game emoji + title + instruction, pulsing PLAY button (Thai red), best score
+- Countdown 3→2→1→GO!: large color-coded numbers (red/orange/yellow/green) with scale animation + radial glow
+- Sounds: `playClick()` for 3/2/1, `playCorrect()` for GO
+- Integrated into both Skeet Shooter and Speed Mode
+
+**Skeet Shooter overhaul (`skeet_shooter_screen.dart`):**
+- Skeet diameter: 80px → 65px, text font 13px
+- Speed: `baseSpeed = 120 px/s × (1 + level × 0.08)` level multiplier
+- Level system: level = `(_round ~/ 3) + 1` — levels up every 3 rounds
+- Skeet count progression: Lv 1–4 → 1 skeet; Lv 5–9 → 1–2; Lv 10–14 → 1–3; Lv 15+ → 1–4
+- Sequential launching: skeets appear one-at-a-time with gaps (0.8s/0.6s/0.5s by level)
+- Staggered arc heights + y-fractions prevent skeets overlapping
+- Feedback: green/red screen-edge flash, floating `+X 🎯` / `-1 ❤️` / `Miss! 💨` texts
+- HUD: round progress bar, `Lv X · Round Y/20` combined display
+- Level-up banner shown for 1 second when level increases
+- Round pause: 700ms → 300ms between rounds
+
+**Speed Mode (`speed_mode_screen.dart`):**
+- Shows `ArcadeCountdownWidget` start screen before game begins
+- Loads and displays best score on start screen
 
 ---
 
