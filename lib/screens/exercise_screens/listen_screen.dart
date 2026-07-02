@@ -11,6 +11,7 @@ class ListenScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
+  final bool isAlphabetLesson;
 
   const ListenScreen({
     super.key,
@@ -18,6 +19,7 @@ class ListenScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
+    this.isAlphabetLesson = false,
   });
 
   @override
@@ -100,28 +102,42 @@ class _ListenScreenState extends State<ListenScreen>
                       ),
                     ],
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(ex.targetWord.thai,
-                          style: const TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white)),
-                      const SizedBox(height: 4),
-                      Text(ex.targetWord.phonetic,
-                          style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.white70,
-                              fontStyle: FontStyle.italic)),
-                      const SizedBox(height: 6),
-                      Text(_played ? 'Tap to review' : 'Tap to reveal',
-                          style: const TextStyle(
-                              fontSize: 10,
-                              color: Colors.white60,
-                              fontWeight: FontWeight.w600)),
-                    ],
-                  ),
+                  child: widget.isAlphabetLesson
+                      ? const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.volume_up_rounded,
+                                color: Colors.white, size: 48),
+                            SizedBox(height: 8),
+                            Text('Tap to listen',
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(ex.targetWord.thai,
+                                style: const TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.white)),
+                            const SizedBox(height: 4),
+                            Text(ex.targetWord.phonetic,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                    fontStyle: FontStyle.italic)),
+                            const SizedBox(height: 6),
+                            Text(_played ? 'Tap to review' : 'Tap to reveal',
+                                style: const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.white60,
+                                    fontWeight: FontWeight.w600)),
+                          ],
+                        ),
                 ),
               ),
             ).animate().scale(
@@ -146,7 +162,7 @@ class _ListenScreenState extends State<ListenScreen>
             if (widget.answered) {
               if (word.id == ex.targetWord.id) {
                 state = ChoiceState.correct;
-              } else if (_selected?.id == word.id) state = ChoiceState.wrong;
+              } else if (_selected?.id == word.id) { state = ChoiceState.wrong; }
             } else if (_selected?.id == word.id) {
               state = ChoiceState.selected;
             }

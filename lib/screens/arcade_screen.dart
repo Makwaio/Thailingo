@@ -997,11 +997,18 @@ class _LbRow extends StatelessWidget {
   final int rank;
   final Map<String, dynamic> entry;
   final bool isMe;
-  const _LbRow({required this.rank, required this.entry, required this.isMe});
+  final bool showGrade;
+  const _LbRow({
+    required this.rank,
+    required this.entry,
+    required this.isMe,
+    this.showGrade = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final medal = rank == 1 ? '🥇' : rank == 2 ? '🥈' : rank == 3 ? '🥉' : null;
+    final grade = entry['grade'] as String?;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: isMe
@@ -1029,18 +1036,32 @@ class _LbRow extends StatelessWidget {
               style: const TextStyle(fontSize: 20)),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(
-              entry['username'] as String? ?? 'Player',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: isMe ? AppTheme.thaiGold : Colors.white,
-              ),
-              overflow: TextOverflow.ellipsis,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  entry['username'] as String? ?? 'Player',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: isMe ? AppTheme.thaiGold : Colors.white,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (showGrade && grade != null && grade.isNotEmpty)
+                  Text(
+                    grade,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.white.withValues(alpha: 0.5),
+                    ),
+                  ),
+              ],
             ),
           ),
           Text(
-            '${entry['score']} pts',
+            showGrade ? '${entry['score']}' : '${entry['score']} pts',
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w800,

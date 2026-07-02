@@ -7,7 +7,8 @@ import '../services/progress_service.dart';
 import '../ui/theme/app_theme.dart';
 
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+  final bool isTab;
+  const StatsScreen({super.key, this.isTab = false});
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();

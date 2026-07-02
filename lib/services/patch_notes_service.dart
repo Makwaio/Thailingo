@@ -327,6 +327,48 @@ class PatchNotesService {
           ],
         });
       }
+      final v126doc = await _db.collection('patch_notes').doc('1.2.6').get();
+      if (!v126doc.exists) {
+        await _db.collection('patch_notes').doc('1.2.6').set({
+          'version': '1.2.6',
+          'title': 'Skeet Shooter Visual Overhaul 🎨',
+          'date': Timestamp.fromDate(DateTime(2026, 7, 2)),
+          'type': 'minor',
+          'notes': [
+            'Dark navy skeets with gold border — all skeets look identical (no visual cheating!)',
+            'White glowing text on all skeets',
+            'Font scales automatically for word length',
+            'Skeets no longer overlap on spawn',
+            'Randomised speed per skeet',
+            '8 trajectory patterns unlock as you level up',
+            'Smooth Bezier curve arcs',
+            'Language mode fixed — bottom bar and skeets swap correctly',
+            'Thai Script / Phonetic toggle added to Skeet Shooter',
+          ],
+        });
+      }
+      final v127doc = await _db.collection('patch_notes').doc('1.2.7').get();
+      if (!v127doc.exists) {
+        await _db.collection('patch_notes').doc('1.2.7').set({
+          'version': '1.2.7',
+          'title': 'Survival Mode & Word Blitz 🎮',
+          'date': Timestamp.fromDate(DateTime(2026, 7, 2)),
+          'type': 'major',
+          'notes': [
+            'New game: Survival Mode 💀 — one heart, how far can you go?',
+            'New game: Word Blitz ⚡ — match Thai/English pairs in 60 seconds',
+            'Word Blitz power-ups: Time Boost ⚡, Reveal 🔍, Double Points 💫',
+            'Survival Mode combo multiplier — up to x5 at 36+ correct',
+            'Milestone banners at 10, 25, 50, 100 in Survival',
+            'Grade system for both new games (Beginner → LEGENDARY)',
+            'High scores saved locally and synced to Firestore leaderboard',
+            'Skeet Shooter now animates at 60fps with Ticker',
+            'All skeets 15% slower for better readability',
+            'Phonetic mode now on by default in all Arcade games',
+            'All 4 arcade games now active — no more Coming Soon',
+          ],
+        });
+      }
     } catch (_) {}
   }
 }

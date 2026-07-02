@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -499,7 +499,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     _lastElapsed = elapsed;
     if (!mounted || !_gameActive || _roundDelaying || _gameOver || _victory) return;
     if (prev == Duration.zero) return; // skip first frame (no valid dt yet)
-    final dt = (elapsed - prev).inMicroseconds / 1_000_000.0;
+    final dt = (elapsed - prev).inMicroseconds / 1000000.0;
     _updateSkeets(dt.clamp(0.0, 0.05)); // cap at 50ms to avoid jump on resume
   }
 
@@ -694,7 +694,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   }
 
   void _restartGame() {
-    _gameLoop?.cancel();
     setState(() {
       _score = 0;
       _lives = _maxLives;
