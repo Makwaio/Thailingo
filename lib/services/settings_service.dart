@@ -84,7 +84,7 @@ class SettingsService {
     _gtOpposites = prefs.getBool(_gtOppositesKey) ?? true;
     final langIndex = prefs.getInt(_appLanguageKey) ?? 0;
     _appLanguage = AppLanguage.values[langIndex.clamp(0, AppLanguage.values.length - 1)];
-    _skeetUsePhonetic = prefs.getBool(_skeetPhoneticKey) ?? false;
+    _skeetUsePhonetic = prefs.getBool(_skeetPhoneticKey) ?? true;
     appLanguageNotifier.value = _appLanguage;
     AudioService().setSoundEnabled(_soundEnabled);
   }

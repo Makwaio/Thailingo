@@ -1,8 +1,30 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-07-02 (v1.2.7 — Skeet Shooter Overhaul)  
+**Last updated:** 2026-07-02 (v1.2.7 — Skeet Shooter Overhaul + Auto-save setup)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
+
+---
+
+## Auto-save Infrastructure — 2026-07-02
+
+### What was completed
+- `.vscode/settings.json` — VS Code auto-saves files 1 second after typing stops; format on save enabled
+- `scripts/autosave.ps1` — Run in a second terminal (`.\scripts\autosave.ps1`) to auto-commit every 5 minutes when changes exist
+- Claude Code stop hook — auto git commit fires at end of every Claude session
+
+### Files modified
+- `.vscode/settings.json` *(new)*
+- `scripts/autosave.ps1` *(new)*
+- `.claude/settings.json` *(hook added)*
+- `docs/PROJECT_STATUS.md` *(this file, updated)*
+
+### Next tasks
+- Continue Arcade game development (survival_mode_screen.dart, word_blitz_screen.dart in progress)
+- See v1.2.7 section below for skeet shooter details
+
+### Known issues
+- None from this session
 
 ---
 

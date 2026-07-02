@@ -3,13 +3,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../models/lesson.dart';
 import '../models/user_progress.dart';
 import '../services/lesson_service.dart';
-import '../services/localization_service.dart';
 import '../services/progress_service.dart';
 import '../ui/theme/app_theme.dart';
 
 class StatsScreen extends StatefulWidget {
-  final bool isTab;
-  const StatsScreen({super.key, this.isTab = false});
+  const StatsScreen({super.key});
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -47,13 +45,13 @@ class _StatsScreenState extends State<StatsScreen> {
       .where((l) => _progress.isLessonCompleted(l.id))
       .fold(0, (sum, l) => sum + l.words.length);
 
-  int get _perfectLessons =>
-      _progress.lessonProgress.values.where((lp) => lp.bestAccuracy == 100).length;
+  int get _perfectLessons => _progress.lessonProgress.values
+      .where((lp) => lp.bestAccuracy == 100)
+      .length;
 
   double get _avgAccuracy {
-    final completed = _progress.lessonProgress.values
-        .where((lp) => lp.completed)
-        .toList();
+    final completed =
+        _progress.lessonProgress.values.where((lp) => lp.completed).toList();
     if (completed.isEmpty) return 0;
     return completed.fold(0.0, (sum, lp) => sum + lp.bestAccuracy) /
         completed.length;
@@ -68,16 +66,14 @@ class _StatsScreenState extends State<StatsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        automaticallyImplyLeading: false,
-        leading: widget.isTab
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
-                onPressed: () => Navigator.pop(context),
-              ),
-        title: Text(
-          LocalizationService.t('stats_trophies'),
-          style: const TextStyle(
+        leading: IconButton(
+          icon:
+              const Icon(Icons.arrow_back_rounded, color: AppTheme.textPrimary),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Stats & Trophies',
+          style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppTheme.textPrimary),
@@ -89,7 +85,8 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.primary))
+          ? const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary))
           : ListView(
               padding: EdgeInsets.fromLTRB(
                   20, 20, 20, MediaQuery.of(context).padding.bottom + 32),
@@ -110,51 +107,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionLabel(LocalizationService.t('overview_label')),
-        const SizedBox(height: 10),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF5B21B6), Color(0xFF7C3AED)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF7C3AED).withValues(alpha: 0.3),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('📚', style: TextStyle(fontSize: 32)),
-              const SizedBox(width: 14),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$_totalWordsLearned',
-                    style: const TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        height: 1.0),
-                  ),
-                  Text(
-                    LocalizationService.t('words_learned_label'),
-                    style: const TextStyle(fontSize: 13, color: Colors.white70),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        const _SectionLabel('OVERVIEW'),
         const SizedBox(height: 10),
         GridView.count(
           crossAxisCount: 3,
@@ -164,14 +117,21 @@ class _StatsScreenState extends State<StatsScreen> {
           crossAxisSpacing: 10,
           childAspectRatio: 1.0,
           children: [
-            _StatCard('⭐', LocalizationService.t('total_xp'), '${_progress.totalXp}', AppTheme.accent),
-            _StatCard('📊', LocalizationService.t('level'), '${_progress.level}', AppTheme.primary),
-            _StatCard('🔥', LocalizationService.t('best_streak'), '${_progress.longestStreak}d', const Color(0xFFFF9600)),
-            _StatCard('✅', LocalizationService.t('lessons_done'), '$_totalCompleted / ${_lessons.length}', AppTheme.success),
+            _StatCard('⭐', 'Total XP', '${_progress.totalXp}', AppTheme.accent),
+            _StatCard('📊', 'Level', '${_progress.level}', AppTheme.primary),
+            _StatCard('🔥', 'Best Streak', '${_progress.longestStreak}d',
+                const Color(0xFFFF9600)),
+            _StatCard('✅', 'Lessons Done',
+                '$_totalCompleted / ${_lessons.length}', AppTheme.success),
+            _StatCard('📚', 'Words Learned', '$_totalWordsLearned',
+                const Color(0xFF7C3AED)),
             _StatCard('💯', 'Perfect', '$_perfectLessons', AppTheme.success),
-            _StatCard('🎯', LocalizationService.t('avg_accuracy'), '${_avgAccuracy.round()}%', AppTheme.primary),
-            _StatCard('⚡', LocalizationService.t('best_combo'), '${_progress.maxCombo}×', const Color(0xFFFF9600)),
-            _StatCard('📝', LocalizationService.t('words_reviewed'), '${_progress.totalWordsReviewed}', const Color(0xFF7C3AED)),
+            _StatCard('🎯', 'Avg Accuracy', '${_avgAccuracy.round()}%',
+                AppTheme.primary),
+            _StatCard('⚡', 'Best Combo', '${_progress.maxCombo}×',
+                const Color(0xFFFF9600)),
+            _StatCard('📝', 'Words Reviewed', '${_progress.totalWordsReviewed}',
+                const Color(0xFF7C3AED)),
           ],
         ),
 
@@ -223,7 +183,10 @@ class _StatsScreenState extends State<StatsScreen> {
           ),
         ),
       ],
-    ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.15, curve: Curves.easeOut);
+    )
+        .animate()
+        .fadeIn(duration: 400.ms)
+        .slideY(begin: 0.15, curve: Curves.easeOut);
   }
 
   // ── Achievements section ───────────────────────────────────────────
@@ -232,7 +195,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionLabel(LocalizationService.t('achievements_label')),
+        const _SectionLabel('ACHIEVEMENTS'),
         const SizedBox(height: 10),
         ...kAchievements.asMap().entries.map((e) {
           final i = e.key;
@@ -256,17 +219,16 @@ class _StatsScreenState extends State<StatsScreen> {
   // ── Per-lesson personal bests ─────────────────────────────────────
 
   Widget _buildLessonBests() {
-    final completed = _lessons
-        .where((l) => _progress.isLessonCompleted(l.id))
-        .toList();
+    final completed =
+        _lessons.where((l) => _progress.isLessonCompleted(l.id)).toList();
 
     if (completed.isEmpty) {
-      return Column(
+      return const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SectionLabel(LocalizationService.t('personal_bests_label')),
-          const SizedBox(height: 12),
-          const Center(
+          _SectionLabel('PERSONAL BESTS'),
+          SizedBox(height: 12),
+          Center(
             child: Text(
               'Complete a lesson to see your bests here!',
               style: TextStyle(color: AppTheme.textSecondary, fontSize: 14),
@@ -279,7 +241,7 @@ class _StatsScreenState extends State<StatsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionLabel(LocalizationService.t('personal_bests_label')),
+        const _SectionLabel('PERSONAL BESTS'),
         const SizedBox(height: 10),
         ...completed.asMap().entries.map((e) {
           final i = e.key;
@@ -323,8 +285,8 @@ class _StatCard extends StatelessWidget {
               style: TextStyle(
                   fontSize: 17, fontWeight: FontWeight.w900, color: color)),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 10, color: AppTheme.textSecondary),
+              style:
+                  const TextStyle(fontSize: 10, color: AppTheme.textSecondary),
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis),
@@ -355,7 +317,9 @@ class _AchievementTile extends StatelessWidget {
         color: unlocked ? Colors.white : AppTheme.surface,
         borderRadius: BorderRadius.circular(AppTheme.radiusMd),
         border: Border.all(
-          color: unlocked ? AppTheme.accent.withValues(alpha: 0.4) : AppTheme.border,
+          color: unlocked
+              ? AppTheme.accent.withValues(alpha: 0.4)
+              : AppTheme.border,
           width: unlocked ? 1.5 : 1,
         ),
         boxShadow: unlocked ? AppTheme.shadowSm : [],
@@ -394,12 +358,11 @@ class _AchievementTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 3),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
                     color: AppTheme.success.withValues(alpha: 0.12),
-                    borderRadius:
-                        BorderRadius.circular(AppTheme.radiusFull),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusFull),
                   ),
                   child: const Text('Unlocked',
                       style: TextStyle(
@@ -523,11 +486,12 @@ class _MiniStat extends StatelessWidget {
         children: [
           Text('$icon $value',
               style: const TextStyle(
-                  fontSize: 13, fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
                   color: AppTheme.textPrimary)),
           Text(label,
-              style: const TextStyle(
-                  fontSize: 10, color: AppTheme.textSecondary)),
+              style:
+                  const TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
         ],
       ),
     );

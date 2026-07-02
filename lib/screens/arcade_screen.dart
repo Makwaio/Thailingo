@@ -11,6 +11,8 @@ import '../ui/theme/app_theme.dart';
 import '../ui/widgets/thai_mascot.dart';
 import 'arcade/speed_mode_screen.dart';
 import 'arcade/skeet_shooter_screen.dart';
+import 'arcade/survival_mode_screen.dart';
+import 'arcade/word_blitz_screen.dart';
 
 // ── Stage constants ───────────────────────────────────────────────────
 const _kStage1Ids = {
@@ -42,7 +44,12 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   List<Lesson>    _lessons  = [];
   UserProgress    _progress = UserProgress();
   int             _highScore = 0;
+  int             _survHighScore = 0;
+  String          _survBestGrade = '';
+  int             _blitzHighScore = 0;
+  String          _blitzBestGrade = '';
   bool            _loading  = true;
+  int             _lbTab    = 0; // 0=Speed 1=Survival 2=Blitz
 
   // Stage selector state
   bool _stage1Available = false;
@@ -61,7 +68,11 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   Future<void> _load() async {
     final lessons  = await _lessonService.loadAllLessons();
     final progress = await _progressService.load();
-    final hs       = await _arcadeService.getHighScore();
+    final hs         = await _arcadeService.getHighScore();
+    final survHs     = await _arcadeService.getSurvivalBestScore();
+    final survGrade  = await _arcadeService.getSurvivalBestGrade();
+    final blitzHs    = await _arcadeService.getWordBlitzBestScore();
+    final blitzGrade = await _arcadeService.getWordBlitzBestGrade();
 
     final s1Avail = lessons.any((l) =>
         _kStage1Ids.contains(l.id) &&
@@ -78,6 +89,10 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
         _lessons          = lessons;
         _progress         = progress;
         _highScore        = hs;
+        _survHighScore    = survHs;
+        _survBestGrade    = survGrade;
+        _blitzHighScore   = blitzHs;
+        _blitzBestGrade   = blitzGrade;
         _stage1Available  = s1Avail;
         _stage2Available  = s2Avail;
         _stage3Available  = s3Avail;
@@ -168,6 +183,43 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
     ).then((_) => _load());
   }
 
+  void _startSurvivalMode() {
+    final pool = _buildWordPool();
+    if (pool.length < 8) return;
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) =>
+            SurvivalModeScreen(wordPool: pool, onGoHome: widget.onGoHome),
+        transitionsBuilder: (_, anim, __, child) => SlideTransition(
+          position: Tween<Offset>(
+                  begin: const Offset(1, 0), end: Offset.zero)
+              .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
+          child: child,
+        ),
+        transitionDuration: const Duration(milliseconds: 350),
+      ),
+    ).then((_) => _load());
+  }
+
+  void _startWordBlitz() {
+    final pool = _buildWordPool();
+    if (pool.length < 8) return;
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, anim, __) => WordBlitzScreen(wordPool: pool),
+        transitionsBuilder: (_, anim, __, child) => SlideTransition(
+          position: Tween<Offset>(
+                  begin: const Offset(1, 0), end: Offset.zero)
+              .animate(CurvedAnimation(parent: anim, curve: Curves.easeInOut)),
+          child: child,
+        ),
+        transitionDuration: const Duration(milliseconds: 350),
+      ),
+    ).then((_) => _load());
+  }
+
   // ── Build ─────────────────────────────────────────────────────────────
 
   @override
@@ -189,11 +241,9 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                       const SizedBox(height: 12),
                       _buildSkeetShooterCard(),
                       const SizedBox(height: 8),
-                      _buildLockedCard('Survival Mode', '💀',
-                          'How long can you last with only 1 heart?'),
+                      _buildSurvivalModeCard(),
                       const SizedBox(height: 8),
-                      _buildLockedCard('Word Blitz', '🌪️',
-                          'Match as many pairs as possible in 60 seconds'),
+                      _buildWordBlitzCard(),
                       const SizedBox(height: 8),
                       _buildLockedCard('Thai Typhoon', '🌊',
                           'Words rain from the sky — tap the correct translation before they hit the ground'),
@@ -447,6 +497,158 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
     ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1);
   }
 
+  Widget _buildSurvivalModeCard() {
+    final canPlay = _wordCount >= 8;
+    return GestureDetector(
+      onTap: canPlay ? _startSurvivalMode : null,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1a0000), Color(0xFF4a0000)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          border: Border.all(
+              color: Colors.redAccent.withValues(alpha: 0.4), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.red.withValues(alpha: 0.25),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            const Text('💀', style: TextStyle(fontSize: 30)),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Survival Mode',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white)),
+                  const SizedBox(height: 3),
+                  Text(
+                    canPlay
+                        ? (_survHighScore > 0
+                            ? 'Best: $_survHighScore  •  $_survBestGrade'
+                            : 'One wrong answer and you\'re out!')
+                        : 'Complete more lessons to unlock',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.75)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: canPlay
+                    ? const Color(0xFFB5001C)
+                    : Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+              ),
+              child: Text(
+                canPlay ? 'SURVIVE' : '🔒',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: canPlay ? Colors.white : Colors.white60),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1);
+  }
+
+  Widget _buildWordBlitzCard() {
+    final canPlay = _wordCount >= 8;
+    return GestureDetector(
+      onTap: canPlay ? _startWordBlitz : null,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF1a0033), Color(0xFF4a0078)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+          border: Border.all(
+              color: const Color(0xFF9B59B6).withValues(alpha: 0.5), width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF7B2FBE).withValues(alpha: 0.3),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            const Text('⚡', style: TextStyle(fontSize: 30)),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Word Blitz',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white)),
+                  const SizedBox(height: 3),
+                  Text(
+                    canPlay
+                        ? (_blitzHighScore > 0
+                            ? 'Best: $_blitzHighScore pts  •  $_blitzBestGrade'
+                            : 'Match pairs — 60 seconds on the clock!')
+                        : 'Complete more lessons to unlock',
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.75)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: canPlay
+                    ? const Color(0xFF7B2FBE)
+                    : Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+              ),
+              child: Text(
+                canPlay ? 'BLITZ' : '🔒',
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: canPlay ? Colors.white : Colors.white60),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1);
+  }
+
   Widget _buildLockedCard(String name, String emoji, String description) {
     return Container(
       decoration: BoxDecoration(
@@ -646,28 +848,64 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
   // ── Leaderboard ───────────────────────────────────────────────────────
 
   Widget _buildLeaderboard() {
+    final tabs = ['⚡ Speed', '💀 Survival', '⚡ Blitz'];
+    final streams = [
+      _arcadeService.leaderboardStream(limit: 10),
+      _arcadeService.survivalLeaderboardStream(limit: 10),
+      _arcadeService.wordBlitzLeaderboardStream(limit: 10),
+    ];
     final currentUid = FirebaseService().getUserId();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          '🏆 Speed Mode Leaderboard',
+          '🏆 Leaderboard',
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w900,
-            color: AppTheme.thaiGold,
-          ),
+              fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.thaiGold),
+        ),
+        const SizedBox(height: 10),
+        // Tab row
+        Row(
+          children: List.generate(tabs.length, (i) {
+            final sel = i == _lbTab;
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: GestureDetector(
+                onTap: () => setState(() => _lbTab = i),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 14, vertical: 7),
+                  decoration: BoxDecoration(
+                    color: sel
+                        ? AppTheme.thaiGold
+                        : Colors.white.withValues(alpha: 0.08),
+                    borderRadius:
+                        BorderRadius.circular(AppTheme.radiusFull),
+                  ),
+                  child: Text(tabs[i],
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: sel
+                              ? AppTheme.thaiNavy
+                              : Colors.white.withValues(alpha: 0.65))),
+                ),
+              ),
+            );
+          }),
         ),
         const SizedBox(height: 10),
         StreamBuilder<List<Map<String, dynamic>>>(
-          stream: _arcadeService.leaderboardStream(limit: 10),
+          stream: streams[_lbTab],
           builder: (ctx, snap) {
             if (snap.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: Padding(
                   padding: EdgeInsets.all(20),
                   child: CircularProgressIndicator(
-                    color: AppTheme.thaiGold, strokeWidth: 2),
+                      color: AppTheme.thaiGold, strokeWidth: 2),
                 ),
               );
             }
@@ -680,11 +918,9 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
                 ),
                 child: Text(
                   'No scores yet — be the first! 🏅',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white.withValues(alpha: 0.5),
-                  ),
                   textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 13, color: Colors.white.withValues(alpha: 0.5)),
                 ),
               );
             }
@@ -693,16 +929,21 @@ class _ArcadeScreenState extends State<ArcadeScreen> {
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.04),
                 borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                border:
+                    Border.all(color: Colors.white.withValues(alpha: 0.08)),
               ),
               child: Column(
                 children: [
                   for (int i = 0; i < entries.length; i++) ...[
-                    if (i > 0) Divider(height: 1, color: Colors.white.withValues(alpha: 0.06)),
+                    if (i > 0)
+                      Divider(
+                          height: 1,
+                          color: Colors.white.withValues(alpha: 0.06)),
                     _LbRow(
                       rank: i + 1,
                       entry: entries[i],
                       isMe: entries[i]['uid'] == currentUid,
+                      showGrade: _lbTab != 0,
                     ),
                   ],
                 ],

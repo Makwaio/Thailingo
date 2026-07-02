@@ -1,5 +1,4 @@
 import '../../services/audio_service.dart';
-import '../../services/settings_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../models/exercise.dart';
@@ -12,8 +11,6 @@ class ListenScreen extends StatefulWidget {
   final void Function(bool) onAnswer;
   final bool answered;
   final bool lastCorrect;
-  // Stage 0 (alphabet) lessons hide phonetic so player must listen, not read
-  final bool isAlphabetLesson;
 
   const ListenScreen({
     super.key,
@@ -21,7 +18,6 @@ class ListenScreen extends StatefulWidget {
     required this.onAnswer,
     required this.answered,
     required this.lastCorrect,
-    this.isAlphabetLesson = false,
   });
 
   @override
@@ -40,33 +36,26 @@ class _ListenScreenState extends State<ListenScreen>
     _pulseCtrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 800))
       ..repeat(reverse: true);
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) {
-        setState(() => _played = true);
-        AudioService().playWord(
-          widget.exercise.targetWord.audio,
-          thaiText: widget.exercise.targetWord.thai,
-        );
-      }
-    });
   }
 
-  bool get _isLearningEnglish =>
-      SettingsService().appLanguage == AppLanguage.learningEnglish;
-
   @override
-  void dispose() { _pulseCtrl.dispose(); super.dispose(); }
+  void dispose() {
+    _pulseCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(ListenScreen old) {
     super.didUpdateWidget(old);
-    if (!widget.answered) { _selected = null; _played = false; }
+    if (!widget.answered) {
+      _selected = null;
+      _played = false;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final ex = widget.exercise;
-    final isLearningEnglish = _isLearningEnglish;
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
       child: Column(
@@ -74,15 +63,18 @@ class _ListenScreenState extends State<ListenScreen>
         children: [
           Text((ex.promptText ?? 'LISTEN AND CHOOSE').toUpperCase(),
               style: const TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2, color: AppTheme.textSecondary)),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                  color: AppTheme.textSecondary)),
           const SizedBox(height: 20),
 
+          // Word display (since we have no audio yet, show the Thai)
           Center(
             child: GestureDetector(
               onTap: () {
                 setState(() => _played = true);
-                AudioService().playWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
+                AudioService().playWord(widget.exercise.targetWord.audio);
               },
               child: AnimatedBuilder(
                 animation: _pulseCtrl,
@@ -108,51 +100,43 @@ class _ListenScreenState extends State<ListenScreen>
                       ),
                     ],
                   ),
-                  child: (isLearningEnglish && !widget.isAlphabetLesson)
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(ex.targetWord.thai,
-                                style: const TextStyle(
-                                    fontSize: 28, fontWeight: FontWeight.w800,
-                                    color: Colors.white)),
-                            const SizedBox(height: 4),
-                            Text(ex.targetWord.phonetic,
-                                style: const TextStyle(
-                                    fontSize: 12, color: Colors.white70,
-                                    fontStyle: FontStyle.italic)),
-                            const SizedBox(height: 6),
-                            Text(_played ? 'Tap to replay' : 'Loading...',
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.white60,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        )
-                      : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.volume_up_rounded,
-                                size: 48, color: Colors.white),
-                            const SizedBox(height: 8),
-                            Text(_played ? 'Tap to replay' : 'Loading...',
-                                style: const TextStyle(
-                                    fontSize: 10, color: Colors.white60,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(ex.targetWord.thai,
+                          style: const TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white)),
+                      const SizedBox(height: 4),
+                      Text(ex.targetWord.phonetic,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.white70,
+                              fontStyle: FontStyle.italic)),
+                      const SizedBox(height: 6),
+                      Text(_played ? 'Tap to review' : 'Tap to reveal',
+                          style: const TextStyle(
+                              fontSize: 10,
+                              color: Colors.white60,
+                              fontWeight: FontWeight.w600)),
+                    ],
+                  ),
                 ),
               ),
             ).animate().scale(
-                  begin: const Offset(0.6, 0.6),
-                  duration: 500.ms,
-                  curve: Curves.elasticOut),
+                begin: const Offset(0.6, 0.6),
+                duration: 500.ms,
+                curve: Curves.elasticOut),
           ),
 
           const SizedBox(height: 28),
           const Text('SELECT THE ANSWER',
               style: TextStyle(
-                  fontSize: 11, fontWeight: FontWeight.w700,
-                  letterSpacing: 1.2, color: AppTheme.textSecondary)),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.2,
+                  color: AppTheme.textSecondary)),
           const SizedBox(height: 10),
 
           ...ex.options.asMap().entries.map((entry) {
@@ -162,22 +146,14 @@ class _ListenScreenState extends State<ListenScreen>
             if (widget.answered) {
               if (word.id == ex.targetWord.id) {
                 state = ChoiceState.correct;
-              } else if (_selected?.id == word.id) {
-                state = ChoiceState.wrong;
-              }
+              } else if (_selected?.id == word.id) state = ChoiceState.wrong;
             } else if (_selected?.id == word.id) {
               state = ChoiceState.selected;
             }
-            final label = isLearningEnglish ? word.english : word.thai;
-            // Hide phonetic during alphabet lessons so player must listen
-            final sublabel = (isLearningEnglish || widget.isAlphabetLesson)
-                ? null
-                : word.phonetic;
             return Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ChoiceCard(
-                label: label,
-                sublabel: sublabel,
+                label: word.english,
                 state: state,
                 onTap: () => _select(word),
               ),
@@ -193,9 +169,12 @@ class _ListenScreenState extends State<ListenScreen>
 
   void _select(Word word) {
     if (widget.answered) return;
-    setState(() { _selected = word; _played = true; });
+    setState(() {
+      _selected = word;
+      _played = true;
+    });
     final correct = word.id == widget.exercise.targetWord.id;
-    if (correct) AudioService().playCorrectThenWord(widget.exercise.targetWord.audio, thaiText: widget.exercise.targetWord.thai);
+    if (correct) AudioService().playCorrect();
     widget.onAnswer(correct);
   }
 }

@@ -45,7 +45,6 @@ class _SkeetBubble {
   double screenY = 0;
 
   bool get done => popped || missed;
-  double get dtPerTick => speed * 0.05;
 
   _SkeetBubble({
     required this.word,
@@ -195,8 +194,10 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   late List<Word> _decoyPool;
   int _decoyIdx = 0;
 
-  // ── Game loop ─────────────────────────────────────────────────────────
-  Timer? _gameLoop;
+  // ── Game loop (Ticker — 60fps frame-rate independent) ────────────────
+  late Ticker _gameTicker;
+  Duration _lastElapsed = Duration.zero;
+  bool _gameActive = false;
 
   double _screenW = 800;
   double _screenH = 400;
@@ -253,8 +254,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     final base = minSpeed + _rng.nextDouble() * (maxSpeed - minSpeed);
     final factor = 0.7 + _rng.nextDouble() * 0.6;
     final px = (base * factor).clamp(80.0, 380.0);
-    // Convert px/s to fraction-per-tick (tick = 50ms, screenW in px)
-    return px / _screenW;
+    return px / _screenW * 0.85; // fraction-of-screen per second, 15% slower
   }
 
   String _skeetTextForWord(Word w) {
@@ -287,11 +287,12 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     _pool      = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _decoyPool = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _loadHighScore();
+    _gameTicker = createTicker(_onTick)..start();
   }
 
   @override
   void dispose() {
-    _gameLoop?.cancel();
+    _gameTicker.dispose();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -334,9 +335,8 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
 
   void _startGame() {
     _currentRound = 1;
-    _gameLoop = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      if (mounted) _tick();
-    });
+    _lastElapsed = Duration.zero;
+    _gameActive = true;
     _beginRound();
   }
 
@@ -492,14 +492,23 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     });
   }
 
-  // ── Tick ──────────────────────────────────────────────────────────────
+  // ── Ticker callback (60fps) ───────────────────────────────────────────
 
-  void _tick() {
+  void _onTick(Duration elapsed) {
+    final prev = _lastElapsed;
+    _lastElapsed = elapsed;
+    if (!mounted || !_gameActive || _roundDelaying || _gameOver || _victory) return;
+    if (prev == Duration.zero) return; // skip first frame (no valid dt yet)
+    final dt = (elapsed - prev).inMicroseconds / 1_000_000.0;
+    _updateSkeets(dt.clamp(0.0, 0.05)); // cap at 50ms to avoid jump on resume
+  }
+
+  void _updateSkeets(double dt) {
     if (_gameOver || _victory || _roundDelaying) return;
 
     for (final s in _skeets) {
       if (s.done) continue;
-      s.t += s.dtPerTick;
+      s.t += s.speed * dt;
       if (s.t >= 1.0) {
         s.t = 1.0;
         s.missed = true;
@@ -673,13 +682,13 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   }
 
   void _triggerGameOver() {
-    _gameLoop?.cancel();
+    _gameActive = false;
     _saveHighScore();
     if (mounted) setState(() => _gameOver = true);
   }
 
   void _triggerVictory() {
-    _gameLoop?.cancel();
+    _gameActive = false;
     _saveHighScore();
     if (mounted) setState(() => _victory = true);
   }
@@ -717,9 +726,8 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       _poolIdx = 0;
       _decoyIdx = 0;
     });
-    _gameLoop = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      if (mounted) _tick();
-    });
+    _lastElapsed = Duration.zero;
+    _gameActive = true;
     _beginRound();
   }
 

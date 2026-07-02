@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$changes = git -C \"C:\\Users\\Admin\\Documents\\thai_app_v2\" status --porcelain; if ($changes) { git -C \"C:\\Users\\Admin\\Documents\\thai_app_v2\" add .; git -C \"C:\\Users\\Admin\\Documents\\thai_app_v2\" commit -m \"Auto-save: session end $(Get-Date -Format 'HH:mm')\" }",
+            "shell": "powershell",
+            "timeout": 30,
+            "statusMessage": "Auto-saving session..."
+          }
+        ]
+      }
+    ]
+  }
+}
