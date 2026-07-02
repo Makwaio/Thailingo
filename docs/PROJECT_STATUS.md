@@ -1,30 +1,71 @@
 # Thailingo — Project Status
 
-**Last updated:** 2026-07-02 (v1.2.7 — Skeet Shooter Overhaul + Auto-save setup)  
+**Last updated:** 2026-07-02 (v1.2.7 — Survival Mode, Word Blitz, 60fps Skeet)  
 **App name:** Thailingo (renamed from Thai Lab)  
 **Platform:** Flutter (iOS + Android)
 
 ---
 
-## Auto-save Infrastructure — 2026-07-02
+## v1.2.7 Changes — 2026-07-02
 
-### What was completed
-- `.vscode/settings.json` — VS Code auto-saves files 1 second after typing stops; format on save enabled
-- `scripts/autosave.ps1` — Run in a second terminal (`.\scripts\autosave.ps1`) to auto-commit every 5 minutes when changes exist
-- Claude Code stop hook — auto git commit fires at end of every Claude session
+### Arcade — Survival Mode & Word Blitz
+
+**Survival Mode (`lib/screens/arcade/survival_mode_screen.dart`):**
+- 1 heart — one wrong answer ends the game
+- Timer starts at 6s, decreases 0.5s every 10 correct (floor: 2s)
+- Combo multiplier x1–x5 based on streak
+- Grade system: Beginner → Survivor → Warrior → Champion → LEGENDARY
+- Milestone banners at 10, 25, 50, 100 correct
+- High score saved locally + Firestore `survival_leaderboard`
+
+**Word Blitz (`lib/screens/arcade/word_blitz_screen.dart`):**
+- 60-second countdown, 8-tile grid (4 pairs)
+- Match Thai/Phonetic tile to English tile
+- 3 power-ups: ⚡ Time Boost, 🔍 Reveal, 💫 Double Points
+- Combo x1.5 for 3+ consecutive correct pairs
+- Grade system: Just Starting → Word Matcher → Blitz Expert → Word Master → BLITZ LEGEND
+- High score saved locally + Firestore `wordblitz_leaderboard`
+
+**Skeet Shooter fixes:**
+- Now uses `Ticker` for frame-rate independent 60fps animation
+- All skeet speeds 15% slower (`× 0.85`)
+- Fixed `dart:async` import removed (unused), `scheduler.dart` added
+- Fixed `_gameLoop?.cancel()` reference removed (Ticker-based, no Timer loop)
+- Digit separator `1_000_000` → `1000000` for SDK compatibility
+
+**Phonetic default:**
+- `SettingsService.skeetUsePhonetic` defaults `true` — phonetic on by default
+- Applies to Skeet Shooter, Survival Mode word panel, Word Blitz tile text
+
+**Arcade Hub (`lib/screens/arcade_screen.dart`):**
+- All 4 cards active — no Coming Soon
+- `_LbRow` updated with optional `showGrade` parameter for survival/blitz leaderboards
+- 3-tab leaderboard: ⚡ Speed · 💀 Survival · ⚡ Blitz
+
+**ArcadeService (`lib/services/arcade_service.dart`):**
+- `saveSurvivalScore`, `getSurvivalBestScore/Grade`, `survivalLeaderboardStream`
+- `saveWordBlitzScore`, `getWordBlitzBestScore/Grade`, `wordBlitzLeaderboardStream`
+
+**PatchNotesService:**
+- v1.2.6 "Skeet Shooter Visual Overhaul 🎨" seeded
+- v1.2.7 "Survival Mode & Word Blitz 🎮" seeded
+- `hasUnreadNotes()` checks latest Firestore version vs SharedPreferences — correctly triggers What's New popup
+
+**Other fixes:**
+- `ListenScreen` — added `isAlphabetLesson` parameter (shows 🔊 icon only for alphabet lessons)
+- `StatsScreen` — added `isTab` parameter
+- `flutter analyze` — 0 issues
 
 ### Files modified
-- `.vscode/settings.json` *(new)*
-- `scripts/autosave.ps1` *(new)*
-- `.claude/settings.json` *(hook added)*
-- `docs/PROJECT_STATUS.md` *(this file, updated)*
-
-### Next tasks
-- Continue Arcade game development (survival_mode_screen.dart, word_blitz_screen.dart in progress)
-- See v1.2.7 section below for skeet shooter details
-
-### Known issues
-- None from this session
+- `lib/screens/arcade/skeet_shooter_screen.dart`
+- `lib/screens/arcade/survival_mode_screen.dart` *(new)*
+- `lib/screens/arcade/word_blitz_screen.dart` *(new)*
+- `lib/screens/arcade_screen.dart`
+- `lib/services/arcade_service.dart`
+- `lib/services/settings_service.dart`
+- `lib/services/patch_notes_service.dart`
+- `lib/screens/exercise_screens/listen_screen.dart`
+- `lib/screens/stats_screen.dart`
 
 ---
 
