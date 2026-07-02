@@ -9,6 +9,7 @@ class ArcadeCountdownWidget extends StatefulWidget {
   final String instruction;
   final int? bestScore;
   final VoidCallback onStart;
+  final Widget? extraContent;
 
   const ArcadeCountdownWidget({
     super.key,
@@ -17,6 +18,7 @@ class ArcadeCountdownWidget extends StatefulWidget {
     required this.instruction,
     this.bestScore,
     required this.onStart,
+    this.extraContent,
   });
 
   @override
@@ -177,6 +179,10 @@ class _ArcadeCountdownWidgetState extends State<ArcadeCountdownWidget>
                 fontWeight: FontWeight.w600,
               ),
             ),
+          ],
+          if (widget.extraContent != null) ...[
+            const SizedBox(height: 20),
+            widget.extraContent!,
           ],
           const SizedBox(height: 36),
           TextButton(

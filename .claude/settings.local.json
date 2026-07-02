@@ -24,7 +24,8 @@
       "Bash(python3 -c ' *)",
       "PowerShell(python \"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Admin-Documents-thai-app-v2\\\\d74e1313-4847-47d2-9535-8aa597548468\\\\scratchpad\\\\add_thai_titles.py\")",
       "PowerShell(python \"C:\\\\Users\\\\Admin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Admin-Documents-thai-app-v2\\\\d74e1313-4847-47d2-9535-8aa597548468\\\\scratchpad\\\\add_thai_titles.py\" 2>&1 | Out-String)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Bash(python scripts/generate_skeet_sounds.py)"
     ]
   }
 }

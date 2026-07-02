@@ -13,9 +13,18 @@ import '../../ui/theme/app_theme.dart';
 import '../../widgets/arcade_countdown_widget.dart';
 import '../../widgets/skeet_background.dart';
 
-// ── Spawn side ────────────────────────────────────────────────────────────────
+// ── Trajectory pattern ────────────────────────────────────────────────────────
 
-enum _SpawnSide { left, right, top }
+enum _Trajectory {
+  leftToRight,
+  rightToLeft,
+  topLeftToBottomRight,
+  topRightToBottomLeft,
+  bottomLeftToTopRight,
+  bottomRightToTopLeft,
+  topToBottom,
+  zigzag,
+}
 
 // ── Skeet data model ──────────────────────────────────────────────────────────
 
@@ -23,11 +32,11 @@ class _SkeetBubble {
   final Word word;
   final bool isCorrect;
   final String id;
-  final _SpawnSide spawnSide;
+  final _Trajectory trajectory;
   final double crossFrac;
   final double arcHeight;
   final double speed;
-  final String displayText; // what shows on the bubble face
+  final String displayText;
 
   double t = 0.0;
   bool popped = false;
@@ -42,7 +51,7 @@ class _SkeetBubble {
     required this.word,
     required this.isCorrect,
     required this.id,
-    required this.spawnSide,
+    required this.trajectory,
     required this.crossFrac,
     required this.speed,
     required this.arcHeight,
@@ -50,7 +59,7 @@ class _SkeetBubble {
   });
 }
 
-// ── Tap effect ────────────────────────────────────────────────────────────────
+// ── Tap/float effect ──────────────────────────────────────────────────────────
 
 class _TapEffect {
   final UniqueKey key = UniqueKey();
@@ -58,6 +67,22 @@ class _TapEffect {
   final Color color;
   final double x, y;
   _TapEffect({required this.text, required this.color, required this.x, required this.y});
+}
+
+// ── Fragment (explosion/sparkle) effect ───────────────────────────────────────
+
+class _Fragment {
+  final UniqueKey key = UniqueKey();
+  final double startX, startY;
+  final double endDx, endDy;
+  final Color color;
+  _Fragment({
+    required this.startX,
+    required this.startY,
+    required this.endDx,
+    required this.endDy,
+    required this.color,
+  });
 }
 
 // ── Button widget ─────────────────────────────────────────────────────────────
@@ -106,22 +131,29 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   static const _maxLives = 5;
   static const _hsKeyThai = 'skeet_shooter_hs_v2';
   static const _hsKeyEng  = 'skeet_shooter_hs_eng_v1';
-  static const _baseSpeed = 120.0;
+  static const _skeetSize = 58.0;
   static const _topBarH   = 40.0;
   static const _bottomBarH = 52.0;
 
   final _rng = Random();
 
-  // ── Language mode ─────────────────────────────────────────────────────
-  late final bool _isLearningEnglish; // Thai speaker learning English
+  // ── Language ──────────────────────────────────────────────────────────
+  late final bool _isLearningEnglish;
+
+  // ── Script toggle (Learning Thai only) ───────────────────────────────
+  bool _usePhonetic = false;
 
   // ── Phase ─────────────────────────────────────────────────────────────
   bool _gameStarted = false;
 
-  // ── Game state ────────────────────────────────────────────────────────
-  Word? _targetWord;
-  final List<_SkeetBubble> _skeets = [];
+  // ── Round state ────────────────────────────────────────────────────────
+  int _currentRound = 0;
+  List<Word> _targetWords = [];
+  List<Word> _foundWords  = [];
+  bool _roundDelaying = false;
 
+  // ── Game state ────────────────────────────────────────────────────────
+  final List<_SkeetBubble> _skeets = [];
   int _score = 0;
   int _lives = _maxLives;
   int _correctHits = 0;
@@ -134,8 +166,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   bool _gameOver = false;
   bool _victory = false;
 
-  // Continuous decoy respawn
-  int _pendingDecoyRespawns = 0;
   int _decoyIdCounter = 0;
   int _correctIdCounter = 0;
 
@@ -150,12 +180,16 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   double _flashOpacity = 0.0;
   Color _flashColor = Colors.transparent;
   final List<_TapEffect> _tapEffects = [];
+  final List<_Fragment> _fragments = [];
 
   // Correct shot translation feedback
   bool _showCorrectFeedback = false;
   String _correctFeedbackText = '';
 
-  // ── Word pool ─────────────────────────────────────────────────────────
+  // Screen shake
+  double _shakeX = 0;
+
+  // ── Word pools ────────────────────────────────────────────────────────
   late List<Word> _pool;
   int _poolIdx = 0;
   late List<Word> _decoyPool;
@@ -167,22 +201,26 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   double _screenW = 800;
   double _screenH = 400;
 
-  // ── Play area (between top bar and bottom bar) ─────────────────────────
-  double get _playH => _screenH - 50.0 - 70.0;
-  double get _playTop => 50.0;
-  double get _playBottom => _screenH - 70.0;
+  double get _playH    => _screenH - _topBarH - _bottomBarH;
+  double get _playTop  => _topBarH;
+  double get _playBottom => _screenH - _bottomBarH;
 
   // ── Level helpers ──────────────────────────────────────────────────────
 
   int get _level => (_correctHits ~/ 3 + 1).clamp(1, 100);
 
-  double _speedFrac(double px) => px / _screenW;
+  List<_Trajectory> _availableTrajectories(int lv) {
+    final list = [_Trajectory.leftToRight, _Trajectory.rightToLeft];
+    if (lv >= 5)  list.addAll([_Trajectory.topLeftToBottomRight, _Trajectory.topRightToBottomLeft]);
+    if (lv >= 10) list.addAll([_Trajectory.bottomLeftToTopRight, _Trajectory.bottomRightToTopLeft]);
+    if (lv >= 20) list.add(_Trajectory.topToBottom);
+    if (lv >= 30) list.add(_Trajectory.zigzag);
+    return list;
+  }
 
-  _SpawnSide _getSpawnSide() {
-    final lv = _level;
-    if (lv < 20) return _rng.nextBool() ? _SpawnSide.left : _SpawnSide.right;
-    final r = _rng.nextInt(3);
-    return r == 0 ? _SpawnSide.left : r == 1 ? _SpawnSide.right : _SpawnSide.top;
+  _Trajectory _pickTrajectory() {
+    final opts = _availableTrajectories(_level);
+    return opts[_rng.nextInt(opts.length)];
   }
 
   (int, int) _decoyRange(int lv) {
@@ -197,28 +235,39 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   }
 
   int _targetDecoyCount() {
-    final (min, max) = _decoyRange(_level);
-    return min + _rng.nextInt(max - min + 1);
+    final (mn, mx) = _decoyRange(_level);
+    return mn + _rng.nextInt(mx - mn + 1);
+  }
+
+  int _getTargetCount(int round) {
+    if (round <= 2)  return 1;
+    if (round <= 10) return 2 + _rng.nextInt(2); // 2-3
+    if (round <= 20) return 3 + _rng.nextInt(2); // 3-4
+    return 3 + _rng.nextInt(3);                  // 3-5
   }
 
   double _skeetSpeed() {
     final lv = _level;
-    final px = _baseSpeed * min(1.0 + lv * 0.05, 6.0);
-    final frac = _speedFrac(px);
-    return frac + _rng.nextDouble() * frac * 0.15;
+    final minSpeed = 80.0 + lv * 4.0;
+    final maxSpeed = 140.0 + lv * 6.0;
+    final base = minSpeed + _rng.nextDouble() * (maxSpeed - minSpeed);
+    final factor = 0.7 + _rng.nextDouble() * 0.6;
+    final px = (base * factor).clamp(80.0, 380.0);
+    // Convert px/s to fraction-per-tick (tick = 50ms, screenW in px)
+    return px / _screenW;
   }
 
-  String _correctText(Word w) => _isLearningEnglish ? w.english : w.thai;
-  String _decoyText(Word w)   => _isLearningEnglish ? w.english : w.thai;
+  String _skeetTextForWord(Word w) {
+    if (_isLearningEnglish) return w.english;
+    return _usePhonetic ? w.phonetic : w.thai;
+  }
 
-  // Truncate English text to fit on 55px bubble
   String _skeetLabel(String text) {
-    if (text.length <= 12) return text;
-    // Try first two words
+    if (text.length <= 14) return text;
     final words = text.split(' ');
     if (words.length > 1) {
-      final twoWords = '${words[0]} ${words[1]}';
-      if (twoWords.length <= 12) return twoWords;
+      final two = '${words[0]} ${words[1]}';
+      if (two.length <= 14) return two;
     }
     return words[0];
   }
@@ -230,11 +279,12 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     super.initState();
     _isLearningEnglish =
         SettingsService().appLanguage == AppLanguage.learningEnglish;
+    _usePhonetic = SettingsService().skeetUsePhonetic;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
-    _pool = List<Word>.from(widget.wordPool)..shuffle(_rng);
+    _pool      = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _decoyPool = List<Word>.from(widget.wordPool)..shuffle(_rng);
     _loadHighScore();
   }
@@ -268,25 +318,70 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     }
   }
 
-  // ── Game start ────────────────────────────────────────────────────────
+  // ── Script toggle ─────────────────────────────────────────────────────
+
+  Future<void> _toggleScript() async {
+    final next = !_usePhonetic;
+    setState(() => _usePhonetic = next);
+    await SettingsService().setSkeetUsePhonetic(next);
+    setState(() {}); // triggers rebuild — display text is computed at render time
+  }
+
+  // We compute display text at render time so toggling updates instantly
+  String _skeetLabelOf(_SkeetBubble s) => _skeetLabel(_skeetTextForWord(s.word));
+
+  // ── Round management ──────────────────────────────────────────────────
 
   void _startGame() {
-    _gameLoop?.cancel();
-    final target = _nextTarget();
-    setState(() {
-      _targetWord = target;
-      _skeets.clear();
-      _pendingDecoyRespawns = 0;
-    });
-    _spawnCorrect(target);
-    for (int i = 0; i < _targetDecoyCount(); i++) {
-      _spawnDecoy(target);
-    }
+    _currentRound = 1;
     _gameLoop = Timer.periodic(const Duration(milliseconds: 50), (_) {
-      if (!mounted) return;
-      _tick();
+      if (mounted) _tick();
     });
+    _beginRound();
   }
+
+  Future<void> _beginRound() async {
+    if (!mounted || _gameOver || _victory) return;
+
+    // Pick target words for this round
+    final count = _getTargetCount(_currentRound);
+    final targets = <Word>[];
+    for (int i = 0; i < count; i++) {
+      targets.add(_nextTarget());
+    }
+
+    setState(() {
+      _roundDelaying = true;
+      _skeets.clear();
+      _targetWords = targets;
+      _foundWords  = [];
+    });
+
+    // 1 second pause — show target words, no skeets
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (!mounted || _gameOver || _victory) return;
+
+    setState(() => _roundDelaying = false);
+
+    // Spawn one correct skeet per target word
+    for (final w in _targetWords) {
+      _spawnCorrect(w);
+      AudioService().playSkeetLaunch();
+    }
+
+    // Stagger decoy spawns 500ms apart
+    final decoyCount = _targetDecoyCount();
+    for (int i = 0; i < decoyCount; i++) {
+      final delay = 500 * i;
+      Future.delayed(Duration(milliseconds: delay), () {
+        if (!mounted || _gameOver || _victory) return;
+        setState(() => _spawnDecoy());
+        AudioService().playSkeetLaunch();
+      });
+    }
+  }
+
+  // ── Word selection ────────────────────────────────────────────────────
 
   Word _nextTarget() {
     final w = _pool[_poolIdx % _pool.length];
@@ -294,56 +389,113 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     return w;
   }
 
-  Word _nextDecoy(Word exclude) {
+  Word _nextDecoy() {
+    // Avoid matching any current target word
     Word w;
     int tries = 0;
     do {
       w = _decoyPool[_decoyIdx % _decoyPool.length];
       _decoyIdx++;
       tries++;
-    } while (w.id == exclude.id && tries < 20);
+    } while (_targetWords.any((t) => t.id == w.id) && tries < 20);
     return w;
   }
 
+  // ── Spawn ─────────────────────────────────────────────────────────────
+
+  Offset _initialScreenPos(_Trajectory traj, double crossFrac) {
+    const half = _skeetSize / 2;
+    switch (traj) {
+      case _Trajectory.leftToRight:
+      case _Trajectory.topLeftToBottomRight:
+      case _Trajectory.bottomLeftToTopRight:
+      case _Trajectory.zigzag:
+        return Offset(half, _playTop + crossFrac * (_playH - _skeetSize) + half);
+      case _Trajectory.rightToLeft:
+      case _Trajectory.topRightToBottomLeft:
+      case _Trajectory.bottomRightToTopLeft:
+        return Offset(_screenW - half, _playTop + crossFrac * (_playH - _skeetSize) + half);
+      case _Trajectory.topToBottom:
+        return Offset(crossFrac * (_screenW - _skeetSize) + half, _playTop + half);
+    }
+  }
+
+  bool _isTooClose(double x, double y) {
+    for (final s in _skeets) {
+      if (s.done) continue;
+      final dx = s.screenX - x;
+      final dy = s.screenY - y;
+      if (sqrt(dx * dx + dy * dy) < 80) return true;
+    }
+    return false;
+  }
+
+  (double, double, _Trajectory) _pickSpawnParams() {
+    for (int attempt = 0; attempt < 5; attempt++) {
+      final traj = _pickTrajectory();
+      final cf   = 0.1 + _rng.nextDouble() * 0.80;
+      final pos  = _initialScreenPos(traj, cf);
+      if (!_isTooClose(pos.dx, pos.dy)) return (cf, 0.08 + _rng.nextDouble() * 0.18, traj);
+    }
+    // Fallback: accept whatever
+    final traj = _pickTrajectory();
+    final cf   = 0.1 + _rng.nextDouble() * 0.80;
+    return (cf, 0.08 + _rng.nextDouble() * 0.18, traj);
+  }
+
   void _spawnCorrect(Word target) {
-    final side = _getSpawnSide();
+    final (cf, arc, traj) = _pickSpawnParams();
     _skeets.add(_SkeetBubble(
       word: target,
       isCorrect: true,
-      id: 'correct_${_correctIdCounter++}',
-      spawnSide: side,
-      crossFrac: side == _SpawnSide.top
-          ? 0.15 + _rng.nextDouble() * 0.70
-          : 0.15 + _rng.nextDouble() * 0.55,
+      id: 'c_${_correctIdCounter++}',
+      trajectory: traj,
+      crossFrac: cf,
       speed: _skeetSpeed(),
-      arcHeight: 0.12 + _rng.nextDouble() * 0.14,
-      displayText: _skeetLabel(_correctText(target)),
+      arcHeight: arc,
+      displayText: _skeetLabel(_skeetTextForWord(target)),
     ));
   }
 
-  void _spawnDecoy(Word target) {
-    final decoy = _nextDecoy(target);
-    final side = _getSpawnSide();
+  void _spawnDecoy() {
+    final decoy = _nextDecoy();
+    final (cf, arc, traj) = _pickSpawnParams();
     _skeets.add(_SkeetBubble(
       word: decoy,
       isCorrect: false,
-      id: 'decoy_${_decoyIdCounter++}',
-      spawnSide: side,
-      crossFrac: side == _SpawnSide.top
-          ? 0.10 + _rng.nextDouble() * 0.80
-          : 0.10 + _rng.nextDouble() * 0.65,
+      id: 'd_${_decoyIdCounter++}',
+      trajectory: traj,
+      crossFrac: cf,
       speed: _skeetSpeed(),
-      arcHeight: 0.08 + _rng.nextDouble() * 0.18,
-      displayText: _skeetLabel(_decoyText(decoy)),
+      arcHeight: arc,
+      displayText: _skeetLabel(_skeetTextForWord(decoy)),
     ));
+  }
+
+  void _respawnDecoyDelayed() {
+    final delay = 1000 + _rng.nextInt(1001);
+    Future.delayed(Duration(milliseconds: delay), () {
+      if (!mounted || _gameOver || _victory || _roundDelaying) return;
+      setState(() => _spawnDecoy());
+      AudioService().playSkeetLaunch();
+    });
+  }
+
+  void _respawnCorrectDelayed(Word target) {
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (!mounted || _gameOver || _victory || _roundDelaying) return;
+      if (_foundWords.any((f) => f.id == target.id)) return; // already found
+      if (_targetWords.any((t) => t.id == target.id)) {
+        setState(() => _spawnCorrect(target));
+        AudioService().playSkeetLaunch();
+      }
+    });
   }
 
   // ── Tick ──────────────────────────────────────────────────────────────
 
   void _tick() {
-    if (_gameOver || _victory) return;
-
-    bool correctMissed = false;
+    if (_gameOver || _victory || _roundDelaying) return;
 
     for (final s in _skeets) {
       if (s.done) continue;
@@ -352,37 +504,20 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
         s.t = 1.0;
         s.missed = true;
         if (s.isCorrect) {
-          correctMissed = true;
           _addTapEffect('Miss! 💨', Colors.white70, s.screenX, s.screenY - 30);
+          _triggerFlash(Colors.red.withValues(alpha: 0.55));
+          _loseLife();
+          if (_gameOver) return;
+          _respawnCorrectDelayed(s.word);
         } else {
-          _pendingDecoyRespawns++;
-          _scheduleDecoyRespawn();
+          _respawnDecoyDelayed();
         }
       }
-    }
-
-    if (correctMissed) {
-      _triggerFlash(Colors.red.withValues(alpha: 0.55));
-      _loseLife();
-      if (_gameOver) return;
-      _skeets.removeWhere((s) => s.isCorrect);
-      if (_targetWord != null) _spawnCorrect(_targetWord!);
     }
 
     _skeets.removeWhere((s) => s.done);
     _checkLevelUp();
     setState(() {});
-  }
-
-  void _scheduleDecoyRespawn() {
-    final delay = 1000 + _rng.nextInt(1001);
-    Future.delayed(Duration(milliseconds: delay), () {
-      if (!mounted || _gameOver || _victory) return;
-      if (_pendingDecoyRespawns > 0 && _targetWord != null) {
-        _pendingDecoyRespawns--;
-        setState(() => _spawnDecoy(_targetWord!));
-      }
-    });
   }
 
   void _checkLevelUp() {
@@ -409,23 +544,24 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
   // ── Tap handling ──────────────────────────────────────────────────────
 
   void _onSkeetTap(_SkeetBubble skeet) {
-    if (skeet.done || _gameOver || _victory) return;
+    if (skeet.done || _gameOver || _victory || _roundDelaying) return;
     _totalShots++;
 
     if (skeet.isCorrect) {
       skeet.popped = true;
       _totalHits++;
       _correctHits++;
-      _totalRoundsPlayed++;
       _streak++;
       if (_streak > _bestStreak) _bestStreak = _streak;
       final bonus = _streak >= 3 ? (_streak - 2) * 5 : 0;
       final points = 10 + bonus;
       _score += points;
 
+      // Gold sparkle
+      _spawnFragments(skeet.screenX, skeet.screenY, correct: true);
       AudioService().playCombo();
       _triggerFlash(Colors.green.withValues(alpha: 0.40));
-      _addTapEffect('+$points 🎯', Colors.greenAccent, skeet.screenX, skeet.screenY - 30);
+      _addTapEffect('+$points 🎯', AppTheme.thaiGold, skeet.screenX, skeet.screenY - 30);
 
       if (_streak >= 3) {
         _addTapEffect(
@@ -436,36 +572,40 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
         );
       }
 
+      // Mark word as found
+      _foundWords.add(skeet.word);
+
       // Show translation feedback
-      if (_targetWord != null) {
-        final w = _targetWord!;
-        _correctFeedbackText = _isLearningEnglish
-            ? '${w.english} = ${w.thai} ✅'
-            : '${w.thai} = ${w.english} ✅';
-        setState(() => _showCorrectFeedback = true);
-        Future.delayed(const Duration(milliseconds: 1400), () {
-          if (mounted) setState(() => _showCorrectFeedback = false);
-        });
-      }
+      _correctFeedbackText = _isLearningEnglish
+          ? '${skeet.word.thai} = ${skeet.word.english} ✅'
+          : '${skeet.word.english} = ${skeet.word.thai} ✅';
+      setState(() => _showCorrectFeedback = true);
+      Future.delayed(const Duration(milliseconds: 1400), () {
+        if (mounted) setState(() => _showCorrectFeedback = false);
+      });
 
-      // Pop all decoys
-      for (final s in _skeets) { if (!s.isCorrect) s.popped = true; }
       _skeets.removeWhere((s) => s.done);
-      _pendingDecoyRespawns = 0;
-
       _checkLevelUp();
       if (_victory) return;
 
-      final newTarget = _nextTarget();
-      setState(() => _targetWord = newTarget);
-      _spawnCorrect(newTarget);
-      for (int i = 0; i < _targetDecoyCount(); i++) {
-        _spawnDecoy(newTarget);
+      // Check if all targets found
+      if (_foundWords.length >= _targetWords.length) {
+        _totalRoundsPlayed++;
+        _currentRound++;
+        // Clear remaining decoys
+        for (final s in _skeets) { s.popped = true; }
+        _skeets.clear();
+        _beginRound();
       }
     } else {
+      // Wrong skeet
+      skeet.popped = true;
       _streak = 0;
+      _spawnFragments(skeet.screenX, skeet.screenY, correct: false);
+      AudioService().playSkeetExplosion();
       _triggerFlash(Colors.red.withValues(alpha: 0.5));
-      _addTapEffect('-1 ❤️', Colors.redAccent, skeet.screenX, skeet.screenY - 30);
+      _addTapEffect('-❤️', Colors.redAccent, skeet.screenX, skeet.screenY - 30);
+      _triggerShake();
       _loseLife();
     }
 
@@ -486,6 +626,41 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     setState(() { _flashColor = color; _flashOpacity = 1.0; });
     Future.delayed(const Duration(milliseconds: 110), () {
       if (mounted) setState(() => _flashOpacity = 0.0);
+    });
+  }
+
+  void _triggerShake() {
+    setState(() => _shakeX = 3);
+    Future.delayed(const Duration(milliseconds: 60), () {
+      if (mounted) setState(() => _shakeX = -3);
+    });
+    Future.delayed(const Duration(milliseconds: 120), () {
+      if (mounted) setState(() => _shakeX = 3);
+    });
+    Future.delayed(const Duration(milliseconds: 180), () {
+      if (mounted) setState(() => _shakeX = 0);
+    });
+  }
+
+  void _spawnFragments(double x, double y, {required bool correct}) {
+    const dirs = [
+      Offset(1, 0), Offset(0.7, 0.7), Offset(0, 1), Offset(-0.7, 0.7),
+      Offset(-1, 0), Offset(-0.7, -0.7), Offset(0, -1), Offset(0.7, -0.7),
+    ];
+    final frags = <_Fragment>[];
+    for (final d in dirs) {
+      final dist = 35.0 + _rng.nextDouble() * 15;
+      Color col;
+      if (correct) {
+        col = (d.dx + d.dy) > 0 ? const Color(0xFFFFD700) : Colors.white;
+      } else {
+        col = (d.dx + d.dy) > 0 ? Colors.orangeAccent : Colors.redAccent;
+      }
+      frags.add(_Fragment(startX: x, startY: y, endDx: d.dx * dist, endDy: d.dy * dist, color: col));
+    }
+    setState(() => _fragments.addAll(frags));
+    Future.delayed(const Duration(milliseconds: 450), () {
+      if (mounted) setState(() => _fragments.removeWhere((f) => frags.contains(f)));
     });
   }
 
@@ -523,7 +698,6 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       _gameOver = false;
       _victory = false;
       _skeets.clear();
-      _pendingDecoyRespawns = 0;
       _decoyIdCounter = 0;
       _correctIdCounter = 0;
       _bgIndex = 0;
@@ -532,13 +706,78 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       _showLevelUp = false;
       _flashOpacity = 0.0;
       _tapEffects.clear();
+      _fragments.clear();
       _showCorrectFeedback = false;
+      _roundDelaying = false;
+      _currentRound = 1;
+      _targetWords = [];
+      _foundWords  = [];
       _pool.shuffle(_rng);
       _decoyPool.shuffle(_rng);
       _poolIdx = 0;
       _decoyIdx = 0;
     });
-    _startGame();
+    _gameLoop = Timer.periodic(const Duration(milliseconds: 50), (_) {
+      if (mounted) _tick();
+    });
+    _beginRound();
+  }
+
+  // ── Position computation ──────────────────────────────────────────────
+
+  Offset _skeetPosition(_SkeetBubble s, double progress) {
+    const half = _skeetSize / 2;
+    final pw = _screenW;
+    final ph = _playH;
+    final pt = _playTop;
+    final arc = s.arcHeight * ph * sin(pi * progress);
+
+    double px, py;
+
+    switch (s.trajectory) {
+      case _Trajectory.leftToRight:
+        px = progress * pw - half;
+        py = pt + s.crossFrac * (ph - _skeetSize) - arc;
+      case _Trajectory.rightToLeft:
+        px = (1 - progress) * pw - half;
+        py = pt + s.crossFrac * (ph - _skeetSize) - arc;
+      case _Trajectory.topLeftToBottomRight:
+        px = progress * (pw + _skeetSize) - _skeetSize;
+        py = pt + progress * (ph - _skeetSize);
+        final sArc = s.arcHeight * min(pw, ph) * sin(pi * progress) * 0.35;
+        px -= sArc;
+        py += sArc * 0.5;
+      case _Trajectory.topRightToBottomLeft:
+        px = (1 - progress) * (pw + _skeetSize) - _skeetSize;
+        py = pt + progress * (ph - _skeetSize);
+        final sArc = s.arcHeight * min(pw, ph) * sin(pi * progress) * 0.35;
+        px += sArc;
+        py += sArc * 0.5;
+      case _Trajectory.bottomLeftToTopRight:
+        px = progress * (pw + _skeetSize) - _skeetSize;
+        py = _playBottom - _skeetSize - progress * (ph - _skeetSize);
+        final sArc = s.arcHeight * min(pw, ph) * sin(pi * progress) * 0.35;
+        px -= sArc;
+        py -= sArc * 0.5;
+      case _Trajectory.bottomRightToTopLeft:
+        px = (1 - progress) * (pw + _skeetSize) - _skeetSize;
+        py = _playBottom - _skeetSize - progress * (ph - _skeetSize);
+        final sArc = s.arcHeight * min(pw, ph) * sin(pi * progress) * 0.35;
+        px += sArc;
+        py -= sArc * 0.5;
+      case _Trajectory.topToBottom:
+        px = s.crossFrac * (pw - _skeetSize) + sin(pi * progress) * 0.12 * pw;
+        py = pt + progress * (ph - _skeetSize);
+      case _Trajectory.zigzag:
+        px = progress * pw - half;
+        final zigzag = s.arcHeight * ph * sin(2 * pi * progress * 2.5) * 0.5;
+        py = pt + s.crossFrac * (ph - _skeetSize) + zigzag;
+    }
+
+    px = px.clamp(-half, pw - half);
+    py = py.clamp(_playTop, _playBottom - _skeetSize);
+
+    return Offset(px, py);
   }
 
   // ── Build ─────────────────────────────────────────────────────────────
@@ -561,212 +800,293 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
           _gameStarted = true;
           _startGame();
         }),
+        extraContent: !_isLearningEnglish ? _buildScriptToggle() : null,
       );
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // Dynamic background
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 1000),
-            child: SizedBox.expand(
-              key: ValueKey(_bgIndex),
-              child: SkeetBackgroundWidget(bg: kSkeetBackgrounds[_bgIndex]),
+      body: Transform.translate(
+        offset: Offset(_shakeX, 0),
+        child: Stack(
+          children: [
+            // Dynamic background
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 1000),
+              child: SizedBox.expand(
+                key: ValueKey(_bgIndex),
+                child: SkeetBackgroundWidget(bg: kSkeetBackgrounds[_bgIndex]),
+              ),
             ),
-          ),
 
-          // Screen edge flash
-          Positioned.fill(
-            child: IgnorePointer(
-              child: AnimatedOpacity(
-                duration: const Duration(milliseconds: 280),
-                opacity: _flashOpacity,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: _flashColor, width: 12),
+            // Screen edge flash
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 280),
+                  opacity: _flashOpacity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: _flashColor, width: 12),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
 
-          // Flying skeet bubbles (play area only)
-          if (!_gameOver && !_victory)
-            ..._skeets.map((s) => _buildSkeet(s)),
+            // Flying skeet bubbles
+            if (!_gameOver && !_victory)
+              ..._skeets.map((s) => _buildSkeet(s)),
 
-          // Floating tap effects
-          ..._tapEffects.map((e) => Positioned(
-                key: e.key,
-                left: e.x - 30,
-                top: e.y,
+            // Fragment effects (explosion / sparkle)
+            ..._fragments.map((f) => Positioned(
+              left: f.startX - 3,
+              top:  f.startY - 3,
+              child: IgnorePointer(
+                child: Container(
+                  width: 6, height: 6,
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: f.color),
+                )
+                    .animate(key: f.key)
+                    .moveX(end: f.endDx, duration: 400.ms, curve: Curves.easeOut)
+                    .moveY(end: f.endDy, duration: 400.ms, curve: Curves.easeOut)
+                    .fadeOut(duration: 400.ms)
+                    .scaleXY(end: 0.3, duration: 400.ms),
+              ),
+            )),
+
+            // Floating tap effects
+            ..._tapEffects.map((e) => Positioned(
+                  key: e.key,
+                  left: e.x - 30,
+                  top:  e.y,
+                  child: IgnorePointer(
+                    child: Text(
+                      e.text,
+                      style: TextStyle(
+                        color: e.color,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                        shadows: const [Shadow(color: Colors.black54, blurRadius: 8)],
+                      ),
+                    )
+                        .animate()
+                        .moveY(begin: 0, end: -52, duration: 700.ms, curve: Curves.easeOut)
+                        .fadeOut(delay: 400.ms, duration: 300.ms),
+                  ),
+                )),
+
+            // TOP BAR
+            Positioned(
+              top: 0, left: 0, right: 0,
+              child: Container(
+                height: _topBarH,
+                color: const Color(0xAA000000),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.arrow_back_rounded,
+                          color: Colors.white, size: 20),
+                    ),
+                    const SizedBox(width: 8),
+                    Text('⚡ $_score',
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                    const SizedBox(width: 8),
+                    if (!_isLearningEnglish)
+                      GestureDetector(
+                        onTap: _toggleScript,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white24,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            _usePhonetic ? 'abc' : 'ก',
+                            style: const TextStyle(color: Colors.white, fontSize: 12,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ),
+                    const Spacer(),
+                    Text('Round $_currentRound',
+                        style: const TextStyle(color: Colors.white70, fontSize: 13,
+                            fontWeight: FontWeight.w700)),
+                    const Spacer(),
+                    Row(
+                      children: List.generate(_maxLives, (i) => Text(
+                        i < _lives ? '❤️' : '🖤',
+                        style: const TextStyle(fontSize: 13),
+                      )),
+                    ).animate(key: ValueKey(_lives)).shake(duration: 350.ms),
+                  ],
+                ),
+              ),
+            ),
+
+            // BOTTOM BAR — target words
+            if (!_gameOver && !_victory)
+              _buildBottomBar(),
+
+            // Round-start delay hint
+            if (_roundDelaying)
+              Positioned.fill(
                 child: IgnorePointer(
-                  child: Text(
-                    e.text,
-                    style: TextStyle(
-                      color: e.color,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                      shadows: const [Shadow(color: Colors.black54, blurRadius: 8)],
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'Get ready…',
+                        style: TextStyle(color: Colors.white70, fontSize: 16,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    )
+                        .animate()
+                        .fadeIn(duration: 200.ms)
+                        .fadeOut(delay: 700.ms, duration: 200.ms),
+                  ),
+                ),
+              ),
+
+            // Level-up banner
+            if (_showLevelUp)
+              Positioned(
+                top: _screenH * 0.40, left: 0, right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          colors: [Color(0xFFFF6B00), Color(0xFFD4A017)]),
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [BoxShadow(
+                          color: Colors.orange.withValues(alpha: 0.6), blurRadius: 16)],
+                    ),
+                    child: Text('LEVEL $_displayLevel! 🚀',
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900)),
+                  )
+                      .animate()
+                      .scale(begin: const Offset(0.5, 0.5), duration: 300.ms, curve: Curves.elasticOut)
+                      .fadeIn(duration: 200.ms),
+                ),
+              ),
+
+            // NEW AREA banner
+            if (_showAreaBanner)
+              Positioned(
+                top: _screenH * 0.52, left: 0, right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.65),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                          color: AppTheme.thaiGold.withValues(alpha: 0.75), width: 1.5),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('✨ NEW AREA!',
+                            style: TextStyle(
+                                color: AppTheme.thaiGold, fontSize: 11,
+                                fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                        Text(_areaName,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
+                      ],
                     ),
                   )
                       .animate()
-                      .moveY(begin: 0, end: -52, duration: 700.ms, curve: Curves.easeOut)
-                      .fadeOut(delay: 400.ms, duration: 300.ms),
+                      .fadeIn(duration: 400.ms)
+                      .fadeOut(delay: 1800.ms, duration: 400.ms),
                 ),
-              )),
-
-          // TOP BAR — score | level | hearts
-          Positioned(
-            top: 0, left: 0, right: 0,
-            child: Container(
-              height: _topBarH,
-              color: const Color(0xAA000000),
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: [
-                  // Back button
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.arrow_back_rounded,
-                        color: Colors.white, size: 20),
-                  ),
-                  const SizedBox(width: 10),
-                  // Score
-                  Text('⚡ $_score pts',
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
-                  const Spacer(),
-                  // Level
-                  Text('Lv $_displayLevel',
-                      style: const TextStyle(
-                          color: Colors.white70, fontSize: 13, fontWeight: FontWeight.w700)),
-                  const Spacer(),
-                  // Hearts — horizontal
-                  Row(
-                    children: List.generate(_maxLives, (i) => Text(
-                      i < _lives ? '❤️' : '🖤',
-                      style: const TextStyle(fontSize: 14),
-                    )),
-                  ).animate(key: ValueKey(_lives)).shake(duration: 350.ms),
-                ],
               ),
-            ),
-          ),
 
-          // BOTTOM BAR — target word
-          if (_targetWord != null && !_gameOver && !_victory)
-            _buildBottomBar(_targetWord!),
-
-          // Level-up banner
-          if (_showLevelUp)
-            Positioned(
-              top: _screenH * 0.40,
-              left: 0, right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        colors: [Color(0xFFFF6B00), Color(0xFFD4A017)]),
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [BoxShadow(
-                        color: Colors.orange.withValues(alpha: 0.6), blurRadius: 16)],
-                  ),
-                  child: Text('LEVEL $_displayLevel! 🚀',
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900)),
-                )
-                    .animate()
-                    .scale(begin: const Offset(0.5, 0.5), duration: 300.ms, curve: Curves.elasticOut)
-                    .fadeIn(duration: 200.ms),
-              ),
-            ),
-
-          // NEW AREA banner
-          if (_showAreaBanner)
-            Positioned(
-              top: _screenH * 0.52,
-              left: 0, right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.65),
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(
-                        color: AppTheme.thaiGold.withValues(alpha: 0.75), width: 1.5),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text('✨ NEW AREA!',
-                          style: TextStyle(
-                              color: AppTheme.thaiGold,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 1.5)),
-                      Text(_areaName,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700)),
-                    ],
-                  ),
-                )
-                    .animate()
-                    .fadeIn(duration: 400.ms)
-                    .fadeOut(delay: 1800.ms, duration: 400.ms),
-              ),
-            ),
-
-          // Correct shot translation feedback
-          if (_showCorrectFeedback)
-            Positioned(
-              bottom: _bottomBarH + 12,
-              left: 0, right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.72),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                        color: Colors.greenAccent.withValues(alpha: 0.5), width: 1.5),
-                  ),
-                  child: Text(
-                    _correctFeedbackText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      shadows: [Shadow(color: Colors.black54, blurRadius: 6)],
+            // Correct shot translation feedback
+            if (_showCorrectFeedback)
+              Positioned(
+                bottom: _bottomBarH + 12, left: 0, right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.72),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                          color: Colors.greenAccent.withValues(alpha: 0.5), width: 1.5),
                     ),
-                  ),
-                )
-                    .animate()
-                    .slideY(begin: 0.4, end: 0, duration: 280.ms, curve: Curves.easeOut)
-                    .fadeIn(duration: 200.ms)
-                    .fadeOut(delay: 1000.ms, duration: 400.ms),
+                    child: Text(
+                      _correctFeedbackText,
+                      style: const TextStyle(
+                        color: Colors.white, fontSize: 14, fontWeight: FontWeight.w700,
+                        shadows: [Shadow(color: Colors.black54, blurRadius: 6)],
+                      ),
+                    ),
+                  )
+                      .animate()
+                      .slideY(begin: 0.4, end: 0, duration: 280.ms, curve: Curves.easeOut)
+                      .fadeIn(duration: 200.ms)
+                      .fadeOut(delay: 1000.ms, duration: 400.ms),
+                ),
               ),
-            ),
 
-          // Overlays
-          if (_victory) _buildVictory(),
-          if (_gameOver) _buildGameOver(),
-        ],
+            // Overlays
+            if (_victory)  _buildVictory(),
+            if (_gameOver) _buildGameOver(),
+          ],
+        ),
       ),
+    );
+  }
+
+  // ── Script toggle widget (start screen) ───────────────────────────────
+
+  Widget _buildScriptToggle() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Show on skeets:',
+          style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 13),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _ScriptToggleBtn(
+              label: '🇹🇭 Thai Script',
+              selected: !_usePhonetic,
+              onTap: () async {
+                setState(() => _usePhonetic = false);
+                await SettingsService().setSkeetUsePhonetic(false);
+              },
+            ),
+            const SizedBox(width: 10),
+            _ScriptToggleBtn(
+              label: '🔤 Phonetic',
+              selected: _usePhonetic,
+              onTap: () async {
+                setState(() => _usePhonetic = true);
+                await SettingsService().setSkeetUsePhonetic(true);
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
   // ── Bottom target bar ─────────────────────────────────────────────────
 
-  Widget _buildBottomBar(Word target) {
-    // Learning Thai: bar shows English prompt, skeets show Thai
-    // Learning English: bar shows Thai prompt, skeets show English
-    final mainText = _isLearningEnglish ? target.thai : target.english;
-    final subText  = _isLearningEnglish
-        ? '${target.phonetic}  •  ${target.english}'
-        : target.phonetic;
-
+  Widget _buildBottomBar() {
     return Positioned(
       bottom: 0, left: 0, right: 0,
       child: Container(
@@ -774,7 +1094,7 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
         decoration: const BoxDecoration(
           color: Color(0xCC000000),
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
+            topLeft:  Radius.circular(12),
             topRight: Radius.circular(12),
           ),
         ),
@@ -782,33 +1102,12 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('🎯 ', style: TextStyle(fontSize: 16)),
-            Flexible(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    mainText,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: [Shadow(color: Colors.white54, blurRadius: 8)],
-                    ),
-                  ),
-                  if (subText.isNotEmpty)
-                    Text(
-                      subText,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12, color: Colors.white60),
-                    ),
-                ],
-              ),
-            ),
+            const Text('🎯 ', style: TextStyle(fontSize: 15)),
+            if (_roundDelaying)
+              // During delay show all targets without checkmarks
+              Flexible(child: _targetWordsRow())
+            else
+              Flexible(child: _targetWordsRow()),
             if (_streak >= 2) ...[
               const SizedBox(width: 10),
               Container(
@@ -829,78 +1128,93 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
     );
   }
 
+  Widget _targetWordsRow() {
+    if (_targetWords.isEmpty) return const SizedBox.shrink();
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _targetWords.asMap().entries.map((entry) {
+          final i = entry.key;
+          final w = entry.value;
+          final found = _foundWords.any((f) => f.id == w.id);
+          // In bottom bar, always show the "question" language
+          final displayStr = _isLearningEnglish
+              ? '${w.thai}  •  ${w.phonetic}'
+              : w.english;
+
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (i > 0)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 4),
+                  child: Text('•',
+                      style: TextStyle(color: Colors.white38, fontSize: 14)),
+                ),
+              Text(
+                found ? '$displayStr ✅' : displayStr,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: found ? Colors.greenAccent : Colors.white,
+                  decoration: found ? TextDecoration.lineThrough : null,
+                  shadows: const [Shadow(color: Colors.white54, blurRadius: 6)],
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   // ── Skeet bubble ──────────────────────────────────────────────────────
 
   Widget _buildSkeet(_SkeetBubble s) {
     if (s.done) return const SizedBox.shrink();
 
-    const skeetSize = 55.0;
     final progress = s.t.clamp(0.0, 1.0);
-    final label = s.displayText;
+    final pos      = _skeetPosition(s, progress);
 
-    // Adaptive font size for English text
-    double fontSize;
-    if (_isLearningEnglish) {
-      if (label.length > 12) {
-        fontSize = 8.0;
-      } else if (label.length > 8) {
-        fontSize = 9.0;
-      } else {
-        fontSize = 10.0;
-      }
-    } else {
-      fontSize = 11.0;
-    }
+    s.screenX = pos.dx + _skeetSize / 2;
+    s.screenY = pos.dy + _skeetSize / 2;
 
-    double px, py;
-
-    switch (s.spawnSide) {
-      case _SpawnSide.left:
-        final arcY = s.arcHeight * _playH * sin(pi * progress);
-        px = progress * _screenW - skeetSize / 2;
-        py = _playTop + s.crossFrac * (_playH - skeetSize) - arcY;
-      case _SpawnSide.right:
-        final arcY = s.arcHeight * _playH * sin(pi * progress);
-        px = (1.0 - progress) * _screenW - skeetSize / 2;
-        py = _playTop + s.crossFrac * (_playH - skeetSize) - arcY;
-      case _SpawnSide.top:
-        px = (s.crossFrac + sin(pi * progress) * 0.12) * _screenW - skeetSize / 2;
-        py = _playTop + progress * (_playH - skeetSize);
-    }
-
-    // Clamp inside play area
-    px = px.clamp(-skeetSize / 2, _screenW - skeetSize / 2);
-    py = py.clamp(_playTop, _playBottom - skeetSize);
-
-    s.screenX = px + skeetSize / 2;
-    s.screenY = py + skeetSize / 2;
+    final label = _skeetLabelOf(s);
+    final charCount = label.length;
+    final double fontSize = charCount <= 6 ? 13
+        : charCount <= 10 ? 11
+        : charCount <= 14 ? 10
+        : 9;
 
     return Positioned(
-      left: px,
-      top: py,
+      left: pos.dx,
+      top:  pos.dy,
       child: GestureDetector(
         onTap: () => _onSkeetTap(s),
         child: Container(
-          width: skeetSize,
-          height: skeetSize,
+          width: _skeetSize,
+          height: _skeetSize,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: RadialGradient(
-              colors: s.isCorrect
-                  ? const [Color(0xFFFFEA60), Color(0xFFFFD740), Color(0xFFB8860B)]
-                  : const [Color(0xFFFFD740), Color(0xFFC8A010), Color(0xFF906800)],
-              stops: const [0.0, 0.55, 1.0],
+            gradient: const RadialGradient(
+              colors: [Color(0xFF2D2A6E), Color(0xFF1a1740)],
+              stops: [0.0, 1.0],
             ),
+            border: Border.all(color: const Color(0xFFD4A017), width: 2.5),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFFFD740).withValues(
-                    alpha: s.isCorrect ? 0.70 : 0.35),
-                blurRadius: s.isCorrect ? 16 : 8,
-                spreadRadius: s.isCorrect ? 2 : 0,
+                color: const Color(0xFFD4A017).withValues(alpha: 0.5),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.4),
+                blurRadius: 6,
+                spreadRadius: 1,
               ),
             ],
-            border: Border.all(
-                color: Colors.white.withValues(alpha: 0.50), width: 2),
           ),
           child: Center(
             child: Padding(
@@ -911,13 +1225,15 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: fontSize,
-                  fontWeight: FontWeight.w900,
-                  height: 1.2,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  fontFamily: 'Sarabun',
+                  letterSpacing: 0.3,
+                  height: 1.15,
                   shadows: const [
-                    Shadow(color: Colors.black87, blurRadius: 6),
-                    Shadow(color: Colors.black54, blurRadius: 12),
+                    Shadow(color: Colors.black, blurRadius: 2, offset: Offset(0.5, 0.5)),
+                    Shadow(color: Colors.black, blurRadius: 2, offset: Offset(-0.5, -0.5)),
                   ],
                 ),
               ),
@@ -1060,12 +1376,49 @@ class _SkeetShooterScreenState extends State<SkeetShooterScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white54, fontSize: 14)),
-          Text(value,
-              style: TextStyle(
-                  color: color, fontSize: 16, fontWeight: FontWeight.w800)),
+          Text(label, style: const TextStyle(color: Colors.white54, fontSize: 14)),
+          Text(value, style: TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.w800)),
         ],
+      ),
+    );
+  }
+}
+
+// ── Script toggle button ──────────────────────────────────────────────────────
+
+class _ScriptToggleBtn extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _ScriptToggleBtn({required this.label, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: selected
+              ? const Color(0xFFD4A017).withValues(alpha: 0.25)
+              : Colors.white.withValues(alpha: 0.08),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: selected
+                ? const Color(0xFFD4A017)
+                : Colors.white.withValues(alpha: 0.2),
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: selected ? const Color(0xFFD4A017) : Colors.white60,
+            fontSize: 13,
+            fontWeight: selected ? FontWeight.w800 : FontWeight.w500,
+          ),
+        ),
       ),
     );
   }

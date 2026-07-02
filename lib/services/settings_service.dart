@@ -23,6 +23,7 @@ class SettingsService {
   static const _gtVisualSpotterKey = 'gt_visual_spotter_v1';
   static const _gtOppositesKey = 'gt_opposites_v1';
   static const _appLanguageKey = 'app_language';
+  static const _skeetPhoneticKey = 'skeet_use_phonetic';
 
   static final ValueNotifier<AppLanguage> appLanguageNotifier =
       ValueNotifier(AppLanguage.learningThai);
@@ -40,6 +41,7 @@ class SettingsService {
   bool _gtVisualSpotter = true;
   bool _gtOpposites = true;
   AppLanguage _appLanguage = AppLanguage.learningThai;
+  bool _skeetUsePhonetic = false;
 
   bool get soundEnabled => _soundEnabled;
   bool get musicEnabled => _musicEnabled;
@@ -54,6 +56,7 @@ class SettingsService {
   bool get gtVisualSpotter => _gtVisualSpotter;
   bool get gtOpposites => _gtOpposites;
   AppLanguage get appLanguage => _appLanguage;
+  bool get skeetUsePhonetic => _skeetUsePhonetic;
 
   int get enabledGameTypeCount {
     int count = 1; // MC always on
@@ -81,6 +84,7 @@ class SettingsService {
     _gtOpposites = prefs.getBool(_gtOppositesKey) ?? true;
     final langIndex = prefs.getInt(_appLanguageKey) ?? 0;
     _appLanguage = AppLanguage.values[langIndex.clamp(0, AppLanguage.values.length - 1)];
+    _skeetUsePhonetic = prefs.getBool(_skeetPhoneticKey) ?? false;
     appLanguageNotifier.value = _appLanguage;
     AudioService().setSoundEnabled(_soundEnabled);
   }
@@ -135,6 +139,12 @@ class SettingsService {
         await prefs.setBool(_gtOppositesKey, v);
     }
     return true;
+  }
+
+  Future<void> setSkeetUsePhonetic(bool v) async {
+    _skeetUsePhonetic = v;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_skeetPhoneticKey, v);
   }
 
   Future<void> setAppLanguage(AppLanguage lang) async {

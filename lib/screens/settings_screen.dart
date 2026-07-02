@@ -198,6 +198,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           const SizedBox(height: 24),
 
+          // ── Arcade ────────────────────────────────────────────
+          if (_settings.appLanguage == AppLanguage.learningThai) ...[
+            const _SectionHeader('Arcade 🎯'),
+            _SettingsCard(
+              children: [
+                _ToggleTile(
+                  icon: Icons.translate_rounded,
+                  label: 'Skeet Shooter Script',
+                  subtitle: _settings.skeetUsePhonetic
+                      ? '🔤 Phonetic (sa-wat-dee)'
+                      : '🇹🇭 Thai Script (สวัสดี)',
+                  value: _settings.skeetUsePhonetic,
+                  onChanged: (v) async {
+                    await _settings.setSkeetUsePhonetic(v);
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+          ],
+
           // ── Learning Language ──────────────────────────────────
           _SectionHeader(LocalizationService.t('learning_language_label')),
           const Padding(

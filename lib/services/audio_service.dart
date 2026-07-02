@@ -54,6 +54,8 @@ class AudioService {
       _sfx('assets/audio/sfx_gameover.wav', wait: true);
   Future<void> playComplete() => _sfx('assets/audio/sfx_complete.wav');
   Future<void> playCombo() => _sfx('assets/audio/sfx_combo.wav');
+  Future<void> playSkeetLaunch() => _sfx('assets/audio/sfx_skeet_launch.wav');
+  Future<void> playSkeetExplosion() => _sfx('assets/audio/sfx_skeet_explosion.wav');
 
   Future<void> playClick() async {
     if (!_soundEnabled) return;
