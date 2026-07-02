@@ -27,7 +27,8 @@
       "Bash(python -c ' *)",
       "Bash(python scripts/generate_skeet_sounds.py)",
       "Skill(update-config)",
-      "PowerShell(echo '{}' | pwsh -Command { $changes = git -C \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" status --porcelain; if \\($changes\\) { Write-Host \"Would commit: $changes\" } else { Write-Host \"No changes to commit\" } })"
+      "PowerShell(echo '{}' | pwsh -Command { $changes = git -C \"C:\\\\Users\\\\Admin\\\\Documents\\\\thai_app_v2\" status --porcelain; if \\($changes\\) { Write-Host \"Would commit: $changes\" } else { Write-Host \"No changes to commit\" } })",
+      "PowerShell(git push)"
     ]
   }
 }
